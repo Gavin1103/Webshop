@@ -13,12 +13,13 @@
         "dev:backend": "cd src/backend && ./gradlew bootRun",
         "dev:web": "npm run dev -w src/web",
         "build": "run-p build:api build:web",
-        "build:api": "npm run build -w src/api",
+        "build:backend": "cd src/backend && ./gradlew build",
         "build:web": "npm run build -w src/web",
         "preview": "run-p preview:api preview:web",
-        "preview:api": "npm run preview -w src/api",
+        "preview:backend": "cd src/backend && ./gradlew bootRun",
         "preview:web": "npm run preview -w src/web",
         "test": "npm run test -w src/tests",
+        "backend:test": "cd src/backend && ./gradlew test",
         "typedoc": "typedoc"
     },
     "devDependencies": {

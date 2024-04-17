@@ -1,7 +1,7 @@
-import { UserLoginFormModel } from "@shared/formModels/UserLoginFormModel";
-import { UserRegisterFormModel } from "@shared/formModels/UserRegisterFormModel";
+import { UserLoginFormModel } from "../../types/formModels/UserLoginFormModel";
+import { UserRegisterFormModel } from "../../types/formModels/UserRegisterFormModel";
 import { TokenService } from "./TokenService";
-import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
+import { UserHelloResponse } from "../../types/responses/UserHelloResponse";
 
 const headers: { "Content-Type": string } = {
     "Content-Type": "application/json",

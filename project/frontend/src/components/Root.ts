@@ -1,10 +1,10 @@
 import { LitElement, TemplateResult, css, html, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { UserService } from "../services/UserService";
-import { OrderItem } from "@shared/types/OrderItem";
+import { OrderItem } from "../../types/OrderItem";
 import { TokenService } from "../services/TokenService";
 import { OrderItemService } from "../services/OrderItemService";
-import { UserHelloResponse } from "@shared/responses/UserHelloResponse";
+import { UserHelloResponse } from "../../types/responses/UserHelloResponse";
 
 /** Enumeration to keep track of all the different pages */
 enum RouterPage {

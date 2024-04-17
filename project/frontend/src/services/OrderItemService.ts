@@ -1,4 +1,4 @@
-import { OrderItem } from "@shared/types";
+import { OrderItem } from "../../types";
 
 /**
  * Handles order item related functionality

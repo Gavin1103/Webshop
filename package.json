@@ -9,8 +9,8 @@
         "src/*"
     ],
     "scripts": {
-        "dev": "run-p dev:api dev:web",
-        "dev:api": "npm run dev -w src/api",
+        "dev": "run-p dev:backend dev:web",
+        "dev:backend": "cd src/backend && ./gradlew bootRun",
         "dev:web": "npm run dev -w src/web",
         "build": "run-p build:api build:web",
         "build:api": "npm run build -w src/api",

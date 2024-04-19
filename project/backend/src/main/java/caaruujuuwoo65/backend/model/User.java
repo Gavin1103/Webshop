@@ -22,11 +22,4 @@ public class User {
     private String username;
 
     private String email;
-
-    public User toEntity(UserDTO userDto) {
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        return user;
-    }
 }

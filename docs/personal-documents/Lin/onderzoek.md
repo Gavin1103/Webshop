@@ -6,12 +6,12 @@ Verschillende websites gebruiken verschillende tokens om de aanmeldstatus van ee
 
 ### Hoofd Vraag
 
-Wat is een jwt-token en hoe werkt het?
+Is JWT Token veilig bij verificatie?
 
 ### Deel Vragen
 
+- Hoe worden jwt-tokens gegenereerd en opgeslagen?
 - Wat is het verschil tussen JWT token en traditionele authenticatiemethoden? (De validatiemethode die we vorig blok gebruikten)
-- Hoe jwt-tokens veilig genereren en opslaan
 - Risico's en kwetsbaarheden in jwt-token
 - In welk geval is het gebruik van een jwt-token de meest geschikte keuze?
 - Omstandigheden waarin jwt-token niet geschikt is voor gebruik, beperkingen

@@ -52,7 +52,11 @@ export default defineConfig((config) => {
                 "top-level-await": true,
             },
         },
-        plugins: [eslint()],
+        plugins: [
+            eslint({
+                overrideConfigFile: '../../.eslintrc.js',
+            }),
+        ],
         define: {
             viteConfiguration: viteConfiguration,
         },

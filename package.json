@@ -6,7 +6,7 @@
         "node": "18"
     },
     "workspaces": [
-        "src/*"
+        "project/*"
     ],
     "scripts": {
         "dev": "run-p dev:backend dev:web",

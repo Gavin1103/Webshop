@@ -28,4 +28,42 @@ Build Backend:
     tags:
         - hva
     rules:
-        -   if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_ID
+        -   if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "feature/pipelines-setup" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_ID
+
+Deploy Backend:
+    stage: Deploy
+    before_script:
+        - apt-get update
+        - apt-get install -y sshpas
+        - >
+            if [ "$ENVIRONMENT" = "live" ]; then
+              export SSH_USER=$SSH_USER_LIVE
+              export SSH_PASSWORD=$SSH_PASSWORD_LIVE
+            else
+              export SSH_USER=$SSH_USER_DEV
+              export SSH_PASSWORD=$SSH_PASSWORD_DEV
+            fi
+    after_script:
+        - kill $(jobs -p) || true
+    script:
+        - sshpass -p SSH_PASSWORD scp build/libs/*.jar $SSH_USER@$SSH_HOST:/webshop.jar
+        - sshpass -p SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "/start_app.sh"
+    needs:
+        - "Build Backend"
+    when: always
+    tags:
+        - hva
+    rules:
+        -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"
+            variables:
+                ENVIRONMENT: "live"
+        -   if: $CI_COMMIT_BRANCH == "feature/pipelines-setup" && $DEPLOY_WEB == "true"
+            variables:
+                ENVIRONMENT: "dev"
+        -   if: $CI_COMMIT_BRANCH == "develop" && $DEPLOY_WEB == "true"
+            variables:
+                ENVIRONMENT: "dev"
+        -   if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH != "develop" && $DEPLOY_WEB == "true"
+            when: manual
+            variables:
+                ENVIRONMENT: "dev"

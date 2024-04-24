@@ -27,8 +27,6 @@ Deploy Frontend:
         - apt-get update
         - apt-get install -y lftp
         - apt-get install -y wget
-    after_script:
-        - kill $(jobs -p) || true
     script:
         - >
             lftp -u $SFTP_WEB_USERNAME,$SFTP_WEB_PASSWORD -p $SFTP_WEB_PORT sftp://$SFTP_WEB_SERVERNAME -e "
@@ -36,6 +34,8 @@ Deploy Frontend:
             glob -a rm -r $ENVIRONMENT/wwwroot/*;
             mirror --reverse --verbose ./dist/web /$ENVIRONMENT/wwwroot;
             bye"
+    after_script:
+        - kill $(jobs -p) || true
     needs:
         - "Build Frontend"
     rules:

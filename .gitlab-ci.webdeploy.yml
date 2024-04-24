@@ -31,10 +31,10 @@ Deploy Frontend:
         - kill $(jobs -p) || true
     script:
         - >
-            lftp -u $SFTP_USERNAME,$SFTP_PASSWORD -p $SFTP_PORT sftp://$SFTP_SERVERNAME -e "
+            lftp -u $SFTP_WEB_USERNAME,$SFTP_WEB_PASSWORD -p $SFTP_WEB_PORT sftp://$SFTP_WEB_SERVERNAME -e "
             set sftp:auto-confirm yes;
             glob -a rm -r $ENVIRONMENT/wwwroot/*;
-            mirror --reverse --verbose ./dist/web /dev/wwwroot;
+            mirror --reverse --verbose ./dist/web /$ENVIRONMENT/wwwroot;
             bye"
     needs:
         - "Build Frontend"

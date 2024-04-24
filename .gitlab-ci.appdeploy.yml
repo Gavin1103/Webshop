@@ -34,7 +34,7 @@ Deploy Backend:
     stage: Deploy
     before_script:
         - apt-get update
-        - apt-get install -y sshpas
+        - apt-get install -y sshpass
         - >
             if [ "$ENVIRONMENT" = "live" ]; then
               export SSH_USER=$SSH_USER_LIVE

@@ -19,10 +19,10 @@ Build Backend:
     after_script:
         - kill $(jobs -p) || true
     script:
-        - ./gradlew assemble --no-daemon
+        - ./gradlew build --no-daemon
     artifacts:
         paths:
-            - build/libs/*.jar
+            - ./build/libs/*.jar
         expire_in: 1 hour
     when: always
     tags:

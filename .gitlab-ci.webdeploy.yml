@@ -16,7 +16,7 @@ Build Frontend:
     tags:
         - hva
     rules:
-        -   if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "feature/pipelines-setup" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_ID
+        -   if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_ID
 
 Deploy Frontend:
     image: node:20
@@ -40,9 +40,6 @@ Deploy Frontend:
         -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"
             variables:
                 ENVIRONMENT: "live"
-        -   if: $CI_COMMIT_BRANCH == "feature/pipelines-setup" && $DEPLOY_WEB == "true"
-            variables:
-                ENVIRONMENT: "dev"
         -   if: $CI_COMMIT_BRANCH == "develop" && $DEPLOY_WEB == "true"
             variables:
                 ENVIRONMENT: "dev"

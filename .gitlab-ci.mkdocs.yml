@@ -6,7 +6,7 @@ pages:
         - time pip install -r requirements.txt
         - time git clone https://uva-hva.gitlab.host/hbo-ict/mdocotion.git mdocotion
         - time cd mdocotion && python setup.py install && cd ..
-    stage: deploy
+    stage: Deploy
     when: always
     tags:
         - hva

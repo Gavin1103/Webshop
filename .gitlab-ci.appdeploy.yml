@@ -1,0 +1,40 @@
+image: openjdk:17-jdk-slim
+
+variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+before_script:
+    - cd project/backend
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./gradlew
+
+cache:
+    key: "$CI_COMMIT_REF_NAME"
+    paths:
+        - project/backend/.gradle/wrapper
+        - project/backend/.gradle/caches
+
+Build Backend:
+    stage: Build
+    after_script:
+        - kill $(jobs -p) || true
+    script:
+        - ./gradlew assemble --no-daemon
+    artifacts:
+        paths:
+            - build/libs/*.jar
+        expire_in: 1 hour
+    when: always
+    tags:
+        - hva
+    rules:
+        -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_HIC == "true"
+            variables:
+                HIC_ENVIRONMENT: "live"
+        -   if: $CI_COMMIT_BRANCH == "dev" && $DEPLOY_HIC == "true"
+            variables:
+                HIC_ENVIRONMENT: "dev"
+        -   if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH != "dev" && $DEPLOY_HIC == "true"
+            when: manual
+            variables:
+                HIC_ENVIRONMENT: "dev"

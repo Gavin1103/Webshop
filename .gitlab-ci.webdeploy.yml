@@ -1,0 +1,39 @@
+image: node:20
+
+before_script:
+    - apt-get update
+    - apt-get install -y lftp
+    - apt-get install -y wget
+
+Build Frontend:
+    stage: Build
+    after_script:
+        - kill $(jobs -p) || true
+    cache:
+        key:
+            files:
+                - package-lock.json
+            prefix: npm
+        paths:
+            - node_modules/
+    script:
+        - npm ci
+        - npm run build
+    artifacts:
+        paths:
+            - dist
+        expire_in: 1 hour
+    when: always
+    tags:
+        - hva
+    rules:
+        -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_HIC == "true"
+            variables:
+                ENVIRONMENT: "live"
+        -   if: $CI_COMMIT_BRANCH == "dev" && $DEPLOY_HIC == "true"
+            variables:
+                ENVIRONMENT: "dev"
+        -   if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH != "dev" && $DEPLOY_HIC == "true"
+            when: manual
+            variables:
+                ENVIRONMENT: "dev"

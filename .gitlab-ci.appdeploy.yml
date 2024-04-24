@@ -45,7 +45,7 @@ Deploy Backend:
             fi
     script:
         - "sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no project/backend/build/libs/webshop.jar $SSH_USER@$SSH_HOST:"
-        - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "start_app.sh"
+        - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "start_app.ssh"
     after_script:
         - kill $(jobs -p) || true
     needs:

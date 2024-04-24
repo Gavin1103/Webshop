@@ -3,8 +3,6 @@ Build Frontend:
     stage: Build
     before_script:
         - apt-get update
-        - apt-get install -y lftp
-        - apt-get install -y wget
     after_script:
         - kill $(jobs -p) || true
     script:
@@ -31,8 +29,8 @@ Deploy Frontend:
         - >
             lftp -u $SFTP_WEB_USERNAME,$SFTP_WEB_PASSWORD -p $SFTP_WEB_PORT sftp://$SFTP_WEB_SERVERNAME -e "
             set sftp:auto-confirm yes;
-            glob -a rm -r $ENVIRONMENT/wwwroot/*;
-            mirror --reverse --verbose ./dist/web /$ENVIRONMENT/wwwroot;
+            glob -a rm -r dev/wwwroot/*;
+            mirror --reverse --verbose ./dist/web /dev/wwwroot;
             bye"
     after_script:
         - kill $(jobs -p) || true

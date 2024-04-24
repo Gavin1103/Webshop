@@ -15,9 +15,6 @@
         "noUnusedParameters": true,
         "noImplicitReturns": true,
         "skipLibCheck": true,
-        "paths": {
-            "@shared/*": ["./src/shared/*"]
-        }
     },
     "exclude": ["node_modules"]
 }

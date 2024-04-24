@@ -6,19 +6,20 @@
         "node": "18"
     },
     "workspaces": [
-        "src/*"
+        "project/*"
     ],
     "scripts": {
-        "dev": "run-p dev:api dev:web",
-        "dev:api": "npm run dev -w src/api",
-        "dev:web": "npm run dev -w src/web",
+        "dev": "run-p dev:backend dev:web",
+        "dev:backend": "cd project/backend && ./gradlew bootRun",
+        "dev:web": "npm run dev -w project/frontend",
         "build": "run-p build:api build:web",
-        "build:api": "npm run build -w src/api",
-        "build:web": "npm run build -w src/web",
+        "build:backend": "cd project/backend && ./gradlew build",
+        "build:web": "npm run build -w project/frontend",
         "preview": "run-p preview:api preview:web",
-        "preview:api": "npm run preview -w src/api",
-        "preview:web": "npm run preview -w src/web",
-        "test": "npm run test -w src/tests",
+        "preview:backend": "cd project/backend && ./gradlew bootRun",
+        "preview:web": "npm run preview -w project/frontend",
+        "test": "npm run test -w project/tests",
+        "backend:test": "cd project/backend && ./gradlew test",
         "typedoc": "typedoc"
     },
     "devDependencies": {

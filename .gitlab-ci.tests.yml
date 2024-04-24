@@ -1,6 +1,6 @@
 Backend Unit Test:
     image: openjdk:17-jdk-slim
-    stage: test
+    stage: Test
     before_script:
         - cd project/backend
         - export GRADLE_USER_HOME=`pwd`/.gradle

@@ -1,3 +1,8 @@
+stages:
+    - Build
+    - Test
+    - Deploy
+
 variables:
     DEPLOY_MKDOCS: "true"
     DEPLOY_WEB: "true"

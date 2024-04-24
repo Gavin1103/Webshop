@@ -36,15 +36,12 @@ Deploy Frontend:
         - kill $(jobs -p) || true
     needs:
         - "Build Frontend"
+    when: always
     rules:
         -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"
             variables:
                 ENVIRONMENT: "live"
         -   if: $CI_COMMIT_BRANCH == "develop" && $DEPLOY_WEB == "true"
-            variables:
-                ENVIRONMENT: "dev"
-        -   if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH != "develop" && $DEPLOY_WEB == "true"
-            when: manual
             variables:
                 ENVIRONMENT: "dev"
     tags:

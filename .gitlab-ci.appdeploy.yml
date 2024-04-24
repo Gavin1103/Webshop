@@ -22,7 +22,7 @@ Build Backend:
         - ./gradlew build --no-daemon
     artifacts:
         paths:
-            - build/libs/webshop.jar
+            - project/backend/build/libs/webshop.jar
         expire_in: 1 hour
     when: always
     tags:

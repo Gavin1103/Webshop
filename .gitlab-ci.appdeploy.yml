@@ -28,13 +28,4 @@ Build Backend:
     tags:
         - hva
     rules:
-        -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_HIC == "true"
-            variables:
-                HIC_ENVIRONMENT: "live"
-        -   if: $CI_COMMIT_BRANCH == "dev" && $DEPLOY_HIC == "true"
-            variables:
-                HIC_ENVIRONMENT: "dev"
-        -   if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH != "dev" && $DEPLOY_HIC == "true"
-            when: manual
-            variables:
-                HIC_ENVIRONMENT: "dev"
+        -   if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_ID

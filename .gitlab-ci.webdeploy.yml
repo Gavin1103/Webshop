@@ -9,7 +9,7 @@ Build Frontend:
         - kill $(jobs -p) || true
     script:
         - npm ci
-        - npm run build
+        - npm run build:pipeline
     artifacts:
         paths:
             - dist

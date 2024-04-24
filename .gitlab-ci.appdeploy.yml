@@ -1,4 +1,4 @@
-image: openjdk:17-jdk-slim
+image: openjdk:17
 
 variables:
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"

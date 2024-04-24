@@ -44,7 +44,7 @@ Deploy Backend:
               export SSH_PASSWORD=$SSH_PASSWORD_DEV
             fi
     script:
-        - sshpass -p $SSH_PASSWORD scp build/libs/*.jar $SSH_USER@$SSH_HOST:
+        - "sshpass -p $SSH_PASSWORD scp build/libs/*.jar $SSH_USER@$SSH_HOST:"
         - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "/start_app.sh"
     after_script:
         - kill $(jobs -p) || true

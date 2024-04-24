@@ -3,20 +3,20 @@ Build Frontend:
     stage: Build
     before_script:
         - apt-get update
-    after_script:
-        - kill $(jobs -p) || true
     script:
         - npm ci
         - npm run build:pipeline
+    after_script:
+        - kill $(jobs -p) || true
     artifacts:
         paths:
             - dist
         expire_in: 1 hour
     when: always
-    tags:
-        - hva
     rules:
         -   if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_ID
+    tags:
+        - hva
 
 Deploy Frontend:
     image: node:20

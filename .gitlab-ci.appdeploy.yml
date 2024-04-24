@@ -16,19 +16,19 @@ cache:
 
 Build Backend:
     stage: Build
-    after_script:
-        - kill $(jobs -p) || true
     script:
         - ./gradlew build --no-daemon
+    after_script:
+        - kill $(jobs -p) || true
     artifacts:
         paths:
             - project/backend/build/libs/webshop.jar
         expire_in: 1 hour
     when: always
-    tags:
-        - hva
     rules:
         -   if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_ID
+    tags:
+        - hva
 
 Deploy Backend:
     stage: Deploy
@@ -52,8 +52,6 @@ Deploy Backend:
     needs:
         - "Build Backend"
     when: always
-    tags:
-        - hva
     rules:
         -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"
             variables:
@@ -61,3 +59,5 @@ Deploy Backend:
         -   if: $CI_COMMIT_BRANCH == "develop" && $DEPLOY_WEB == "true"
             variables:
                 ENVIRONMENT: "dev"
+    tags:
+        - hva

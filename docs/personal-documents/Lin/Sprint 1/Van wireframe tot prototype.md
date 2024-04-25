@@ -11,4 +11,4 @@ Ons team plant om het prototype op het Figma-platform te maken. Omdat Figma het 
 
 - https://www.figma.com/file/gqhLU9HQsAIBpbBxSBsnxe/Home-Page?type=design&node-id=0%3A1&mode=design&t=CCSOoPAxLiKTSoq0-1
 
-Tot slot plant ons team om deze week de gebruikerstest uit te voeren en de verzamelde feedback te gebruiken voor verbeteringen aan het prototype.
+Tot slot plant ons team om deze week de gebruikerstest uit te voeren en de verzamelde feedback te gebruiken voor verbeteringen aan het prototype.pu

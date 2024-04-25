@@ -35,14 +35,6 @@ Deploy Backend:
     before_script:
         - apt-get update
         - apt-get install -y sshpass
-        - >
-            if [ "$ENVIRONMENT" = "live" ]; then
-              export SSH_USER=$SSH_USER_LIVE
-              export SSH_PASSWORD=$SSH_PASSWORD_LIVE
-            else
-              export SSH_USER=$SSH_USER_DEV
-              export SSH_PASSWORD=$SSH_PASSWORD_DEV
-            fi
     script:
         - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "rm webshop.jar"
         - "sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no project/backend/build/libs/webshop.jar $SSH_USER@$SSH_HOST:"
@@ -55,9 +47,11 @@ Deploy Backend:
     rules:
         -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"
             variables:
-                ENVIRONMENT: "live"
+                SSH_USER: $SSH_USER_LIVE
+                SSH_PASSWORD: $SSH_PASSWORD_LIVE
         -   if: $CI_COMMIT_BRANCH == "develop" && $DEPLOY_WEB == "true"
             variables:
-                ENVIRONMENT: "dev"
+                SSH_USER: $SSH_USER_DEV
+                SSH_PASSWORD: $SSH_PASSWORD_DEV
     tags:
         - hva

@@ -9,5 +9,4 @@
 1. Wat zijn de voornaamste principes en methodes van cryptografie?
 2. Hoe worden deze principes ingezet in moderne digitale systemen en communicatietechnologieën?
 3. Welke actuele uitdagingen en bedreigingen zijn er binnen cryptografie?
-4. Op welke manieren kunnen cryptografische systemen verbeterd worden om te voldoen aan de groeiende eisen op het gebied van veiligheid en privacy?
-5. Wat zijn de ethische en maatschappelijke implicaties van het gebruik van cryptografie, met specifieke aandacht voor privacy, surveillance en vrijheid van meningsuiting?
+4. Wat zijn de ethische en maatschappelijke implicaties van het gebruik van cryptografie, met specifieke aandacht voor privacy, surveillance en vrijheid van meningsuiting?

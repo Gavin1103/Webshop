@@ -18,9 +18,9 @@ Mijn leerdoelen van sprint 1 waren:
 
 Hiervoor heb ik 2 STARR's gemaakt. Die zijn hier te vinden:
 
-[Link STARR Figma leerdoel 1]()
+[Link STARR Figma leerdoel 1](https://caaruujuuwoo65-propedeuse-hbo-ict-onderwijs-2023-856b9a79d9a1ec.dev.hihva.nl/personal-documents/rocco/sprint1/figma-card-starr/)
 
-[Link STARR Setup leerdoel 2]()
+[Link STARR Setup leerdoel 2](https://caaruujuuwoo65-propedeuse-hbo-ict-onderwijs-2023-856b9a79d9a1ec.dev.hihva.nl/personal-documents/rocco/sprint1/setup-ts-java-starr/)
 
 ## Verwijzingen
 

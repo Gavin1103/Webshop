@@ -1,21 +1,21 @@
-### Prototyping Webshop in Figma
+# Prototyping Webshop in Figma
 
-#### Situatie
+## Situatie
 
 Tijdens de eerste sprint van ons project moest ik een prototype voor een functionele winkelwagen voor een
 webshop ontwerpen.
 
-#### Taak
+## Taak
 
 Mijn specifieke opdracht was het creëren van een Figma-prototype, beginnend bij een wireframe, en vervolgens
 feedback verzamelen om het ontwerp te verfijnen.
 
-#### Actie
+## Actie
 
 1. Ik heb het wireframe omgezet naar een gedetailleerder prototype.
 2. Ik vroeg om feedback van mijn team tijdens meetings en een Google Forms-enquête voor een breder publiek.
 
-#### Resultaat
+## Resultaat
 
 Het prototype werd goed ontvangen door zowel mijn team als externe beoordelaars, en de feedback hielp mij om
 enkele verbeteringen in kaart te brengen. Ik ben nu klaar om deze verbeteringen door te voeren.
@@ -23,7 +23,7 @@ enkele verbeteringen in kaart te brengen. Ik ben nu klaar om deze verbeteringen 
 Het resultaat hiervan:
 ![Shopping card prototype](image/shopping-card.png)
 
-#### Reflectie
+## Reflectie
 
 Wat ik tijdens dit process geleerd heb, is het belang van iteratieve feedback voor productontwerp. Voor
 toekomstige projecten

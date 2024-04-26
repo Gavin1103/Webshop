@@ -18,22 +18,26 @@ Mijn leerdoelen van sprint 1 waren:
 
 Hiervoor heb ik 2 STARR's gemaakt. Die zijn hier te vinden:
 
-[Link STARR Figma leerdoel 1](https://caaruujuuwoo65-propedeuse-hbo-ict-onderwijs-2023-856b9a79d9a1ec.dev.hihva.nl/personal-documents/rocco/sprint1/figma-card-starr/)
+- Pages link: [Link STARR Figma leerdoel 1](https://caaruujuuwoo65-propedeuse-hbo-ict-onderwijs-2023-856b9a79d9a1ec.dev.hihva.nl/personal-documents/rocco/sprint1/figma-card-starr/)
+- Gitlab link: [Gitlab link](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/blob/main/docs/personal-documents/rocco/sprint1/figma-card-starr.md?ref_type=heads)
 
-[Link STARR Setup leerdoel 2](https://caaruujuuwoo65-propedeuse-hbo-ict-onderwijs-2023-856b9a79d9a1ec.dev.hihva.nl/personal-documents/rocco/sprint1/setup-ts-java-starr/)
+
+- Pages link: [Link STARR Setup leerdoel 2](https://caaruujuuwoo65-propedeuse-hbo-ict-onderwijs-2023-856b9a79d9a1ec.dev.hihva.nl/personal-documents/rocco/sprint1/setup-ts-java-starr/)
+- Gitlab link: [Gitlab link](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/blob/main/docs/personal-documents/rocco/sprint1/setup-ts-java-starr.md?ref_type=heads)
 
 ## Verwijzingen
 
 ### Leerdoelen sprint 2
 Voor de aankomende sprint heb ik ook een paar eigen leerdoelen gemaakt.
-1. [Verdiepen in UX voor het MVP (Minimum Viable Product)](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/116)
-2. [Onderzoek naar Performance Optimalisatie Tools in Spring Boot](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/117)
-3. [Implementatie van Unit Tests en End-to-End Testing](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/118)
+1. Leerdoel 1: [Verdiepen in UX voor het MVP (Minimum Viable Product)](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/116)
+2. Leerdoel 2: [Onderzoek naar Performance Optimalisatie Tools in Spring Boot](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/117)
+3. Leerdoel 3: [Implementatie van Unit Tests en End-to-End Testing](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/118)
 
 ### Samenwerkingscontract
 
 Wij hebben aan het begin van sprint 1 als team een Samenwerkingscontract gemaakt.
-[Link Samenwerkingscontract](https://caaruujuuwoo65-propedeuse-hbo-ict-onderwijs-2023-856b9a79d9a1ec.dev.hihva.nl/teamfiles/samenwerkingscontract/)
+- Pages link: [Link Samenwerkingscontract](https://caaruujuuwoo65-propedeuse-hbo-ict-onderwijs-2023-856b9a79d9a1ec.dev.hihva.nl/teamfiles/samenwerkingscontract/)
+- Gitlab link: [Link Samenwerkingscontract](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/blob/main/docs/teamfiles/samenwerkingscontract.md?ref_type=heads)
 
 ### Sprintplanning sprint 2
 

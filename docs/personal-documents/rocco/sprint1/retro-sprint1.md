@@ -4,7 +4,7 @@ Vandaag hebben we de retro gehad van sprint 1 hierbij hebben we terug gekeken na
 leerdoelen gereflecteerd en nieuwe leerdoelen gemaakt. Ook hebben we direct onze sprint plannen gemaakt voor
 de aankomende sprint.
 
-![Retro Afbeelding](retro-card.jpg)
+![Retro Afbeelding](image/retro-card.jpg)
 
 ## Reflectie leerdoelen sprint 1
 

@@ -21,7 +21,7 @@ Het prototype werd goed ontvangen door zowel mijn team als externe beoordelaars,
 enkele verbeteringen in kaart te brengen. Ik ben nu klaar om deze verbeteringen door te voeren.
 
 Het resultaat hiervan:
-![Shopping card prototype](shopping-card.png)
+![Shopping card prototype](image/shopping-card.png)
 
 #### Reflectie
 

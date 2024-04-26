@@ -18,6 +18,9 @@ Ik heb mijn doel binnen de gestelde tijdslimiet van één sprint bereikt. Ik heb
 ### Reflectie: 
 Ik vond het opzetten van onze productie omgeving op oege verrassend eenvoudig, maar ook leerzaam. Ik heb veel geleerd over het werken op linux servers via SSH en heb een beter begrip gekregen van het implementeren van projecten op een productieomgeving.
 
+### Foto's:
+![oege](./foto's/oege.png)
+
 
 ## [Ik wil de basisprincipes begrijpen en kunnen toepassen van het opzetten van een Spring Boot-project](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/102):
 
@@ -37,6 +40,7 @@ Binnen sprint 1 ben ik erin geslaagd om een eenvoudig Spring Boot-project op te 
 ### Reflectie: 
 Het afronden van dit SMART doel heeft mij meer vetrouwen gegeven in mijn vermogen om dit framework te gebruiken. Ook was ik positief verrast door hoe fijn springboot werkte. Ik was natuurlijk al best wel bekend met java, maar tot nu toe denk ik dat het kiezen voor springboot voor dit project een goeie keuze is geweest.
 
+### Link's
 link naar merge request voor de springboot implementatie: [hier](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/merge_requests/1)
 
 ## Leerdoelen sprint 2:

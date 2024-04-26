@@ -17,3 +17,11 @@
 - Lin: altijd er.
 - Gavin: Maandag niet.
 
+## Afspraken:
+
+- Duidelijke deadlines neerzetten .
+- Meer feedback geven.
+- In de stand up ook de progressie bespreken.
+- Voor de 9:30 melden als je vertraagd bent of niet aanwezig kan zijn.
+- Bij alle userstories, een screenshot toevoegen van wat je hebt gemaakt en een merge request maken.
+- 

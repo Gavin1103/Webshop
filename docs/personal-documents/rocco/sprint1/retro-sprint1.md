@@ -29,13 +29,15 @@ Hiervoor heb ik 2 STARR's gemaakt. Die zijn hier te vinden:
 
 ### Leerdoelen sprint 2
 Voor de aankomende sprint heb ik ook een paar eigen leerdoelen gemaakt.
-1. Leerdoel 1: [Verdiepen in UX voor het MVP (Minimum Viable Product)](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/116)
-2. Leerdoel 2: [Onderzoek naar Performance Optimalisatie Tools in Spring Boot](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/117)
-3. Leerdoel 3: [Implementatie van Unit Tests en End-to-End Testing](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/118)
+
+- Leerdoel 1: [Verdiepen in UX voor het MVP (Minimum Viable Product)](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/116)
+- Leerdoel 2: [Onderzoek naar Performance Optimalisatie Tools in Spring Boot](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/117)
+- Leerdoel 3: [Implementatie van Unit Tests en End-to-End Testing](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/118)
 
 ### Samenwerkingscontract
 
 Wij hebben aan het begin van sprint 1 als team een Samenwerkingscontract gemaakt.
+
 - Pages link: [Link Samenwerkingscontract](https://caaruujuuwoo65-propedeuse-hbo-ict-onderwijs-2023-856b9a79d9a1ec.dev.hihva.nl/teamfiles/samenwerkingscontract/)
 - Gitlab link: [Link Samenwerkingscontract](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/blob/main/docs/teamfiles/samenwerkingscontract.md?ref_type=heads)
 

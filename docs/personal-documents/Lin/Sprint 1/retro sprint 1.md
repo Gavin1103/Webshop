@@ -15,9 +15,15 @@ Volgens het plan hebben we na de productbeoordeling een plan gemaakt voor de vol
 
 ### Reflecties op samenwerking
 
-Tijdens deze sprint onderzocht ons team hoe efficiënt samen te werken, en in het eindresultaat heeft onze samenwerking het vooraf gestelde doel bereikt om het websiteontwerp en prototypeproduct voor de deadline af te ronden, maar we hebben enkele tekortkomingen in het proces gevonden.
+![](image/map.jpg)
 
-Een van de situaties die zich voordeed tijdens het plannen van de taken was dat we voor elke taak een deadline hadden vastgesteld. Echter, tijdens de stand-up van de tweede week bleek dat teamleden hun taken niet hadden voltooid, wat resulteerde in het onvermogen om het verdere schema voort te zetten.
+Tijdens deze sprint onderzocht ons team hoe efficiënt samen te werken, en in het eindresultaat heeft onze samenwerking het vooraf gestelde doel bereikt om het websiteontwerp en prototypeproduct voor de deadline af te ronden, De meeste teamleden vonden dat we goed hadden gecommuniceerd, en in veel gevallen hadden we verschillende meningen, maar met het respect dat onze teamleden voor elkaar hadden, konden we een geschikte oplossing vinden, en ik heb dit proces gedocumenteerd in een verslag.
+
+- [Team Discussies](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/blob/main/docs/personal-documents/Lin/Sprint%201/Team%20Technische%20Discussies.md?ref_type=heads)
+
+En In de sprint planning uiten we allemaal onze ideeën, zodat we onze visies voor de site actief kunnen bespreken en ze vervolgens kunnen omzetten in een userstory om ze uiteindelijk te voltooien.
+
+Maar tijdens het proces ontdekte ik ook een tekortkoming in teamwork, Een van de situaties die zich voordeed tijdens het plannen van de taken was dat we voor elke taak een deadline hadden vastgesteld. Echter, tijdens de stand-up van de tweede week bleek dat teamleden hun taken niet hadden voltooid, wat resulteerde in het onvermogen om het verdere schema voort te zetten.
 
 Dit had tot gevolg dat onze teamleden een extra dag moesten besteden aan het helpen voltooien van de taak. Op basis van deze situaties heb ik een oplossing bedacht, namelijk om de situatie met andere teamleden te bespreken om het probleem zo vroeg mogelijk op te lossen terwijl mijn eigen taak wordt voltooid.
 

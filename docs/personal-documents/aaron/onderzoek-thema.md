@@ -3,7 +3,7 @@
 
 **Doelstelling:** Dit onderzoek hoopt een inzicht te bieden in de huidige stand van zaken omtrent cryptografie, met speciale aandacht voor de uitdagingen, toepassingen en toekomstige ontwikkelingen. Door verschillende aspecten van cryptografie te verkennen, hopen we een beter begrip te krijgen van hoe deze discipline kan bijdragen aan het waarborgen van digitale veiligheid en privacy.
 
-**Hoofdvraag:** Op welke manier kan cryptografie worden toegepast en geoptimaliseerd om de veiligheid en privacy van digitale communicatie te waarborgen binnen een dynamische en evoluerende technologische omgeving?
+**Hoofdvraag:** Op welke manier kan cryptografie worden toegepast om de veiligheid en privacy van digitale communicatie te waarborgen binnen een evoluerende technologische omgeving?
 
 **Deelvragen:**
 1. Wat zijn de voornaamste principes en methodes van cryptografie?

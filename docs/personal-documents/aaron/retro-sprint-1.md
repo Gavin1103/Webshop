@@ -4,19 +4,19 @@
 ## [Ik wil leren hoe je springboot deployed op een productie omgeving, specifiek op oege](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/103):
 
 ### Situatie: 
-Ik heb redelijke kennis van het deployen van projecten, maar ik heb nog geen ervaring met het implementeren van een Spring Boot-toepassing op een productieomgeving in oege, ik wil hier meer over leren.
+Ik heb redelijke kennis van het deployen van projecten, maar ik heb nog geen ervaring met het implementeren van een Spring Boot applicatie op een productieomgeving in oege, ik wil hier meer over leren.
 
 ### Taak: 
-Ik heb als specifiek doel gesteld om binnen één sprint te leren hoe ik een Spring Boot-toepassing implementeer op een productieomgeving met oege.
+Ik heb als specifiek doel gesteld om binnen één sprint te leren hoe ik een Spring Boot applicatie implementeer op een productieomgeving met oege.
 
 ### Actie: 
-Ik heb oege succesvol opgezet en de benodigde stappen gevolgd om een Spring Boot-toepassing op oege te implementeren. Ik heb gebruikgemaakt van mijn kennis van SSH en heb de nodige documentatie doorgenomen om het proces te voltooien.
+Ik heb oege succesvol opgezet en de benodigde stappen gevolgd om een Spring Boot applicatie op oege te deployen. Ik heb gebruikgemaakt van mijn kennis die ik heb opgedaan bij het deployen van andere projecten over de jaren, ik kon helaas geen hva documentatie raadplegen aangezien deze niet bestaat voor het deployen van java projecten binnen oege, uitendelijk ben ik er zelf achter gekomen door het internet te raadplegen over manieren om een java project te runnen op een server zonder root toegang.
 
 ### Resultaat: 
-Ik heb mijn doel binnen de gestelde tijdslimiet van één sprint bereikt. Ik heb niet alleen de Spring Boot-toepassing succesvol geïmplementeerd, maar heb ook meer geleerd over de oege-omgeving en het gebruik van SSH.
+Ik heb mijn doel binnen de gestelde tijdslimiet van één sprint bereikt. Ik heb niet alleen de Spring Boot-toepassing succesvol geïmplementeerd, maar heb ook meer geleerd over de oege-omgeving en het gebruik van SSH om op linux servers te werken.
 
 ### Reflectie: 
-Ik vond het opzetten van onze productie omgeving op oege verrassend eenvoudig, maar ook leerzaam. Ik heb veel geleerd over het werken op linux servers via SSH en heb een beter begrip gekregen van het implementeren van projecten op een productieomgeving.
+Ik wist van tevoren al dat er geen documentatie voor het deployen van een java project was vanuit de hva, dus ik had verwacht dat dit nogal een uitdaging zou zijn, voornamelijk omdat je in de server ook geen root toegang hebt. Maar Ik vond het opzetten van onze productieomgeving op oege verrassend eenvoudig, maar ook leerzaam. Eerst moest ik nogal zoeken, maar uiteindelijk kwam ik er vrij snel uit. Ik heb veel geleerd over het werken op linux servers via SSH en heb een beter begrip gekregen van het implementeren van projecten op een productieomgeving.
 
 ### Foto's:
 ![oege](./foto's/oege.png)

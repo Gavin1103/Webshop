@@ -6,7 +6,7 @@ Verschillende websites gebruiken verschillende tokens om de aanmeldstatus van ee
 
 ### Hoofd Vraag
 
-Hoe veilig is JWT Token bij verificatie?
+Hoe het JWT token de beveiliging beïnvloedt tijdens webauthenticatie?
 
 ### Deel Vragen
 

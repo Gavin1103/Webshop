@@ -1,0 +1,11 @@
+# Team Technische Discussies (Of de voor- en achterkant van het CMS gescheiden zijn)
+
+In de afgelopen week had ons team een discussie over de technische details van het CMS platform, waarbij er een meningsverschil was tussen ons team over de implementatiedetails van de front-end bestanden.
+
+Ik denk dat de front-end code onafhankelijk moet zijn van het Spring Boot-project en geïntegreerd moet worden in het Vite-project. Hierdoor krijgen front-end ontwikkelaars meer flexibiliteit, bijvoorbeeld door het gebruik van het Lit-framework om componentisatie te bereiken, wat de stabiliteit van het onderhoud kan verbeteren
+
+Over de visie om de front-end code van de CMS te integreren in het Spring Boot-project, wordt gedacht dat de CMS vooral bedoeld is om beheerders de mogelijkheid te bieden om aanpassingen te maken. Gewone consumenten hebben geen toegang tot de CMS, dus een complexe UI is niet nodig. Het behouden van basisfunctionaliteit is voldoende. Een ander voordeel is dat front-end ontwikkelaars geen API's nodig hebben om data met de server uit te wisselen, maar direct de database kunnen bedienen via datamodellen.
+
+Na onze discussie zijn we tot de conclusie gekomen dat de functionaliteit van het CMS-platform met de tijd zal toenemen, dus de onderhoudbaarheid van de code wordt steeds belangrijker. Ten tweede vindt het team dat er hogere eisen zijn aan de interface van het CMS. In de toekomst kunnen verkopers onze webwinkel gebruiken; een te eenvoudige UI kan leiden tot een verminderde gebruikerservaring voor verkopers, wat een negatieve invloed kan hebben op het aantal verkopers in onze webwinkel.
+
+Dus ons team heeft besloten om de front-end code in het Vite-project te plaatsen. Uit het discussie- en besluitvormingsproces van het team heb ik geleerd dat in complexe projecten meer meningsverschillen kunnen ontstaan. Dergelijke discussies stellen verschillende meningen in het team in staat om openlijk te worden besproken, en door communicatie proberen we zoveel mogelijk consensus onder de leden te bereiken om meningsverschillen te voorkomen.

@@ -1,7 +1,15 @@
+stages:
+    - Build
+    - Test
+    - Deploy
+
 variables:
     DEPLOY_MKDOCS: "true"
-    DEPLOY_HIC: "false"
+    DEPLOY_WEB: "true"
+    DEPLOY_APP: "true"
 
 include:
     - ".gitlab-ci.mkdocs.yml"
-    - ".gitlab-ci.hic.yml"
+    - ".gitlab-ci.webdeploy.yml"
+    - ".gitlab-ci.appdeploy.yml"
+    - ".gitlab-ci.tests.yml"

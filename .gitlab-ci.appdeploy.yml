@@ -1,0 +1,57 @@
+image: openjdk:17-jdk-slim
+
+variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+before_script:
+    - cd project/backend
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./gradlew
+
+cache:
+    key: "$CI_COMMIT_REF_NAME"
+    paths:
+        - project/backend/.gradle/wrapper
+        - project/backend/.gradle/caches
+
+Build Backend:
+    stage: Build
+    script:
+        - ./gradlew build --no-daemon
+    after_script:
+        - kill $(jobs -p) || true
+    artifacts:
+        paths:
+            - project/backend/build/libs/webshop.jar
+        expire_in: 1 hour
+    when: always
+    rules:
+        -   if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_ID
+    tags:
+        - hva
+
+Deploy Backend:
+    stage: Deploy
+    before_script:
+        - apt-get update
+        - apt-get install -y sshpass
+    script:
+        - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "rm webshop.jar"
+        - "sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no project/backend/build/libs/webshop.jar $SSH_USER@$SSH_HOST:"
+        - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "./start_app.shh"
+    after_script:
+        - kill $(jobs -p) || true
+    needs:
+        - "Build Backend"
+    when: always
+    rules:
+        -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"
+            variables:
+                SSH_USER: $SSH_USER_LIVE
+                SSH_PASSWORD: $SSH_PASSWORD_LIVE
+        -   if: $CI_COMMIT_BRANCH == "develop" && $DEPLOY_WEB == "true"
+            variables:
+                SSH_USER: $SSH_USER_DEV
+                SSH_PASSWORD: $SSH_PASSWORD_DEV
+    tags:
+        - hva

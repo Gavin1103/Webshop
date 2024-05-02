@@ -1,16 +1,11 @@
 package caaruujuuwoo65.backend.dto;
 
-import caaruujuuwoo65.backend.model.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter
 @Setter
-public class UserDTO {
-    private String username;
+public class JwtRequest {
     private String email;
     private String password;
-    private Set<Role> roles;
 }

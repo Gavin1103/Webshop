@@ -3,11 +3,19 @@ package caaruujuuwoo65.backend.service;
 import caaruujuuwoo65.backend.dto.UserDTO;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -15,11 +23,13 @@ public class UserService {
 
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -27,7 +37,7 @@ public class UserService {
      *
      * @return a list of all users
      */
-    public List<User> getAllUsers() {
+    public List<caaruujuuwoo65.backend.model.User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -39,6 +49,9 @@ public class UserService {
      */
     public User saveUser(UserDTO userDto) {
         User user = modelMapper.map(userDto, User.class);
+
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
         return userRepository.save(user);
     }
 
@@ -48,7 +61,7 @@ public class UserService {
      * @param email the email address
      * @return a list of users with the specified email address
      */
-    public List<User> getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 }

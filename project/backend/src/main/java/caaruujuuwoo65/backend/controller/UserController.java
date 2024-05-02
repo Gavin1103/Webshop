@@ -1,7 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
 import caaruujuuwoo65.backend.dto.UserDTO;
-import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +30,8 @@ public class UserController {
         @ApiResponse(responseCode = "400", description = "Invalid user details"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<User> addUser(@RequestBody UserDTO userDto) {
-        User savedUser = userService.saveUser(userDto);
+    public ResponseEntity<caaruujuuwoo65.backend.model.User> addUser(@RequestBody UserDTO userDto) {
+        caaruujuuwoo65.backend.model.User savedUser = userService.saveUser(userDto);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
@@ -41,8 +41,8 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "Users retrieved successfully"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<List<caaruujuuwoo65.backend.model.User>> getAllUsers() {
+        List<caaruujuuwoo65.backend.model.User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -53,8 +53,8 @@ public class UserController {
         @ApiResponse(responseCode = "404", description = "User not found"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<List<User>> getUserByEmail(@PathVariable String email) {
-        List<User> users = userService.getUserByEmail(email);
+    public ResponseEntity<caaruujuuwoo65.backend.model.User> getUserByEmail(@PathVariable String email) {
+        caaruujuuwoo65.backend.model.User users = userService.getUserByEmail(email);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

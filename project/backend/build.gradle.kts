@@ -29,6 +29,7 @@ dependencies {
     implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation ("org.springdoc:springdoc-openapi-ui:1.8.0")
     implementation("org.modelmapper:modelmapper:2.4.4")
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
     compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.mysql:mysql-connector-j")

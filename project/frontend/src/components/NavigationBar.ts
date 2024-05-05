@@ -1,6 +1,7 @@
 import { LitElement, html, css, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 import "./CategoryCardHorizontal";
+import "./SearchBar";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {
@@ -47,7 +48,7 @@ export class NavigationBar extends LitElement {
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             transition: left 0.3s ease;
-            z-index: 1;
+            z-index: 9999;
             overflow-y: auto;
         }
 
@@ -78,31 +79,7 @@ export class NavigationBar extends LitElement {
         .icon:hover {
             transform: scale(1.1);
         }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-radius: 50px;
-            margin: 5px 0;
-            width: 30%;
-            background: rgba(180, 180, 180, 0.6);
-            transition: transform 0.3s ease;
-
-            input[type="text"] {
-                border: none;
-                outline: none;
-                background: none;
-                width: 100%;
-                height: 100%;
-                font-size: large;
-                padding: 0 20px;
-            }
-        }
-
-        .search-bar:hover {
-            transform: scale(1.03);
-        }
+        
 
         .links {
             width: 20%;
@@ -116,15 +93,7 @@ export class NavigationBar extends LitElement {
                 left: -100%;
                 width: 100%;
             }
-
-            .search-bar {
-                width: 50%;
-
-                input[type="text"] {
-                    width: 50%;
-                }
-            }
-
+            
             .icon {
                 width: 24px;
                 height: 24px;
@@ -143,16 +112,7 @@ export class NavigationBar extends LitElement {
                      xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
                 
-                <div class="search-bar">
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                    />
-                    <svg 
-                        class="icon search-icon"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </div>
+                <search-bar></search-bar>
                 
                 <div class="links">
                     <svg
@@ -196,6 +156,7 @@ export class NavigationBar extends LitElement {
                     </category-card-horizontal>
                 </div>
             </div>
+            
             
         `;
     }

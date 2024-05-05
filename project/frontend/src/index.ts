@@ -2,3 +2,4 @@
 export * from "./components/Root";
 export * from "./components/NavigationBar";
 export * from "./components/CategoryCardHorizontal";
+export * from "./components/SearchBar";

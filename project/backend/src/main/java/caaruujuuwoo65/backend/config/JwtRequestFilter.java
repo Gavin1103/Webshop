@@ -3,6 +3,7 @@ package caaruujuuwoo65.backend.config;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.service.JwtService;
 import caaruujuuwoo65.backend.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -41,12 +42,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 username = jwtService.extractUsername(jwtToken);
             } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "Unable to get JWT Token");
+                return;
             } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "JWT Token has expired");
+                return;
             }
-        } else {
-            logger.warn("JWT Token does not begin with Bearer String");
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

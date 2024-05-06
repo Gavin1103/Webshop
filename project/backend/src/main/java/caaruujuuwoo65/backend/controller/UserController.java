@@ -31,9 +31,8 @@ public class UserController {
         @ApiResponse(responseCode = "400", description = "Invalid user details"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<caaruujuuwoo65.backend.model.User> addUser(@RequestBody UserDTO userDto) {
-        caaruujuuwoo65.backend.model.User savedUser = userService.saveUser(userDto);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    public ResponseEntity<?> addUser(@RequestBody UserDTO userDto) {
+        return userService.saveUser(userDto);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -3,62 +3,44 @@ package caaruujuuwoo65.backend.controller;
 import caaruujuuwoo65.backend.dto.JwtRequest;
 import caaruujuuwoo65.backend.dto.JwtResponse;
 import caaruujuuwoo65.backend.dto.UserDTO;
-import caaruujuuwoo65.backend.model.User;
-import caaruujuuwoo65.backend.service.JwtService;
+import caaruujuuwoo65.backend.service.AuthenticationService;
 import caaruujuuwoo65.backend.service.UserService;
-import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@AllArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
+    private final AuthenticationService authenticationService;
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthenticationController(UserService userService, AuthenticationManager authenticationManager, @Lazy JwtService jwtService, PasswordEncoder passwordEncoder) {
+    public AuthenticationController(UserService userService, AuthenticationService authenticationService) {
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        this.passwordEncoder = passwordEncoder;
+        this.authenticationService = authenticationService;
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @Operation(summary = "Authenticate a user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully authenticated"),
+        @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    })
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
-        final User user = userService
-            .getUserByEmail(authenticationRequest.getEmail());
-
-        if (user == null) {
-            throw new BadCredentialsException("User not found");
-        }
-
-        if (!passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("Invalid password");
-        }
-
-        Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("authorities", user.getAuthoritiesList());
-
-        final String token = jwtService.generateToken(extraClaims, user);
-
-        return ResponseEntity.ok(new JwtResponse(token));
+        return authenticationService.authenticate(authenticationRequest);
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @PostMapping(value = "/register")
+    @Operation(summary = "Register a new user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Successfully registered"),
+        @ApiResponse(responseCode = "409", description = "User already exists")
+    })
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
         return ResponseEntity.ok(userService.saveUser(user));
     }

@@ -5,6 +5,8 @@ import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,18 +42,18 @@ public class UserService {
      * @param userDto the user data transfer object
      * @return the saved user
      */
-    public User saveUser(UserDTO userDto) {
+    public ResponseEntity<?> saveUser(UserDTO userDto) {
         User user = modelMapper.map(userDto, User.class);
 
         User existingUser = this.getUserByEmail(user.getEmail()); // Check if user already exists
 
         if(existingUser != null) {
-            throw new IllegalArgumentException("User already exists");
+            return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
         }
 
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        return userRepository.save(user);
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED);
     }
 
     /**

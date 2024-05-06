@@ -2,6 +2,7 @@ package caaruujuuwoo65.backend.model;
 
 
 import caaruujuuwoo65.backend.model.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +41,7 @@ public class User implements UserDetails {
         return roles;
     }
 
+    @JsonIgnore
     public List<String> getAuthoritiesList() {
         return roles.stream()
             .map(Role::name)

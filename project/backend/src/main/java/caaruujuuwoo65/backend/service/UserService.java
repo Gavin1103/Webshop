@@ -43,6 +43,12 @@ public class UserService {
     public User saveUser(UserDTO userDto) {
         User user = modelMapper.map(userDto, User.class);
 
+        User existingUser = this.getUserByEmail(user.getEmail()); // Check if user already exists
+
+        if(existingUser != null) {
+            throw new IllegalArgumentException("User already exists");
+        }
+
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         return userRepository.save(user);

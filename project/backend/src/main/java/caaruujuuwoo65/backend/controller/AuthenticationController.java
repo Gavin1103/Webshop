@@ -12,9 +12,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -48,7 +50,10 @@ public class AuthenticationController {
             throw new BadCredentialsException("Invalid password");
         }
 
-        final String token = jwtService.generateToken(user);
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("authorities", user.getAuthoritiesList());
+
+        final String token = jwtService.generateToken(extraClaims, user);
 
         return ResponseEntity.ok(new JwtResponse(token));
     }

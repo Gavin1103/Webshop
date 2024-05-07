@@ -53,7 +53,6 @@ public class SecurityConfig {
             .authorizeRequests(req ->
                 req.requestMatchers(WHITE_LIST_URL)
                     .permitAll()
-                    .requestMatchers("/admin/**").hasAuthority("ADMIN")
                     .anyRequest()
                     .authenticated()
             )

@@ -143,11 +143,12 @@ export class Root extends LitElement {
         const result: boolean = await this._userService.register({
             email: this._email,
             password: this._password,
-            name: this._name,
+            username: this._name,
+            roles:  ["USER"]
         });
 
         if (result) {
-            alert("Succesfully registered!");
+            this._isLoggedIn = true;
 
             this._currentPage = RouterPage.Login;
         } else {

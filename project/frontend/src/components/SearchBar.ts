@@ -62,7 +62,7 @@ export class SearchBar extends LitElement {
             justify-content: space-between;
             padding: 10px;
             font-size: large;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, background 0.8s ease;
         }
 
         .result:hover {

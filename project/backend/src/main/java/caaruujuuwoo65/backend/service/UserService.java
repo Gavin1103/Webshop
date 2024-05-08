@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -39,8 +40,8 @@ public class UserService {
     /**
      * Edits a user.
      *
-     * @param userDto the user data transfer object
-     * @param email the email address
+     * @param userDto     the user data transfer object
+     * @param email       the email address
      * @param changeRoles whether to change the user's roles
      * @return the edited user
      */
@@ -50,15 +51,15 @@ public class UserService {
         User existingUser = this.getUserByEmail(email); // Check if user already exists
         user.setId(existingUser.getId());
 
-        if(existingUser == null) {
+        if (existingUser == null) {
             return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
         }
 
-        if(!changeRoles){
+        if (!changeRoles) {
             user.setRoles(existingUser.getRoles());
         }
 
-        if(userDto.getPassword() != null && !userDto.getPassword().isEmpty()){
+        if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
 

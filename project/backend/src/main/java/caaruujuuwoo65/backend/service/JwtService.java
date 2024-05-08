@@ -4,11 +4,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.security.Key;
 import java.util.Date;
@@ -29,6 +29,7 @@ public class JwtService {
 
     /**
      * Extracts the username from the JWT token.
+     *
      * @param token the JWT token
      * @return the extracted username
      */
@@ -38,9 +39,10 @@ public class JwtService {
 
     /**
      * Extracts a claim from the JWT token.
-     * @param token the JWT token
+     *
+     * @param token          the JWT token
      * @param claimsResolver the claims resolver
-     * @param <T> the type of the claim
+     * @param <T>            the type of the claim
      * @return the extracted claim
      */
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -50,6 +52,7 @@ public class JwtService {
 
     /**
      * Generates a JWT token, without any extra claims.
+     *
      * @param userDetails the user details
      * @return the JWT token
      */
@@ -59,6 +62,7 @@ public class JwtService {
 
     /**
      * Generates a JWT token, with extra claims.
+     *
      * @param extraClaims the extra claims to add to the token
      * @param userDetails the user details
      * @return the JWT token
@@ -72,6 +76,7 @@ public class JwtService {
 
     /**
      * Generates a refresh token.
+     *
      * @param userDetails the user details
      * @return the refresh token
      */
@@ -83,9 +88,10 @@ public class JwtService {
 
     /**
      * Builds a JWT token.
+     *
      * @param extraClaims the extra claims to add to the token
      * @param userDetails the user details
-     * @param expiration the expiration time
+     * @param expiration  the expiration time
      * @return the JWT token
      */
     private String buildToken(
@@ -105,7 +111,8 @@ public class JwtService {
 
     /**
      * Validates the JWT token.
-     * @param token the JWT token
+     *
+     * @param token       the JWT token
      * @param userDetails the user details
      * @return true if the token is valid, false otherwise
      */
@@ -116,6 +123,7 @@ public class JwtService {
 
     /**
      * Checks if the JWT token is expired.
+     *
      * @param token the JWT token
      * @return true if the token is expired, false otherwise
      */
@@ -125,6 +133,7 @@ public class JwtService {
 
     /**
      * Extracts the expiration date from the JWT token.
+     *
      * @param token the JWT token
      * @return the expiration date
      */
@@ -134,6 +143,7 @@ public class JwtService {
 
     /**
      * Extracts all claims from the JWT token.
+     *
      * @param token the JWT token
      * @return the extracted claims
      */
@@ -147,8 +157,9 @@ public class JwtService {
 
     /**
      * Extracts user data from the JWT token.
+     *
      * @param request the HTTP request
-     * @param key the key to extract
+     * @param key     the key to extract
      * @return the extracted user data
      */
     public String extractUserData(HttpServletRequest request, String key) {
@@ -158,6 +169,7 @@ public class JwtService {
 
     /**
      * Extracts the JWT token from the request.
+     *
      * @param request the HTTP request
      * @return the JWT token
      */

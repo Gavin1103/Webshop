@@ -3,6 +3,11 @@ package caaruujuuwoo65.backend.config;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.service.JwtService;
 import caaruujuuwoo65.backend.service.UserService;
+import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,16 +15,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import io.jsonwebtoken.ExpiredJwtException;
 import java.io.IOException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-
     private final UserService userService;
     private final JwtService jwtService;
 
@@ -51,7 +50,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
             User userDetails = this.userService.getUserByEmail(username);
 
             if (jwtService.isTokenValid(jwtToken, userDetails)) {

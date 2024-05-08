@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import productCarouselSectionStyle from "../styles/productCarouselSectionStyle";
+import productCarouselSectionStyle from "../../../styles/productCarouselSectionStyle";
 
 @customElement("product-carousel-section")
 export class ProductCarouselSection extends LitElement {

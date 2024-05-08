@@ -1,5 +1,5 @@
 import {Router} from "@vaadin/router";
-import "./views/home-page";
+import "./views/homePage/home-page";
 import "./views/404-page";
 
 export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outlet: HTMLElement): Promise<Router> => {

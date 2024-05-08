@@ -34,8 +34,6 @@ export class WizardContainer extends LitElement {
             "cart/overview": 2
         };
 
-        console.log(currentPath);
-
         const activeStepIndex: number = pathToStepIndex[currentPath] || 0;
 
         this.steps.forEach((step, index) => {

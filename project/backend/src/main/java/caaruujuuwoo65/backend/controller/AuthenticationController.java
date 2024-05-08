@@ -1,27 +1,27 @@
 package caaruujuuwoo65.backend.controller;
 
 import caaruujuuwoo65.backend.dto.JwtRequest;
-import caaruujuuwoo65.backend.dto.JwtResponse;
-import caaruujuuwoo65.backend.dto.UserDTO;
+import caaruujuuwoo65.backend.dto.UserDto;
 import caaruujuuwoo65.backend.service.AuthenticationService;
-import caaruujuuwoo65.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-    private final UserService userService;
 
     @Autowired
-    public AuthenticationController(UserService userService, AuthenticationService authenticationService) {
-        this.userService = userService;
+    public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
@@ -41,7 +41,16 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "201", description = "Successfully registered"),
         @ApiResponse(responseCode = "409", description = "User already exists")
     })
-    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
-        return ResponseEntity.ok(userService.saveUser(user));
+    public ResponseEntity<?> saveUser(@RequestBody UserDto user) throws Exception {
+        return ResponseEntity.ok(authenticationService.register(user));
     }
+
+    @PostMapping("/refresh-token")
+    public void refreshToken(
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws IOException {
+        this.authenticationService.refreshToken(request, response);
+    }
+
 }

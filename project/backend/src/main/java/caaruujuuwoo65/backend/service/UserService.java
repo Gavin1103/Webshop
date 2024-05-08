@@ -1,6 +1,7 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.UserDTO;
+import caaruujuuwoo65.backend.dto.UserDto;
+import caaruujuuwoo65.backend.dto.UserEditDto;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -37,23 +38,32 @@ public class UserService {
     }
 
     /**
-     * Saves a new user.
+     * Edits a user.
      *
      * @param userDto the user data transfer object
-     * @return the saved user
+     * @param email the email address
+     * @param changeRoles whether to change the user's roles
+     * @return the edited user
      */
-    public ResponseEntity<?> saveUser(UserDTO userDto) {
+    public ResponseEntity<?> editUser(UserEditDto userDto, String email, boolean changeRoles) {
         User user = modelMapper.map(userDto, User.class);
 
-        User existingUser = this.getUserByEmail(user.getEmail()); // Check if user already exists
+        User existingUser = this.getUserByEmail(email); // Check if user already exists
+        user.setId(existingUser.getId());
 
-        if(existingUser != null) {
-            return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
+        if(existingUser == null) {
+            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
         }
 
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        if(!changeRoles){
+            user.setRoles(existingUser.getRoles());
+        }
 
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED);
+        if(userDto.getPassword() != null && !userDto.getPassword().isEmpty()){
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
     /**
@@ -64,5 +74,15 @@ public class UserService {
      */
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    /**
+     * Retrieves a user by id.
+     *
+     * @param id the user id
+     * @return a user with the specified id
+     */
+    public User getById(String id) {
+        return userRepository.findById(Integer.parseInt(id));
     }
 }

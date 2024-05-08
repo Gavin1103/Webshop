@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/")
+    @Operation(summary = "Admin example endpoint")
     public ResponseEntity<String> admin() {
         return new ResponseEntity<>("Welcome Admin!", HttpStatus.OK);
     }

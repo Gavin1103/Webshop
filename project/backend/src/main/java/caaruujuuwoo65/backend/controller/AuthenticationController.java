@@ -46,11 +46,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh-token")
-    public void refreshToken(
-        HttpServletRequest request,
-        HttpServletResponse response
-    ) throws IOException {
-        this.authenticationService.refreshToken(request, response);
+    @Operation(summary = "Refresh the JWT token")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully refreshed token"),
+        @ApiResponse(responseCode = "401", description = "Invalid token")
+    })
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+       return this.authenticationService.refreshToken(request);
     }
-
 }

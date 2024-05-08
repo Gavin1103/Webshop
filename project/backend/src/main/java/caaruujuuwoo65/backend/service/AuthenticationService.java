@@ -2,14 +2,12 @@ package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.AuthenticationResponse;
 import caaruujuuwoo65.backend.dto.JwtRequest;
-import caaruujuuwoo65.backend.dto.JwtResponse;
 import caaruujuuwoo65.backend.dto.UserDto;
 import caaruujuuwoo65.backend.model.Token;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.model.enums.TokenType;
 import caaruujuuwoo65.backend.repository.TokenRepository;
 import caaruujuuwoo65.backend.repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
@@ -90,7 +88,7 @@ public class AuthenticationService {
 
         User existingUser = this.userService.getUserByEmail(user.getEmail()); // Check if user already exists
 
-        if(existingUser != null) {
+        if (existingUser != null) {
             return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
         }
 
@@ -110,7 +108,7 @@ public class AuthenticationService {
     /**
      * Saves the user's token.
      *
-     * @param user the user
+     * @param user     the user
      * @param jwtToken the JWT token
      */
     private void saveUserToken(User user, String jwtToken) {
@@ -144,18 +142,15 @@ public class AuthenticationService {
      * Refreshes the JWT token.
      *
      * @param request the HTTP request
-     * @param response the HTTP response
+     * @return
      * @throws IOException if an I/O error occurs
      */
-    public void refreshToken(
-        HttpServletRequest request,
-        HttpServletResponse response
-    ) throws IOException {
+    public ResponseEntity<AuthenticationResponse> refreshToken(HttpServletRequest request) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userEmail;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return;
+            return null;
         }
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
@@ -170,12 +165,13 @@ public class AuthenticationService {
                 var accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
-                var authResponse = AuthenticationResponse.builder()
+
+                return new ResponseEntity<>(AuthenticationResponse.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
-                    .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+                    .build(), HttpStatus.OK);
             }
         }
+        return null;
     }
 }

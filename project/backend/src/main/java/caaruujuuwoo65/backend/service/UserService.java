@@ -1,6 +1,5 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.UserDto;
 import caaruujuuwoo65.backend.dto.UserEditDto;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.repository.UserRepository;

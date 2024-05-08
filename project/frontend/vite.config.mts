@@ -34,7 +34,7 @@ export default defineConfig((config) => {
     return {
         base: "./",
         root: "wwwroot",
-        appType: "mpa",
+        appType: "spa",
         resolve: {
             alias: {
                 "/src": resolve(__dirname, "./src"),

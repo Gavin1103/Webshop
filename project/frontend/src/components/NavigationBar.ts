@@ -1,5 +1,5 @@
-import { LitElement, html, css, TemplateResult } from "lit";
-import { customElement } from "lit/decorators.js";
+import {css, html, LitElement, TemplateResult} from "lit";
+import {customElement} from "lit/decorators.js";
 import "./CategoryCardHorizontal";
 import "./SearchBar";
 
@@ -79,7 +79,7 @@ export class NavigationBar extends LitElement {
         .icon:hover {
             transform: scale(1.1);
         }
-        
+
 
         .links {
             width: 20%;
@@ -93,7 +93,7 @@ export class NavigationBar extends LitElement {
                 left: -100%;
                 width: 100%;
             }
-            
+
             .icon {
                 width: 24px;
                 height: 24px;
@@ -107,37 +107,54 @@ export class NavigationBar extends LitElement {
     public render(): TemplateResult {
         return html`
             <nav class="navigation">
-                <svg class="icon menu-icon"
-                     @click=${this.toggleSidebar}
-                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-                
+
+                <img
+                    @click=${this.toggleSidebar}
+                    @keydown=${(e: KeyboardEvent): void => {
+                        if (e.key === "Enter") this.toggleSidebar();
+                    }}
+                    class="icon" src="../assets/image/icons/menu-icon.svg" alt="Side menu button"
+                    tabindex="0">
+
                 <search-bar></search-bar>
-                
+
                 <div class="links">
                     <svg
                         class="icon user-icon"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
                     </svg>
-                    
-                    
-                    <svg 
-                        class="icon cart-icon" 
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="20.5" r="1"/><circle cx="18" cy="20.5" r="1"/><path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1"/>
+
+
+                    <svg
+                        class="icon cart-icon"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="10" cy="20.5" r="1"/>
+                        <circle cx="18" cy="20.5" r="1"/>
+                        <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1"/>
                     </svg>
                 </div>
             </nav>
 
-            
+
             <div class="sidebar" style=${this.sidebarVisible ? "left: 0;" : ""}>
                 <div class="top-container-close">
                     <svg
                         class="close-button"
                         @click=${this.closeSidebar}
-                        xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                        xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                        fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                 </div>
-                
+
                 <div class="category-container">
                     <category-card-horizontal
                         categoryName="Action Game">
@@ -156,8 +173,8 @@ export class NavigationBar extends LitElement {
                     </category-card-horizontal>
                 </div>
             </div>
-            
-            
+
+
         `;
     }
 }

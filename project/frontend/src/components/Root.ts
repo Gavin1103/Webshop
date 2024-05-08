@@ -84,7 +84,7 @@ export class Root extends LitElement {
         super.connectedCallback();
 
         await this.getWelcome();
-        await this.getOrderItems();
+        // await this.getOrderItems();
     }
 
     /**
@@ -102,15 +102,15 @@ export class Root extends LitElement {
     /**
      * Get all available order items
      */
-    private async getOrderItems(): Promise<void> {
-        const result: OrderItem[] | undefined = await this._orderItemService.getAll();
-
-        if (!result) {
-            return;
-        }
-
-        this._orderItems = result;
-    }
+    // private async getOrderItems(): Promise<void> {
+    //     const result: OrderItem[] | undefined = await this._orderItemService.getAll();
+    //
+    //     if (!result) {
+    //         return;
+    //     }
+    //
+    //     this._orderItems = result;
+    // }
 
     /**
      * Handler for the login form

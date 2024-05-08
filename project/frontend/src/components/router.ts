@@ -9,8 +9,8 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
     await router.setRoutes([
         {path: "/", component: "home-page"},
         {path: "/cart", component: "shopping-cart"},
-        {path: "/cart/personal-info", component: "personal-info"},
-        {path: "/cart/overview", component: "order-overview"},
+        {path: "/cart/personal-info", component: "shopping-cart"},
+        {path: "/cart/overview", component: "shopping-cart"},
         {path: "(.*)", component: "not-found"}
     ]);
 

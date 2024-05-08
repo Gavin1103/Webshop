@@ -6,7 +6,7 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
     const router: Router = new Router(outlet);
 
     await router.setRoutes([
-        {path: "/", component: "home-page"},
+        {path: "/home", component: "home-page"},
         {path: "(.*)", component: "not-found"}
     ]);
 

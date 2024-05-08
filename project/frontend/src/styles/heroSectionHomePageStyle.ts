@@ -49,14 +49,37 @@ export default css`
             background-color: transparent;
             border: none;
             color: #FFD169;
-            font-size: larger;
+            font-size: x-large;
             cursor: pointer;
+        }
+
+        @media screen and (max-width: 600px) {
+            
         }
     }
 
     .more-info-button:hover {
         transform: scale(1);
         box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    @media screen and (max-width: 600px) {
+        .hero {
+            width: 100vw;
+            height: 40vh;
+        }
+        
+        .more-info-button{
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+    @media screen and (min-width: 601px) and (max-width: 1024px) {
+        .hero {
+            width: 70vw;
+            height: 50vh;
+        }
     }
     
 `;

@@ -1,5 +1,6 @@
 import {Router} from "@vaadin/router";
 import "./views/home-page";
+import "./views/shoppingCart/shopping-cart";
 import "./views/404-page";
 
 export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outlet: HTMLElement): Promise<Router> => {
@@ -7,6 +8,9 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
 
     await router.setRoutes([
         {path: "/", component: "home-page"},
+        {path: "/cart", component: "shopping-cart"},
+        {path: "/cart/personal-info", component: "personal-info"},
+        {path: "/cart/overview", component: "order-overview"},
         {path: "(.*)", component: "not-found"}
     ]);
 

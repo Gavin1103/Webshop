@@ -94,9 +94,9 @@ export class UserService {
     }
 
     /**
-     * Handles user welcome message containing user and cart data. Requires a valid token.
+     * Handles user welcome message containing user and shoppingCart data. Requires a valid token.
      *
-     * @returns Object with user and cart data when successful, otherwise `undefined`.
+     * @returns Object with user and shoppingCart data when successful, otherwise `undefined`.
      */
     public async getWelcome(): Promise<UserHelloResponse | undefined> {
         const token: string | undefined = this._tokenService.getToken();
@@ -120,9 +120,9 @@ export class UserService {
     }
 
     /**
-     * Handles adding an order item to the cart of the current user. Requires a valid token.
+     * Handles adding an order item to the shoppingCart of the current user. Requires a valid token.
      *
-     * @returns Current number of order items in the cart when successful, otherwise `false`.
+     * @returns Current number of order items in the shoppingCart when successful, otherwise `false`.
      */
     public async addOrderItemToCart(id: number): Promise<number | undefined> {
         const token: string | undefined = this._tokenService.getToken();

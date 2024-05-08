@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "order_status")
@@ -23,7 +24,7 @@ public class OrderStatus {
     @JoinColumn(name = "order")
     private Order order;
 
-    private DateTime date;
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "status")

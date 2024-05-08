@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.dto;
 
+
 import lombok.Getter;
 import lombok.Setter;
 

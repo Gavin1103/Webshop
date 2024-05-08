@@ -1,6 +1,5 @@
 package caaruujuuwoo65.backend.model;
 
-
 import caaruujuuwoo65.backend.dto.StatusDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,4 +19,4 @@ public class Status {
     private Long id;
 
     private String status;
-}
+}   

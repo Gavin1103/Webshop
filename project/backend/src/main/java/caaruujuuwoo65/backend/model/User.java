@@ -1,6 +1,5 @@
 package caaruujuuwoo65.backend.model;
 
-
 import caaruujuuwoo65.backend.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

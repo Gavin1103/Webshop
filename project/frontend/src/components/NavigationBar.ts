@@ -1,7 +1,8 @@
-import {css, html, LitElement, TemplateResult} from "lit";
+import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import "./CategoryCardHorizontal";
 import "./SearchBar";
+import navigationBarStyle from "../styles/navigationBarStyle";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {
@@ -18,90 +19,7 @@ export class NavigationBar extends LitElement {
         this.requestUpdate();
     }
 
-    public static styles = css`
-
-        .navigation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 8%;
-            background: rgba(180, 180, 180, 0.1);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 9999;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 8%;
-            left: -40%;
-            width: 40%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.10);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            transition: left 0.3s ease;
-            z-index: 9999;
-            overflow-y: auto;
-        }
-
-        .top-container-close {
-            position: sticky;
-            top: 10px;
-            z-index: 2;
-            display: flex;
-            justify-content: end;
-        }
-
-        .close-button {
-            margin-right: 2%;
-            transition: transform 0.3s ease;
-        }
-
-        .close-button:hover {
-            transform: scale(1.1);
-        }
-
-        .icon {
-            width: 40px;
-            height: 40px;
-            padding: 0 5px;
-            transition: transform 0.3s ease;
-        }
-
-        .icon:hover {
-            transform: scale(1.1);
-        }
-
-
-        .links {
-            width: 20%;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        @media screen and (max-width: 600px) {
-            .sidebar {
-                left: -100%;
-                width: 100%;
-            }
-
-            .icon {
-                width: 24px;
-                height: 24px;
-                padding: 0 5px;
-            }
-        }
-
-    `;
+    public static styles = [navigationBarStyle];
 
 
     public render(): TemplateResult {
@@ -119,40 +37,20 @@ export class NavigationBar extends LitElement {
                 <search-bar></search-bar>
 
                 <div class="links">
-                    <svg
-                        class="icon user-icon"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
+                    <img class="icon user-icon" src="../assets/image/icons/user-icon.svg" alt="profile button">
 
-
-                    <svg
-                        class="icon cart-icon"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="10" cy="20.5" r="1"/>
-                        <circle cx="18" cy="20.5" r="1"/>
-                        <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1"/>
-                    </svg>
+                    <img class="icon cart-icon-" src="../assets/image/icons/cart-icon.svg" alt="cart button">
                 </div>
             </nav>
 
 
             <div class="sidebar" style=${this.sidebarVisible ? "left: 0;" : ""}>
                 <div class="top-container-close">
-                    <svg
-                        class="close-button"
+                    
+                    <img
                         @click=${this.closeSidebar}
-                        xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-                        fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
+                        class="close-button" src="../assets/image/icons/close-icon.svg" alt="close button" 
+                    />
                 </div>
 
                 <div class="category-container">

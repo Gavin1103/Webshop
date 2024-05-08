@@ -28,7 +28,7 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "200", description = "Successfully authenticated"),
         @ApiResponse(responseCode = "401", description = "Invalid credentials")
     })
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)  {
         return authenticationService.authenticate(authenticationRequest);
     }
 
@@ -38,7 +38,7 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "201", description = "Successfully registered"),
         @ApiResponse(responseCode = "409", description = "User already exists")
     })
-    public ResponseEntity<?> saveUser(@RequestBody UserDto user) throws Exception {
+    public ResponseEntity<?> register(@RequestBody UserDto user) throws Exception {
         return ResponseEntity.ok(authenticationService.register(user));
     }
 

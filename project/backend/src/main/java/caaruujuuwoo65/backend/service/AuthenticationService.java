@@ -5,6 +5,7 @@ import caaruujuuwoo65.backend.dto.JwtRequest;
 import caaruujuuwoo65.backend.dto.UserDto;
 import caaruujuuwoo65.backend.model.Token;
 import caaruujuuwoo65.backend.model.User;
+import caaruujuuwoo65.backend.model.enums.Role;
 import caaruujuuwoo65.backend.model.enums.TokenType;
 import caaruujuuwoo65.backend.repository.TokenRepository;
 import caaruujuuwoo65.backend.repository.UserRepository;
@@ -21,7 +22,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class AuthenticationService {
@@ -92,6 +95,7 @@ public class AuthenticationService {
         }
 
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRoles(new HashSet<>(Set.of(Role.USER)));
         User savedUser = userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
@@ -153,23 +157,26 @@ public class AuthenticationService {
         }
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
-        if (userEmail != null) {
-            var user = this.userService.getUserByEmail(userEmail);
 
-            if (user == null) {
-                throw new BadCredentialsException("Invalid credentials");
-            }
+        if (userEmail == null) {
+            return null;
+        }
 
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
+        var user = this.userService.getUserByEmail(userEmail);
 
-                return new ResponseEntity<>(AuthenticationResponse.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
-                    .build(), HttpStatus.OK);
-            }
+        if (user == null) {
+            throw new BadCredentialsException("Invalid credentials");
+        }
+
+        if (jwtService.isTokenValid(refreshToken, user)) {
+            var accessToken = jwtService.generateToken(user);
+            revokeAllUserTokens(user);
+            saveUserToken(user, accessToken);
+
+            return new ResponseEntity<>(AuthenticationResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build(), HttpStatus.OK);
         }
         return null;
     }

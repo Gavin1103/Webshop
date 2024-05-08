@@ -27,18 +27,17 @@ export class UserService {
             body: JSON.stringify(formData),
         });
 
-        console.log(formData);
-
         if (!response.ok) {
             console.error(response);
 
             return false;
         }
 
-        const json: { token: string | undefined } = await response.json();
+        const json: { access_token: string | undefined, refresh_token: string | undefined } = await response.json();
 
-        if (json.token) {
-            this._tokenService.setToken(json.token);
+        if (json.access_token && json.refresh_token){
+            this._tokenService.setToken(json.access_token);
+            this._tokenService.setToken(json.refresh_token);
 
             return true;
         }

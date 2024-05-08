@@ -33,7 +33,7 @@ public class UserService {
      *
      * @return a list of all users
      */
-    public List<caaruujuuwoo65.backend.model.User> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -49,8 +49,6 @@ public class UserService {
         User user = modelMapper.map(userDto, User.class);
 
         User existingUser = this.getUserByEmail(email); // Check if user already exists
-        user.setId(existingUser.getId());
-
         if (existingUser == null) {
             return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
         }
@@ -63,6 +61,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
 
+        user.setId(existingUser.getId());
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 

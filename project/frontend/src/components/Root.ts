@@ -124,10 +124,7 @@ export class Root extends LitElement {
         });
 
         if (result) {
-            alert("Succesfully logged in!");
-
-            await this.getWelcome();
-
+            this._isLoggedIn = true;
             this._currentPage = RouterPage.Home;
         } else {
             alert("Failed to login!");
@@ -143,8 +140,7 @@ export class Root extends LitElement {
         const result: boolean = await this._userService.register({
             email: this._email,
             password: this._password,
-            username: this._name,
-            roles:  ["USER"]
+            username: this._name
         });
 
         if (result) {

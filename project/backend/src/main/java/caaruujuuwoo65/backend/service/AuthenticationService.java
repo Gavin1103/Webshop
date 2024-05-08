@@ -34,12 +34,12 @@ public class AuthenticationService {
 
     @Autowired
     public AuthenticationService(UserService userService, @Lazy JwtService jwtService, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ModelMapper modelMapper, UserRepository userRepository) {
-        this.userService = userService;
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
         this.jwtService = jwtService;
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.tokenRepository = tokenRepository;
-        this.modelMapper = modelMapper;
-        this.userRepository = userRepository;
     }
 
 

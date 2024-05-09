@@ -6,7 +6,7 @@ export default css`
         display: flex;
         background-color: #777FE5;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 50vw;
+        width: 70vw;
         height: 50vh;
         flex-direction: column;
         justify-content: center;

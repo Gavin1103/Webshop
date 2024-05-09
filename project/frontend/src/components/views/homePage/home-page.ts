@@ -71,27 +71,57 @@ export class HomePage extends LitElement {
         },
 
     ];
+    public categoryList = [
+        {
+            image: "https://assets.xboxservices.com/assets/48/de/48de604b-99ee-4400-a600-6958a71f0959.jpg?n=Microsoft-Store-2018_Priority-Feature-0_Pay_1040x585.jpg",
+            name: "XBox"
+        },
+        {
+            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/PlayStation_App_Icon.jpg/800px-PlayStation_App_Icon.jpg",
+            name: "Play Station"
+        },
+        {
+            image: "https://static-cdn.jtvnw.net/jtv_user_pictures/4074674c-ad77-412d-aafe-6d276b3cacda-profile_image-300x300.png",
+            name: "Nintendo"
+        },
+        {
+            image: "https://assets.xboxservices.com/assets/48/de/48de604b-99ee-4400-a600-6958a71f0959.jpg?n=Microsoft-Store-2018_Priority-Feature-0_Pay_1040x585.jpg",
+            name: "XBox"
+        },
+        {
+            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/PlayStation_App_Icon.jpg/800px-PlayStation_App_Icon.jpg",
+            name: "Play Station"
+        },
+        {
+            image: "https://static-cdn.jtvnw.net/jtv_user_pictures/4074674c-ad77-412d-aafe-6d276b3cacda-profile_image-300x300.png",
+            name: "Nintendo"
+        }
+    ];
 
     public render(): TemplateResult {
 
         return html`
             <hero-section-homepage
                 title="New Product Promotion"
-                subTitle="Up To 70% Off"
-            >
+                subTitle="Up To 70% Off">
             </hero-section-homepage>
             
             <product-carousel-section
                 title="Top Deal"
-                .productsData = "${this.topDealProducts}"
-            >
+                .productsData = "${this.topDealProducts}">
             </product-carousel-section>
 
             <product-carousel-section
                 title="Recommended For You"
-                .productsData = "${this.recommendProducts}"
-            >
+                .productsData = "${this.recommendProducts}">
             </product-carousel-section>
+            
+            <category-grid-section
+                .categoryList = "${this.categoryList}"
+            >
+            </category-grid-section>
+            
+            
         `;
     }
 }

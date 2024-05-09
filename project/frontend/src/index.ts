@@ -5,3 +5,4 @@ export * from "./components/category-card-horizontal";
 export * from "./components/search-bar";
 export * from "./components/views/homePage/hero-section-homepage";
 export * from "./components/views/homePage/product-carousel-section";
+export * from "./components/views/homePage/category-grid-section";

@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
+import caaruujuuwoo65.backend.model.Status;
+import caaruujuuwoo65.backend.model.OrderRecord;
+
 @Entity
 @Table(name = "order_status")
 @Getter
@@ -21,8 +24,8 @@ public class OrderStatus {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order")
-    private Order order;
+    @JoinColumn(name = "order_record")
+    private OrderRecord orderRecord;
 
     private LocalDateTime date;
 

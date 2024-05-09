@@ -20,8 +20,8 @@ public class OrderedProducts {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order")
-    private Order order;
+    @JoinColumn(name = "order_record")
+    private OrderRecord orderRecord;
 
     @ManyToOne
     @JoinColumn(name = "product")

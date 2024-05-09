@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
+import caaruujuuwoo65.backend.model.Product;
+import caaruujuuwoo65.backend.model.User;
+
 @Entity
 @Table(name = "review")
 @Getter
@@ -33,6 +36,6 @@ public class Review {
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "users")
+    @JoinColumn(name = "user")
     private User user;
 }

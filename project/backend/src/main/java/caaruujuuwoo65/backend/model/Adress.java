@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import caaruujuuwoo65.backend.model.User;
+
 @Entity
 @Table(name = "adress")
 @Getter
@@ -20,7 +22,7 @@ public class Adress {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "users")
+    @JoinColumn(name = "user")
     private User user;
 
     private String streetname;

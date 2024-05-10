@@ -1,9 +1,7 @@
 import { LitElement, TemplateResult, css, html, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { UserService } from "../services/UserService";
-import { OrderItem } from "../../types/OrderItem";
 import { TokenService } from "../services/TokenService";
-import { OrderItemService } from "../services/OrderItemService";
 import { UserHelloResponse } from "../../types/responses/UserHelloResponse";
 
 /** Enumeration to keep track of all the different pages */
@@ -66,14 +64,11 @@ export class Root extends LitElement {
     @state()
     private _isLoggedIn: boolean = false;
 
-    @state()
-    private _orderItems: OrderItem[] = [];
 
     @state()
     public _cartItemsCount: number = 0;
 
     private _userService: UserService = new UserService();
-    private _orderItemService: OrderItemService = new OrderItemService();
     private _tokenService: TokenService = new TokenService();
 
     private _email: string = "";
@@ -84,7 +79,7 @@ export class Root extends LitElement {
         super.connectedCallback();
 
         await this.getWelcome();
-        await this.getOrderItems();
+        // await this.getOrderItems();
     }
 
     /**
@@ -102,15 +97,15 @@ export class Root extends LitElement {
     /**
      * Get all available order items
      */
-    private async getOrderItems(): Promise<void> {
-        const result: OrderItem[] | undefined = await this._orderItemService.getAll();
-
-        if (!result) {
-            return;
-        }
-
-        this._orderItems = result;
-    }
+    // private async getOrderItems(): Promise<void> {
+    //     const result: OrderItem[] | undefined = await this._orderItemService.getAll();
+    //
+    //     if (!result) {
+    //         return;
+    //     }
+    //
+    //     this._orderItems = result;
+    // }
 
     /**
      * Handler for the login form
@@ -182,20 +177,7 @@ export class Root extends LitElement {
         this._isLoggedIn = false;
     }
 
-    /**
-     * Handler for the "Add to cart"-button
-     *
-     * @param orderItem Order item to add to the cart
-     */
-    private async addItemToCart(orderItem: OrderItem): Promise<void> {
-        const result: number | undefined = await this._userService.addOrderItemToCart(orderItem.id);
 
-        if (!result) {
-            return;
-        }
-
-        this._cartItemsCount = result;
-    }
 
     /**
      * Renders the components
@@ -239,11 +221,6 @@ export class Root extends LitElement {
      * Renders the home page, which contains a list of all order items.
      */
     private renderHome(): TemplateResult {
-        const orderItems: TemplateResult[] = this._orderItems.map((e) => this.renderOrderItem(e));
-
-        if (orderItems.length === 0) {
-            return html`<div class="order-items">Laden... Even geduld alstublieft.</div> `;
-        }
 
         return html`
             <h1>Welkom op de Luca Stars webshop!</h1>
@@ -251,29 +228,10 @@ export class Root extends LitElement {
             ${this._isLoggedIn
                 ? nothing
                 : html`<p>Je moet ingelogd zijn om producten aan je winkelmandje toe te kunnen voegen!</p>`}
-
-            <div class="order-items">${orderItems}</div>
+            
         `;
     }
 
-    /**
-     * Renders a single order item
-     *
-     * @param orderItem Order item to render
-     */
-    private renderOrderItem(orderItem: OrderItem): TemplateResult {
-        return html`
-            <div class="order-item">
-                <h2>${orderItem.name}</h2>
-                <p>${orderItem.description}</p>
-                ${this._isLoggedIn
-                    ? html`<button @click=${async (): Promise<void> => await this.addItemToCart(orderItem)}>
-                          Toevoegen aan winkelmandje
-                      </button>`
-                    : nothing}
-            </div>
-        `;
-    }
 
     /**
      * Renders the login page

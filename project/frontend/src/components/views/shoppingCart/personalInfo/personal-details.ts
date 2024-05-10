@@ -7,7 +7,6 @@ import {createInputField} from "../../../helpers/form-helpers";
 @customElement("personal-details")
 export class PersonalDetails extends LitElement {
     public static styles = [PersonalInfoStyle, PersonalDetailsStyle];
-
     protected render(): TemplateResult {
         return html`
             <div class="block-container">

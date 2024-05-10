@@ -2,6 +2,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import PersonalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personal-info-style";
+import {Router} from "@vaadin/router";
 
 @customElement("personal-info")
 export class PersonalInfo extends LitElement {
@@ -13,12 +14,16 @@ export class PersonalInfo extends LitElement {
         this.showShippingAddress = !this.showShippingAddress;
     }
 
-    public handleContinue(): void {
-        location.replace("/cart/overview");
+    private navigate(path: string): void {
+        Router.go(path);
     }
 
-    public handeReturn(): void {
-        location.replace("/cart");
+    private handleContinue(): void {
+        this.navigate("/cart/overview");
+    }
+
+    private handleReturn(): void {
+        this.navigate("/cart");
     }
 
     protected render(): TemplateResult {
@@ -27,13 +32,14 @@ export class PersonalInfo extends LitElement {
                 <form>
                     <personal-details></personal-details>
                     <payment-details></payment-details>
-                    <billing-address .toggleShipping="${this.toggleShippingAddress.bind(this)}"></billing-address>
+                    <billing-address
+                        .toggleShipping="${this.toggleShippingAddress.bind(this)}"></billing-address>
                     ${this.showShippingAddress ? html`
-                    <shipping-details></shipping-details>` : ""}
+                        <shipping-details></shipping-details>` : ""}
                 </form>
-                
+
                 <div class="button-container">
-                    <button @click="${this.handeReturn}" class="button prev-button">
+                    <button @click="${this.handleReturn}" class="button prev-button">
                         <img src="../assets/image/icons/prev-arrow.svg"
                              alt="Icon of next arrow" class="next-arrow">
                         Prev

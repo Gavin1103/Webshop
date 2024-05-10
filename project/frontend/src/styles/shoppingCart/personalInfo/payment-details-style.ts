@@ -1,10 +1,6 @@
 import {css} from "lit";
 
-export default css `
-    :host {
-        width: 100%;
-    }
-    
+export default css `    
     .payment-wrapper {
         display: flex;
         flex-direction: row;

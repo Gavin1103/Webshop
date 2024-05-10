@@ -2,6 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property, state} from "lit/decorators.js";
 import {itemType, OrderItem} from "../../../types/OrderItem";
 import shoppingCartStyle from "../../../styles/shoppingCart/shopping-cart-style";
+import {getCurrentPath} from "../../router";
 
 @customElement("shopping-cart")
 export class ShoppingCart extends LitElement {
@@ -9,7 +10,7 @@ export class ShoppingCart extends LitElement {
     public static styles = [shoppingCartStyle];
 
     @state()
-    private currentPath: string = window.location.pathname;
+    private currentPath: string = "";
 
     // TODO get shopping cart data from session storage.
     @property({type: Array})
@@ -33,6 +34,16 @@ export class ShoppingCart extends LitElement {
         }
     ];
 
+    public connectedCallback(): void {
+        super.connectedCallback();
+        this.updateCurrentPath();
+        this.requestUpdate();
+    }
+
+    private updateCurrentPath = (): void => {
+        this.currentPath = getCurrentPath();
+        this.requestUpdate();
+    };
 
     public render(): TemplateResult {
         return html`
@@ -45,6 +56,10 @@ export class ShoppingCart extends LitElement {
 
                 ${this.currentPath.startsWith("/cart/personal-info") ? html`
                     <personal-info></personal-info>
+                ` : null}
+
+                ${this.currentPath.startsWith("/cart/overview") ? html`
+                    <order-overview .products=${this.products}></order-overview>
                 ` : null}
             </div>
         `;

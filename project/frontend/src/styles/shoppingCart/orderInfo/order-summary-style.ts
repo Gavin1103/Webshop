@@ -3,7 +3,7 @@ import {css} from "lit";
 export default css `
     .summary-wrapper {
         width: 350px;
-        height: 350px;
+        height: 100%;
         background: #FFFFFF;
         box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
         border-radius: 15px;
@@ -29,9 +29,14 @@ export default css `
 
     .button-container {
         display: flex;
-        margin-top: 3rem;
+        margin-top: 2rem;
         gap: 2rem;
         justify-content: space-evenly;
+    }
+    
+    .overview-button-container {
+        flex-direction: column;
+        gap: 1rem;
     }
 
     .button {
@@ -45,6 +50,11 @@ export default css `
         height: 3rem;
         border-radius: 30px;
         cursor: pointer;
+    }
+    
+    .overview-button {
+        width: calc(100% - 5rem);
+        margin: auto;
     }
 
     .next-button {

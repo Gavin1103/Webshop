@@ -11,6 +11,11 @@ export class PaymentDetails extends LitElement {
 
     @property() private selectedOption: string | null = null;
 
+    public connectedCallback(): void {
+        super.connectedCallback();
+        this.requestUpdate();
+    }
+
     // TODO make add paymentOptions database table and retrieve options from database
     private paymentOptions: PaymentOption[] = [
         {

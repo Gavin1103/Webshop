@@ -2,72 +2,81 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import OrderSummaryStyle from "../../../../styles/shoppingCart/orderInfo/order-summary-style";
 import {OrderItem} from "../../../../types/OrderItem";
+import {Router} from "@vaadin/router";
+
+const TAX_RATE: number = 21;
+const SHIPPING_COST: number = 25.25;
+const PAYMENT_INFO_PATH: string = "/cart/personal-info";
+const HOME_PATH: string = "/";
 
 @customElement("order-summary")
 export class OrderSummary extends LitElement {
     public static styles = [OrderSummaryStyle];
 
     @property({type: Object})
-    private products!: OrderItem[];
+    private products: OrderItem[] = [];
 
+    @property({type: Boolean, reflect: true})
+    public isOverviewPage: boolean = false;
 
-    public getTotalPrice(): number {
-        return this.products.reduce((total, product) => {
-            return total + (product.price * product.quantity);
-        }, 0);
+    private getTotalPrice(): number {
+        if (!this.products.length) return 0;
+        return this.products.reduce((total, product) => total + product.price * product.quantity, 0);
     }
 
-    public getTaxAmount(taxRate: number): string {
+    private getTaxAmount(): string {
         const total: number = this.getTotalPrice();
-        const tax: number = (total / 100) * taxRate;
+        const tax: number = (total / 100) * TAX_RATE;
         return tax.toFixed(2);
     }
 
-    public handleContinue(): void {
-        location.replace("/cart/personal-info");
+    private navigate(path: string): void {
+        Router.go(path);
     }
 
-    public handeReturn(): void {
-        location.replace("/");
+    private handleContinue(): void {
+        this.navigate(this.isOverviewPage ? HOME_PATH : PAYMENT_INFO_PATH);
+    }
+
+    private handleReturn(): void {
+        this.navigate(this.isOverviewPage ? PAYMENT_INFO_PATH : HOME_PATH);
+    }
+
+    private renderSummaryItem(label: string, value: any): TemplateResult {
+        return html`
+            <div class="summary-item">
+                <p>${label}</p>
+                <p class="item-price">€${value}</p>
+            </div>
+        `;
     }
 
     public render(): TemplateResult {
-        const shippingCost: number = 25.25;
-
         return html`
             <div class="summary-wrapper">
                 <div class="content-container">
                     <h2 class="title">Order Summary</h2>
+                    ${this.renderSummaryItem("Subtotal", this.getTotalPrice())}
+                    ${this.renderSummaryItem(`BTW(${TAX_RATE}%)`, this.getTaxAmount())}
+                    ${this.renderSummaryItem(this.isOverviewPage ? "Shipping" : "Estimated Shipping", SHIPPING_COST)}
 
-                    <div class="summary-item">
-                        <p>Subtotal</p>
-                        <p class="item-price">€${this.getTotalPrice()}</p>
-                    </div>
+                    ${this.isOverviewPage ? html`
+                        <div class="summary-item">
+                            <p>Payment method</p>
+                            <img class="item-price payment-logo"
+                                 src="/assets/image/icons/paymentProviders/ideal.svg"
+                                 alt="iDeal payment method logo">
+                        </div>
+                    ` : ""}
 
-                    <div class="summary-item">
-                        <p>BTW(21%)</p>
-                        <p class="item-price">€${this.getTaxAmount(21)}</p>
-                    </div>
+                    ${this.renderSummaryItem(this.isOverviewPage ? "Total" : "Estimated Total", this.getTotalPrice() + SHIPPING_COST)}
 
-                    <div class="summary-item">
-                        <p>Estimated Shipping</p>
-                        <p class="item-price">€${shippingCost}</p>
-                    </div>
-
-                    <div class="summary-item">
-                        <p>Estimated Total</p>
-                        <p class="item-price">€${this.getTotalPrice() + shippingCost}</p>
-                    </div>
-
-
-                    <div class="button-container">
-                        <button @click="${this.handeReturn}" class="button prev-button">
-                            Go Back
+                    <div class="button-container ${this.isOverviewPage ? "overview-button-container" : ""}">
+                        <button @click="${this.handleReturn}" class="button prev-button overview-button">
+                            <span>Previous</span>
                         </button>
-
-                        <button @click="${this.handleContinue}" class="button next-button">Next
-                            <img src="./assets/image/icons/next-arrow.svg"
-                                 alt="Icon of next arrow" class="next-arrow">
+                        <button @click="${this.handleContinue}" class="button next-button overview-button">
+                            <span>${this.isOverviewPage ? "Complete Order" : "Next"}</span>
                         </button>
                     </div>
                 </div>

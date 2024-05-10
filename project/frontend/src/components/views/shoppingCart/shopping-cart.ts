@@ -1,8 +1,9 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property, state} from "lit/decorators.js";
-import {itemType, OrderItem} from "../../../types/OrderItem";
+import {OrderItem} from "../../../types/OrderItem";
 import shoppingCartStyle from "../../../styles/shoppingCart/shopping-cart-style";
 import {getCurrentPath} from "../../router";
+import {itemType} from "../../../enums/itemTypeEnum";
 
 @customElement("shopping-cart")
 export class ShoppingCart extends LitElement {

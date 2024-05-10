@@ -1,3 +1,5 @@
+import {itemType} from "../enums/itemTypeEnum";
+
 export interface OrderItem {
     id: number;
     name: string;
@@ -6,10 +8,4 @@ export interface OrderItem {
     price: number;
     quantity: number;
     imageURLs?: string[];
-};
-
-export enum itemType {
-    GAME = "Computer game",
-    MERCH = "Merchandise",
-    ACCESSOIRES = "Accessoires"
 }

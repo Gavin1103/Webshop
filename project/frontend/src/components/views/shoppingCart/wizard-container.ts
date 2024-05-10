@@ -1,6 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import wizardContainerStyle from "../../../styles/shoppingCart/wizard-container-style";
+import {stepStatus} from "../../../enums/stepStatusEnum";
 
 @customElement("wizard-container")
 export class WizardContainer extends LitElement {
@@ -38,11 +39,11 @@ export class WizardContainer extends LitElement {
 
         this.steps.forEach((step, index) => {
             if (index < activeStepIndex) {
-                step.status = "completed";
+                step.status = stepStatus.COMPLETED;
             } else if (index === activeStepIndex) {
-                step.status = "active";
+                step.status = stepStatus.ACTIVE;
             } else {
-                step.status = "inactive";
+                step.status = stepStatus.INACTIVE;
             }
         });
     }

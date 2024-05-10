@@ -2,7 +2,7 @@ import {css} from "lit";
 
 export default css `
     .stepper {
-        margin: auto;
+        margin: 2rem auto auto;
         display: flex;
         align-items: center;
         justify-content: space-between;

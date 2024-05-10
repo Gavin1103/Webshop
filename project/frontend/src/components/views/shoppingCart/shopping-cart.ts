@@ -1,5 +1,5 @@
 import {html, LitElement, TemplateResult} from "lit";
-import {customElement, property} from "lit/decorators.js";
+import {customElement, property, state} from "lit/decorators.js";
 import {itemType, OrderItem} from "../../../types/OrderItem";
 import shoppingCartStyle from "../../../styles/shoppingCart/shopping-cart-style";
 
@@ -8,6 +8,10 @@ export class ShoppingCart extends LitElement {
 
     public static styles = [shoppingCartStyle];
 
+    @state()
+    private currentPath: string = window.location.pathname;
+
+    // TODO get shopping cart data from session storage.
     @property({type: Array})
     private products: OrderItem[] = [
         {
@@ -32,20 +36,16 @@ export class ShoppingCart extends LitElement {
 
     public render(): TemplateResult {
         return html`
-            <div>
-                <h2>This is the Shopping cart</h2>
+            <div class="container">
                 <wizard-container></wizard-container>
 
-                <div class="order-info-wrapper">
-                    <div class="order-items">
-                        ${this.products.map(product => html`
-                            <cart-item .product=${product}></cart-item>`)}
-                    </div>
-                    <div class="order-summary">
-                        <order-summary></order-summary>
-                    </div>
-                </div>
+                ${this.currentPath === "/cart" ? html`
+                    <order-info .products=${this.products}></order-info>
+                ` : null}
 
+                ${this.currentPath.startsWith("/cart/personal-info") ? html`
+                    <personal-info></personal-info>
+                ` : null}
             </div>
         `;
     }

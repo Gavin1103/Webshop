@@ -1,4 +1,4 @@
-export type OrderItem = {
+export interface OrderItem {
     id: number;
     name: string;
     type: itemType;

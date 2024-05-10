@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import CartItemStyle from "../../../../styles/shoppingCart/orderInfo/cart-item-style";
+import CartItemStyle from "../../../../styles/shoppingCart/orderInfo/cartItemStyle";
 import {OrderItem} from "../../../../types/OrderItem";
 
 @customElement("cart-item")

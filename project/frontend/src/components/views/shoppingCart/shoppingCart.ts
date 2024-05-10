@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property, state} from "lit/decorators.js";
 import {OrderItem} from "../../../types/OrderItem";
-import shoppingCartStyle from "../../../styles/shoppingCart/shopping-cart-style";
+import shoppingCartStyle from "../../../styles/shoppingCart/shoppingCartStyle";
 import {getCurrentPath} from "../../router";
 import {itemType} from "../../../enums/itemTypeEnum";
 

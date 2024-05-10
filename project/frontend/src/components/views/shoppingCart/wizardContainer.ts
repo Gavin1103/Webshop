@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
-import wizardContainerStyle from "../../../styles/shoppingCart/wizard-container-style";
+import wizardContainerStyle from "../../../styles/shoppingCart/wizardContainerStyle";
 import {stepStatus} from "../../../enums/stepStatusEnum";
 
 @customElement("wizard-container")
@@ -9,17 +9,16 @@ export class WizardContainer extends LitElement {
 
     public connectedCallback(): void {
         super.connectedCallback();
-
         this.getCurrentStatus();
     }
 
     private steps = [
-        {label: "Order Information", status: "completed"},
-        {label: "Personal Information", status: "active"},
-        {label: "Order Overview", status: "inactive"}
+        {label: "Order Information", status: stepStatus.COMPLETED},
+        {label: "Personal Information", status: stepStatus.ACTIVE},
+        {label: "Order Overview", status: stepStatus.INACTIVE}
     ];
 
-    private getCurrentStatus(): void {
+    public getCurrentStatus(): void {
         const fullUrl: string = window.location.href;
         const urlParts: string[] = fullUrl.split("/");
         const localhostIndex: number = urlParts.findIndex(part => part.includes(viteConfiguration.WEBSHOP_URL));
@@ -37,6 +36,7 @@ export class WizardContainer extends LitElement {
 
         const activeStepIndex: number = pathToStepIndex[currentPath] || 0;
 
+
         this.steps.forEach((step, index) => {
             if (index < activeStepIndex) {
                 step.status = stepStatus.COMPLETED;
@@ -50,8 +50,8 @@ export class WizardContainer extends LitElement {
 
     protected render(): TemplateResult {
 
-        const connectorColor1: boolean = this.steps[0].status === "completed";
-        const connectorColor2: boolean = this.steps[1].status === "completed";
+        const connectorColor1: boolean = this.steps[0].status === stepStatus.COMPLETED;
+        const connectorColor2: boolean = this.steps[1].status === stepStatus.COMPLETED;
 
         return html`
             <div class="stepper">

@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import wizardElementStyle from "../../../styles/shoppingCart/wizard-element-style";
+import wizardElementStyle from "../../../styles/shoppingCart/wizardElementStyle";
 import {stepStatus} from "../../../enums/stepStatusEnum";
 
 @customElement("wizard-element")
@@ -9,7 +9,7 @@ export class WizardElement extends LitElement {
 
     @property({type: Number}) private index: number | undefined;
     @property({type: String}) private label: string | undefined;
-    @property({type: String}) private status: stepStatus.ACTIVE | stepStatus.COMPLETED | stepStatus.INACTIVE = stepStatus.INACTIVE;
+    @property({type: String}) private status: stepStatus = stepStatus.INACTIVE;
 
     protected render(): TemplateResult {
         return html`

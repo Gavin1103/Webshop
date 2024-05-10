@@ -1,7 +1,7 @@
 import {Router} from "@vaadin/router";
-import "./views/home-page";
-import "./views/shoppingCart/shopping-cart";
-import "./views/404-page";
+import "./views/homePage";
+import "./views/shoppingCart/shoppingCart";
+import "./views/404Page";
 
 const routerState: { currentPath: string } = {
     currentPath: window.location.pathname  // Initially set to the current browser path

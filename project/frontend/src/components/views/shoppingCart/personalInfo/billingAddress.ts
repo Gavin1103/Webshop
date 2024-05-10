@@ -1,8 +1,8 @@
 // In the BillingAddress component
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import PersonalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personal-info-style";
-import {createInputField} from "../../../helpers/form-helpers";
+import PersonalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personalInfoStyle";
+import {createInputField} from "../../../helpers/formHelpers";
 
 @customElement("billing-address")
 export class BillingAddress extends LitElement {

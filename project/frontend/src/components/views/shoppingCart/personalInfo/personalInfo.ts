@@ -1,7 +1,7 @@
 // In the PersonalInfo component
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import PersonalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personal-info-style";
+import PersonalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personalInfoStyle";
 import {Router} from "@vaadin/router";
 
 @customElement("personal-info")

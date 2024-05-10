@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import OrderSummaryStyle from "../../../../styles/shoppingCart/orderInfo/order-summary-style";
+import OrderSummaryStyle from "../../../../styles/shoppingCart/orderInfo/orderSummaryStyle";
 import {OrderItem} from "../../../../types/OrderItem";
 import {Router} from "@vaadin/router";
 

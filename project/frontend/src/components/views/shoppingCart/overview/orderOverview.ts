@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {OrderItem} from "../../../../types/OrderItem";
-import OrderInfoStyle from "../../../../styles/shoppingCart/orderInfo/order-info-style";
+import OrderInfoStyle from "../../../../styles/shoppingCart/orderInfo/orderInfoStyle";
 
 @customElement("order-overview")
 export class OrderOverview extends LitElement {

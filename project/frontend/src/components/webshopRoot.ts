@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, query} from "lit/decorators.js";
 import {initRouter} from "./router";
-import webshopRootStyle from "../styles/webshop-root-style";
+import webshopRootStyle from "../styles/webshopRootStyle";
 
 @customElement("webshop-root")
 export class WebshopRoot extends LitElement {

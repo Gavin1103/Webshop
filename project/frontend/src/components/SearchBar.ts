@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
-import searchBarStyle from "../styles/search-bar-style";
+import searchBarStyle from "../styles/searchBarStyle";
 
 
 @customElement("search-bar")

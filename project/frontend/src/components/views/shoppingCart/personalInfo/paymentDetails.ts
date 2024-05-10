@@ -1,9 +1,9 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import personalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personal-info-style";
-import paymentDetailsStyle from "../../../../styles/shoppingCart/personalInfo/payment-details-style";
+import personalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personalInfoStyle";
+import paymentDetailsStyle from "../../../../styles/shoppingCart/personalInfo/paymentDetailsStyle";
 import {PaymentOption} from "../../../../types/PaymentOption";
-import {createInputField} from "../../../helpers/form-helpers";
+import {createInputField} from "../../../helpers/formHelpers";
 
 @customElement("payment-details")
 export class PaymentDetails extends LitElement {

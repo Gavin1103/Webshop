@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import "./CategoryCardHorizontal";
 import "./SearchBar";
-import navigationBarStyle from "../styles/navigation-bar-style";
+import navigationBarStyle from "../styles/navigationBarStyle";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {

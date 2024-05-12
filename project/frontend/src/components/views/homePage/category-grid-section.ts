@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import categoryGridSectionStyle from "../../../styles/categoryGridSectionStyle";
+import categoryGridSectionStyle from "../../../styles/homePage/categoryGridSectionStyle";
 
 @customElement("category-grid-section")
 export class CategoryGridSection extends LitElement {
@@ -19,7 +19,7 @@ export class CategoryGridSection extends LitElement {
                     <div class="category-card">
                         <img class="category-image" src="${category.image}" alt="${category.name}">
                         <div class="more-info-button">
-                            <span class="category-name">${category.name}</span>
+                            <span tabindex="1" class="category-name">${category.name}</span>
                         </div>
                     </div>
                 `)}

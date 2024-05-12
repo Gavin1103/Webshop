@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import heroSectionHomePageStyle from "../../../styles/heroSectionHomePageStyle";
+import heroSectionHomePageStyle from "../../../styles/homePage/heroSectionHomePageStyle";
 
 
 
@@ -23,7 +23,7 @@ export class HeroSectionHomepage extends LitElement {
                     <h1 class="sub-title">${this.subTitle}</h1>
                 </div>
                 <div class="more-info-button">
-                    <span>Visit</span>
+                    <span tabindex="1">Visit</span>
                     <img src="/assets/image/icons/arrow-right.svg" alt="visit button">
                 </div>
             </section>

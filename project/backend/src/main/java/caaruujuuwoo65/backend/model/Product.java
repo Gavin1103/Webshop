@@ -11,6 +11,8 @@ import lombok.Setter;
 import caaruujuuwoo65.backend.model.TypeProduct;
 import caaruujuuwoo65.backend.model.CategoryProduct;
 
+import java.sql.Blob;
+
 @Entity
 @Table(name = "product")
 @Getter
@@ -26,6 +28,7 @@ public class Product {
 
     private int price;
 
+    @Column(length = 1000)
     private String description;
 
     private int stock;

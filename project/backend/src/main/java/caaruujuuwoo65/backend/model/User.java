@@ -3,7 +3,7 @@ package caaruujuuwoo65.backend.model;
 
 import caaruujuuwoo65.backend.model.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import caaruujuuwoo65.backend.dto.UserDTO;
+import caaruujuuwoo65.backend.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

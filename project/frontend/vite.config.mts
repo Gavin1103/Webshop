@@ -4,6 +4,7 @@ import { globSync } from "glob";
 import eslint from "vite-plugin-eslint";
 
 export default defineConfig((config) => {
+
     const env: Record<string, string> = loadEnv(config.mode, process.cwd(), "VITE");
 
     const viteConfiguration: any = Object.entries(env).reduce((prev, [key, val]) => {

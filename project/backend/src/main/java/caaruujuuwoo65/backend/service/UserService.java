@@ -2,6 +2,7 @@ package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.UserEditDto;
 import caaruujuuwoo65.backend.model.User;
+import caaruujuuwoo65.backend.repository.TokenRepository;
 import caaruujuuwoo65.backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,14 @@ public class UserService {
 
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -74,6 +77,17 @@ public class UserService {
      */
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User deleteUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+
+        if(user != null) {
+            tokenRepository.deleteByUser_Id(user.getId());
+        }
+
+        userRepository.delete(user);
+        return user;
     }
 
     /**

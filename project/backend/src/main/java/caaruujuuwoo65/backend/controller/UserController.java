@@ -77,4 +77,16 @@ public class UserController {
         User users = userService.getUserByEmail(email);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{email}")
+    @Operation(summary = "Delete user by email", description = "Delete a user by email address")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+        @ApiResponse(responseCode = "404", description = "User not found"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<User> deleteUserByEmail(@PathVariable String email) {
+        User users = userService.deleteUserByEmail(email);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 }

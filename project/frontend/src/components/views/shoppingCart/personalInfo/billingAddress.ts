@@ -3,10 +3,11 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import PersonalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personalInfoStyle";
 import {createInputField} from "../../../helpers/formHelpers";
+import inputFieldStyle from "../../../../styles/shoppingCart/inputFieldStyle";
 
 @customElement("billing-address")
 export class BillingAddress extends LitElement {
-    public static styles = [PersonalInfoStyle];
+    public static styles = [PersonalInfoStyle, inputFieldStyle];
 
     @property({attribute: false}) private toggleShipping: (() => void) | undefined;
 

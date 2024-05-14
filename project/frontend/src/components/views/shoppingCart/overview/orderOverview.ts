@@ -18,7 +18,7 @@ export class OrderOverview extends LitElement {
                         <cart-item .showControls="${false}" .product=${product}></cart-item>`)}
                 </div>
                 <div class="order-summary">
-                    <order-summary .isOverviewPage="${true}" .products=${this.products}></order-summary>
+                    <order-overview-summary .products=${this.products}></order-overview-summary>
                 </div>
             </div>
         `;

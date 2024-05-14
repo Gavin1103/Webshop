@@ -3,10 +3,11 @@ import {customElement} from "lit/decorators.js";
 import PersonalDetailsStyle from "../../../../styles/shoppingCart/personalInfo/personalDetailsStyle";
 import PersonalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personalInfoStyle";
 import {createInputField} from "../../../helpers/formHelpers";
+import inputFieldStyle from "../../../../styles/shoppingCart/inputFieldStyle";
 
 @customElement("personal-details")
 export class PersonalDetails extends LitElement {
-    public static styles = [PersonalInfoStyle, PersonalDetailsStyle];
+    public static styles = [PersonalInfoStyle, PersonalDetailsStyle, inputFieldStyle];
     protected render(): TemplateResult {
         return html`
             <div class="block-container">

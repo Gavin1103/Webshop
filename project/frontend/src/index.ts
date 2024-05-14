@@ -8,6 +8,7 @@ export * from "./components/views/shoppingCart/personalInfo/paymentDetails";
 export * from "./components/views/shoppingCart/personalInfo/shippingDetails";
 export * from "./components/views/shoppingCart/personalInfo/billingAddress";
 export * from "./components/views/shoppingCart/overview/orderOverview";
+export * from "./components/views/shoppingCart/overview/orderOverviewSummary";
 export * from "./components/views/shoppingCart/wizardContainer";
 export * from "./components/views/shoppingCart/wizardElement";
 export * from "./components/views/shoppingCart/orderInfo/cartItem";

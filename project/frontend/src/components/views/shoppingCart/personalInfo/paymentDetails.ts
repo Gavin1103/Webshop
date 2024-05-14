@@ -4,10 +4,11 @@ import personalInfoStyle from "../../../../styles/shoppingCart/personalInfo/pers
 import paymentDetailsStyle from "../../../../styles/shoppingCart/personalInfo/paymentDetailsStyle";
 import {PaymentOption} from "../../../../types/PaymentOption";
 import {createInputField} from "../../../helpers/formHelpers";
+import inputFieldStyle from "../../../../styles/shoppingCart/inputFieldStyle";
 
 @customElement("payment-details")
 export class PaymentDetails extends LitElement {
-    public static styles = [personalInfoStyle, paymentDetailsStyle];
+    public static styles = [personalInfoStyle, paymentDetailsStyle, inputFieldStyle];
 
     @property() private selectedOption: string | null = null;
 

@@ -2,6 +2,7 @@ package caaruujuuwoo65.backend.model;
 
 
 import caaruujuuwoo65.backend.dto.ProductDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "type_product")
+    @JsonIgnore
     private TypeProduct type;
 
     @ManyToOne

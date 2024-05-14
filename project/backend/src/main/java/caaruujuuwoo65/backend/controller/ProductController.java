@@ -1,5 +1,7 @@
 package caaruujuuwoo65.backend.controller;
 
+import caaruujuuwoo65.backend.dto.ProductDTO;
+import caaruujuuwoo65.backend.mapper.ProductMapperImpl;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,34 +12,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
     private final ProductRepository productRepository;
+    private final ProductMapperImpl productMapper;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
+    public ProductController(ProductRepository productRepository, ProductMapperImpl productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
         List<Product> products = productRepository.findAll();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        List<ProductDTO> dtos = products.stream()
+            .map(productMapper::toDTO)
+            .collect(Collectors.toList());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/topDeals")
-    public ResponseEntity<List<Product>> getTopDeals() {
+    public ResponseEntity<List<ProductDTO>> getTopDeals() {
         List<Product> products = productRepository.findTop10ByOrderByPriceAsc();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        List<ProductDTO> dtos = products.stream()
+            .map(productMapper::toDTO)
+            .collect(Collectors.toList());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/recommend")
-    public ResponseEntity<List<Product>> getRecommendProducts() {
+    public ResponseEntity<List<ProductDTO>> getRecommendProducts() {
         List<Product> products = productRepository.findRandom10Products();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        List<ProductDTO> dtos = products.stream()
+            .map(productMapper::toDTO)
+            .collect(Collectors.toList());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
 
 }

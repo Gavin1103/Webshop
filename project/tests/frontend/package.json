@@ -16,5 +16,8 @@
         "supertest": "6.3.4",
         "vitest": "1.4.0",
         "vitest-fetch-mock": "0.2.2"
+    },
+    "dependencies": {
+        "@vaadin/router": "^1.7.5"
     }
 }

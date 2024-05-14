@@ -12,5 +12,8 @@ public class UserEditDto {
     private String username;
     private String email;
     private String password;
+    private String phoneNumber;
+    private String firstname;
+    private String lastname;
     private Set<Role> roles;
 }

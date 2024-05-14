@@ -28,7 +28,8 @@ public class SecurityConfig {
         "/swagger-ui/**",
         "/webjars/**",
         "/swagger-ui.html",
-        "/products"
+        "/products",
+        "/products/**"
     };
 
     private final JwtRequestFilter jwtRequestFilter;

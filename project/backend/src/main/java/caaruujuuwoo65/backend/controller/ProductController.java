@@ -28,4 +28,16 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
+    @GetMapping("/topDeals")
+    public ResponseEntity<List<Product>> getTopDeals() {
+        List<Product> products = productRepository.findTop10ByOrderByPriceAsc();
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/recommend")
+    public ResponseEntity<List<Product>> getRecommendProducts() {
+        List<Product> products = productRepository.findRandom10Products();
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
 }

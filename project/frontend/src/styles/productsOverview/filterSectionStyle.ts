@@ -1,18 +1,23 @@
 import {css} from "lit";
 
 export default css `
-    .category,
-    .price-range, 
-    .rating {
+    .filter-block {
         background-color: #FFD169;
+        box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
         padding: 10px;
         border-radius: 10px;
-        margin-top: 10px;
+        margin-top: 20px;
+        transition: box-shadow 0.3s, transform 0.3s;
 
         .title {
             font-weight: bolder;
             font-size: xx-large;
         }
+    }
+
+    .filter-block:hover {
+        box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
     }
     
     .price-input-button {

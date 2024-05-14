@@ -118,7 +118,7 @@ export class FilterSection extends LitElement {
             </div>
             
             <section class="filter-section">
-                <div class="category">
+                <div class="category filter-block">
                     <span class="title">Categories</span>
                     <img 
                         tabindex="1" 
@@ -135,7 +135,7 @@ export class FilterSection extends LitElement {
                     </ul>
                 </div>
                 
-                <div class="price-range">
+                <div class="price-range filter-block">
                     <span class="title">Price Range</span>
                     <img
                         tabindex="1"
@@ -156,7 +156,7 @@ export class FilterSection extends LitElement {
                 </div>
 
                 
-                <div class="rating">
+                <div class="rating filter-block">
                     <span class="title">Rating</span>
                     <img
                         tabindex="1"

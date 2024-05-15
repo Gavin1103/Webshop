@@ -2,7 +2,7 @@ import {Router} from "@vaadin/router";
 import "./views/homePage/home-page";
 import "./views/shoppingCart/shoppingCart";
 import "./views/404Page";
-import "./views/product-detail-page";
+import "./views/productDetailPage/product-detail-page";
 
 const routerState: { currentPath: string } = {
     currentPath: window.location.pathname  // Initially set to the current browser path
@@ -18,6 +18,14 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             action: (context, commands): any => {
                 updatePath(context.pathname);
                 return commands.component("home-page");
+            }
+        },
+        {
+            path: "/product-detail-page",
+            component: "product-detail-page",
+            action: (context, commands): any => {
+                updatePath(context.pathname);
+                return commands.component("product-detail-page");
             }
         },
         {
@@ -51,8 +59,8 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
                 updatePath(context.pathname);
                 return commands.component("not-found");
             }
-        }
-        {path: "/product-detail-page", component: "product-detail-page"},
+        },
+       
     ]);
 
     return router;

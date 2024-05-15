@@ -99,7 +99,7 @@ public class OrderService {
     public ResponseEntity<OrderDTO> updateOrder(Long orderId, UpdateOrderDTO updateOrderDTO) {
         User currentUser = authHelper.getCurrentUser();
 
-        return orderRepository.findByIdAndUser(orderId, currentUser)
+        return orderRepository.findByOrderIdAndUser(orderId, currentUser)
             .map(order -> {
                 order.setStatus(updateOrderDTO.getStatus());
                 orderRepository.save(order);
@@ -117,7 +117,7 @@ public class OrderService {
     public ResponseEntity<Void> deleteOrder(Long orderId) {
         User currentUser = authHelper.getCurrentUser();
 
-        return orderRepository.findByIdAndUser(orderId, currentUser)
+        return orderRepository.findByOrderIdAndUser(orderId, currentUser)
             .map(order -> {
                 orderRepository.delete(order);
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

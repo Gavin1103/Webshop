@@ -69,7 +69,7 @@ public class AddressService {
      */
     public ResponseEntity<AddressDTO> updateAddress(Long addressId, UpdateAddressDTO updateAddressDTO) {
         User currentUser = authHelper.getCurrentUser();
-        return addressRepository.findByIdAndUser(addressId, currentUser)
+        return addressRepository.findByAddressIdAndUser(addressId, currentUser)
             .map(address -> {
                 modelMapper.map(updateAddressDTO, address);
                 Address updatedAddress = addressRepository.save(address);
@@ -87,7 +87,7 @@ public class AddressService {
      */
     public ResponseEntity<Void> deleteAddress(Long addressId) {
         User currentUser = authHelper.getCurrentUser();
-        return addressRepository.findByIdAndUser(addressId, currentUser)
+        return addressRepository.findByAddressIdAndUser(addressId, currentUser)
             .map(address -> {
                 addressRepository.delete(address);
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

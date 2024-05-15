@@ -13,9 +13,6 @@ Backend Unit Test:
         reports:
             junit: build/test-results/test/*.xml
         expire_in: 1 hour
-    needs:
-        - "Build Frontend"
-        - "Build Backend"
     only:
         - merge_requests
         - branches

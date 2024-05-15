@@ -1,16 +1,22 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.CartItemDTO;
+import caaruujuuwoo65.backend.dto.cartItem.CartItemDTO;
+import caaruujuuwoo65.backend.dto.cartItem.CreateCartItemDTO;
+import caaruujuuwoo65.backend.dto.cartItem.UpdateCartItemDTO;
 import caaruujuuwoo65.backend.model.Cart;
 import caaruujuuwoo65.backend.model.CartItem;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.repository.CartItemRepository;
+import caaruujuuwoo65.backend.repository.CartRepository;
 import caaruujuuwoo65.backend.repository.ProductRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * Service class for managing shopping cart items.
@@ -18,100 +24,94 @@ import java.util.stream.Collectors;
 @Service
 public class CartItemService {
 
-    private final ProductRepository productRepository;
     private final CartItemRepository cartItemRepository;
+    private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
+    private final ModelMapper modelMapper;
 
-    /**
-     * Constructs a new CartItemService.
-     *
-     * @param productRepository  the repository for product data
-     * @param cartItemRepository the repository for cart item data
-     */
     @Autowired
-    public CartItemService(ProductRepository productRepository, CartItemRepository cartItemRepository) {
-        this.productRepository = productRepository;
+    public CartItemService(CartItemRepository cartItemRepository, CartRepository cartRepository, ProductRepository productRepository, ModelMapper modelMapper) {
         this.cartItemRepository = cartItemRepository;
+        this.cartRepository = cartRepository;
+        this.productRepository = productRepository;
+        this.modelMapper = modelMapper;
     }
 
     /**
-     * Converts a CartItem entity to a CartItemDTO.
+     * Adds a new item to the cart.
      *
-     * @param cartItem the cart item entity
-     * @return the cart item DTO
+     * @param cartId            the cart ID
+     * @param createCartItemDTO the cart item DTO
+     * @return the created cart item
      */
-    public CartItemDTO convertToCartItemDTO(CartItem cartItem) {
-        CartItemDTO cartItemDTO = new CartItemDTO();
-        cartItemDTO.setCartItemId(cartItem.getCartItemId());
-        cartItemDTO.setCartId(cartItem.getCart().getCartId());
-        cartItemDTO.setProductId(cartItem.getProduct().getProductId());
-        cartItemDTO.setQuantity(cartItem.getQuantity());
-        cartItemDTO.setUnitPrice(cartItem.getUnitPrice());
-        cartItemDTO.setTotalPrice(cartItem.getTotalPrice());
-        return cartItemDTO;
+    public ResponseEntity<CartItemDTO> addCartItem(Long cartId, CreateCartItemDTO createCartItemDTO) {
+        Optional<Cart> cartOptional = cartRepository.findById(cartId);
+        if (!cartOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Optional<Product> productOptional = productRepository.findById(createCartItemDTO.getProductId());
+        if (!productOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Cart cart = cartOptional.get();
+        Product product = productOptional.get();
+
+        Optional<CartItem> existingCartItem = cartItemRepository.findByCartAndProduct(cart, product);
+        CartItem cartItem;
+        if (existingCartItem.isPresent()) {
+            cartItem = existingCartItem.get();
+            cartItem.setQuantity(cartItem.getQuantity() + createCartItemDTO.getQuantity());
+        } else {
+            cartItem = new CartItem();
+            cartItem.setCart(cart);
+            cartItem.setProduct(product);
+            cartItem.setQuantity(createCartItemDTO.getQuantity());
+        }
+        cartItem.setUnitPrice(product.getPrice());
+        cartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+
+        cartItem = cartItemRepository.save(cartItem);
+        CartItemDTO cartItemDTO = modelMapper.map(cartItem, CartItemDTO.class);
+
+        return new ResponseEntity<>(cartItemDTO, HttpStatus.CREATED);
     }
 
     /**
-     * Converts a CartItemDTO to a CartItem entity.
+     * Updates the quantity of an item in the cart.
      *
-     * @param cartItemDTO the cart item DTO
-     * @return the cart item entity
+     * @param cartItemId        the cart item ID
+     * @param updateCartItemDTO the cart item DTO
+     * @return the updated cart item
      */
-    public CartItem convertToCartItemEntity(CartItemDTO cartItemDTO) {
-        CartItem cartItem = new CartItem();
-        cartItem.setCartItemId(cartItemDTO.getCartItemId());
-        Cart cart = new Cart();
-        cart.setCartId(cartItemDTO.getCartId());
-        cartItem.setCart(cart);
-        Product product = productRepository.findById(cartItemDTO.getProductId()).orElseThrow(() -> new RuntimeException("Product not found"));
-        cartItem.setProduct(product);
-        cartItem.setQuantity(cartItemDTO.getQuantity());
-        cartItem.setUnitPrice(cartItemDTO.getUnitPrice());
-        cartItem.setTotalPrice(cartItemDTO.getTotalPrice());
-        return cartItem;
+    public ResponseEntity<CartItemDTO> updateCartItem(Long cartItemId, UpdateCartItemDTO updateCartItemDTO) {
+        Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
+        if (!cartItemOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        CartItem cartItem = cartItemOptional.get();
+        cartItem.setQuantity(updateCartItemDTO.getQuantity());
+        cartItem.setTotalPrice(cartItem.getUnitPrice().multiply(BigDecimal.valueOf(updateCartItemDTO.getQuantity())));
+
+        cartItem = cartItemRepository.save(cartItem);
+        CartItemDTO cartItemDTO = modelMapper.map(cartItem, CartItemDTO.class);
+
+        return new ResponseEntity<>(cartItemDTO, HttpStatus.OK);
     }
 
     /**
-     * Saves a cart item.
+     * Removes an item from the cart.
      *
-     * @param cartItemDTO the cart item DTO to save
-     * @return the saved cart item DTO
+     * @param cartItemId the cart item ID
+     * @return response entity
      */
-    public CartItemDTO saveCartItem(CartItemDTO cartItemDTO) {
-        CartItem cartItem = convertToCartItemEntity(cartItemDTO);
-        CartItem savedCartItem = cartItemRepository.save(cartItem);
-        return convertToCartItemDTO(savedCartItem);
-    }
-
-    /**
-     * Removes a cart item by its ID.
-     *
-     * @param cartItemId the ID of the cart item to remove
-     */
-    public void removeCartItem(Long cartItemId) {
+    public ResponseEntity<Void> removeCartItem(Long cartItemId) {
+        if (!cartItemRepository.existsById(cartItemId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         cartItemRepository.deleteById(cartItemId);
-    }
-
-    /**
-     * Finds cart items by cart ID.
-     *
-     * @param cartId the ID of the cart
-     * @return a list of cart item DTOs
-     */
-    public List<CartItemDTO> findCartItemsByCartId(Long cartId) {
-        return cartItemRepository.findByCartCartId(cartId).stream()
-            .map(this::convertToCartItemDTO)
-            .collect(Collectors.toList());
-    }
-
-    /**
-     * Finds a cart item by cart ID and product ID.
-     *
-     * @param cartId    the ID of the cart
-     * @param productId the ID of the product
-     * @return the cart item DTO if found, otherwise null
-     */
-    public CartItemDTO findCartItemByCartIdAndProductId(Long cartId, Long productId) {
-        CartItem cartItem = cartItemRepository.findByCartCartIdAndProductProductId(cartId, productId);
-        return cartItem != null ? convertToCartItemDTO(cartItem) : null;
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -2,7 +2,7 @@ package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.AuthenticationResponse;
 import caaruujuuwoo65.backend.dto.JwtRequest;
-import caaruujuuwoo65.backend.dto.UserDto;
+import caaruujuuwoo65.backend.dto.user.UserDTO;
 import caaruujuuwoo65.backend.model.Token;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.model.enums.Role;
@@ -85,7 +85,7 @@ public class AuthenticationService {
      * @param userDto the user data transfer object
      * @return the saved user
      */
-    public ResponseEntity<?> register(UserDto userDto) {
+    public ResponseEntity<?> register(UserDTO userDto) {
         User user = modelMapper.map(userDto, User.class);
 
         User existingUser = this.userService.getUserByEmail(user.getEmail()); // Check if user already exists

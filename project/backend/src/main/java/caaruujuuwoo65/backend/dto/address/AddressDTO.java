@@ -1,10 +1,12 @@
-package caaruujuuwoo65.backend.dto;
+package caaruujuuwoo65.backend.dto.address;
 
 import lombok.Getter;
 import lombok.Setter;
-import caaruujuuwoo65.backend.model.User;
 
-
+/**
+ * Data Transfer Object for representing address data in responses.
+ * Used to transfer address information from server to client.
+ */
 @Getter
 @Setter
 public class AddressDTO {

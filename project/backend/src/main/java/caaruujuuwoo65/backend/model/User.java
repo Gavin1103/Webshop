@@ -1,6 +1,5 @@
 package caaruujuuwoo65.backend.model;
 
-
 import caaruujuuwoo65.backend.model.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -9,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
@@ -29,8 +29,11 @@ public class User implements UserDetails {
 
     private String firstname;
     private String lastname;
+    private String username;
     private String email;
     private String phonenumber;
+
+    @JsonIgnore
     private String password;
 
     private LocalDateTime createdAt;
@@ -41,7 +44,11 @@ public class User implements UserDetails {
     private Address address;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<Order> orders;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     @PrePersist
     protected void onCreate() {
@@ -53,12 +60,11 @@ public class User implements UserDetails {
         updatedAt = LocalDateTime.now();
     }
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
-
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roles.stream()
+            .map(role -> new SimpleGrantedAuthority(role.name()))
+            .collect(Collectors.toSet());
     }
 
     @JsonIgnore
@@ -66,16 +72,6 @@ public class User implements UserDetails {
         return roles.stream()
             .map(Role::name)
             .collect(Collectors.toList());
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override

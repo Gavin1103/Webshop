@@ -22,14 +22,14 @@ public class Order {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 
     private LocalDate orderDate;
     private String status;
     private BigDecimal totalAmount;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderDetail> orderDetails;
 
     @OneToOne(cascade = CascadeType.ALL)

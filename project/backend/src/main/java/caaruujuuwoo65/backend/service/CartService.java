@@ -1,17 +1,24 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.CartDTO;
+import caaruujuuwoo65.backend.dto.cart.CartDTO;
+import caaruujuuwoo65.backend.dto.cart.UpdateCartDTO;
+import caaruujuuwoo65.backend.helpers.AuthHelper;
 import caaruujuuwoo65.backend.model.Cart;
 import caaruujuuwoo65.backend.model.CartItem;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.repository.CartRepository;
 import caaruujuuwoo65.backend.repository.ProductRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -23,115 +30,96 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
-    private final CartItemService cartItemService;
+    private final ModelMapper modelMapper;
+    private final AuthHelper authHelper;
 
-    /**
-     * Constructs a new CartService.
-     *
-     * @param cartRepository    the repository for cart data
-     * @param productRepository the repository for product data
-     */
     @Autowired
-    public CartService(CartRepository cartRepository, ProductRepository productRepository, CartItemService cartItemService) {
+    public CartService(CartRepository cartRepository, ProductRepository productRepository, ModelMapper modelMapper, AuthHelper authHelper) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
-        this.cartItemService = cartItemService;
+        this.modelMapper = modelMapper;
+        this.authHelper = authHelper;
     }
 
     /**
-     * Retrieves the cart for a specific user.
+     * Retrieves the cart for the current user.
      *
-     * @param userId the ID of the user
-     * @return the cart DTO if found, otherwise null
-     */
-    public CartDTO getCartByUserId(Long userId) {
-        Cart cart = cartRepository.findByUserUserId(userId);
-        return cart != null ? convertToDTO(cart) : null;
-    }
-
-    /**
-     * Adds a product to a user's cart.
-     *
-     * @param userId    the ID of the user
-     * @param productId the ID of the product
-     * @param quantity  the quantity of the product to add
-     * @return the updated cart DTO
-     */
-    public CartDTO addProductToCart(Long userId, Long productId, int quantity) {
-        Cart cart = cartRepository.findByUserUserId(userId);
-        if (cart == null) {
-            cart = new Cart();
-            User user = new User();
-            user.setUserId(userId);
-            cart.setUser(user);
-        }
-
-        Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        CartItem cartItem = cart.getCartItems().stream()
-            .filter(item -> item.getProduct().getProductId().equals(productId))
-            .findFirst()
-            .orElse(null);
-
-        if (cartItem == null) {
-            cartItem = new CartItem();
-            cartItem.setProduct(product);
-            cartItem.setQuantity(quantity);
-            cartItem.setUnitPrice(product.getPrice());
-            cartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
-            cartItem.setCart(cart);
-            cart.getCartItems().add(cartItem);
-        } else {
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
-            cartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
-        }
-
-        cart = cartRepository.save(cart);
-        return convertToDTO(cart);
-    }
-
-    /**
-     * Removes a product from a user's cart.
-     *
-     * @param userId    the ID of the user
-     * @param productId the ID of the product to remove
-     */
-    public void removeProductFromCart(Long userId, Long productId) {
-        Cart cart = cartRepository.findByUserUserId(userId);
-        if (cart == null) return;
-
-        cart.getCartItems().removeIf(item -> item.getProduct().getProductId().equals(productId));
-        cartRepository.save(cart);
-    }
-
-    /**
-     * Converts a Cart entity to a CartDTO.
-     *
-     * @param cart the cart entity
      * @return the cart DTO
      */
-    private CartDTO convertToDTO(Cart cart) {
-        CartDTO cartDTO = new CartDTO();
-        cartDTO.setCartId(cart.getCartId());
-        cartDTO.setUserId(cart.getUser().getUserId());
-        cartDTO.setCartItems(cart.getCartItems().stream().map(cartItemService::convertToCartItemDTO).collect(Collectors.toList()));
-        return cartDTO;
+    public ResponseEntity<CartDTO> getCartForCurrentUser() {
+        User currentUser = authHelper.getCurrentUser();
+        Optional<Cart> cartOptional = cartRepository.findByUser(currentUser);
+        if (cartOptional.isPresent()) {
+            CartDTO cartDTO = modelMapper.map(cartOptional.get(), CartDTO.class);
+            return new ResponseEntity<>(cartDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
-     * Converts a CartDTO to a Cart entity.
+     * Creates a new cart for the current user.
      *
-     * @param cartDTO the cart DTO
-     * @return the cart entity
+     * @return the created cart DTO
      */
-    private Cart convertToEntity(CartDTO cartDTO) {
+    public ResponseEntity<CartDTO> createCartForCurrentUser() {
+        User currentUser = authHelper.getCurrentUser();
+        if (cartRepository.findByUser(currentUser).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Cart cart = new Cart();
-        cart.setCartId(cartDTO.getCartId());
-        User user = new User();
-        user.setUserId(cartDTO.getUserId());
-        cart.setUser(user);
-        cart.setCartItems(cartDTO.getCartItems().stream().map(cartItemService::convertToCartItemEntity).collect(Collectors.toSet()));
-        return cart;
+        cart.setUser(currentUser);
+        cart = cartRepository.save(cart);
+        CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
+        return new ResponseEntity<>(cartDTO, HttpStatus.CREATED);
+    }
+
+    /**
+     * Updates the cart for the current user.
+     *
+     * @param updateCartDTO the cart DTO containing updated details
+     * @return the updated cart DTO
+     */
+    public ResponseEntity<CartDTO> updateCart(UpdateCartDTO updateCartDTO) {
+        User currentUser = authHelper.getCurrentUser();
+        Optional<Cart> cartOptional = cartRepository.findByUser(currentUser);
+        if (!cartOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Cart cart = cartOptional.get();
+        Set<CartItem> updatedCartItems = updateCartDTO.getItems().stream().map(itemDTO -> {
+            Optional<Product> productOptional = productRepository.findById(itemDTO.getProductId());
+            if (!productOptional.isPresent()) {
+                throw new RuntimeException("Product not found");
+            }
+            CartItem cartItem = new CartItem();
+            cartItem.setProduct(productOptional.get());
+            cartItem.setCart(cart);
+            cartItem.setQuantity(itemDTO.getQuantity());
+            cartItem.setUnitPrice(productOptional.get().getPrice());
+            cartItem.setTotalPrice(productOptional.get().getPrice().multiply(BigDecimal.valueOf(itemDTO.getQuantity())));
+            return cartItem;
+        }).collect(Collectors.toSet());
+
+        cart.setCartItems(updatedCartItems);
+        Cart updatedCart = cartRepository.save(cart);
+        CartDTO cartDTO = modelMapper.map(updatedCart, CartDTO.class);
+        return new ResponseEntity<>(cartDTO, HttpStatus.OK);
+    }
+
+    /**
+     * Deletes the cart for the current user.
+     *
+     * @return response entity
+     */
+    public ResponseEntity<Void> deleteCartForCurrentUser() {
+        User currentUser = authHelper.getCurrentUser();
+        Optional<Cart> cartOptional = cartRepository.findByUser(currentUser);
+        if (!cartOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        cartRepository.delete(cartOptional.get());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -49,12 +49,14 @@ public class UserService {
      * @return the edited user
      */
     public ResponseEntity<?> editUser(UserEditDto userDto, String email, boolean changeRoles) {
-        User user = modelMapper.map(userDto, User.class);
-
-        User existingUser = this.getUserByEmail(email); // Check if user already exists
+        User existingUser = userRepository.findByEmail(email);
         if (existingUser == null) {
             return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
         }
+
+        User user = modelMapper.map(userDto, User.class);
+        user.setId(existingUser.getId());
+        user.setCreatedAt(existingUser.getCreatedAt());
 
         if (!changeRoles) {
             user.setRoles(existingUser.getRoles());
@@ -64,8 +66,6 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
 
-        user.setCreatedAt(existingUser.getCreatedAt());
-        user.setId(existingUser.getId());
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 

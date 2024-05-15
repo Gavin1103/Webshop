@@ -1,27 +1,29 @@
 import {css, html, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
-import { BaseAuthComponent } from "../../BaseAuthComponent";
+import {BaseAuthComponent} from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
 import {UserRegisterFormModel} from "../../../../types/formModels";
 import {UserAuthResponse} from "../../../../types/responses/UserAuthResponse";
+import authInputStyle from "../../../styles/authentication/authInputStyle";
 
 @customElement("register-component")
 export class RegisterComponent extends BaseAuthComponent {
-    public static styles = css`
+    public static styles = [authInputStyle, css`
         .strength-bar {
-            height: 10px;
-            background-color: red;
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            height: 12px;
+            width: 80%;
             transition: width 0.5s ease, background-color 0.5s ease;
         }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-top: 40%;
+        
+        .strength-item {
+            height: 12px;
+            width: 25%;
+            border-radius: 25px;
         }
-    `;
+    `];
 
     protected async handleSubmit(e: Event): Promise<void> {
         e.preventDefault();
@@ -43,9 +45,8 @@ export class RegisterComponent extends BaseAuthComponent {
         const userService: UserService = new UserService();
         const loggedIn: UserAuthResponse = await userService.register(user);
 
-        console.log(loggedIn);
         if(loggedIn.success){
-            //document.location.pathname = "/home";
+            document.location.pathname = "/home";
             return;
         }
 
@@ -66,9 +67,9 @@ export class RegisterComponent extends BaseAuthComponent {
         ${this.createInput("text", this.firstname, "firstname", "First Name")}
         ${this.createInput("text", this.lastname,"lastname", "Last Name")}
         ${this.renderForm()}
-        <input type="password" .value="${this.confirmPassword}" @input="${(e: any): string => this.confirmPassword = e.target.value}" placeholder="Confirm Password">
-        <div class="strength-bar" style="width: ${this.passwordStrength}%; background-color: ${this.passwordStrength > 60 ? "darkgreen" : this.passwordStrength > 30 ? "yellow" : "red"};"></div>
-        <button type="submit">Register</button>
+        ${this.renderPasswordStrengthBar()}
+        <input class="form-input" required type="password" .value="${this.confirmPassword}" @input="${(e: any): string => this.confirmPassword = e.target.value}" placeholder="Confirm Password">
+        <button class="form-submit" type="submit">Register</button>
       </form>
     `;
     }

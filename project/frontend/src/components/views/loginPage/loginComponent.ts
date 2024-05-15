@@ -3,19 +3,15 @@ import {customElement} from "lit/decorators.js";
 import { BaseAuthComponent } from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
 import {UserAuthResponse} from "../../../../types/responses/UserAuthResponse";
+import authInputStyle from "../../../styles/authentication/authInputStyle";
 
 @customElement("login-component")
 export class LoginComponent extends BaseAuthComponent {
 
-    public static styles = css`
-       form {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin-top: 40%;
-       }
-    `;
+    public static styles = [authInputStyle, css`
+    
+       
+    `];
 
     protected async handleSubmit(e: Event): Promise<void> {
         e.preventDefault();
@@ -37,7 +33,7 @@ export class LoginComponent extends BaseAuthComponent {
         return html`
       <form @submit="${this.handleSubmit}">
         ${this.renderForm()}
-        <button type="submit">Login</button>
+        <button class="form-submit" type="submit">Login</button>
       </form>
     `;
     }

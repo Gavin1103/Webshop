@@ -8,7 +8,7 @@ export default css `
 
     .search-input {
         display: flex;
-        min-width: 300px;
+        width: 300px;
         align-items: center;
         justify-content: space-between;
         border-radius: 50px;
@@ -76,6 +76,7 @@ export default css `
         height: 40px;
         padding: 0 5px;
         transition: transform 0.3s ease;
+        cursor: pointer;
     }
 
     .icon:hover {
@@ -88,6 +89,14 @@ export default css `
             width: auto;
             height: 35px;
             padding: 0 5px;
+        }
+
+        .search-result{
+            width: 200px;
+        }
+        
+        .search-input {
+            width: 200px;
         }
     }
 `;

@@ -55,6 +55,7 @@ export default css `
         height: 40px;
         padding: 0 5px;
         transition: transform 0.3s ease;
+        cursor: pointer;
     }
 
     .icon:hover {

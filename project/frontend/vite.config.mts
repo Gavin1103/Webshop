@@ -2,8 +2,10 @@ import { defineConfig, loadEnv } from "vite";
 import { resolve } from "path";
 import { globSync } from "glob";
 import eslint from "vite-plugin-eslint";
+import checker from "vite-plugin-checker";
 
 export default defineConfig((config) => {
+
     const env: Record<string, string> = loadEnv(config.mode, process.cwd(), "VITE");
 
     const viteConfiguration: any = Object.entries(env).reduce((prev, [key, val]) => {
@@ -30,6 +32,7 @@ export default defineConfig((config) => {
         input[`app_${i}`] = resolve(e);
     });
 
+
     return {
         base: "./",
         root: "wwwroot",
@@ -53,6 +56,7 @@ export default defineConfig((config) => {
             },
         },
         plugins: [
+            checker({ typescript: true }),
             eslint({
                 overrideConfigFile: '../../.eslintrc.js',
             }),
@@ -61,6 +65,10 @@ export default defineConfig((config) => {
             viteConfiguration: viteConfiguration,
         },
         server: {
+            watch: {
+                ignored: ['!**/node_modules/**'],
+                usePolling: true,
+            },
             strictPort: true,
             port: 3000,
         },

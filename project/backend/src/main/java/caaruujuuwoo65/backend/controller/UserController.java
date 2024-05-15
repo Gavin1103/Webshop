@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
+import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.dto.UserEditDto;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.service.JwtService;
@@ -28,7 +29,7 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorizeAdmin()
     @GetMapping("/")
     @Operation(summary = "Get all users", description = "Get all users from the database")
     @ApiResponses(value = {
@@ -40,7 +41,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorizeAdmin()
     @PutMapping("/{email}")
     @Operation(summary = "Edit a user", description = "Edit a user in the database")
     @ApiResponses(value = {

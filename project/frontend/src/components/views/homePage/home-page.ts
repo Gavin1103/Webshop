@@ -1,6 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import homePageStyle from "../../../styles/homePage/homePageStyle";
+import {itemType} from "../../../enums/itemTypeEnum";
 
 
 @customElement("home-page")
@@ -8,65 +9,89 @@ export class HomePage extends LitElement {
     public static styles = [homePageStyle];
     public topDealProducts = [
         {
-            image: "https://image.api.playstation.com/vulcan/ap/rnd/202111/3013/6bAF2VVEamgKclalI0oBnoAe.jpg",
+            id: 1,
+            imageSrc: "https://image.api.playstation.com/vulcan/ap/rnd/202111/3013/6bAF2VVEamgKclalI0oBnoAe.jpg",
             name: "cyberpunk",
+            type: itemType.GAME,
             price: 45.99
         },
         {
-            image: "https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/hero/mwiii/MWIII-CODHQ-TOUT.jpg",
+            id: 2,
+            imageSrc: "https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/hero/mwiii/MWIII-CODHQ-TOUT.jpg",
             name: "Call Of Duty",
+            type: itemType.GAME,
             price: 79.99
         },
         {
-            image: "https://image.api.playstation.com/vulcan/ap/rnd/202111/3013/6bAF2VVEamgKclalI0oBnoAe.jpg",
+            id: 1,
+            imageSrc: "https://image.api.playstation.com/vulcan/ap/rnd/202111/3013/6bAF2VVEamgKclalI0oBnoAe.jpg",
             name: "cyberpunk",
+            type: itemType.GAME,
             price: 45.99
         },
         {
-            image: "https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/hero/mwiii/MWIII-CODHQ-TOUT.jpg",
+            id: 2,
+            imageSrc: "https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/hero/mwiii/MWIII-CODHQ-TOUT.jpg",
             name: "Call Of Duty",
+            type: itemType.GAME,
             price: 79.99
         },
         {
-            image: "https://image.api.playstation.com/vulcan/ap/rnd/202111/3013/6bAF2VVEamgKclalI0oBnoAe.jpg",
+            id: 1,
+            imageSrc: "https://image.api.playstation.com/vulcan/ap/rnd/202111/3013/6bAF2VVEamgKclalI0oBnoAe.jpg",
             name: "cyberpunk",
+            type: itemType.GAME,
             price: 45.99
         },
         {
-            image: "https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/hero/mwiii/MWIII-CODHQ-TOUT.jpg",
+            id: 2,
+            imageSrc: "https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/hero/mwiii/MWIII-CODHQ-TOUT.jpg",
             name: "Call Of Duty",
+            type: itemType.GAME,
             price: 79.99
         },
     ];
     public recommendProducts = [
         {
-            image: "https://m.media-amazon.com/images/M/MV5BMjZkYTY2YzQtMGVhNC00OTZmLTk1MmYtZjJlNGJlMzY3MDFmXkEyXkFqcGdeQXVyMTA1OTAyOTI@._V1_FMjpg_UX1000_.jpg",
+            id: 7,
+            imageSrc: "https://m.media-amazon.com/images/M/MV5BMjZkYTY2YzQtMGVhNC00OTZmLTk1MmYtZjJlNGJlMzY3MDFmXkEyXkFqcGdeQXVyMTA1OTAyOTI@._V1_FMjpg_UX1000_.jpg",
             name: "Quantum Break",
+            type: itemType.GAME,
             price: 19.99
         },
         {
-            image: "https://image.api.playstation.com/vulcan/ap/rnd/202209/1918/MP0I6Folca9wOgs9A39wwvj1.png",
+            id: 8,
+            imageSrc: "https://image.api.playstation.com/vulcan/ap/rnd/202209/1918/MP0I6Folca9wOgs9A39wwvj1.png",
             name: "Dead Space",
+            type: itemType.GAME,
             price: 15.99
         },
         {
-            image: "https://notadogame.com/uploads/game/cover/250x/64097ac213f31.jpg",
+            id: 9,
+            imageSrc: "https://notadogame.com/uploads/game/cover/250x/64097ac213f31.jpg",
             name: "Yakuza Ishin",
+            type: itemType.GAME,
             price: 24.99
         },
         {
-            image: "https://m.media-amazon.com/images/M/MV5BMjZkYTY2YzQtMGVhNC00OTZmLTk1MmYtZjJlNGJlMzY3MDFmXkEyXkFqcGdeQXVyMTA1OTAyOTI@._V1_FMjpg_UX1000_.jpg",
+            id: 7,
+            imageSrc: "https://m.media-amazon.com/images/M/MV5BMjZkYTY2YzQtMGVhNC00OTZmLTk1MmYtZjJlNGJlMzY3MDFmXkEyXkFqcGdeQXVyMTA1OTAyOTI@._V1_FMjpg_UX1000_.jpg",
             name: "Quantum Break",
+            type: itemType.GAME,
             price: 19.99
         },
         {
-            image: "https://image.api.playstation.com/vulcan/ap/rnd/202209/1918/MP0I6Folca9wOgs9A39wwvj1.png",
+            id: 8,
+            imageSrc: "https://image.api.playstation.com/vulcan/ap/rnd/202209/1918/MP0I6Folca9wOgs9A39wwvj1.png",
             name: "Dead Space",
+            type: itemType.GAME,
             price: 15.99
         },
         {
-            image: "https://notadogame.com/uploads/game/cover/250x/64097ac213f31.jpg",
+            id: 9,
+            imageSrc: "https://notadogame.com/uploads/game/cover/250x/64097ac213f31.jpg",
             name: "Yakuza Ishin",
+            type: itemType.GAME,
             price: 24.99
         },
 

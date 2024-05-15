@@ -7,10 +7,11 @@ import caaruujuuwoo65.backend.model.User;
 
 @Getter
 @Setter
-public class AdressDTO {
-    private User user;
-    private String streetname;
-    private String zipcode;
+public class AddressDTO {
+    private Long addressId;
+    private String street;
     private String city;
+    private String state;
+    private String postalCode;
     private String country;
 }

@@ -1,22 +1,27 @@
 package caaruujuuwoo65.backend.model;
 
-import caaruujuuwoo65.backend.dto.StatusDTO;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
-@Table(name = "status")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Status {
+public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long categoryId;
 
-    private String status;
-}   
+    private String categoryName;
+    private String description;
+
+    @OneToMany(mappedBy = "category")
+    private Set<Product> products;
+}

@@ -61,7 +61,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
 
-        user.setId(existingUser.getId());
+        user.setUserId(existingUser.getUserId());
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 

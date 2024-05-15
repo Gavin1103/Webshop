@@ -1,35 +1,28 @@
 package caaruujuuwoo65.backend.model;
 
 
-import caaruujuuwoo65.backend.dto.AdressDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import caaruujuuwoo65.backend.model.User;
+import java.util.Set;
 
 @Entity
-@Table(name = "adress")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Adress {
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long cartId;
 
     @ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 
-    private String streetname;
-
-    private String zipcode;
-
-    private String city;
-
-    private String country;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CartItem> cartItems;
 }

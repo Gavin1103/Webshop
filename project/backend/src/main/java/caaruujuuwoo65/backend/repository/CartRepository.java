@@ -1,11 +1,10 @@
 package caaruujuuwoo65.backend.repository;
 
-import caaruujuuwoo65.backend.model.OrderRecord;
+import caaruujuuwoo65.backend.model.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
-public interface OrderRecordRepository extends JpaRepository<OrderRecord, Long> {
-
+public interface CartRepository extends JpaRepository<Cart, Long> {
+    Cart findByUserUserId(Long userId);
 }

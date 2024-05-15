@@ -1,19 +1,15 @@
 package caaruujuuwoo65.backend.model;
 
 
-import caaruujuuwoo65.backend.dto.OrderStatusDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDateTime;
 
-import caaruujuuwoo65.backend.model.Status;
-import caaruujuuwoo65.backend.model.OrderRecord;
+import java.util.Set;
 
 @Entity
-@Table(name = "order_status")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,15 +17,10 @@ import caaruujuuwoo65.backend.model.OrderRecord;
 public class OrderStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long statusId;
 
-    @ManyToOne
-    @JoinColumn(name = "order_record")
-    private OrderRecord orderRecord;
+    private String statusName;
 
-    private LocalDateTime date;
-
-    @ManyToOne
-    @JoinColumn(name = "status")
-    private Status status;
+    @OneToMany(mappedBy = "status")
+    private Set<Order> orders;
 }

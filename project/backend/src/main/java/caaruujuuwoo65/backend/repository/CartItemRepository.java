@@ -1,11 +1,10 @@
 package caaruujuuwoo65.backend.repository;
 
-import caaruujuuwoo65.backend.model.TypeProduct;
+import caaruujuuwoo65.backend.model.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
-public interface TypeProductRepository extends JpaRepository<TypeProduct, Long> {
+public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
 }

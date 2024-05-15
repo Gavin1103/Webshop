@@ -2,14 +2,17 @@ package caaruujuuwoo65.backend.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import caaruujuuwoo65.backend.model.User;
 
-
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 
 @Getter
 @Setter
 public class OrderDTO {
-    private int ordernumber;
-    private User user;
+    private Long orderId;
+    private Long userId;
+    private LocalDate orderDate;
+    private String status;
+    private BigDecimal totalAmount;
 }

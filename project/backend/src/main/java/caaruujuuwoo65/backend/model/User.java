@@ -3,7 +3,6 @@ package caaruujuuwoo65.backend.model;
 
 import caaruujuuwoo65.backend.model.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import caaruujuuwoo65.backend.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,15 +10,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,23 +25,33 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private String username;
-
-    private String email;
+    private Long userId;
 
     private String firstname;
-
     private String lastname;
-
+    private String email;
     private String phonenumber;
+    private String password;
 
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
 
-    private String password;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "addressId")
+    private Address address;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

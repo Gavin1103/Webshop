@@ -2,19 +2,17 @@ package caaruujuuwoo65.backend.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import caaruujuuwoo65.backend.model.TypeProduct;
-import caaruujuuwoo65.backend.model.CategoryProduct;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 public class ProductDTO {
-
-    private String name;
-    private Number price;
+    private Long productId;
+    private String productName;
     private String description;
+    private String[] imageUrls;
     private Number stock;
-    private String image;
-    private TypeProduct type;
-    private CategoryProduct category;
-
+    private BigDecimal price;
+    private Long categoryId;
 }

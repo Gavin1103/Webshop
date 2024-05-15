@@ -1,11 +1,9 @@
 package caaruujuuwoo65.backend.repository;
 
-import caaruujuuwoo65.backend.model.CategoryProduct;
+import caaruujuuwoo65.backend.model.ProductCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
-public interface CategoryProductRepository extends JpaRepository<CategoryProduct, Long> {
-
+public interface ProductCategoryRepository extends JpaRepository<ProductCategory, Integer> {
 }

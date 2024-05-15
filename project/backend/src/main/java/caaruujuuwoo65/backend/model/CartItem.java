@@ -1,31 +1,33 @@
 package caaruujuuwoo65.backend.model;
 
 
-import caaruujuuwoo65.backend.dto.OrderedProductsDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
-@Table(name = "ordered_products")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderedProducts {
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long cartItemId;
 
     @ManyToOne
-    @JoinColumn(name = "order_record")
-    private OrderRecord orderRecord;
+    @JoinColumn(name = "cart_id", referencedColumnName = "cartId")
+    private Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "product")
+    @JoinColumn(name = "product_id", referencedColumnName = "productId")
     private Product product;
 
-    private int amount;
+    private Integer quantity;
+    private BigDecimal unitPrice;
+    private BigDecimal totalPrice;
 }

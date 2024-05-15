@@ -8,27 +8,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
-
-    private String productName;
-    private String description;
-    private Integer stock;
-    private BigDecimal price;
-
-    @ElementCollection
-    private List<String> image;
+    private Long orderDetailId;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    private ProductCategory category;
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    private Integer quantity;
+    private BigDecimal unitPrice;
+    private BigDecimal totalPrice;
 }

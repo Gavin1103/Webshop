@@ -44,6 +44,10 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+    mainClass.set("caaruujuuwoo65.backend.BackendApplication")
+}
+
 tasks.bootJar {
     archiveFileName.set("webshop.jar")
 }

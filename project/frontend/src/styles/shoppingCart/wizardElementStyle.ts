@@ -43,6 +43,7 @@ export default css `
     }
 
     .solid-background {
+        cursor: pointer;
         background: #ffffff;
     }
 

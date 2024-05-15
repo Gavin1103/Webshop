@@ -2,6 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import wizardContainerStyle from "../../../styles/shoppingCart/wizardContainerStyle";
 import {stepStatus} from "../../../enums/stepStatusEnum";
+import {getCurrentPath} from "../../router";
 
 @customElement("wizard-container")
 export class WizardContainer extends LitElement {
@@ -13,13 +14,13 @@ export class WizardContainer extends LitElement {
     }
 
     private steps = [
-        {label: "Order Information", status: stepStatus.COMPLETED},
-        {label: "Personal Information", status: stepStatus.ACTIVE},
-        {label: "Order Overview", status: stepStatus.INACTIVE}
+        {label: "Order Information", status: stepStatus.COMPLETED, path: "/cart"},
+        {label: "Personal Information", status: stepStatus.ACTIVE, path: "/cart/personal-info"},
+        {label: "Order Overview", status: stepStatus.INACTIVE, path: "/cart/overview"}
     ];
 
     public getCurrentStatus(): void {
-        const fullUrl: string = window.location.href;
+        const fullUrl: string = getCurrentPath();
         const urlParts: string[] = fullUrl.split("/");
         const localhostIndex: number = urlParts.findIndex(part => part.includes(viteConfiguration.WEBSHOP_URL));
         const remainingUrl: string = urlParts.slice(localhostIndex + 1).join("/");
@@ -29,9 +30,9 @@ export class WizardContainer extends LitElement {
 
     private updateStepsStatus(currentPath: string): void {
         const pathToStepIndex: { [key: string]: number } = {
-            "cart": 0,
-            "cart/personal-info": 1,
-            "cart/overview": 2
+            "/cart": 0,
+            "/cart/personal-info": 1,
+            "/cart/overview": 2
         };
 
         const activeStepIndex: number = pathToStepIndex[currentPath] || 0;
@@ -59,7 +60,7 @@ export class WizardContainer extends LitElement {
                 <!-- Moved out of the map function -->
                 ${this.steps.map((step, index) => html`
                     <div class="step">
-                        <wizard-element .index=${index + 1} .label=${step.label}
+                        <wizard-element .path=${step.path} .index=${index + 1} .label=${step.label}
                                         .status=${step.status}></wizard-element>
                     </div>
                 `)}

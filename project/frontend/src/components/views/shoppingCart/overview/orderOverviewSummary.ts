@@ -10,6 +10,7 @@ import {createInputField} from "../../../helpers/formHelpers";
 
 const FREE_SHIPPING_THRESHOLD: number = 0;
 const HOME_PATH: string = "/";
+const PERSONAL_DETAILS_PATH: string = "/cart/personal-info";
 
 @customElement("order-overview-summary")
 export class OrderOverviewSummary extends LitElement {
@@ -20,17 +21,17 @@ export class OrderOverviewSummary extends LitElement {
 
     @state()
     private user: { name: string, address: string, zip: string, country: string } = {
-        name: "",
-        address: "",
-        zip: "",
-        country: ""
+        name: "Rocco Reus",
+        address: "Kanaaldijk 222",
+        zip: "1821 BE",
+        country: "Netherlands"
     };
 
     @state()
     private paymentInfo: { method: string, lastFourDigits: string, icon: string } = {
-        method: "",
-        lastFourDigits: "",
-        icon: ""
+        method: "Credit Card",
+        lastFourDigits: "1234",
+        icon: "master-card"
     };
 
     private calculateTotalPrice(): number {
@@ -43,6 +44,10 @@ export class OrderOverviewSummary extends LitElement {
 
     public navigateHome(): void {
         this.navigateTo(HOME_PATH);
+    }
+
+    public editPersonalInformation(): void {
+        this.navigateTo(PERSONAL_DETAILS_PATH);
     }
 
     private renderSummaryItem(label: string, value: any): TemplateResult {
@@ -65,7 +70,7 @@ export class OrderOverviewSummary extends LitElement {
                          alt="Payment method dots icon">
                     <p class="summary-item-text">${this.paymentInfo.lastFourDigits}</p>
                     <img class="payment-icon"
-                         src="/assets/image/icons/paymentProviders/${this.paymentInfo.icon}"
+                         src="/assets/image/icons/paymentProviders/${this.paymentInfo.icon}.svg"
                          alt="${this.paymentInfo.method} icon">
                 </div>
             `;
@@ -75,10 +80,12 @@ export class OrderOverviewSummary extends LitElement {
     public render(): TemplateResult {
         return html`
             <div class="summary-wrapper">
-                ${this.renderUserDetails()}
-                ${this.renderPaymentSection()}
-                ${this.renderDiscountSection()}
-                ${this.renderTotalSection()}
+                <div class="content-container">
+                    ${this.renderUserDetails()}
+                    ${this.renderPaymentSection()}
+                    ${this.renderDiscountSection()}
+                    ${this.renderTotalSection()}
+                </div>
             </div>
         `;
     }
@@ -88,7 +95,7 @@ export class OrderOverviewSummary extends LitElement {
             <div class="summary-section">
                 <div class="summary-item title-item">
                     <p class="item-title">${this.user.name}</p>
-                    <button class="align-right edit-button">Edit</button>
+                    <button @click="${this.editPersonalInformation}" class="align-right edit-button">Edit</button>
                 </div>
                 <p class="summary-item-text">${this.user.address}</p>
                 <p class="summary-item-text">${this.user.zip}</p>
@@ -102,7 +109,7 @@ export class OrderOverviewSummary extends LitElement {
             <div class="summary-section">
                 <div class="summary-item title-item">
                     <p class="item-title">Payment Method</p>
-                    <button class="align-right edit-button">Edit</button>
+                    <button class="align-right edit-button" @click="${this.editPersonalInformation}">Edit</button>
                 </div>
                 ${this.renderPaymentDetails()}
             </div>

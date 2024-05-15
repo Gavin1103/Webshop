@@ -121,6 +121,10 @@ export default css `
         margin-top: 1rem;
         margin-bottom: 3rem;
     }
+    
+    .summary-section:last-of-type {
+        margin-bottom: 0;
+    }
 
     .summary-section p {
         height: 1.25rem;

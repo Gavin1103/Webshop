@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "payment_method")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,11 +14,7 @@ import lombok.Setter;
 public class PaymentMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long paymentMethodId;
 
-    private String title;
-
-    private String code;
-
-    private String image;
+    private String type;
 }

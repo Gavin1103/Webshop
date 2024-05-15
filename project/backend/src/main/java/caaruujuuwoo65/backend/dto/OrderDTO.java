@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Getter
@@ -15,4 +16,6 @@ public class OrderDTO {
     private LocalDate orderDate;
     private String status;
     private BigDecimal totalAmount;
+    private List<OrderDetailDTO> orderDetails;
+    private PaymentDetailsDTO paymentDetails;
 }

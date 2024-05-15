@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing shopping cart items.
+ */
 @Service
 public class CartItemService {
 
@@ -21,7 +24,8 @@ public class CartItemService {
     /**
      * Constructs a new CartItemService.
      *
-     * @param productRepository the repository for product data
+     * @param productRepository  the repository for product data
+     * @param cartItemRepository the repository for cart item data
      */
     @Autowired
     public CartItemService(ProductRepository productRepository, CartItemRepository cartItemRepository) {
@@ -66,22 +70,46 @@ public class CartItemService {
         return cartItem;
     }
 
+    /**
+     * Saves a cart item.
+     *
+     * @param cartItemDTO the cart item DTO to save
+     * @return the saved cart item DTO
+     */
     public CartItemDTO saveCartItem(CartItemDTO cartItemDTO) {
         CartItem cartItem = convertToCartItemEntity(cartItemDTO);
         CartItem savedCartItem = cartItemRepository.save(cartItem);
         return convertToCartItemDTO(savedCartItem);
     }
 
+    /**
+     * Removes a cart item by its ID.
+     *
+     * @param cartItemId the ID of the cart item to remove
+     */
     public void removeCartItem(Long cartItemId) {
         cartItemRepository.deleteById(cartItemId);
     }
 
+    /**
+     * Finds cart items by cart ID.
+     *
+     * @param cartId the ID of the cart
+     * @return a list of cart item DTOs
+     */
     public List<CartItemDTO> findCartItemsByCartId(Long cartId) {
         return cartItemRepository.findByCartCartId(cartId).stream()
             .map(this::convertToCartItemDTO)
             .collect(Collectors.toList());
     }
 
+    /**
+     * Finds a cart item by cart ID and product ID.
+     *
+     * @param cartId    the ID of the cart
+     * @param productId the ID of the product
+     * @return the cart item DTO if found, otherwise null
+     */
     public CartItemDTO findCartItemByCartIdAndProductId(Long cartId, Long productId) {
         CartItem cartItem = cartItemRepository.findByCartCartIdAndProductProductId(cartId, productId);
         return cartItem != null ? convertToCartItemDTO(cartItem) : null;

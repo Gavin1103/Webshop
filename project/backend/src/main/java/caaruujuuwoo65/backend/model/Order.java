@@ -26,14 +26,13 @@ public class Order {
     private User user;
 
     private LocalDate orderDate;
-
-    @ManyToOne
-    @JoinColumn(name = "status_id")
-    private OrderStatus status;
-
+    private String status;
     private BigDecimal totalAmount;
 
     @OneToMany(mappedBy = "order")
     private Set<OrderDetail> orderDetails;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_details_id", referencedColumnName = "paymentDetailsId")
+    private PaymentDetails paymentDetails;
 }

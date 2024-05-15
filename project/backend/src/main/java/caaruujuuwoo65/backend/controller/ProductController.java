@@ -40,20 +40,18 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("getBy/{id}")
     @Operation(summary = "Get product by id", description = "Get product by id")
       @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "product successfully retrieved"),
         @ApiResponse(responseCode = "404", description = "product not found"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<Product> getProductById(@PathVariable int id) {
-        Product product = productRepository.findById(id);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    public ResponseEntity<?> getProductById(@PathVariable int id) {
+        Product product = productRepository.findById((long) id).orElse(null);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+        return ResponseEntity.ok(product);
     }
-
-
-    
-
-
 }

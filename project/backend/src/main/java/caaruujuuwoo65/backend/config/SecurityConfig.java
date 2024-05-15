@@ -18,7 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-    private static final String[] WHITE_LIST_URL = {"/auth/**",
+    private static final String[] WHITE_LIST_URL = {
+        "/auth/**",
         "/v3/api-docs",
         "/v3/api-docs/**",
         "/swagger-resources",
@@ -27,7 +28,9 @@ public class SecurityConfig {
         "/configuration/security",
         "/swagger-ui/**",
         "/webjars/**",
-        "/swagger-ui.html"};
+        "/swagger-ui.html",
+        "/product/**",
+    };
 
     private final JwtRequestFilter jwtRequestFilter;
 

@@ -1,6 +1,7 @@
 package caaruujuuwoo65.backend.controller;
 
 import caaruujuuwoo65.backend.dto.ProductDTO;
+import caaruujuuwoo65.backend.dto.homepage.ProductHomepageDTO;
 import caaruujuuwoo65.backend.mapper.ProductMapper;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.repository.ProductRepository;
@@ -37,19 +38,19 @@ public class ProductController {
     }
 
     @GetMapping("/topDeals")
-    public ResponseEntity<List<ProductDTO>> getTopDeals() {
+    public ResponseEntity<List<ProductHomepageDTO>> getTopDeals() {
         List<Product> products = productRepository.findTop10ByOrderByPriceAsc();
-        List<ProductDTO> dtos = products.stream()
-            .map(productMapper::toDTO)
+        List<ProductHomepageDTO> dtos = products.stream()
+            .map(productMapper::toProductHomePageDTO)
             .collect(Collectors.toList());
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/recommend")
-    public ResponseEntity<List<ProductDTO>> getRecommendProducts() {
+    public ResponseEntity<List<ProductHomepageDTO>> getRecommendProducts() {
         List<Product> products = productRepository.findRandom10Products();
-        List<ProductDTO> dtos = products.stream()
-            .map(productMapper::toDTO)
+        List<ProductHomepageDTO> dtos = products.stream()
+            .map(productMapper::toProductHomePageDTO)
             .collect(Collectors.toList());
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }

@@ -3,11 +3,19 @@ import {customElement} from "lit/decorators.js";
 import "./category-card-horizontal";
 import "./search-bar";
 import navigationBarStyle from "../styles/navigationBarStyle";
+import {Category} from "../../types/responses/Category";
+import {CategoryService} from "../services/CategoryService";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {
     private sidebarVisible: boolean = false;
+    private categoryList: Category | undefined;
 
+    public async firstUpdated(): Promise<void> {
+        const categoryService: CategoryService = new CategoryService();
+        this.categoryList = await categoryService.getCategoriesWithImage();
+        this.requestUpdate();
+    }
 
     private toggleSidebar(): void {
         this.sidebarVisible = !this.sidebarVisible;
@@ -55,19 +63,7 @@ export class NavigationBar extends LitElement {
 
                 <div class="category-container">
                     <category-card-horizontal
-                        categoryName="Action Game">
-                    </category-card-horizontal>
-
-                    <category-card-horizontal
-                        categoryName="Action Game">
-                    </category-card-horizontal>
-
-                    <category-card-horizontal
-                        categoryName="Action Game">
-                    </category-card-horizontal>
-
-                    <category-card-horizontal
-                        categoryName="Action Game">
+                        .categoryList="${this.categoryList}">
                     </category-card-horizontal>
                 </div>
             </div>

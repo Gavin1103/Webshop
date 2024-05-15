@@ -32,14 +32,21 @@ public class CategoryProductService {
             .toList();
     }
 
-    public List<CategoryWithProductsDTO>getCategoriesWithProducts() {
+    public List<CategoryWithProductsDTO> getCategoriesWithProducts() {
         List<CategoryProduct> categories = categoryProductRepository.findAllWithProducts();
         return categories.stream()
             .map(categoryProductMapper::toCategoryWithProductsDTO)
             .collect(Collectors.toList());
     }
 
-    public List<CategoryWithImageDTO>getCategoriesWithImages(int count) {
+    public List<CategoryWithImageDTO> getCategoryWithImages() {
+        List<CategoryProduct> categories = categoryProductRepository.findAll();
+        return categories.stream()
+            .map(categoryProductMapper::toCategoryWithImageDTO)
+            .collect(Collectors.toList());
+    }
+
+    public List<CategoryWithImageDTO> getRandomCategoriesWithImages(int count) {
         List<CategoryProduct> categories = categoryProductRepository.findRandomCategories(count);
         return categories.stream()
             .map(categoryProductMapper::toCategoryWithImageDTO)

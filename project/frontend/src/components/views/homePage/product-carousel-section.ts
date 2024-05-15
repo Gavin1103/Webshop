@@ -1,6 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
+import {ProductHomePage} from "../../../../types/responses/homePage/ProductHomePage";
 
 @customElement("product-carousel-section")
 export class ProductCarouselSection extends LitElement {
@@ -8,7 +9,7 @@ export class ProductCarouselSection extends LitElement {
     public title: string = "";
 
     @property({type: Array})
-    public productsData : {image: string, name: string, price: number}[] = [];
+    public productsData : ProductHomePage[] = [];
 
     public static styles = [productCarouselSectionStyle];
 
@@ -23,7 +24,7 @@ export class ProductCarouselSection extends LitElement {
             </div>
             
             <section class="product-carousel">
-                ${this.productsData.map(product => html`
+                ${this.productsData ? this.productsData.map(product => html`
                     <div class="product-card" tabindex="1">
                         <img class="product-image" src="${product.image}" alt="${product.name}">
                         <div class="product-info">
@@ -32,7 +33,7 @@ export class ProductCarouselSection extends LitElement {
                             <img tabindex="1" class="add-to-cart-button" src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
                         </div>
                     </div>
-                `)}
+                `) : ""}
                 </div>
             </section>
         `;

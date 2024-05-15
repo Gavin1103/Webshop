@@ -3,10 +3,6 @@ package caaruujuuwoo65.backend.controller;
 import caaruujuuwoo65.backend.dto.CategoryDTO;
 import caaruujuuwoo65.backend.dto.CategoryWithProductsDTO;
 import caaruujuuwoo65.backend.dto.CategoryWithImageDTO;
-import caaruujuuwoo65.backend.mapper.CategoryProductMapper;
-import caaruujuuwoo65.backend.model.CategoryProduct;
-import caaruujuuwoo65.backend.model.Product;
-import caaruujuuwoo65.backend.repository.CategoryProductRepository;
 import caaruujuuwoo65.backend.service.CategoryProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping ("/categories")
@@ -41,9 +36,15 @@ public class CategoryProductController {
         return new ResponseEntity<>(categoryDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/withProductImage")
+    public ResponseEntity<List<CategoryWithImageDTO>> getAllCategoriesWithProductImage() {
+        List<CategoryWithImageDTO> categoryWithImageDTOS = categoryProductService.getCategoryWithImages();
+        return new ResponseEntity<>(categoryWithImageDTOS, HttpStatus.OK);
+    }
+
     @GetMapping("/withProductImage/{count}")
-    public ResponseEntity<List<CategoryWithImageDTO>> getRandomProductForCategories(@PathVariable int count) {
-        List<CategoryWithImageDTO> categoryWithImageDTOS = categoryProductService.getCategoriesWithImages(count);
+    public ResponseEntity<List<CategoryWithImageDTO>> getRandomCategoryWithProductImage(@PathVariable int count) {
+        List<CategoryWithImageDTO> categoryWithImageDTOS = categoryProductService.getRandomCategoriesWithImages(count);
         return new ResponseEntity<>(categoryWithImageDTOS, HttpStatus.OK);
     }
 

@@ -1,6 +1,7 @@
 package caaruujuuwoo65.backend.mapper;
 
 import caaruujuuwoo65.backend.dto.ProductDTO;
+import caaruujuuwoo65.backend.dto.homepage.ProductHomepageDTO;
 import caaruujuuwoo65.backend.model.Product;
 import org.springframework.stereotype.Component;
 
@@ -17,5 +18,14 @@ public class ProductMapper {
         dto.setType(product.getType());
         dto.setCategory(product.getCategory());
         return dto;
+    }
+
+    public ProductHomepageDTO toProductHomePageDTO(Product product) {
+        ProductHomepageDTO productHomepageDTO = new ProductHomepageDTO();
+        productHomepageDTO.setId(product.getId());
+        productHomepageDTO.setName(product.getName());
+        productHomepageDTO.setImage(product.getImage());
+        productHomepageDTO.setPrice(product.getPrice());
+        return productHomepageDTO;
     }
 }

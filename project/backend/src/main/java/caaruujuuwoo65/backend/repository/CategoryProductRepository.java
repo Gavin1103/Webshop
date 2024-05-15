@@ -18,4 +18,5 @@ public interface CategoryProductRepository extends JpaRepository<CategoryProduct
     @Query(value = "SELECT * FROM category_product ORDER BY RAND() LIMIT :count", nativeQuery = true)
     List<CategoryProduct> findRandomCategories(@Param("count") int count);
 
+
 }

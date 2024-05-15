@@ -1,7 +1,7 @@
 package caaruujuuwoo65.backend.controller;
 
 import caaruujuuwoo65.backend.dto.ProductDTO;
-import caaruujuuwoo65.backend.mapper.ProductMapperImpl;
+import caaruujuuwoo65.backend.mapper.ProductMapper;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private final ProductRepository productRepository;
-    private final ProductMapperImpl productMapper;
+    private final ProductMapper productMapper;
 
     @Autowired
-    public ProductController(ProductRepository productRepository, ProductMapperImpl productMapper) {
+    public ProductController(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
     }
@@ -53,6 +53,7 @@ public class ProductController {
             .collect(Collectors.toList());
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
 
 
 }

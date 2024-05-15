@@ -18,6 +18,4 @@ public interface CategoryProductRepository extends JpaRepository<CategoryProduct
     @Query(value = "SELECT * FROM category_product ORDER BY RAND() LIMIT :count", nativeQuery = true)
     List<CategoryProduct> findRandomCategories(@Param("count") int count);
 
-    @Query(value = "SELECT cp FROM CategoryProduct cp JOIN cp.products p GROUP BY cp.id ORDER BY COUNT(p) DESC")
-    List<CategoryProduct> findCategoryWithMostProducts(Pageable pageable);
 }

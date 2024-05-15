@@ -4,8 +4,6 @@ import {customElement} from "lit/decorators.js";
 
 @customElement("not-found")
 export class NotFound extends LitElement {
-    // public static styles = [searchBarStyle];
-
     public render(): TemplateResult {
         return html`
             <div>

@@ -1,16 +1,15 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, query} from "lit/decorators.js";
 import {initRouter} from "./router";
+import webshopRootStyle from "../styles/webshopRootStyle";
 
-/**
- * Custom element based on Lit for the header of the webshop.
- *
- * @todo Most of the logic in this component is over-simplified. You will have to replace most of if with actual implementions.
- */
 @customElement("webshop-root")
-export class Root extends LitElement {
-    @query("#outlet")
-    private outlet!: HTMLElement;
+export class WebshopRoot extends LitElement {
+
+    public static styles = [webshopRootStyle];
+
+    @query("#main-shop-wrapper")
+    private shopWrapper!: HTMLElement;
 
     public connectedCallback(): void {
         super.connectedCallback();
@@ -18,8 +17,9 @@ export class Root extends LitElement {
 
     public firstUpdated(): void {
         // Initialize the router with a designated outlet
-        void initRouter(this.outlet);
+        void initRouter(this.shopWrapper);
     }
+
     /**
      * Renders the components
      */
@@ -27,10 +27,9 @@ export class Root extends LitElement {
 
         return html`
             <navigation-bar></navigation-bar>
-            <div id="outlet">
-                
-            </div>
-            <footer>Copyright &copy; Luca Stars 2024</footer>
+            <main id="main-shop-wrapper">
+
+            </main>
         `;
     }
 }

@@ -4,7 +4,6 @@ import categoryCardHorizontalStyle from "../styles/categoryCardHorizontalStyle";
 import {CategoryResponse} from "../../types/responses/CategoryResponse";
 import {Router} from "@vaadin/router";
 
-
 @customElement("category-card-horizontal")
 export class CategoryCardHorizontal extends LitElement {
     @property({type: Array})

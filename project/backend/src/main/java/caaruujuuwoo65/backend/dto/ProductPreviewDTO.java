@@ -1,11 +1,11 @@
-package caaruujuuwoo65.backend.dto.homepage;
+package caaruujuuwoo65.backend.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductHomepageDTO {
+public class ProductPreviewDTO {
     public Long id;
     public String name;
     public String image;

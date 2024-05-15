@@ -1,4 +1,4 @@
-export type ProductHomePage = {
+export type ProductPreviewResponse = {
     id: number;
     name: string;
     image: string;

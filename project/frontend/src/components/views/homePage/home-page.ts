@@ -2,25 +2,36 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import homePageStyle from "../../../styles/homePage/homePageStyle";
 import {ProductService} from "../../../services/ProductService";
-import {ProductHomePage} from "../../../../types/responses/homePage/ProductHomePage";
+import {ProductPreviewResponse} from "../../../../types/responses/ProductPreviewResponse";
 import {CategoryService} from "../../../services/CategoryService";
-import {Category} from "../../../../types/responses/Category";
+import {CategoryResponse} from "../../../../types/responses/CategoryResponse";
 
 
 @customElement("home-page")
 export class HomePage extends LitElement {
     public static styles = [homePageStyle];
-    public topDealProducts: ProductHomePage | undefined;
-    public recommendProducts: ProductHomePage | undefined;
-    public categoryList: Category | undefined;
+    public topDealProducts: ProductPreviewResponse | undefined;
+    public recommendProducts: ProductPreviewResponse | undefined;
+    public categoryList: CategoryResponse | undefined;
 
-    public async firstUpdated(): Promise<void> {
+    public async connectedCallback(): Promise<void> {
+        super.connectedCallback();
+        await this.loadData();
+    }
+
+    private async loadData(): Promise<void> {
         const productService: ProductService = new ProductService();
         const categoryService: CategoryService = new CategoryService();
-        this.topDealProducts = await productService.getTopDealProducts();
-        this.recommendProducts = await productService.getRecommendProducts();
-        this.categoryList = await categoryService.getRandomCategoriesWithImage(10);
-        this.requestUpdate();
+
+        try {
+            this.topDealProducts = await productService.getTopDealProducts();
+            this.recommendProducts = await productService.getRecommendProducts();
+            this.categoryList = await categoryService.getRandomCategoriesWithImage(10);
+        } catch (error) {
+            console.error("Error loading data:", error);
+        } finally {
+            this.requestUpdate();
+        }
     }
 
     public render(): TemplateResult {

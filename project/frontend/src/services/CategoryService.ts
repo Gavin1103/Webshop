@@ -1,7 +1,7 @@
-import {Category} from "../../types/responses/Category";
+import {CategoryResponse} from "../../types/responses/CategoryResponse";
 
 export class CategoryService {
-    public async getRandomCategoriesWithImage(count: number): Promise<Category | undefined> {
+    public async getRandomCategoriesWithImage(count: number): Promise<CategoryResponse | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/categories/withProductImage/${count}`, {
             method: "get",
         });
@@ -12,11 +12,11 @@ export class CategoryService {
             return undefined;
         }
 
-        return (await response.json()) as Category;
+        return (await response.json()) as CategoryResponse;
     }
 
 
-    public async getCategoriesWithImage(): Promise<Category | undefined> {
+    public async getCategoriesWithImage(): Promise<CategoryResponse | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/categories/withProductImage`, {
             method: "get",
         });
@@ -27,6 +27,6 @@ export class CategoryService {
             return undefined;
         }
 
-        return (await response.json()) as Category;
+        return (await response.json()) as CategoryResponse;
     }
 }

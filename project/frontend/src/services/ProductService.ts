@@ -1,7 +1,7 @@
-import {ProductHomePage} from "../../types/responses/homePage/ProductHomePage";
+import {ProductPreviewResponse} from "../../types/responses/ProductPreviewResponse";
 
 export class ProductService {
-    public async getTopDealProducts():Promise<ProductHomePage | undefined> {
+    public async getTopDealProducts():Promise<ProductPreviewResponse | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/products/topDeals`, {
             method: "get",
         });
@@ -12,10 +12,10 @@ export class ProductService {
             return undefined;
         }
 
-        return (await response.json()) as ProductHomePage;
+        return (await response.json()) as ProductPreviewResponse;
     }
 
-    public async getRecommendProducts():Promise<ProductHomePage | undefined> {
+    public async getRecommendProducts():Promise<ProductPreviewResponse | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/products/recommend`, {
             method: "get",
         });
@@ -26,6 +26,6 @@ export class ProductService {
             return undefined;
         }
 
-        return (await response.json()) as ProductHomePage;
+        return (await response.json()) as ProductPreviewResponse;
     }
 }

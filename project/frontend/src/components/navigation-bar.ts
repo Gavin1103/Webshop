@@ -3,18 +3,31 @@ import {customElement} from "lit/decorators.js";
 import "./category-card-horizontal";
 import "./search-bar";
 import navigationBarStyle from "../styles/navigationBarStyle";
-import {Category} from "../../types/responses/Category";
+import {CategoryResponse} from "../../types/responses/CategoryResponse";
 import {CategoryService} from "../services/CategoryService";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {
     private sidebarVisible: boolean = false;
-    private categoryList: Category | undefined;
+    private categoryList: CategoryResponse | undefined;
 
-    public async firstUpdated(): Promise<void> {
+
+
+    public async connectedCallback(): Promise<void> {
+        super.connectedCallback();
+        await this.loadData();
+    }
+
+    private async loadData(): Promise<void> {
         const categoryService: CategoryService = new CategoryService();
-        this.categoryList = await categoryService.getCategoriesWithImage();
-        this.requestUpdate();
+
+        try {
+            this.categoryList = await categoryService.getCategoriesWithImage();
+        } catch (error) {
+            console.error("Error loading data: ", error);
+        } finally {
+            this.requestUpdate();
+        }
     }
 
     private toggleSidebar(): void {

@@ -1,7 +1,8 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
-import {ProductHomePage} from "../../../../types/responses/homePage/ProductHomePage";
+import {ProductPreviewResponse} from "../../../../types/responses/ProductPreviewResponse";
+import {Router} from "@vaadin/router";
 
 @customElement("product-carousel-section")
 export class ProductCarouselSection extends LitElement {
@@ -9,7 +10,11 @@ export class ProductCarouselSection extends LitElement {
     public title: string = "";
 
     @property({type: Array})
-    public productsData : ProductHomePage[] = [];
+    public productsData : ProductPreviewResponse[] = [];
+
+    private redirectToProductDetailPage(id: number): void {
+        Router.go(`productDetail/${id}`);
+    }
 
     public static styles = [productCarouselSectionStyle];
 
@@ -25,7 +30,7 @@ export class ProductCarouselSection extends LitElement {
             
             <section class="product-carousel">
                 ${this.productsData ? this.productsData.map(product => html`
-                    <div class="product-card" tabindex="1">
+                    <div class="product-card" tabindex="1" @click="${():void => this.redirectToProductDetailPage(product.id)}">
                         <img class="product-image" src="${product.image}" alt="${product.name}">
                         <div class="product-info">
                             <span class="product-name">${product.name}</span>

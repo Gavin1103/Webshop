@@ -1,8 +1,7 @@
-// In the PersonalInfo component
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import PersonalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personalInfoStyle";
-import {Router} from "@vaadin/router";
+import {navigateTo} from "../../../helpers/helpers";
 
 @customElement("personal-info")
 export class PersonalInfo extends LitElement {
@@ -14,16 +13,12 @@ export class PersonalInfo extends LitElement {
         this.showShippingAddress = !this.showShippingAddress;
     }
 
-    private navigate(path: string): void {
-        Router.go(path);
-    }
-
     private handleContinue(): void {
-        this.navigate("/cart/overview");
+        navigateTo("/cart/overview");
     }
 
     private handleReturn(): void {
-        this.navigate("/cart");
+        navigateTo("/cart");
     }
 
     protected render(): TemplateResult {

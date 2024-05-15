@@ -1,12 +1,12 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, state} from "lit/decorators.js";
-import {Router} from "@vaadin/router";
 
 import {OrderItem} from "../../../../types/OrderItem";
 import OrderOverviewSummaryStyle
     from "../../../../styles/shoppingCart/orderOverview/orderOverviewSummaryStyle";
 import inputFieldStyle from "../../../../styles/shoppingCart/inputFieldStyle";
 import {createInputField} from "../../../helpers/formHelpers";
+import {navigateTo} from "../../../helpers/helpers";
 
 const FREE_SHIPPING_THRESHOLD: number = 0;
 const HOME_PATH: string = "/";
@@ -38,16 +38,12 @@ export class OrderOverviewSummary extends LitElement {
         return this.products.reduce((total, product) => total + product.price * product.quantity, 0);
     }
 
-    private navigateTo(path: string): void {
-        Router.go(path);
-    }
-
     public navigateHome(): void {
-        this.navigateTo(HOME_PATH);
+        navigateTo(HOME_PATH);
     }
 
     public editPersonalInformation(): void {
-        this.navigateTo(PERSONAL_DETAILS_PATH);
+        navigateTo(PERSONAL_DETAILS_PATH);
     }
 
     private renderSummaryItem(label: string, value: any): TemplateResult {
@@ -95,7 +91,8 @@ export class OrderOverviewSummary extends LitElement {
             <div class="summary-section">
                 <div class="summary-item title-item">
                     <p class="item-title">${this.user.name}</p>
-                    <button @click="${this.editPersonalInformation}" class="align-right edit-button">Edit</button>
+                    <button @click="${this.editPersonalInformation}" class="align-right edit-button">Edit
+                    </button>
                 </div>
                 <p class="summary-item-text">${this.user.address}</p>
                 <p class="summary-item-text">${this.user.zip}</p>
@@ -109,7 +106,8 @@ export class OrderOverviewSummary extends LitElement {
             <div class="summary-section">
                 <div class="summary-item title-item">
                     <p class="item-title">Payment Method</p>
-                    <button class="align-right edit-button" @click="${this.editPersonalInformation}">Edit</button>
+                    <button class="align-right edit-button" @click="${this.editPersonalInformation}">Edit
+                    </button>
                 </div>
                 ${this.renderPaymentDetails()}
             </div>

@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import OrderSummaryStyle from "../../../../styles/shoppingCart/orderInfo/orderSummaryStyle";
 import {OrderItem} from "../../../../types/OrderItem";
-import {Router} from "@vaadin/router";
+import {navigateTo} from "../../../helpers/helpers";
 
 const TAX_RATE: number = 21;
 const SHIPPING_COST: number = 25.25;
@@ -27,16 +27,12 @@ export class OrderSummary extends LitElement {
         return tax.toFixed(2);
     }
 
-    private navigate(path: string): void {
-        Router.go(path);
-    }
-
     private handleContinue(): void {
-        this.navigate(PAYMENT_INFO_PATH);
+        navigateTo(PAYMENT_INFO_PATH);
     }
 
     private handleReturn(): void {
-        this.navigate(HOME_PATH);
+        navigateTo(HOME_PATH);
     }
 
     private renderSummaryItem(label: string, value: any): TemplateResult {

@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.model.Adress;
+
 @Entity
 @Table(name = "orderRecord")
 @Getter
@@ -30,5 +31,9 @@ public class OrderRecord {
     @ManyToOne
     @JoinColumn(name = "adress")
     private Adress adress;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_method")
+    private PaymentMethod paymentMethod;
 
 }

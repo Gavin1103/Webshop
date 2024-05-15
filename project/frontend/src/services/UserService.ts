@@ -1,7 +1,6 @@
-import { UserLoginFormModel } from "../../types/formModels/UserLoginFormModel";
-import { UserRegisterFormModel } from "../../types/formModels/UserRegisterFormModel";
-import { TokenService } from "./TokenService";
-import { UserHelloResponse } from "../../types/responses/UserHelloResponse";
+import {TokenService} from "./TokenService";
+import {UserLoginFormModel} from "../types/UserLoginFormModel";
+import {UserRegisterFormModel} from "../types/UserRegisterFormModel";
 
 const headers: { "Content-Type": string } = {
     "Content-Type": "application/json",
@@ -82,7 +81,7 @@ export class UserService {
 
         const response: Response = await fetch(`${viteConfiguration.API_URL}users/logout`, {
             method: "get",
-            headers: { ...headers, authorization: token },
+            headers: {...headers, authorization: token},
         });
 
         if (!response.ok) {
@@ -95,35 +94,9 @@ export class UserService {
     }
 
     /**
-     * Handles user welcome message containing user and cart data. Requires a valid token.
+     * Handles adding an order item to the shoppingCart of the current user. Requires a valid token.
      *
-     * @returns Object with user and cart data when successful, otherwise `undefined`.
-     */
-    public async getWelcome(): Promise<UserHelloResponse | undefined> {
-        const token: string | undefined = this._tokenService.getToken();
-
-        if (!token) {
-            return undefined;
-        }
-
-        const response: Response = await fetch(`${viteConfiguration.API_URL}users/hello`, {
-            method: "get",
-            headers: { ...headers, authorization: token },
-        });
-
-        if (!response.ok) {
-            console.error(response);
-
-            return undefined;
-        }
-
-        return (await response.json()) as UserHelloResponse;
-    }
-
-    /**
-     * Handles adding an order item to the cart of the current user. Requires a valid token.
-     *
-     * @returns Current number of order items in the cart when successful, otherwise `false`.
+     * @returns Current number of order items in the shoppingCart when successful, otherwise `false`.
      */
     public async addOrderItemToCart(id: number): Promise<number | undefined> {
         const token: string | undefined = this._tokenService.getToken();
@@ -134,7 +107,7 @@ export class UserService {
 
         const response: Response = await fetch(`${viteConfiguration.API_URL}users/cart/${id}`, {
             method: "post",
-            headers: { ...headers, authorization: token },
+            headers: {...headers, authorization: token},
         });
 
         if (!response.ok) {

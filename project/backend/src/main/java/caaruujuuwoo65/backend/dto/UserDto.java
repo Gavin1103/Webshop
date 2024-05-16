@@ -26,7 +26,7 @@ public class UserDto {
     @NotBlank(message = "First name is mandatory")
     private String firstname;
 
-    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @NotBlank(message = "Last name is mandatory")
     private String lastname;
 
     @NotBlank(message = "Password is mandatory")

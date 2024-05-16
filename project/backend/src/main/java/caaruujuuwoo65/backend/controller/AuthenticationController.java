@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "201", description = "Successfully registered"),
         @ApiResponse(responseCode = "409", description = "User already exists")
     })
-    public ResponseEntity<?> register(@RequestBody UserDto user) throws Exception {
+    public ResponseEntity<?> register(@Valid @RequestBody UserDto user) throws Exception {
         return ResponseEntity.ok(authenticationService.register(user));
     }
 

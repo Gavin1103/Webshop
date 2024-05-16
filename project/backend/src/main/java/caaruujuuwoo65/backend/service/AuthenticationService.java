@@ -95,10 +95,14 @@ public class AuthenticationService {
             return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
         }
 
-        Role userRole = new Role();
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setUsername(user.getFirstname() + user.getLastname());
+
+        Role userRole = new Role();
+        userRole.setName(RoleEnum.USER);
+        userRole.setUser(user);
         user.setRoles(new HashSet<>(Set.of(userRole)));
+
         User savedUser = userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);

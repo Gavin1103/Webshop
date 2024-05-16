@@ -4,16 +4,34 @@ export default css `
     :host {
         margin-top: 10vh;
         display: flex;
+        flex-direction: column;
+    }
+    
+    .header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
     }
 
-    filter-section {
-        flex:2;
+    .header-back-button {
+        background-color: transparent;
+        border: none;
+        font-size: large;
+        padding: 0;
     }
+    
+    main {
+        display: flex;
+        flex-direction: row;
 
+        filter-section {
+            flex:2;
+            margin-right: 5vw;
+        }
 
-    h1 {
-        flex: 8;
-        margin-left: 10vw;
+        showcase-section {
+            flex: 8;
+        }
     }
     
 `;

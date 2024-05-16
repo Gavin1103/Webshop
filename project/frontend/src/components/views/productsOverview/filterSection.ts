@@ -113,18 +113,16 @@ export class FilterSection extends LitElement {
 
     public render(): TemplateResult {
         return html`
-            <div class="header">
-                <span tabindex="1" class="header-back-button">Back</span>
-            </div>
-            
             <section class="filter-section">
                 <div class="category filter-block">
-                    <span class="title">Categories</span>
-                    <img 
-                        tabindex="1" 
-                        @click="${() : void => this.toggleVisibility(this.category)}" 
-                        src="${this.category.iconSrc}" alt="Toggle category"
-                    >
+                    <div class="filter-header">
+                        <span class="title">Categories</span>
+                        <img
+                            tabindex="1"
+                            @click="${() : void => this.toggleVisibility(this.category)}"
+                            src="${this.category.iconSrc}" alt="Toggle category"
+                        >
+                    </div>
                     <ul class="category-checkbox" style="${this.category.visible ? "" : "display: none;"}">
                         ${this.categoryList.map((category, index) => html`
                             <li>
@@ -136,12 +134,14 @@ export class FilterSection extends LitElement {
                 </div>
                 
                 <div class="price-range filter-block">
-                    <span class="title">Price Range</span>
-                    <img
-                        tabindex="1"
-                        @click="${() : void => this.toggleVisibility(this.priceRange)}"
-                        src="${this.priceRange.iconSrc}" alt="Toggle category"
-                    >
+                    <div class="filter-header">
+                        <span class="title">Price Range</span>
+                        <img
+                            tabindex="1"
+                            @click="${() : void => this.toggleVisibility(this.priceRange)}"
+                            src="${this.priceRange.iconSrc}" alt="Toggle category"
+                        >
+                    </div>
                     <div class="price-input-button" style="${this.priceRange.visible ? "" : "display: none;"}">
                         <input type="number" name="lowestPrice">
                         <span class="price-separator">-</span>
@@ -157,12 +157,14 @@ export class FilterSection extends LitElement {
 
                 
                 <div class="rating filter-block">
-                    <span class="title">Rating</span>
-                    <img
-                        tabindex="1"
-                        @click="${(): void => this.toggleVisibility(this.rating)}"
-                        src="${this.rating.iconSrc}" alt="Toggle rating"
-                    >
+                    <div class="filter-header">
+                        <span class="title">Rating</span>
+                        <img
+                            tabindex="1"
+                            @click="${(): void => this.toggleVisibility(this.rating)}"
+                            src="${this.rating.iconSrc}" alt="Toggle rating"
+                        >
+                    </div>
                     <ul class="rating-stars" style="${this.rating.visible ? "" : "display: none;"}">
                         ${[0, 1, 2, 3, 4, 5].map((index) => html`
                             <li>

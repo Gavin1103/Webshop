@@ -1,6 +1,10 @@
 import {css} from "lit";
 
 export default css `
+    :host {
+        margin-top: 5vh;
+    }
+    
     .filter-block {
         background-color: #FFD169;
         box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
@@ -18,6 +22,12 @@ export default css `
     .filter-block:hover {
         box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.3);
         transform: scale(1.05);
+    }
+    
+    .filter-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
     }
     
     .price-input-button {
@@ -67,7 +77,7 @@ export default css `
     .go-button:hover {
         transform: scale(1.5);
     }
-
+    
 
     .category-checkbox input[type="checkbox"] {
         transform: scale(1.5);

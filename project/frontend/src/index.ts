@@ -20,4 +20,7 @@ export * from "./components/views/homePage/home-page";
 export * from "./components/views/homePage/hero-section-homepage";
 export * from "./components/views/homePage/product-carousel-section";
 export * from "./components/views/homePage/category-grid-section";
+export * from "./components/views/productDetailPage/Components/buttonComponent";
 export * from "./components/views/productDetailPage/Components/CustomImage";
+export * from "./components/views/productDetailPage/Components/reviewComponent";
+export * from "./components/views/productDetailPage/Components/descriptionComponent";

@@ -17,12 +17,15 @@ export class CustomImage extends LitElement {
   private alt: string = "image";
 
   public static styles = css`
-    :host {
-      display: block; 
-    }
-    img {
-      height: var(--custom-height); 
-      width: var(--custom-width);
+    section {
+        width: var(--custom-width);
+        height: var(--custom-height);
+        background-color: yellow;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
     }
   `;
 
@@ -39,10 +42,14 @@ export class CustomImage extends LitElement {
   private updateStyles(): void {
     this.style.setProperty("--custom-height", this.height);
     this.style.setProperty("--custom-width", this.width);
-
   }
 
   public render(): TemplateResult {
-    return html`<img src="${this.backgroundImageUrl}" alt="${this.alt}"/>`;
+    return html`
+      <section>
+          <img src="${this.backgroundImageUrl}" alt="${this.alt}"/>
+      </section>
+    `;
   }
+
 }

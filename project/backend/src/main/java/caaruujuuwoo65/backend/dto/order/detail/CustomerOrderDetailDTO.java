@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  */
 @Getter
 @Setter
-public class OrderDetailDTO {
+public class CustomerOrderDetailDTO {
     private Long orderDetailId;
     private Long orderId;
     private Long productId;

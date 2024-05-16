@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.dto.cart;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,5 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateCartDTO {
+    @NotNull(message = "User ID is mandatory")
     private Long userId;
 }

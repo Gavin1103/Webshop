@@ -1,6 +1,6 @@
 package caaruujuuwoo65.backend.dto.order;
 
-import caaruujuuwoo65.backend.dto.order.detail.UpdateOrderDetailDTO;
+import caaruujuuwoo65.backend.dto.order.detail.UpdateCustomerOrderDetailDTO;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +13,9 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class UpdateOrderDTO {
+public class UpdateCustomerOrderDTO {
     @NotNull(message = "Status is mandatory")
     private String status;
 
-    private List<UpdateOrderDetailDTO> orderDetails;
+    private List<UpdateCustomerOrderDetailDTO> orderDetails;
 }

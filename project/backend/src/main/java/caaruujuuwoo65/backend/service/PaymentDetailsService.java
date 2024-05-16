@@ -3,12 +3,12 @@ package caaruujuuwoo65.backend.service;
 import caaruujuuwoo65.backend.dto.payment.details.CreatePaymentDetailsDTO;
 import caaruujuuwoo65.backend.dto.payment.details.PaymentDetailsDTO;
 import caaruujuuwoo65.backend.dto.payment.details.UpdatePaymentDetailsDTO;
-import caaruujuuwoo65.backend.model.Order;
 import caaruujuuwoo65.backend.model.PaymentDetails;
 import caaruujuuwoo65.backend.model.PaymentMethod;
-import caaruujuuwoo65.backend.repository.OrderRepository;
+import caaruujuuwoo65.backend.model.CustomerOrder;
 import caaruujuuwoo65.backend.repository.PaymentDetailsRepository;
 import caaruujuuwoo65.backend.repository.PaymentMethodRepository;
+import caaruujuuwoo65.backend.repository.CustomerOrderRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,14 +25,14 @@ public class PaymentDetailsService {
 
     private final PaymentDetailsRepository paymentDetailsRepository;
     private final PaymentMethodRepository paymentMethodRepository;
-    private final OrderRepository orderRepository;
+    private final CustomerOrderRepository customerOrderRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public PaymentDetailsService(PaymentDetailsRepository paymentDetailsRepository, PaymentMethodRepository paymentMethodRepository, OrderRepository orderRepository, ModelMapper modelMapper) {
+    public PaymentDetailsService(PaymentDetailsRepository paymentDetailsRepository, PaymentMethodRepository paymentMethodRepository, CustomerOrderRepository customerOrderRepository, ModelMapper modelMapper) {
         this.paymentDetailsRepository = paymentDetailsRepository;
         this.paymentMethodRepository = paymentMethodRepository;
-        this.orderRepository = orderRepository;
+        this.customerOrderRepository = customerOrderRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -43,7 +43,7 @@ public class PaymentDetailsService {
      * @return the created payment details
      */
     public ResponseEntity<PaymentDetailsDTO> createPaymentDetails(CreatePaymentDetailsDTO createPaymentDetailsDTO) {
-        Optional<Order> orderOptional = orderRepository.findById(createPaymentDetailsDTO.getOrderId());
+        Optional<CustomerOrder> orderOptional = customerOrderRepository.findById(createPaymentDetailsDTO.getOrderId());
         if (!orderOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -54,7 +54,7 @@ public class PaymentDetailsService {
         }
 
         PaymentDetails paymentDetails = new PaymentDetails();
-        paymentDetails.setOrder(orderOptional.get());
+        paymentDetails.setCustomerOrder(orderOptional.get());
         paymentDetails.setPaymentMethod(paymentMethodOptional.get());
         paymentDetails.setCardHolderName(createPaymentDetailsDTO.getCardHolderName());
         paymentDetails.setCardNumber(createPaymentDetailsDTO.getCardNumber());

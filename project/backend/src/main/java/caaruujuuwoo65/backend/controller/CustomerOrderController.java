@@ -1,9 +1,9 @@
 package caaruujuuwoo65.backend.controller;
 
-import caaruujuuwoo65.backend.dto.order.CreateOrderDTO;
-import caaruujuuwoo65.backend.dto.order.OrderDTO;
-import caaruujuuwoo65.backend.dto.order.UpdateOrderDTO;
-import caaruujuuwoo65.backend.service.OrderService;
+import caaruujuuwoo65.backend.dto.order.CreateCustomerOrderDTO;
+import caaruujuuwoo65.backend.dto.order.CustomerOrderDTO;
+import caaruujuuwoo65.backend.dto.order.UpdateCustomerOrderDTO;
+import caaruujuuwoo65.backend.service.CustomerOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,13 +16,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
-public class OrderController {
+public class CustomerOrderController {
 
-    private final OrderService orderService;
+    private final CustomerOrderService customerOrderService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    public CustomerOrderController(CustomerOrderService customerOrderService) {
+        this.customerOrderService = customerOrderService;
     }
 
     @PostMapping("/")
@@ -32,8 +32,8 @@ public class OrderController {
         @ApiResponse(responseCode = "400", description = "Invalid order details"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody CreateOrderDTO createOrderDTO) {
-        return orderService.createOrder(createOrderDTO);
+    public ResponseEntity<CustomerOrderDTO> createOrder(@RequestBody CreateCustomerOrderDTO createCustomerOrderDTO) {
+        return customerOrderService.createOrder(createCustomerOrderDTO);
     }
 
     @GetMapping("/")
@@ -42,8 +42,8 @@ public class OrderController {
         @ApiResponse(responseCode = "200", description = "Orders retrieved successfully"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<List<OrderDTO>> getAllOrdersForCurrentUser() {
-        List<OrderDTO> orders = orderService.getAllOrdersForCurrentUser();
+    public ResponseEntity<List<CustomerOrderDTO>> getAllOrdersForCurrentUser() {
+        List<CustomerOrderDTO> orders = customerOrderService.getAllOrdersForCurrentUser();
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
@@ -55,8 +55,8 @@ public class OrderController {
         @ApiResponse(responseCode = "404", description = "Order not found"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<OrderDTO> updateOrder(@PathVariable Long orderId, @RequestBody UpdateOrderDTO updateOrderDTO) {
-        return orderService.updateOrder(orderId, updateOrderDTO);
+    public ResponseEntity<CustomerOrderDTO> updateOrder(@PathVariable Long orderId, @RequestBody UpdateCustomerOrderDTO updateCustomerOrderDTO) {
+        return customerOrderService.updateOrder(orderId, updateCustomerOrderDTO);
     }
 
     @DeleteMapping("/{orderId}")
@@ -67,6 +67,6 @@ public class OrderController {
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
-        return orderService.deleteOrder(orderId);
+        return customerOrderService.deleteOrder(orderId);
     }
 }

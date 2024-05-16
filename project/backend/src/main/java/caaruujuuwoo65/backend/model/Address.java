@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "addresses")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +25,6 @@ public class Address {
     private String country;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 }

@@ -1,6 +1,6 @@
 package caaruujuuwoo65.backend.dto.order;
 
-import caaruujuuwoo65.backend.dto.order.detail.OrderDetailDTO;
+import caaruujuuwoo65.backend.dto.order.detail.CustomerOrderDetailDTO;
 import caaruujuuwoo65.backend.dto.payment.details.PaymentDetailsDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,12 +15,12 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class OrderDTO {
+public class CustomerOrderDTO {
     private Long orderId;
     private Long userId;
     private LocalDate orderDate;
     private String status;
     private BigDecimal totalAmount;
-    private List<OrderDetailDTO> orderDetails;
+    private List<CustomerOrderDetailDTO> orderDetails;
     private PaymentDetailsDTO paymentDetails;
 }

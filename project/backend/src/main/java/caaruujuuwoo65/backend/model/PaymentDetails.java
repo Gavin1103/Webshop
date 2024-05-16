@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "payment_details")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class PaymentDetails {
 
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "orderId")
-    private Order order;
+    private CustomerOrder customerOrder;
 
     @ManyToOne
     @JoinColumn(name = "payment_method_id", referencedColumnName = "paymentMethodId")

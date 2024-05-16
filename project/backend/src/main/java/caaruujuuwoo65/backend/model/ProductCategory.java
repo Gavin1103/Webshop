@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
+@Table(name = "product_categories")
 @Getter
 @Setter
 @NoArgsConstructor

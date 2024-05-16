@@ -12,11 +12,12 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
+@Table(name = "customer_orders")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class CustomerOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
@@ -29,8 +30,8 @@ public class Order {
     private String status;
     private BigDecimal totalAmount;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<OrderDetail> orderDetails;
+    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CustomerOrderDetail> customerOrderDetails;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_details_id", referencedColumnName = "paymentDetailsId")

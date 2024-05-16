@@ -10,18 +10,19 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "customer_order_details")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetail {
+public class CustomerOrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderDetailId;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private CustomerOrder customerOrder;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

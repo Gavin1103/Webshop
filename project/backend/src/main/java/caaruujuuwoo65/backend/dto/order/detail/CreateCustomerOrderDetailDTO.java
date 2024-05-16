@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  */
 @Getter
 @Setter
-public class CreateOrderDetailDTO {
+public class CreateCustomerOrderDetailDTO {
     @NotNull(message = "Product ID is mandatory")
     private Long productId;
 

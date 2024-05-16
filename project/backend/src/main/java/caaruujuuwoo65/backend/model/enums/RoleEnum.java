@@ -2,7 +2,7 @@ package caaruujuuwoo65.backend.model.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum Role implements GrantedAuthority {
+public enum RoleEnum implements GrantedAuthority {
     USER,
     ADMIN;
 

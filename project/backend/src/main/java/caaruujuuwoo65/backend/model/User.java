@@ -1,6 +1,5 @@
 package caaruujuuwoo65.backend.model;
 
-import caaruujuuwoo65.backend.model.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,6 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -45,10 +45,13 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private Set<Order> orders;
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
+    private Set<CustomerOrder> customerOrders;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Cart> carts;
 
     @PrePersist
     protected void onCreate() {
@@ -63,14 +66,14 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-            .map(role -> new SimpleGrantedAuthority(role.name()))
+            .map(role -> new SimpleGrantedAuthority(role.getName().name()))
             .collect(Collectors.toSet());
     }
 
     @JsonIgnore
     public List<String> getAuthoritiesList() {
         return roles.stream()
-            .map(Role::name)
+            .map(role -> role.getName().name())
             .collect(Collectors.toList());
     }
 

@@ -14,6 +14,5 @@ public class CreateUserDTO {
     private String lastname;
     private String email;
     private String phonenumber;
-    private Long addressId;
     private String password;
 }

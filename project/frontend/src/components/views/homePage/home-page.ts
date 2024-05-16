@@ -53,8 +53,7 @@ export class HomePage extends LitElement {
             </product-carousel-section>
             
             <category-grid-section
-                .categoryList = "${this.categoryList}"
-            >
+                .categoryList = "${this.categoryList}">
             </category-grid-section>
             
             

@@ -4,6 +4,10 @@
 
 Wanneer de server wordt ingeschakeld, koppelt het model automatisch zijn eigenschappen aan de database. De structuur van de databasetabellen zal consistent zijn met het model.
 
+In decorator kan ik data relaties definiëren. Bijvoorbeeld `@ManyToOne
+@JoinColumn(name = “category_product”)` betekent dat product en categorie meer-op-één zijn, d.w.z. 1 categorie kan meerdere producten bevatten.
+
+
 ```tsx
 //model/Product.java
 
@@ -39,9 +43,6 @@ public class Product {
     private CategoryProduct category;
 }
 ```
-
-In decorator kan ik data relaties definiëren. Bijvoorbeeld `@ManyToOne
-@JoinColumn(name = “category_product”)` betekent dat product en categorie meer-op-één zijn, d.w.z. 1 categorie kan meerdere producten bevatten.
 
 ### DTO
 

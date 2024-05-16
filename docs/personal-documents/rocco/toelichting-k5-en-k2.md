@@ -15,6 +15,7 @@ waarvoor ik feedback heb opgehaald, is de shopping-cart pagina. Deze prototypes 
     1. [Feedbackronde 2: Low/Mid-fi Prototypes](#feedbackronde-2-lowmid-fi-prototypes)
 3. [Fase 3: Verbeterde Mid-fi Prototypes](#fase-3-verbeterde-mid-fi-prototypes)
     1. [Feedbackronde 3: Verbeterde Mid-fi Prototypes](#feedbackronde-3-verbeterde-mid-fi-prototypes)
+4. [Conclusie](#conclusie)
 
 ## Fase 1: Verwachtingen en Low-fi Ontwerpen
 
@@ -83,7 +84,24 @@ verbeterd Mid-fi prototype. Deze aanpassingen waren nodig om aan de verwachtinge
 
 ### Feedbackronde 3: Verbeterde Mid-fi Prototypes
 
-Voor de verbeterde mid-fi prototypes heb ik opnieuw feedback gevraagd via Google Formulieren. Deze
-feedbackronde was essentieel om te verifiëren of de doorgevoerde veranderingen effectief waren en of er nog
-verdere aanpassingen nodig waren.
+Voor de verbeterde mid-fi prototypes heb ik opnieuw feedback gevraagd via Google Formulieren. We zijn nog
+bezig met het verzamelen van de laatste feedbackpunten op deze formulieren:
 
+![img.png](afbeeldingen/form-image-fase-3.png)
+
+## Conclusie
+
+Tijdens de ontwerpperiode hebben we waardevolle inzichten opgedaan door middel van meerdere feedbackrondes en
+iteratieve ontwerpen voor de webshoppagina's van Luka Stars. Wat ik het belangrijkste heb geleerd, is het
+belang van voortdurend feedback vragen. Eén keer feedback vragen is nooit genoeg om een solide en
+gebruiksvriendelijke oplossing te garanderen.
+
+Onze eerste feedbackronde leverde voornamelijk positieve reacties op, wat ons aanvankelijk vertrouwen gaf.
+Maar toen we naar meer concretere prototypes gingen, veranderde de feedback drastisch en werd veel
+kritischer. Deze 180-graden verandering toonde aan dat gebruikers pas echt zinvolle feedback kunnen geven
+wanneer ze een gedetailleerder prototype zien.
+
+Deze ervaring heeft mij geleerd dat het proces van ontwerpen en herhaaldelijk feedback vragen
+noodzakelijk is voor een goed eindproduct. Door continu in dialoog te blijven met gebruikers, kunnen we
+ervoor zorgen dat onze ontwerpen niet alleen visueel aantrekkelijk zijn, maar ook functioneel en
+gebruiksvriendelijk.

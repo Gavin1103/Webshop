@@ -1,8 +1,7 @@
-import { defineConfig, loadEnv } from "vite";
-import { resolve } from "path";
-import { globSync } from "glob";
-import eslint from "vite-plugin-eslint";
+import {defineConfig, loadEnv} from "vite";
+import {resolve} from "path";
 import checker from "vite-plugin-checker";
+import eslintPlugin from "vite-plugin-eslint";
 
 export default defineConfig((config) => {
 
@@ -15,27 +14,11 @@ export default defineConfig((config) => {
         };
     }, {});
 
-    let htmlFiles: string[];
-
-    if (config.mode === "development") {
-        htmlFiles = globSync("**/*.html", {
-            cwd: resolve(__dirname, "./wwwroot"),
-        });
-    } else {
-        htmlFiles = globSync("wwwroot/**/*.html", {
-            cwd: resolve(__dirname, "./"),
-        });
-    }
-
-    const input: any = {};
-    htmlFiles.forEach((e: string, i: number) => {
-        input[`app_${i}`] = resolve(e);
-    });
-
+    const {VITE_DOCKER_HOST} = env;
 
     return {
         base: "./",
-        root: "wwwroot",
+        root: resolve(__dirname, "./wwwroot"),
         appType: "spa",
         resolve: {
             alias: {
@@ -45,7 +28,7 @@ export default defineConfig((config) => {
         build: {
             sourcemap: true,
             rollupOptions: {
-                input: input,
+                input: resolve(__dirname, "./wwwroot/index.html"),
             },
             outDir: resolve(__dirname, "../../dist/web"),
             emptyOutDir: true,
@@ -56,15 +39,16 @@ export default defineConfig((config) => {
             },
         },
         plugins: [
-            checker({ typescript: true }),
-            eslint({
-                overrideConfigFile: '../../.eslintrc.js',
+            checker({typescript: true}),
+            eslintPlugin({
+                overrideConfigFile: '.eslintrc.js',
             }),
         ],
         define: {
             viteConfiguration: viteConfiguration,
         },
         server: {
+            host: VITE_DOCKER_HOST || "localhost",
             watch: {
                 ignored: ['!**/node_modules/**'],
                 usePolling: true,

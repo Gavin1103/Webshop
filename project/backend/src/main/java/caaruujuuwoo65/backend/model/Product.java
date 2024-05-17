@@ -9,10 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import caaruujuuwoo65.backend.model.TypeProduct;
-import caaruujuuwoo65.backend.model.CategoryProduct;
-
-import java.sql.Blob;
 
 @Entity
 @Table(name = "product")

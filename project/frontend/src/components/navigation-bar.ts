@@ -19,6 +19,11 @@ export class NavigationBar extends LitElement {
         this.requestUpdate();
     }
 
+    private goToShoppingCart(): void {
+        location.replace("/cart");
+        this.requestUpdate();
+    }
+
     public static styles = [navigationBarStyle];
 
 
@@ -37,19 +42,21 @@ export class NavigationBar extends LitElement {
                 <search-bar></search-bar>
 
                 <div class="links">
-                    <img class="icon user-icon" src="../assets/image/icons/user-icon.svg" alt="profile button">
+                    <img class="icon user-icon" src="../assets/image/icons/user-icon.svg"
+                         alt="profile button">
 
-                    <img class="icon cart-icon-" src="../assets/image/icons/cart-icon.svg" alt="cart button">
+                    <img @click=${this.goToShoppingCart} class="icon cart-icon-"
+                         src="../assets/image/icons/cart-icon.svg" alt="cart button">
                 </div>
             </nav>
 
 
             <div class="sidebar" style=${this.sidebarVisible ? "left: 0;" : ""}>
                 <div class="top-container-close">
-                    
+
                     <img
                         @click=${this.closeSidebar}
-                        class="close-button" src="../assets/image/icons/close-icon.svg" alt="close button" 
+                        class="close-button" src="../assets/image/icons/close-icon.svg" alt="close button"
                     />
                 </div>
 

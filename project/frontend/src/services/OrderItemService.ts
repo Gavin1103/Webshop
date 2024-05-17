@@ -1,4 +1,4 @@
-import { OrderItem } from "../../types";
+import {OrderItem} from "../types/OrderItem";
 
 /**
  * Handles order item related functionality

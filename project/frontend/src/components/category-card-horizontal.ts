@@ -2,7 +2,6 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import categoryCardHorizontalStyle from "../styles/categoryCardHorizontalStyle";
 
-
 @customElement("category-card-horizontal")
 export class CategoryCardHorizontal extends LitElement {
     @property({ type: String })

@@ -1,36 +1,27 @@
-import {css, html, TemplateResult} from "lit";
+import {html, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import {BaseAuthComponent} from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
 import {UserRegisterFormModel} from "../../../../types/formModels";
 import {UserAuthResponse} from "../../../../types/responses/UserAuthResponse";
 import authInputStyle from "../../../styles/authentication/authInputStyle";
+import registerPage from "../../../styles/authentication/registerPage/registerStyle";
 
 @customElement("register-component")
 export class RegisterComponent extends BaseAuthComponent {
-    public static styles = [authInputStyle, css`
-        .strength-bar {
-            display: flex;
-            flex-direction: row;
-            gap: 5px;
-            height: 12px;
-            width: 80%;
-            transition: width 0.5s ease, background-color 0.5s ease;
-        }
-        
-        .strength-item {
-            height: 12px;
-            width: 25%;
-            border-radius: 25px;
-        }
-    `];
+    public static styles = [authInputStyle, registerPage];
 
     protected async handleSubmit(e: Event): Promise<void> {
         e.preventDefault();
-        if (this.password === this.confirmPassword) {
-            this.error = "";
-        } else {
-            this.error = "Passwords do not match";
+        this.errors = [];
+
+        if (this.password !== this.confirmPassword) {
+            this.errors.push("Passwords do not match");
+        }
+
+        if (this.errors.length > 0) {
+            this.requestUpdate();
+            return;
         }
 
         const user: UserRegisterFormModel = {
@@ -51,26 +42,31 @@ export class RegisterComponent extends BaseAuthComponent {
         }
 
         else if(!loggedIn.success && loggedIn.message){
-            this.error = loggedIn.message;
+            this.errors.push(loggedIn.message);
+            this.requestUpdate();
             return;
         }
 
 
-        this.error = "Registration failed";
+        this.errors.push("Registration failed");
     }
 
     protected render(): TemplateResult {
         return html`
-      <form @submit="${this.handleSubmit}">
-        ${this.createInput("text", this.username, "username", "Username")}
-        ${this.createInput("text", this.phoneNumber, "phoneNumber", "Phone Number")}
-        ${this.createInput("text", this.firstname, "firstname", "First Name")}
-        ${this.createInput("text", this.lastname,"lastname", "Last Name")}
-        ${this.renderForm()}
-        ${this.renderPasswordStrengthBar()}
-        <input class="form-input" required type="password" .value="${this.confirmPassword}" @input="${(e: any): string => this.confirmPassword = e.target.value}" placeholder="Confirm Password">
-        <button class="form-submit" type="submit">Register</button>
-      </form>
-    `;
+            <form @submit="${this.handleSubmit}">
+                <h1 class="form-title">Register</h1>
+                <h3 class="form-message">Please enter your details</h3>
+                ${this.createInput("text", this.username, "username", "Username")}
+                ${this.createInput("text", this.phoneNumber, "phoneNumber", "Phone Number")}
+                ${this.createInput("text", this.firstname, "firstname", "First Name")}
+                ${this.createInput("text", this.lastname, "lastname", "Last Name")}
+                ${this.renderForm()}
+                ${this.renderPasswordStrengthBar()}
+                ${this.createInput("password", this.confirmPassword, "confirmPassword", "Confirm password")}
+                ${this.renderErrors(this.errors)}
+                <button class="form-submit" type="submit">Register</button>
+                <p class="form-redirect-message">Already have an account? <a href="/login">login here</a></p>
+            </form>
+        `;
     }
 }

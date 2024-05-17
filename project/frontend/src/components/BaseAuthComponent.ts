@@ -8,7 +8,7 @@ type Field = "email" | "password" | "username" | "phoneNumber" | "firstname" | "
 export abstract class BaseAuthComponent extends LitElement {
     @property({ type: String }) public email = "";
     @property({ type: String }) public password = "";
-    @property({ type: String }) public error = "";
+    @property({ type: String }) public errors: string[] = [];
     @property({ type: passwordStages }) public passwordStrength = passwordStages.WEAK;
     @property({ type: String }) public username = "";
     @property({ type: String }) public phoneNumber = "";
@@ -86,14 +86,35 @@ export abstract class BaseAuthComponent extends LitElement {
      */
     protected renderPasswordStrengthBar(): TemplateResult {
         return html`
-            <div class="strength-bar">
-                <div class="strength-item" style="background-color: ${this.passwordStrength >= passwordStages.WEAK ? "red" : "lightgray"};"></div>
-                <div class="strength-item" style="background-color: ${this.passwordStrength >= passwordStages.FAIR ? "orange" : "lightgray"};"></div>
-                <div class="strength-item" style="background-color: ${this.passwordStrength >= passwordStages.GOOD ? "yellow" : "lightgray"};"></div>
-                <div class="strength-item" style="background-color: ${this.passwordStrength >= passwordStages.STRONG ? "darkgreen" : "lightgray"};"></div>
+            <div class="strength-wrapper">
+                <div class="strength-bar">
+                    <div class="strength-item"
+                         style="background-color: ${this.passwordStrength >= passwordStages.WEAK ? this.getPasswordColor() : "lightgray"};"></div>
+                    <div class="strength-item"
+                         style="background-color: ${this.passwordStrength >= passwordStages.FAIR ? this.getPasswordColor() : "lightgray"};"></div>
+                    <div class="strength-item"
+                         style="background-color: ${this.passwordStrength >= passwordStages.GOOD ? this.getPasswordColor() : "lightgray"};"></div>
+                    <div class="strength-item"
+                         style="background-color: ${this.passwordStrength >= passwordStages.STRONG ? this.getPasswordColor() : "lightgray"};"></div>
+                </div>
+                <p class="password-strength-text" style="color: ${this.getPasswordColor()}">${passwordStages[this.passwordStrength]}</p>
             </div>
-            <p>Password strength: ${passwordStages[this.passwordStrength]}</p>
         `;
+    }
+
+    private getPasswordColor(): string {
+        switch (this.passwordStrength) {
+            case passwordStages.WEAK:
+                return "red";
+            case passwordStages.FAIR:
+                return "orange";
+            case passwordStages.GOOD:
+                return "green";
+            case passwordStages.STRONG:
+                return "darkgreen";
+            default:
+                return "lightgray";
+        }
     }
 
     /**
@@ -103,10 +124,21 @@ export abstract class BaseAuthComponent extends LitElement {
      */
     protected renderForm(): TemplateResult {
         return html`
-            ${this.createInput("text", this.email, "email", "Email")}
+            ${this.createInput("email", this.email, "email", "Email")}
             <input class="form-input" type="password" .value="${this.password}" @input="${this.handlePasswordInput}" placeholder="Password">
-            <p>${this.error}</p>
         `;
+    }
+
+    /**x
+     * This method renders multiple error messages.
+     *
+     * @param errors - The array of error messages.
+     * @returns A TemplateResult representing the error messages.
+     */
+    protected renderErrors(errors: string[]): TemplateResult {
+        return html`
+        ${errors.map(error => html`<p>${error}</p>`)}
+    `;
     }
 
     /**

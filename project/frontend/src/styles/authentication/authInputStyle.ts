@@ -5,7 +5,7 @@ export default css `
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 15%;
+        margin-top: 10%;
     }
 
     form {
@@ -13,7 +13,7 @@ export default css `
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 250px;
+        width: 275px;
     }
 
     .form-input {
@@ -27,10 +27,27 @@ export default css `
     .form-submit {
         width: 95%;
         padding: 5px;
-        margin: 5px 0;
+        margin: 10px 0;
         border: 1px solid #ECAE20;
         border-radius: 10px;
         cursor: pointer;
         background-color: #ECAE20;
+    }
+
+    .form-title {
+        margin-bottom: 2px;
+    }
+
+    .form-message{
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+
+    .form-redirect-message{
+        a {
+            color: #ECAE20;
+            font-weight: bold;
+            text-decoration: none;
+        }
     }
 `;

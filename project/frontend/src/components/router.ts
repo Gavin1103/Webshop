@@ -60,7 +60,6 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
 
     window.addEventListener('hashchange', (): void => {
         const path: string = window.location.hash.slice(1);
-        console.log(path);
 
         navigateTo(path);
     });

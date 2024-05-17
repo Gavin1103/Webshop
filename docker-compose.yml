@@ -1,20 +1,57 @@
 version: '3.8'
 
 services:
-  db:
-    image: mysql:8.0
-    container_name: mysql8
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql8:/var/lib/mysql
-    networks:
-      - proxy
+    db:
+        image: mysql:8.0
+        container_name: mysql8
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql8:/var/lib/mysql
+        networks:
+            - proxy
+
+    frontend:
+        image: node:20
+        container_name: frontend
+        working_dir: /usr/src/app
+        command: sh -c "npm install && npm run dev:web"
+        volumes:
+            - ./:/usr/src/app
+            - ./project/frontend/.env:/usr/src/app/project/frontend/.env
+        ports:
+            - "3000:3000"
+        expose:
+            -   "3000"
+        depends_on:
+            - db
+        networks:
+            - proxy
+
+    backend:
+        image: gradle:7.3.3-jdk17
+        container_name: backend
+        working_dir: /home/gradle/project/backend
+        command: sh -c "./gradlew clean build && ./gradlew bootRun"
+        volumes:
+            - ./project:/home/gradle/project
+            - ./.env:/home/gradle/project
+        environment:
+            SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${MYSQL_DATABASE:-mydatabase}
+            SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-root}
+            SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-root}
+        ports:
+            - "8080:8080"
+        depends_on:
+            - db
+        networks:
+            - proxy
 
 volumes:
-  mysql8:
+    mysql8:
 
 networks:
-  proxy:
+    proxy:
+

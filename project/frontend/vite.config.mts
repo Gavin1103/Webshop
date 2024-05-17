@@ -1,6 +1,6 @@
-import { defineConfig, loadEnv } from "vite";
-import { resolve } from "path";
-import { globSync } from "glob";
+import {defineConfig, loadEnv} from "vite";
+import {resolve} from "path";
+import {globSync} from "glob";
 import eslint from "vite-plugin-eslint";
 import checker from "vite-plugin-checker";
 
@@ -32,6 +32,7 @@ export default defineConfig((config) => {
         input[`app_${i}`] = resolve(e);
     });
 
+    const {VITE_DOCKER_HOST} = env;
 
     return {
         base: "./",
@@ -56,7 +57,7 @@ export default defineConfig((config) => {
             },
         },
         plugins: [
-            checker({ typescript: true }),
+            checker({typescript: true}),
             eslint({
                 overrideConfigFile: '../../.eslintrc.js',
             }),
@@ -65,6 +66,7 @@ export default defineConfig((config) => {
             viteConfiguration: viteConfiguration,
         },
         server: {
+            host: VITE_DOCKER_HOST || "localhost",
             watch: {
                 ignored: ['!**/node_modules/**'],
                 usePolling: true,

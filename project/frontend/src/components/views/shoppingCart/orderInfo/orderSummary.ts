@@ -1,8 +1,9 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import OrderSummaryStyle from "../../../../styles/shoppingCart/orderInfo/orderSummaryStyle";
-import {OrderItem} from "../../../../types/OrderItem";
-import {navigateTo} from "../../../helpers/helpers";
+import {navigateTo, roundToTwoDecimals} from "../../../helpers/helpers";
+import {CartItem} from "../../../helpers/CartHelpers";
+
 
 const TAX_RATE: number = 21;
 const SHIPPING_COST: number = 25.25;
@@ -14,17 +15,16 @@ export class OrderSummary extends LitElement {
     public static styles = [OrderSummaryStyle];
 
     @property({type: Object})
-    private products: OrderItem[] = [];
+    private products: CartItem[] = [];
 
     private getTotalPrice(): number {
         if (!this.products.length) return 0;
         return this.products.reduce((total, product) => total + product.price * product.quantity, 0);
     }
 
-    private getTaxAmount(): string {
+    private getTaxAmount(): number {
         const total: number = this.getTotalPrice();
-        const tax: number = (total / 100) * TAX_RATE;
-        return tax.toFixed(2);
+        return (total / 100) * TAX_RATE;
     }
 
     private handleContinue(): void {
@@ -49,11 +49,11 @@ export class OrderSummary extends LitElement {
             <div class="summary-wrapper">
                 <div class="content-container">
                     <h2 class="title">Order Summary</h2>
-                    ${this.renderSummaryItem("Subtotal", this.getTotalPrice())}
-                    ${this.renderSummaryItem(`BTW(${TAX_RATE}%)`, this.getTaxAmount())}
+                    ${this.renderSummaryItem("Subtotal", roundToTwoDecimals(this.getTotalPrice()))}
+                    ${this.renderSummaryItem(`BTW(${TAX_RATE}%)`, roundToTwoDecimals(this.getTaxAmount()))}
                     ${this.renderSummaryItem("Estimated Shipping", SHIPPING_COST)}
 
-                    ${this.renderSummaryItem("Estimated Total", this.getTotalPrice() + SHIPPING_COST)}
+                    ${this.renderSummaryItem("Estimated Total", roundToTwoDecimals(this.getTotalPrice() + SHIPPING_COST))}
 
                     <div class="button-container">
                         <button @click="${this.handleReturn}" class="button prev-button overview-button">

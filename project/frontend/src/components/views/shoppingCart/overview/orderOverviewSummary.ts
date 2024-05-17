@@ -6,7 +6,7 @@ import OrderOverviewSummaryStyle
     from "../../../../styles/shoppingCart/orderOverview/orderOverviewSummaryStyle";
 import inputFieldStyle from "../../../../styles/shoppingCart/inputFieldStyle";
 import {createInputField} from "../../../helpers/formHelpers";
-import {navigateTo} from "../../../helpers/helpers";
+import {navigateTo, roundToTwoDecimals} from "../../../helpers/helpers";
 
 const FREE_SHIPPING_THRESHOLD: number = 0;
 const HOME_PATH: string = "/";
@@ -137,7 +137,7 @@ export class OrderOverviewSummary extends LitElement {
     }
 
     private renderTotalSection(): TemplateResult {
-        const totalPrice: number = this.calculateTotalPrice();
+        const totalPrice: string = roundToTwoDecimals(this.calculateTotalPrice());
         return html`
             <div class="summary-section">
                 ${this.renderSummaryItem("Subtotal (3 items)", `€ ${totalPrice}`)}

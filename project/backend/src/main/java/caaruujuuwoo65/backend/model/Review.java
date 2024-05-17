@@ -1,19 +1,15 @@
 package caaruujuuwoo65.backend.model;
 
-
-import caaruujuuwoo65.backend.dto.ReviewDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 
-import caaruujuuwoo65.backend.model.Product;
-import caaruujuuwoo65.backend.model.User;
-
 @Entity
-@Table(name = "review")
+@Table(name = "reviews")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,9 +17,9 @@ import caaruujuuwoo65.backend.model.User;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long reviewId;
 
-    private int rating;
+    private Integer rating;
 
     private String review;
 

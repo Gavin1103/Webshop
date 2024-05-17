@@ -1,5 +1,5 @@
 import {Router} from "@vaadin/router";
-import "./views/homePage";
+import "./views/homePage/home-page";
 import "./views/shoppingCart/shoppingCart";
 import "./views/404Page";
 

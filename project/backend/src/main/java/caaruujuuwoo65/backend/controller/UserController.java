@@ -1,6 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
-import caaruujuuwoo65.backend.dto.UserEditDto;
+import caaruujuuwoo65.backend.dto.user.UpdateUserDTO;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.service.JwtService;
 import caaruujuuwoo65.backend.service.UserService;
@@ -49,7 +49,7 @@ public class UserController {
         @ApiResponse(responseCode = "404", description = "User not found"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<?> editUser(@RequestBody UserEditDto userDto, @PathVariable String email) {
+    public ResponseEntity<?> editUser(@RequestBody UpdateUserDTO userDto, @PathVariable String email) {
         return userService.editUser(userDto, email, true);
     }
 
@@ -61,7 +61,7 @@ public class UserController {
         @ApiResponse(responseCode = "404", description = "User not found"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<?> editSelf(@RequestBody UserEditDto userDto, HttpServletRequest request) {
+    public ResponseEntity<?> editSelf(@RequestBody UpdateUserDTO userDto, HttpServletRequest request) {
         String id = this.jwtService.extractUserData(request, "sub");
         return userService.editUser(userDto, id, false);
     }

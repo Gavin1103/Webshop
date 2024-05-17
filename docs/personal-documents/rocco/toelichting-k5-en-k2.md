@@ -31,6 +31,8 @@ spreadsheet zijn hieronder weergegeven:
 
 ![img.png](afbeeldingen/form-image-pre-fase.png)
 
+![img.png](afbeeldingen/feedback-result-pre-fase.png)
+
 ### Low-fi Ontwerpen
 
 Op basis van de verzamelde feedback hebben we een low-fi ontwerp gemaakt. Eén persoon uit het team heeft een

@@ -5,12 +5,12 @@ import "./search-bar";
 import navigationBarStyle from "../styles/navigationBarStyle";
 import {CategoryResponse} from "../../types/responses/CategoryResponse";
 import {CategoryService} from "../services/CategoryService";
+import {navigateTo} from "./router";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {
     private sidebarVisible: boolean = false;
     private categoryList: CategoryResponse | undefined;
-
 
 
     public async connectedCallback(): Promise<void> {
@@ -41,8 +41,7 @@ export class NavigationBar extends LitElement {
     }
 
     private goToShoppingCart(): void {
-        location.replace("/cart");
-        this.requestUpdate();
+        navigateTo("/cart");
     }
 
     public static styles = [navigationBarStyle];

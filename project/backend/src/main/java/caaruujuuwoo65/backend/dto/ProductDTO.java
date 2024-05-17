@@ -8,7 +8,6 @@ import caaruujuuwoo65.backend.model.CategoryProduct;
 @Getter
 @Setter
 public class ProductDTO {
-
     private String name;
     private Number price;
     private String description;
@@ -16,5 +15,4 @@ public class ProductDTO {
     private String image;
     private TypeProduct type;
     private CategoryProduct category;
-
 }

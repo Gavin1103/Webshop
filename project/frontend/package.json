@@ -1,5 +1,5 @@
 {
-    "name": "@webshop/web",
+    "name": "@webshop/frontend",
     "version": "1.0.0",
     "private": true,
     "scripts": {
@@ -8,9 +8,16 @@
         "preview": "tsc --noEmit && vite build --mode preview && vite preview"
     },
     "devDependencies": {
+        "@types/node": "^20.12.12",
+        "@typescript-eslint/eslint-plugin": "^7.9.0",
+        "@typescript-eslint/parser": "^7.9.0",
         "@vaadin/router": "^1.7.5",
+        "eslint": "8.56.0",
         "glob": "10.3.12",
         "lit": "3.1.0",
+        "node": "20.5.0",
+        "tsx": "^4.10.4",
+        "typescript": "^5.4.5",
         "vite": "5.2.8",
         "vite-plugin-checker": "^0.6.4",
         "vite-plugin-eslint": "1.8.1"

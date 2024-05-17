@@ -13,18 +13,31 @@ services:
         networks:
             - proxy
 
+    init-db:
+        image: node:20
+        container_name: init-db
+        working_dir: /usr/src/app
+        entrypoint: [ "/usr/src/app/entrypoint.sh" ]
+        volumes:
+            - ./project/scripts:/usr/src/app
+            - /var/run/docker.sock:/var/run/docker.sock
+        depends_on:
+            - db
+        networks:
+            - proxy
+        restart: 'no'
+
     frontend:
         image: node:20
         container_name: frontend
         working_dir: /usr/src/app
-        command: sh -c "npm install && npm run dev:web"
+        command: sh -c "npm install && npm run dev"
         volumes:
-            - ./:/usr/src/app
-            - ./project/frontend/.env:/usr/src/app/project/frontend/.env
+            - ./project/frontend:/usr/src/app
         ports:
             - "3000:3000"
         expose:
-            -   "3000"
+            - "3000"
         depends_on:
             - db
         networks:
@@ -37,7 +50,7 @@ services:
         command: sh -c "./gradlew clean build && ./gradlew bootRun"
         volumes:
             - ./project:/home/gradle/project
-            - ./.env:/home/gradle/project
+            - ./project/backend/.env:/home/gradle/project/.env
         environment:
             SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${MYSQL_DATABASE:-mydatabase}
             SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-root}
@@ -46,6 +59,7 @@ services:
             - "8080:8080"
         depends_on:
             - db
+            - init-db
         networks:
             - proxy
 
@@ -54,4 +68,3 @@ volumes:
 
 networks:
     proxy:
-

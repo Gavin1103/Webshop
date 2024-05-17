@@ -1,5 +1,54 @@
 # Toelichting Kwaliteitscriteria 2 & 5
 
+## STARR
+
+### Situatie
+
+Het project vereiste de ontwikkeling van een nieuwe webshop voor Luka Stars. Om ervoor te zorgen dat
+de webshop zowel functioneel als gebruiksvriendelijk was, moest een ontwerp voor de winkelwagen
+pagina worden gemaakt.
+
+### Taak
+
+Mijn taak was het ontwerpen van het prototype voor de winkelwagen pagina van de webshop. Dit hield in het
+maken van verschillende versies van het prototype en het verzamelen van feedback van gebruikers om te zorgen
+dat het design aan hun verwachtingen en behoeften voldeed.
+
+### Actie
+
+Ik volgde een cyclus van prototyping en feedbackverzameling, waarbij ik samenwerkte met mijn teamgenoten die
+onder andere het oorspronkelijke low-fi ontwerp maakte:
+
+1. **Low-fi Ontwerpen:** Een teamgenoot begon met het maken van low-fidelity ontwerpen om een basisidee te
+   creëren. Deze schetsen hielpen om de belangrijkste elementen en functionaliteiten van de
+   gehele webshop vast te leggen.
+2. **Feedbackronde 1:** Als team verzamelde we feedback van potentiële gebruikers over het low-fidelity
+   ontwerp
+   via Google Forms. Deze feedback gaf inzicht in de gebruikersverwachtingen en eventuele noodzakelijke
+   verbeteringen.
+3. **Mid-fi Prototypes:** Op basis van de ontvangen feedback maakte ik meer gedetailleerde low/mid-fidelity
+   prototypes. Deze prototypes waren realistischer en gaven een beter beeld van de gebruikersverwacht.
+4. **Feedbackronde 2:** We hebben opnieuw als team feedback via Google Form opgehaald op de mid-fi prototypes.
+   De gebruikers gaven specifiekere reacties, wat hielp om de ontwerpen verder te verfijnen.
+5. **Verbeterde Mid-fi Prototypes:** Na de tweede feedbackronde paste ik de ontwerpen aan en maakte verbeterde
+   mid-fi prototypes. Deze versies waren bedoeld om zo dicht mogelijk bij het uiteindelijke ontwerp te komen.
+6. **Feedbackronde 3:** Ik verzamelde wederom feedback om te controleren of de aangebrachte veranderingen aan
+   de verwachtingen voldeden en om eventuele laatste aanpassingen door te voeren.
+
+### Resultaat
+
+Dit herhalend proces resulteerde in een aanzienlijk verbeterd winkelwagen design dat beter aansloot bij de
+gebruikersbehoeften en -verwachtingen. De gebruikers waren uiteindelijk meer tevreden met het ontwerp, wat
+blijkt uit de op dit moment opgehaalde positieve reacties van de laatste feedbackronde.
+
+### Reflectie
+
+Deze ervaring heeft mij geleerd hoe cruciaal het is om continu feedback te verzamelen tijdens het
+ontwerpproces. Het bleek dat gedetailleerdere prototypes noodzakelijk zijn om zinvolle en bruikbare feedback
+te krijgen.
+
+## Inleiding
+
 Tijdens Sprint 1 hebben we verschillende prototypes van de webshoppagina's voor Luka Stars gemaakt. We
 begonnen met low-fi ontwerpen om de basis vast te leggen. Na het verzamelen van feedback via Google
 Formulieren zijn we verdergegaan met het maken van mid-fi prototypes. Ook voor deze ontwerpen hebben we
@@ -8,13 +57,21 @@ waarvoor ik feedback heb opgehaald, is de shopping-cart pagina. Deze prototypes 
 
 ## Inhoudsopgave
 
-1. [Fase 1: Verwachtingen en Low-fi Ontwerpen](#fase-1-verwachtingen-en-low-fi-ontwerpen)
-    1. [Feedbackronde 1: Verwachtingen](#feedbackronde-1-verwachtingen)
-    2. [Low-fi Ontwerpen](#low-fi-ontwerpen)
-2. [Fase 2: Low/Mid-fi Prototypes](#fase-2-lowmid-fi-prototypes)
-    1. [Feedbackronde 2: Low/Mid-fi Prototypes](#feedbackronde-2-lowmid-fi-prototypes)
-3. [Fase 3: Verbeterde Mid-fi Prototypes](#fase-3-verbeterde-mid-fi-prototypes)
-    1. [Feedbackronde 3: Verbeterde Mid-fi Prototypes](#feedbackronde-3-verbeterde-mid-fi-prototypes)
+1. [STARR](#starr)
+    1. [Situatie](#situatie)
+    2. [Taak](#taak)
+    3. [Actie](#actie)
+    4. [Resultaat](#resultaat)
+    5. [Reflectie](#reflectie)
+2. [Inleiding](#inleiding)
+3. [Fases](#fases)
+    1. [Fase 1: Verwachtingen en Low-fi Ontwerpen](#fase-1-verwachtingen-en-low-fi-ontwerpen)
+        1. [Feedbackronde 1: Verwachtingen](#feedbackronde-1-verwachtingen)
+        2. [Low-fi Ontwerpen](#low-fi-ontwerpen)
+    2. [Fase 2: Low/Mid-fi Prototypes](#fase-2-lowmid-fi-prototypes)
+        1. [Feedbackronde 2: Low/Mid-fi Prototypes](#feedbackronde-2-lowmid-fi-prototypes)
+    3. [Fase 3: Verbeterde Mid-fi Prototypes](#fase-3-verbeterde-mid-fi-prototypes)
+        1. [Feedbackronde 3: Verbeterde Mid-fi Prototypes](#feedbackronde-3-verbeterde-mid-fi-prototypes)
 4. [Conclusie](#conclusie)
 
 ## Fase 1: Verwachtingen en Low-fi Ontwerpen
@@ -30,6 +87,8 @@ De ruwe data van deze feedback is verzameld in een spreadsheet. Twee afbeeldinge
 spreadsheet zijn hieronder weergegeven:
 
 ![img.png](afbeeldingen/form-image-pre-fase.png)
+
+![img.png](afbeeldingen/feedback-result-pre-fase.png)
 
 ### Low-fi Ontwerpen
 

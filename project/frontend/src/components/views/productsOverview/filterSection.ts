@@ -1,20 +1,19 @@
 import { html, LitElement, TemplateResult } from "lit";
 import {customElement, property} from "lit/decorators.js";
 import filterSectionStyle from "../../../styles/productsOverview/filterSectionStyle";
+import {FilterRequest} from "./type/FilterRequest";
 
 interface ToggleableElement {
     visible: boolean;
     iconSrc: string;
 }
 
-interface FilterRequest {
-    categories?: string[];
-    priceRange?: { min: number; max: number };
-    ratings?: number;
-}
-
 @customElement("filter-section")
 export class FilterSection extends LitElement {
+    public static events = {
+        "filter-changed": { type: CustomEvent<FilterRequest> }
+    };
+
     @property({type: Array})
     public categoryList: {name: string}[] = [];
 
@@ -66,8 +65,17 @@ export class FilterSection extends LitElement {
         }
 
         sessionStorage.setItem("filterRequest", JSON.stringify(filterRequest));
+
+        const event: CustomEvent<{message: FilterRequest}>  = new CustomEvent("filter-changed", {
+            detail: { message: filterRequest },
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(event);
+
         this.requestUpdate();
     }
+
 
     // Let filters retain state
     public firstUpdated(): void {

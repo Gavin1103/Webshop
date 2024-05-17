@@ -2,14 +2,13 @@ package caaruujuuwoo65.backend.model;
 
 
 import caaruujuuwoo65.backend.dto.ProductDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import caaruujuuwoo65.backend.model.TypeProduct;
-import caaruujuuwoo65.backend.model.CategoryProduct;
 
 @Entity
 @Table(name = "product")
@@ -26,6 +25,7 @@ public class Product {
 
     private int price;
 
+    @Column(length = 1000)
     private String description;
 
     private int stock;
@@ -34,6 +34,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "type_product")
+    @JsonIgnore
     private TypeProduct type;
 
     @ManyToOne

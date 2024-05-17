@@ -1,0 +1,61 @@
+package caaruujuuwoo65.backend.controller;
+
+import caaruujuuwoo65.backend.dto.ProductDTO;
+import caaruujuuwoo65.backend.dto.ProductPreviewDTO;
+import caaruujuuwoo65.backend.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+
+    private final ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping
+    @Operation(summary = "Get all products", description = "Get all products from the database")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        List<ProductDTO> dtos = productService.getAllProducts();
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/topDeals")
+    @Operation(summary = "Get top deals", description = "Get top deals from the database")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<List<ProductPreviewDTO>> getTopDeals() {
+        List<ProductPreviewDTO> dtos = productService.getTopDeals();
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/recommend")
+    @Operation(summary = "Get recommended products", description = "Get recommended products from the database")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<List<ProductPreviewDTO>> getRecommendProducts() {
+        List<ProductPreviewDTO> dtos = productService.getRecommendProducts();
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+}

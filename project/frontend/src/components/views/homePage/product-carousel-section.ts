@@ -1,6 +1,8 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
+import {ProductPreviewResponse} from "../../../../types/responses/ProductPreviewResponse";
+import {Router} from "@vaadin/router";
 
 @customElement("product-carousel-section")
 export class ProductCarouselSection extends LitElement {
@@ -8,7 +10,11 @@ export class ProductCarouselSection extends LitElement {
     public title: string = "";
 
     @property({type: Array})
-    public productsData : {image: string, name: string, price: number}[] = [];
+    public productsData : ProductPreviewResponse[] = [];
+
+    private redirectToProductDetailPage(id: number): void {
+        Router.go(`productDetail/${id}`);
+    }
 
     public static styles = [productCarouselSectionStyle];
 
@@ -23,8 +29,8 @@ export class ProductCarouselSection extends LitElement {
             </div>
             
             <section class="product-carousel">
-                ${this.productsData.map(product => html`
-                    <div class="product-card" tabindex="1">
+                ${this.productsData ? this.productsData.map(product => html`
+                    <div class="product-card" tabindex="1" @click="${():void => this.redirectToProductDetailPage(product.id)}">
                         <img class="product-image" src="${product.image}" alt="${product.name}">
                         <div class="product-info">
                             <span class="product-name">${product.name}</span>
@@ -32,7 +38,7 @@ export class ProductCarouselSection extends LitElement {
                             <img tabindex="1" class="add-to-cart-button" src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
                         </div>
                     </div>
-                `)}
+                `) : ""}
                 </div>
             </section>
         `;

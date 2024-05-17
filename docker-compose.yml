@@ -32,12 +32,13 @@ services:
         restart: 'no'
 
     frontend:
-        image: node:20
+        build:
+            context: ./project/frontend
         container_name: frontend
         working_dir: /usr/src/app
-        command: sh -c "npm install && npm run dev"
         volumes:
             - ./project/frontend:/usr/src/app
+            - node_modules:/usr/src/app/node_modules
         ports:
             - "3000:3000"
         expose:
@@ -46,18 +47,19 @@ services:
             - db
         networks:
             - proxy
+        user: "node"
 
     backend:
-        image: gradle:7.3.3-jdk17
+        build:
+            context: ./project/backend
         container_name: backend
         working_dir: /home/gradle/project/backend
-        command: sh -c "./gradlew clean build && ./gradlew bootRun"
         volumes:
-            - ./project:/home/gradle/project
+            - ./project/backend:/home/gradle/project/backend
         environment:
-            SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${MYSQL_DATABASE:-mydatabase}
-            SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-root}
-            SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-root}
+            SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/webshop
+            SPRING_DATASOURCE_USERNAME: root
+            SPRING_DATASOURCE_PASSWORD: root
         ports:
             - "8080:8080"
         depends_on:
@@ -68,6 +70,7 @@ services:
 
 volumes:
     db_data:
+    node_modules:
 
 networks:
     proxy:

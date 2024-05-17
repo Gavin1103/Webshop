@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import PersonalInfoStyle from "../../../../styles/shoppingCart/personalInfo/personalInfoStyle";
-import {navigateTo} from "../../../helpers/helpers";
+import {navigateTo} from "../../../router";
 
 @customElement("personal-info")
 export class PersonalInfo extends LitElement {

@@ -8,5 +8,8 @@
     },
     "dependencies": {
         "mysql2": "^3.9.7"
+    },
+    "devDependencies": {
+        "dotenv": "^16.4.5"
     }
 }

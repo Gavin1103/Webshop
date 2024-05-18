@@ -20,6 +20,16 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
+            path: "/category/:id",
+            component: "products-overview",
+            action: (context, commands): any => {
+                updatePath(context.pathname);
+                return commands.component("products-overview");
+            }
+
+        },
+
+        {
             path: "/cart",
             component: "shopping-cart",
             action: (context, commands): any => {

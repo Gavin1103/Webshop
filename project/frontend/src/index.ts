@@ -20,5 +20,6 @@ export * from "./components/views/homePage/home-page";
 export * from "./components/views/homePage/hero-section-homepage";
 export * from "./components/views/homePage/product-carousel-section";
 export * from "./components/views/homePage/category-grid-section";
+export * from "./components/views/productsOverview/productsOverview";
 export * from "./components/views/productsOverview/filterSection";
 export * from "./components/views/productsOverview/showcaseSection";

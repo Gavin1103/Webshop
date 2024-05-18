@@ -17,7 +17,7 @@ export class ProductsOverview extends LitElement {
     ];
 
     private currentPath: string | undefined;
-    private param: string | undefined;
+    // private param: string | undefined;
 
     public filterRequest: FilterRequest | undefined;
 
@@ -38,13 +38,13 @@ export class ProductsOverview extends LitElement {
             case OverviewType.category:
                 this.currentPath = "Category";
         }
-        this.param = parts[2];
+        // this.param = parts[2];
         this.requestUpdate();
     };
 
 
     private redirectToPreviousPage(): void {
-        Router.go("/home");
+        Router.go("/");
     }
 
     public static styles = [overviewStyle];
@@ -62,7 +62,7 @@ export class ProductsOverview extends LitElement {
                 <main>
                     <filter-section .categoryList="${this.categoryList}" @filter-changed="${this._handelFilterChanged}"></filter-section>
                     <showcase-section 
-                        overviewType="${this.currentPath} 
+                        overviewType="${this.currentPath}"
                         .filterRequest="${this.filterRequest}">
                     </showcase-section>
                 </main>

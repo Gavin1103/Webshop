@@ -114,6 +114,13 @@ export class FilterSection extends LitElement {
                 }
             }
 
+            const event: CustomEvent<{message: FilterRequest}>  = new CustomEvent("filter-changed", {
+                detail: { message: filterRequest },
+                bubbles: true,
+                composed: true
+            });
+            this.dispatchEvent(event);
+
         }
     }
 

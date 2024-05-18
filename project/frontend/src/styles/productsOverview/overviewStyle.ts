@@ -25,12 +25,7 @@ export default css `
         flex-direction: row;
 
         filter-section {
-            flex:2;
             margin-right: 5vw;
-        }
-
-        showcase-section {
-            flex: 8;
         }
     }
     

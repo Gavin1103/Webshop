@@ -22,9 +22,21 @@ export default css`
     }
     
     .result {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         margin: 10px;
         padding: 10px;
-        border-radius: 20px;
+        border-radius: 40px;
+        
+        img {
+            transition: transform 0.3s;
+            transform: scale(0.8);
+        }
+        
+        img:hover {
+            transform: scale(1);
+        }
     }
     
     .category-filter-result {

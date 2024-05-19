@@ -1,7 +1,7 @@
 import { html, LitElement, TemplateResult } from "lit";
 import {customElement, property} from "lit/decorators.js";
 import filterSectionStyle from "../../../styles/productsOverview/filterSectionStyle";
-import {FilterRequest} from "./type/FilterRequest";
+import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 
 interface ToggleableElement {
     visible: boolean;
@@ -10,12 +10,11 @@ interface ToggleableElement {
 
 @customElement("filter-section")
 export class FilterSection extends LitElement {
-    public static events = {
-        "filter-changed": { type: CustomEvent<FilterRequest> }
-    };
-
     @property({type: Array})
     public categoryList: {name: string}[] = [];
+
+    public filterRequest: FilterRequest | undefined;
+
 
     private category: ToggleableElement = {
         visible: true,
@@ -31,6 +30,7 @@ export class FilterSection extends LitElement {
         visible: true,
         iconSrc: "/assets/image/icons/minus-circle.svg"
     };
+
 
     private toggleVisibility(element: ToggleableElement): void {
         element.visible = !element.visible;
@@ -64,14 +64,10 @@ export class FilterSection extends LitElement {
             filterRequest["ratings"] = selectedRatings[0];
         }
 
-        sessionStorage.setItem("filterRequest", JSON.stringify(filterRequest));
+        this.filterRequest = filterRequest;
+        sessionStorage.setItem("filterRequest", JSON.stringify(this.filterRequest));
 
-        const event: CustomEvent<{message: FilterRequest}>  = new CustomEvent("filter-changed", {
-            detail: { message: filterRequest },
-            bubbles: true,
-            composed: true
-        });
-        this.dispatchEvent(event);
+        this.dispatchFilterChangedEvent(this.filterRequest);
 
         this.requestUpdate();
     }
@@ -79,49 +75,86 @@ export class FilterSection extends LitElement {
 
     // Let filters retain state
     public firstUpdated(): void {
+        this.updateFilter();
+        if (this.filterRequest) {
+            this.dispatchFilterChangedEvent(this.filterRequest);
+        }
+    }
+
+    public clearFilter(): void {
+        // Clear all category selections
+        const allCategoryCheckboxes: NodeListOf<HTMLInputElement> = this.shadowRoot!.querySelectorAll(".category-checkbox input[type='checkbox']");
+        allCategoryCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        // Clear price range selections
+        const lowestPriceInput: HTMLInputElement | null = this.shadowRoot!.querySelector("input[name='lowestPrice']");
+        const highestPriceInput: HTMLInputElement | null = this.shadowRoot!.querySelector("input[name='highestPrice']");
+        if (lowestPriceInput && highestPriceInput) {
+            lowestPriceInput.value = "";
+            highestPriceInput.value = "";
+        }
+
+        // Clear rating selections
+        const allRatingInputs: NodeListOf<HTMLInputElement> = this.shadowRoot!.querySelectorAll(".rating-stars input[type='radio']");
+        allRatingInputs.forEach(input => {
+            input.checked = false;
+        });
+        this.requestUpdate();
+    }
+
+    public updateFilter(): void {
         // Check sessionStorage for stored filter request
         const storedFilterRequest: string | null = sessionStorage.getItem("filterRequest");
+        console.log(storedFilterRequest);
         if (storedFilterRequest) {
             // Apply stored filter request
-            const filterRequest: FilterRequest = JSON.parse(storedFilterRequest);
+            this.filterRequest = JSON.parse(storedFilterRequest);
 
-            // Apply category filter
-            if (filterRequest.categories && filterRequest.categories.length > 0) {
-                filterRequest.categories.forEach(category => {
-                    const checkbox: HTMLInputElement = this.shadowRoot!.querySelector(`input[name='${category}']`) as HTMLInputElement;
-                    if (checkbox) {
-                        checkbox.checked = true;
+            if (this.filterRequest) {
+                // Apply category filter
+                if (this.filterRequest.categories && this.filterRequest.categories.length > 0) {
+                    this.filterRequest.categories.forEach(category => {
+                        const checkbox: HTMLInputElement = this.shadowRoot!.querySelector(`input[name='${category}']`) as HTMLInputElement;
+                        if (checkbox) {
+                            checkbox.checked = true;
+                        }
+                    });
+                }
+
+                // Apply price filter
+                if (this.filterRequest.priceRange) {
+                    const { min, max } = this.filterRequest.priceRange;
+                    const lowestPriceInput: HTMLInputElement | null = this.shadowRoot!.querySelector("input[name='lowestPrice']");
+                    const highestPriceInput: HTMLInputElement | null = this.shadowRoot!.querySelector("input[name='highestPrice']");
+                    if (lowestPriceInput && highestPriceInput) {
+                        lowestPriceInput.value = min.toString();
+                        highestPriceInput.value = max.toString();
                     }
-                });
-            }
+                }
 
-            // Apply price filter
-            if (filterRequest.priceRange) {
-                const { min, max } = filterRequest.priceRange;
-                const lowestPriceInput: HTMLInputElement | null = this.shadowRoot!.querySelector("input[name='lowestPrice']");
-                const highestPriceInput: HTMLInputElement | null = this.shadowRoot!.querySelector("input[name='highestPrice']");
-                if (lowestPriceInput && highestPriceInput) {
-                    lowestPriceInput.value = min.toString();
-                    highestPriceInput.value = max.toString();
+                // Apply rating filter
+                if (this.filterRequest.ratings) {
+                    const ratingInput: HTMLInputElement | null = this.shadowRoot!.querySelector(`input[id='${this.filterRequest.ratings}']`);
+                    if (ratingInput) {
+                        ratingInput.checked = true;
+                    }
                 }
             }
-
-            // Apply rating filter
-            if (filterRequest.ratings) {
-                const ratingInput: HTMLInputElement | null = this.shadowRoot!.querySelector(`input[id='${filterRequest.ratings}']`);
-                if (ratingInput) {
-                    ratingInput.checked = true;
-                }
-            }
-
-            const event: CustomEvent<{message: FilterRequest}>  = new CustomEvent("filter-changed", {
-                detail: { message: filterRequest },
-                bubbles: true,
-                composed: true
-            });
-            this.dispatchEvent(event);
-
         }
+
+        this.requestUpdate();
+    }
+
+
+    private dispatchFilterChangedEvent(filterRequest: FilterRequest): void {
+        const event: CustomEvent<{message: FilterRequest}> = new CustomEvent("filter-changed", {
+            detail: { message: filterRequest },
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(event);
     }
 
     public static styles = [filterSectionStyle];
@@ -129,6 +162,7 @@ export class FilterSection extends LitElement {
     public render(): TemplateResult {
         return html`
             <section class="filter-section">
+                <img class="close-button" src="/assets/image/icons/close-icon.svg" alt="close" />
                 <div class="category filter-block">
                     <div class="filter-header">
                         <span class="title">Categories</span>

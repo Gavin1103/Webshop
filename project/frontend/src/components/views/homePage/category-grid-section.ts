@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import categoryGridSectionStyle from "../../../styles/homePage/categoryGridSectionStyle";
-import {CategoryResponse} from "../../../../types/responses/CategoryResponse";
+import {CategoryResponse} from "../../../types/responses/CategoryResponse";
 import {Router} from "@vaadin/router";
 
 @customElement("category-grid-section")

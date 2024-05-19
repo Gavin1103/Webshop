@@ -1,7 +1,8 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import showcaseSectionStyle from "../../../styles/productsOverview/showcaseSectionStyle";
-import {FilterRequest} from "./type/FilterRequest";
+import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
+import {ProductOverviewResponse} from "../../../types/responses/ProductOverviewResponse";
 
 @customElement("showcase-section")
 export class ShowcaseSection extends LitElement {
@@ -11,11 +12,32 @@ export class ShowcaseSection extends LitElement {
     @property({type: String})
     public overViewType: string | undefined;
 
+    @property({type: String})
+    private productList: ProductOverviewResponse[] | undefined;
+
     private filterRequest: FilterRequest | undefined;
+
+    private deleteButtonPath: string = "/assets/image/icons/close-icon.svg";
 
     public updateFilterRequest(filterRequest: FilterRequest | undefined): void {
         this.filterRequest = filterRequest;
         this.requestUpdate();
+    }
+
+    private updateSessionStorage(): void {
+        if (this.filterRequest) {
+            sessionStorage.setItem("filterRequest", JSON.stringify(this.filterRequest));
+        } else {
+            sessionStorage.removeItem("filterRequest");
+        }
+    }
+
+    private dispatchFilterDeletedEvent(): void {
+        const event: CustomEvent = new CustomEvent("filter-deleted", {
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(event);
     }
 
 
@@ -25,6 +47,7 @@ export class ShowcaseSection extends LitElement {
             (category: string) => html`
                 <span class="category-filter-result result">
                     ${category}
+                    <img src="${this.deleteButtonPath}" @click="${(): void => this.handleDeleteCategory(category)}" alt="delete">
                 </span>`
         )}
     `;
@@ -35,6 +58,7 @@ export class ShowcaseSection extends LitElement {
         if (priceRange){
             return html`<span class="priceRange-filter-result result">
                 ${priceRange.min} to ${priceRange.max} euros
+                <img src="${this.deleteButtonPath}" @click="${this.handleDeletePriceRange}" alt="delete">
             </span>`;
         }
         return html``;
@@ -46,10 +70,53 @@ export class ShowcaseSection extends LitElement {
             return html `
             <span class="rating-filter-result result">
                 ${this.filterRequest?.ratings} Star
+                <img src="${this.deleteButtonPath}" @click="${this.handleDeleteRating}" alt="delete">
             </span>
         `;
         }
         return html ``;
+    }
+
+    private generateStars(rating: number): string {
+        const roundedRating: number = Math.round(rating);
+        const fullStar: string = "★";
+        const emptyStar: string = "☆";
+        const maxRating: number = 5;
+        let stars: string = "";
+
+        for (let i: number = 0; i < maxRating; i++) {
+            stars += i < roundedRating ? fullStar : emptyStar;
+        }
+
+        return stars;
+    }
+
+
+    private handleDeleteCategory(category: string): void {
+        if (this.filterRequest?.categories) {
+            this.filterRequest.categories = this.filterRequest.categories.filter(cat => cat !== category);
+            this.updateSessionStorage();
+            this.dispatchFilterDeletedEvent();
+            this.requestUpdate();
+        }
+    }
+
+    private handleDeletePriceRange(): void {
+        if (this.filterRequest) {
+            delete this.filterRequest.priceRange;
+            this.updateSessionStorage();
+            this.dispatchFilterDeletedEvent();
+            this.requestUpdate();
+        }
+    }
+
+    private handleDeleteRating(): void {
+        if (this.filterRequest) {
+            delete this.filterRequest.ratings;
+            this.updateSessionStorage();
+            this.dispatchFilterDeletedEvent();
+            this.requestUpdate();
+        }
     }
 
 
@@ -65,21 +132,23 @@ export class ShowcaseSection extends LitElement {
                 ${this.renderRatings()}
             </div>
             <section class="products-list-section">
-                <div class="products-card">
-                    <img class="product-image" src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="image">
-                    <div class="product-info">
-                        <div class="info-left">
-                            <span class="name">Product</span>
-                            <san class="rating">★★★★★</san>
-                            <span class="description">This is a good product</span>
-                        </div>
-                        
-                        <div class="info-right">
-                            <span class="price">€ 19.99</span>
-                            <button class="cart-button">Add</button>
+                ${this.productList ? this.productList.map(product => html `
+                    <div class="products-card">
+                        <img class="product-image" src="${product.image}" alt="image">
+                        <div class="product-info">
+                            <div class="info-left">
+                                <span class="name">${product.name}</span>
+                                <san class="rating">${this.generateStars(product.rating)} (${product.rating})</san>
+                                <span class="description">${product.description}</span>
+                            </div>
+
+                            <div class="info-right">
+                                <span class="price">€ ${product.price}</span>
+                                <button class="cart-button">Add</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                `) : ""}
 
                 
                 

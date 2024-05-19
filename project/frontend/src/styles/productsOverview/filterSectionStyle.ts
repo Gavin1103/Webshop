@@ -5,9 +5,24 @@ export default css `
         margin-top: 5vh;
     }
     
-    .filter-block {
-        background-color: #FFD169;
+    
+    .filter-section {
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #E6E6E6;
         box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
+        width: 20vw;
+        display: flex;
+        flex-direction: column;
+    }
+    
+
+    .close-button {
+        align-self: end;
+    }
+    
+    .filter-block {
+        background-color: #FFFFFF;
         padding: 10px;
         border-radius: 10px;
         margin-top: 20px;

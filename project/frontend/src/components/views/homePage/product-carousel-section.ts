@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
-import {ProductPreviewResponse} from "../../../../types/responses/ProductPreviewResponse";
+import {ProductPreviewResponse} from "../../../types/responses/ProductPreviewResponse";
 import {Router} from "@vaadin/router";
 
 @customElement("product-carousel-section")

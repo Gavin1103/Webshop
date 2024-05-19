@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import OrderSummaryStyle from "../../../../styles/shoppingCart/orderInfo/orderSummaryStyle";
 import {OrderItem} from "../../../../types/OrderItem";
-import {navigateTo} from "../../../helpers/helpers";
+import {navigateTo} from "../../../router";
 
 const TAX_RATE: number = 21;
 const SHIPPING_COST: number = 25.25;

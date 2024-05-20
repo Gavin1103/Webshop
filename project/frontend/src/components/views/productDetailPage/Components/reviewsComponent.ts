@@ -15,6 +15,7 @@ export class ReviewComponent extends LitElement {
                     width: 100%;
                     display: flex;
                     border-top: solid 5px lightgrey;
+                    padding:10px 0 10px 0;
 
                     .profile-section {
                         width: 20%;

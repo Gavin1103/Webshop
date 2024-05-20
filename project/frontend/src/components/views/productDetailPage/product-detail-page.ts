@@ -1,9 +1,9 @@
 import { css, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import globalStyle from "./styles/globalStyle";
-// import { Product } from "../../../types/Product";
-// import { ProductService } from "../../services/ProductService";
-// import { Router } from "@vaadin/router";
+import { Router } from "@vaadin/router";
+import { Product } from "../../../../types/Product";
+import { ProductService } from "../../../services/ProductService";
 
 @customElement("product-detail-page")
 export class ProductDetailPage extends LitElement {
@@ -13,8 +13,16 @@ export class ProductDetailPage extends LitElement {
     @property({ type: String })
     private buttonColor: string = "#5AB2FF";
 
+    @property({ type: Number })
+    private productId: number = 0;
+
+    @state()
+    private product: Product | null = null;
+
+    private productService: ProductService = new ProductService();
+
     public static styles = [
-        globalStyle, // Apply global styles
+        globalStyle,
         css`
             main {
                 width: 100%;
@@ -55,26 +63,25 @@ export class ProductDetailPage extends LitElement {
         `,
     ];
 
-    private switchStatus(status: string): void {
-        this.infoStatus = status;
-        console.log(`infoStatus is now: ${this.infoStatus}`);
-    }
+    public async connectedCallback(): Promise<void> {
+        super.connectedCallback();
 
-    private addToCart(): void {
-        console.log("product added to cart");
+        if (this.setUrlParameter()) {
+            await this.fetchProduct();
+        }
     }
 
     public render(): TemplateResult {
-        // const product: Product | undefined = await this.productService.getProductById(this.fakeProductId);
-        // if(!product){
-        // Router.go("/product-not-yourmom");
-        // }
-        // console.log(product);
+        if (!this.product) {
+            return html``;
+        }
+
+        console.log(this.product);
 
         return html`
             <main>
                 <section>
-                    <h2>Product detail page</h2>
+                    <h2>${this.product.name}</h2>
                 </section>
 
                 <section>
@@ -89,9 +96,10 @@ export class ProductDetailPage extends LitElement {
 
                 <section class="button-section">
                     <section>
-                        <p>$13,99</p>
+                        <p>$${this.product.price}</p>
                         <!-- TODO: add product to cart -->
-                        <custom-button-component @click="${this.addToCart}" text="Add to cart"> </custom-button-component>
+                        <custom-button-component @click="${this.addToCart}" text="Add to cart">
+                        </custom-button-component>
                     </section>
 
                     <section>
@@ -110,7 +118,7 @@ export class ProductDetailPage extends LitElement {
                         </custom-button-component>
                     </section>
                 </section>
-                
+
                 ${this.infoStatus === "description"
                     ? html`
                           <section>
@@ -128,5 +136,39 @@ export class ProductDetailPage extends LitElement {
                     : null}
             </main>
         `;
+    }
+
+    // Set the given parameter from the URL.
+    private setUrlParameter(): boolean {
+        const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
+        const param: string | null = urlParams.get("productId");
+
+        if (!param) {
+            Router.go("/unknown-parameter");
+            return false;
+        }
+
+        this.productId = parseInt(param);
+
+        return true;
+    }
+
+    private async fetchProduct(): Promise<void> {
+        const product: Product | undefined = await this.productService.getProductById(this.productId);
+
+        if (!product) {
+            Router.go("/product-not-found");
+            return;
+        }
+
+        this.product = product;
+    }
+
+    private switchStatus(status: string): void {
+        this.infoStatus = status;
+    }
+
+    private addToCart(): void {
+        console.log("product added to cart");
     }
 }

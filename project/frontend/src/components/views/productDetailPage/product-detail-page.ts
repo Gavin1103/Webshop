@@ -66,7 +66,7 @@ export class ProductDetailPage extends LitElement {
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
 
-        if (this.setUrlParameter()) {
+        if (this.IsUrlParameterPresent()) {
             await this.fetchProduct();
         }
     }
@@ -138,8 +138,8 @@ export class ProductDetailPage extends LitElement {
         `;
     }
 
-    // Set the given parameter from the URL.
-    private setUrlParameter(): boolean {
+    // Check if the url contains a parameter named "productId".
+    private IsUrlParameterPresent(): boolean {
         const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
         const param: string | null = urlParams.get("productId");
 

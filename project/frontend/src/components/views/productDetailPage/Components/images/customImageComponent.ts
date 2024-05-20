@@ -1,8 +1,8 @@
 import { LitElement, html, css, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
-@customElement("custom-image")
-export class CustomImage extends LitElement {
+@customElement("custom-image-component")
+export class customImageComponent extends LitElement {
 
   @property({ type: String })
   private height: string = "auto";
@@ -24,7 +24,11 @@ export class CustomImage extends LitElement {
 
         img {
           width: 100%;
-          height: 100%;
+          height: 100%; 
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); 
+          object-fit: cover; 
+          object-position:top right;
+          max-width: 100%;
         }
     }
   `;

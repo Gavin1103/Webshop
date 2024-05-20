@@ -4,6 +4,8 @@ import globalStyle from "../styles/globalStyle";
 
 @customElement("review-component")
 export class ReviewComponent extends LitElement {
+    private fontSize = "25px";
+
     public static styles = [
         globalStyle,
         css`
@@ -15,14 +17,15 @@ export class ReviewComponent extends LitElement {
                     width: 100%;
                     display: flex;
                     border-top: solid 5px lightgrey;
-                    padding:10px 0 10px 0;
+                    padding: 10px 0 10px 0;
 
                     .profile-section {
                         width: 20%;
                         display: flex;
                         flex-direction: column;
-                        justify-content: center;
+                        justify-content: flex-start;
                         align-items: center;
+                        padding: 1em 0 0 0;
 
                         .profile-image {
                             width: 100px;
@@ -30,7 +33,7 @@ export class ReviewComponent extends LitElement {
                         }
 
                         p {
-                            margin: 10px 0 0;
+                            margin: 10px 0 0 0;
                         }
                     }
 
@@ -40,6 +43,25 @@ export class ReviewComponent extends LitElement {
                         display: flex;
                         flex-direction: column;
                         justify-content: space-around;
+                    }
+                }
+            }
+
+            @media only screen and (max-width: 900px) {
+                section {
+                    .review-section {
+                        flex-direction: column;
+
+                        .profile-section {
+                            width: auto;
+                            align-items: center;
+                            flex-direction: column;
+                            /* align-self: flex-start; */
+                        }
+
+                        .review-detail {
+                            width: 100%;
+                        }
                     }
                 }
             }
@@ -67,13 +89,7 @@ export class ReviewComponent extends LitElement {
 
                     <section class="review-detail">
                         <p>Nice product!</p>
-                        <section class="stars-section">
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9734;</span>
-                        </section>
+                        <rating-stars-component fontSize="${this.fontSize}"></rating-stars-component>
                         <p>
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                             Ipsum has been the industry's standard dummy text ever since the 1500s, when an
@@ -100,13 +116,7 @@ export class ReviewComponent extends LitElement {
 
                     <section class="review-detail">
                         <p>Nice product!</p>
-                        <section class="stars-section">
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9733;</span>
-                            <span class="star">&#9734;</span>
-                        </section>
+                        <rating-stars-component fontSize="${this.fontSize}"></rating-stars-component>
                         <p>
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                             Ipsum has been the industry's standard dummy text ever since the 1500s, when an

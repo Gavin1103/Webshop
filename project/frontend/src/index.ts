@@ -25,3 +25,4 @@ export * from "./components/views/productDetailPage/components/images/customImag
 export * from "./components/views/productDetailPage/components/ratingComponent";
 export * from "./components/views/productDetailPage/components/reviewsComponent";
 export * from "./components/views/productDetailPage/components/descriptionComponent";
+export * from "./components/views/productDetailPage/components/ratingStarsComponent";

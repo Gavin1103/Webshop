@@ -31,6 +31,7 @@ export class ProductDetailPage extends LitElement {
                 flex-direction: column;
 
                 section {
+                    min-width:300px;
                     width: 60%;
                     margin: 5px 0;
                 }
@@ -57,6 +58,59 @@ export class ProductDetailPage extends LitElement {
                 section:last-child {
                     custom-button-component:last-child {
                         margin: 0 0 0 10px;
+                    }
+                }
+            }
+
+            @media only screen and (max-width: 1400px) {
+                main {
+                    section {
+                        width: 80%;
+                    }
+                }
+            }
+
+            @media only screen and (max-width: 1100px) {
+                main {
+                    section {
+                        width: 90%;
+                    }
+                }
+            }
+
+            @media only screen and (max-width: 750px) {
+                main {
+                    .button-section {
+                        flex-direction: column;
+
+                        section {
+                            justify-content: flex-start;
+                        }
+                    }
+                }
+            }
+
+            @media only screen and (max-width: 450px) {
+                main {
+
+          
+                    .button-section {
+                        flex-direction: column;
+
+                        section {
+                           align-items: center;
+                            flex-direction: column;
+
+                            p{
+                                margin: 0 0 10px 0;
+                            }
+                        }
+
+                        section:last-child {
+                            custom-button-component:last-child {
+                                margin: 10px  0 0 0;
+                            }
+                        }
                     }
                 }
             }

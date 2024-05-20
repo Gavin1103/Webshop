@@ -16,19 +16,22 @@ export class customImageComponent extends LitElement {
   @property({ type: String })
   private alt: string = "image";
 
+
+  @property({ type: String })
+  private borderRadius: string = "";
+
   public static styles = css`
     section {
         width: var(--custom-width);
         height: var(--custom-height);
-        background-color: yellow;
 
         img {
           width: 100%;
           height: 100%; 
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); 
           object-fit: cover; 
-          object-position:top right;
-          max-width: 100%;
+          object-position:center;
+          border-radius:var(--custom-radius);
         }
     }
   `;
@@ -46,6 +49,7 @@ export class customImageComponent extends LitElement {
   private updateStyles(): void {
     this.style.setProperty("--custom-height", this.height);
     this.style.setProperty("--custom-width", this.width);
+    this.style.setProperty("--custom-radius", this.borderRadius);
   }
 
   public render(): TemplateResult {

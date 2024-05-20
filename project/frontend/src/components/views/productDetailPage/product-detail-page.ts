@@ -110,9 +110,7 @@ export class ProductDetailPage extends LitElement {
                         </custom-button-component>
                     </section>
                 </section>
-
-                <hr />
-
+                
                 ${this.infoStatus === "description"
                     ? html`
                           <section>

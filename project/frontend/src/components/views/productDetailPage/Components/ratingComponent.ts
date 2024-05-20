@@ -19,6 +19,9 @@ export class RatingComponent extends LitElement {
             .rating-section {
                 display: flex;
                 justify-content: space-between;
+                margin: 0 0 20px 0;
+      
+
 
                 section {
                     height: 150px;
@@ -113,7 +116,7 @@ export class RatingComponent extends LitElement {
                 <section class="details-section">
                     <section class="detail-item">
                         <section class="item-text">
-                            <p>2 Star</p>
+                            <p>1 Star</p>
                         </section>
                         <section class="item-bar"></section>
                         <section class="item-amount-rating">
@@ -133,7 +136,7 @@ export class RatingComponent extends LitElement {
 
                     <section class="detail-item">
                         <section class="item-text">
-                            <p>2 Star</p>
+                            <p>3 Star</p>
                         </section>
                         <section class="item-bar"></section>
                         <section class="item-amount-rating">
@@ -143,7 +146,7 @@ export class RatingComponent extends LitElement {
 
                     <section class="detail-item">
                         <section class="item-text">
-                            <p>2 Star</p>
+                            <p>4 Star</p>
                         </section>
                         <section class="item-bar"></section>
                         <section class="item-amount-rating">
@@ -153,7 +156,7 @@ export class RatingComponent extends LitElement {
 
                     <section class="detail-item">
                         <section class="item-text">
-                            <p>2 Star</p>
+                            <p>5 Star</p>
                         </section>
                         <section class="item-bar"></section>
                         <section class="item-amount-rating">

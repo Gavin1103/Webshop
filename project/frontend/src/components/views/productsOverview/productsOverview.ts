@@ -87,14 +87,26 @@ export class ProductsOverview extends LitElement {
         Router.go("/");
     }
 
+    public showFilter(): void {
+        const filter : FilterSection | undefined | Element | null = this.shadowRoot!.querySelector("filter-section");
+        if (filter instanceof FilterSection) {
+            filter.toggleVisibility(filter.filter);
+        }
+    }
+
     public static styles = [overviewStyle];
 
 
     public render():TemplateResult {
         return html`
             <div class="header">
-                <img src="/assets/image/icons/chevron-left.svg" alt="back">
-                <button @click="${this.redirectToPreviousPage}" class="header-back-button">Back</button>
+                <div class="back">
+                    <img src="/assets/image/icons/chevron-left.svg" alt="back">
+                    <button @click="${this.redirectToPreviousPage}" class="header-back-button">Back</button>
+                </div>
+                <div class="filter">
+                    <button @click="${this.showFilter}" class="header-filter-button">Filter <img src="/assets/image/icons/maximize.svg" alt="back"></button>
+                </div>
             </div>
             
 

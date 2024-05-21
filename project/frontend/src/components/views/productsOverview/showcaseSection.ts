@@ -143,8 +143,10 @@ export class ShowcaseSection extends LitElement {
                             </div>
 
                             <div class="info-right">
-                                <span class="price">€ ${product.price}</span>
-                                <button class="cart-button">Add</button>
+                                <span class="price">
+                                    €${product.price}
+                                </span>
+                                <img class="cart-button" src="/assets/image/icons/shopping-bag.svg"/ alt="add to cart">
                             </div>
                         </div>
                     </div>

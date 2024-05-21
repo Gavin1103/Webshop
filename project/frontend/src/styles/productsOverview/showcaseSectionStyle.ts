@@ -5,6 +5,7 @@ export default css`
         display: flex;
         flex-direction: column;
     }
+    
     .title {
         font-size: xx-large;
         font-weight: bolder;
@@ -106,13 +107,63 @@ export default css`
         
         .info-right {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            justify-content: space-between;
             
             .price {
                 font-size: x-large;
                 color: #FF2F00;
                 font-weight: bolder;
             }
+            
+            .cart-button {
+                width: 30px;
+            }
+        }
+    }
+
+    @media (max-width: 600px) {
+        .result {
+            font-size: small;
+            margin: 5px;
+            padding: 7px;
+        }
+        
+        .products-card {
+            display: flex;
+            flex-direction: row;
+            width: 80vw;
+
+            .product-image{
+                border-radius: 10px 0 0 10px;
+                width: 30vw;
+                height: auto;
+            }
+
+            .product-info {
+                display: flex;
+                flex-direction: row;
+
+                .info-left {
+                    .name {
+                        font-size: large;
+                    }
+                    
+                    .description, .rating{
+                        font-size: small;
+                    }
+                }
+            }
+                .info-right {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+
+                    .price {
+                        font-size: medium;
+                    }
+            }
+
         }
     }
     

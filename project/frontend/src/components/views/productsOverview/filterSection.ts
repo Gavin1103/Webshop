@@ -15,6 +15,10 @@ export class FilterSection extends LitElement {
 
     public filterRequest: FilterRequest | undefined;
 
+    public filter: ToggleableElement = {
+        visible: false,
+        iconSrc: "/assets/image/icons/minus-circle.svg"
+    };
 
     private category: ToggleableElement = {
         visible: true,
@@ -32,7 +36,7 @@ export class FilterSection extends LitElement {
     };
 
 
-    private toggleVisibility(element: ToggleableElement): void {
+    public toggleVisibility(element: ToggleableElement): void {
         element.visible = !element.visible;
         element.iconSrc = element.visible ? "/assets/image/icons/minus-circle.svg" : "/assets/image/icons/plus-circle.svg";
         this.requestUpdate();
@@ -161,8 +165,8 @@ export class FilterSection extends LitElement {
 
     public render(): TemplateResult {
         return html`
-            <section class="filter-section">
-                <img class="close-button" src="/assets/image/icons/close-icon.svg" alt="close" />
+            <section class="filter-section" style="${this.filter.visible ? "" : "display: none;"}">
+                <img class="close-button" @click="${() : void => this.toggleVisibility(this.filter)}" src="/assets/image/icons/close-icon.svg" alt="close" />
                 <div class="category filter-block">
                     <div class="filter-header">
                         <span class="title">Categories</span>

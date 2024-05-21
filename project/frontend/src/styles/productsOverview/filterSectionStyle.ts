@@ -1,11 +1,6 @@
 import {css} from "lit";
 
 export default css `
-    :host {
-        margin-top: 5vh;
-    }
-    
-    
     .filter-section {
         padding: 20px;
         border-radius: 10px;
@@ -65,7 +60,6 @@ export default css `
         height: 29px;
         border: 1px solid #000000;
         background-color: transparent;
-        border-radius: 4px;
     }
 
     .price-range input[type="number"]::-webkit-inner-spin-button,
@@ -99,6 +93,30 @@ export default css `
         margin-right: 5px;
     }
 
+    @media (max-width: 600px) {
+        .filter-section {
+            padding: 10px;
+            width: 90vw;
+        }
+        
+        .filter-block {
+            padding: 10px;
+            
+            .title {
+                font-size: large;
+            }
+        }
+
+        .category-checkbox,
+        .rating-stars{
+            font-weight: lighter;
+            font-size: medium;
+        }
+
+        .category-checkbox input[type="checkbox"] {
+            transform: scale(1.2);
+        }
+    }
 
 
 

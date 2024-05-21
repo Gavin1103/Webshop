@@ -5,6 +5,7 @@ import {UserService} from "../../../services/UserService";
 import {UserAuthResponse} from "../../../../types/responses/UserAuthResponse";
 import authInputStyle from "../../../styles/authentication/authInputStyle";
 import LoginStyle from "../../../styles/authentication/loginPage/loginStyle";
+import {navigateTo} from "../../helpers/helpers";
 
 @customElement("login-component")
 export class LoginComponent extends BaseAuthComponent {
@@ -19,7 +20,7 @@ export class LoginComponent extends BaseAuthComponent {
         const response: UserAuthResponse = await userService.login({email: this.email, password: this.password});
 
         if(response.success){
-            document.location.pathname = "/home";
+            navigateTo("/home");
             return;
         }
         else if(!response.success && response.message){

@@ -1,7 +1,7 @@
-import { UserLoginFormModel } from "../../types/formModels/UserLoginFormModel";
-import { UserRegisterFormModel } from "../../types/formModels/UserRegisterFormModel";
 import { TokenService } from "./TokenService";
-import { UserHelloResponse } from "../../types/responses/UserHelloResponse";
+import {UserLoginFormModel} from "../types/UserLoginFormModel";
+import {UserAuthResponse} from "../../types/responses/UserAuthResponse";
+import {UserRegisterFormModel} from "../types/UserRegisterFormModel";
 
 const headers: { "Content-Type": string } = {
     "Content-Type": "application/json",
@@ -103,32 +103,6 @@ export class UserService {
         }
 
         return true;
-    }
-
-    /**
-     * Handles adding an order item to the shoppingCart of the current user. Requires a valid token.
-     *
-     * @returns Object with user and cart data when successful, otherwise `undefined`.
-     */
-    public async getWelcome(): Promise<UserHelloResponse | undefined> {
-        const token: string | undefined = this._tokenService.getToken();
-
-        if (!token) {
-            return undefined;
-        }
-
-        const response: Response = await fetch(`${viteConfiguration.API_URL}users/hello`, {
-            method: "get",
-            headers: {...headers, authorization: token},
-        });
-
-        if (!response.ok) {
-            console.error(response);
-
-            return undefined;
-        }
-
-        return (await response.json()) as UserHelloResponse;
     }
 
     /**

@@ -2,10 +2,11 @@ import {html, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import {BaseAuthComponent} from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
-import {UserRegisterFormModel} from "../../../../types/formModels";
+import {UserRegisterFormModel} from "../../../types/UserRegisterFormModel";
 import {UserAuthResponse} from "../../../../types/responses/UserAuthResponse";
 import authInputStyle from "../../../styles/authentication/authInputStyle";
 import registerPage from "../../../styles/authentication/registerPage/registerStyle";
+import {navigateTo} from "../../helpers/helpers";
 
 @customElement("register-component")
 export class RegisterComponent extends BaseAuthComponent {
@@ -37,7 +38,7 @@ export class RegisterComponent extends BaseAuthComponent {
         const loggedIn: UserAuthResponse = await userService.register(user);
 
         if(loggedIn.success){
-            document.location.pathname = "/home";
+            navigateTo("/home");
             return;
         }
 

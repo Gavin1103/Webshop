@@ -1,8 +1,8 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
+import {navigateTo} from "../../router";
 import {ProductPreviewResponse} from "../../../types/responses/ProductPreviewResponse";
-import {Router} from "@vaadin/router";
 
 @customElement("product-carousel-section")
 export class ProductCarouselSection extends LitElement {
@@ -10,10 +10,10 @@ export class ProductCarouselSection extends LitElement {
     public title: string = "";
 
     @property({type: Array})
-    public productsData : ProductPreviewResponse[] = [];
+    public productsData: ProductPreviewResponse[] = [];
 
     private redirectToProductDetailPage(id: number): void {
-        Router.go(`productDetail/${id}`);
+        navigateTo(`productDetail/${id}`);
     }
 
     public static styles = [productCarouselSectionStyle];
@@ -27,15 +27,17 @@ export class ProductCarouselSection extends LitElement {
                     <img class="action-icon" src="/assets/image/icons/chevron-right.svg" alt="see more">
                 </div>
             </div>
-            
+
             <section class="product-carousel">
                 ${this.productsData ? this.productsData.map(product => html`
-                    <div class="product-card" tabindex="1" @click="${():void => this.redirectToProductDetailPage(product.id)}">
+                    <div class="product-card" tabindex="1"
+                         @click="${(): void => this.redirectToProductDetailPage(product.id)}">
                         <img class="product-image" src="${product.image}" alt="${product.name}">
                         <div class="product-info">
                             <span class="product-name">${product.name}</span>
                             <span class="product-price">$${product.price}</span>
-                            <img tabindex="1" class="add-to-cart-button" src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
+                            <img tabindex="1" class="add-to-cart-button"
+                                 src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
                         </div>
                     </div>
                 `) : ""}

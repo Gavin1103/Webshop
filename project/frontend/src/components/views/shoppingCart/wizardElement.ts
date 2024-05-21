@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import wizardElementStyle from "../../../styles/shoppingCart/wizardElementStyle";
 import {stepStatus} from "../../../enums/stepStatusEnum";
-import {navigateTo} from "../../helpers/helpers";
+import {navigateTo} from "../../router";
 
 @customElement("wizard-element")
 export class WizardElement extends LitElement {

@@ -20,7 +20,7 @@ export class LoginComponent extends BaseAuthComponent {
         const response: UserAuthResponse = await userService.login({email: this.email, password: this.password});
 
         if(response.success){
-            navigateTo("/home");
+            navigateTo("/");
             return;
         }
         else if(!response.success && response.message){

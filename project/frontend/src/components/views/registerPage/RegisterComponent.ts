@@ -38,7 +38,7 @@ export class RegisterComponent extends BaseAuthComponent {
         const loggedIn: UserAuthResponse = await userService.register(user);
 
         if(loggedIn.success){
-            navigateTo("/home");
+            navigateTo("/");
             return;
         }
 

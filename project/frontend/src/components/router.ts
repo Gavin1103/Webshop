@@ -25,7 +25,7 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
         {
             path: "/category/:id",
             component: "products-overview",
-            action: (context, commands): any => {
+            action: (context: Context, commands: Commands): any => {
                 updatePath(context.pathname);
                 return commands.component("products-overview");
             }

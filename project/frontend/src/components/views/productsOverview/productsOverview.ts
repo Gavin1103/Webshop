@@ -1,8 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import overviewStyle from "../../../styles/productsOverview/overviewStyle";
-import {Router} from "@vaadin/router";
-import {getCurrentPath} from "../../router";
+import {getCurrentPath, navigateTo} from "../../router";
 import {OverviewType} from "../../../enums/overviewPage/OverviewType";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 import {ShowcaseSection} from "./showcaseSection";
@@ -84,7 +83,7 @@ export class ProductsOverview extends LitElement {
 
 
     private redirectToPreviousPage(): void {
-        Router.go("/");
+        navigateTo("/");
     }
 
     public showFilter(): void {

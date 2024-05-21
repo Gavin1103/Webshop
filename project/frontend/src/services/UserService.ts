@@ -1,8 +1,7 @@
-import {UserLoginFormModel} from "../../types/formModels/UserLoginFormModel";
-import {UserRegisterFormModel} from "../../types/formModels/UserRegisterFormModel";
-import {TokenService} from "./TokenService";
-import {UserHelloResponse} from "../../types/responses/UserHelloResponse";
-import {UserAuthResponse} from "../../types/responses/UserAuthResponse";
+import { UserLoginFormModel } from "../../types/formModels/UserLoginFormModel";
+import { UserRegisterFormModel } from "../../types/formModels/UserRegisterFormModel";
+import { TokenService } from "./TokenService";
+import { UserHelloResponse } from "../../types/responses/UserHelloResponse";
 
 const headers: { "Content-Type": string } = {
     "Content-Type": "application/json",
@@ -107,7 +106,7 @@ export class UserService {
     }
 
     /**
-     * Handles user welcome message containing user and cart data. Requires a valid token.
+     * Handles adding an order item to the shoppingCart of the current user. Requires a valid token.
      *
      * @returns Object with user and cart data when successful, otherwise `undefined`.
      */
@@ -136,6 +135,7 @@ export class UserService {
      * Handles adding an order item to the cart of the current user. Requires a valid token.
      *
      * @returns Current number of order items in the cart when successful, otherwise `false`.
+     * @returns Current number of order items in the shoppingCart when successful, otherwise `false`.
      */
     public async addOrderItemToCart(id: number): Promise<number | undefined> {
         const token: string | undefined = this._tokenService.getToken();

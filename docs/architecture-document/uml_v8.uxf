@@ -17,7 +17,7 @@ OrderItem
 +description: string
 +price: number
 +imageURLs: string[]
-+category: Category
++category: CategoryResponse
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -93,12 +93,12 @@ SINGLEPAYMENT = "single-payment"</panel_attributes>
       <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;type&gt;&gt;
-Category
+CategoryResponse
 --
 +id: number
 +name: string
 +description: string
-+subCategory: Category</panel_attributes>
++subCategory: CategoryResponse</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -181,7 +181,7 @@ m2=0	</panel_attributes>
 -isDatabaseActive: boolean
 -products: Product[]
 -services: Service[]
--categories: Category[]
+-categories: CategoryResponse[]
 --
 +constructor()
 +countShopItems(): number
@@ -189,13 +189,13 @@ m2=0	</panel_attributes>
 +countProducts(): number
 +countCategories(): number
 +getShopItemById(number id): ShopItem
-+getCategoryById(number id): Category
++getCategoryById(number id): CategoryResponse
 +getProductById(number id): Product
-+getShopItemsOrderdByCategory(category: Category): ShopItem[]
++getShopItemsOrderdByCategory(category: CategoryResponse): ShopItem[]
 +getShopItemsOrderdByPrice(desc: boolean): ShopItem[]
-+getProductsOrderdByCategory(category: Category): Product[]
++getProductsOrderdByCategory(category: CategoryResponse): Product[]
 +getProductsOrderdByPrice(desc: boolean): Product[]
-+getServicesOrderdByCategory(category: Category): Service[]
++getServicesOrderdByCategory(category: CategoryResponse): Service[]
 +getServicesOrderdByPrice(desc: boolean): Service[]</panel_attributes>
     <additional_attributes/>
   </element>

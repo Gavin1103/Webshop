@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "product_categories")
@@ -23,5 +23,5 @@ public class ProductCategory {
     private String description;
 
     @OneToMany(mappedBy = "category")
-    private Set<Product> products;
+    private List<Product> products;
 }

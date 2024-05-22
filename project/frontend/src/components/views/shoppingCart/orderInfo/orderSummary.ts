@@ -3,6 +3,7 @@ import {customElement, property} from "lit/decorators.js";
 import OrderSummaryStyle from "../../../../styles/shoppingCart/orderInfo/orderSummaryStyle";
 import {navigateTo} from "../../../router";
 import {CartItem} from "../../../helpers/CartHelpers";
+import {roundToTwoDecimals} from "../../../helpers/helpers";
 
 
 const TAX_RATE: number = 21;

@@ -321,10 +321,11 @@ export class OrderOverviewSummary extends LitElement {
 #### Toelichting
 
 Het Model-View-Controller (MVC) design pattern wordt gebruikt om de applicatie te structureren in drie lagen:
-Model, View en Controller. In ons project wordt dit design pattern gebruikt om de backend te structureren.
-De Model laag bevat de entiteiten die de database representeert, de View laag bevat de DTO's die worden
-gebruikt om data naar de frontend te sturen en de Controller laag bevat de endpoints die de communicatie
-tussen de frontend en de backend afhandelen.
+Model, View en Controller. In ons project wordt dit design pattern op een non-traditionele manier gebruikt om
+de backend te structureren. Aangezien wij niet een normale view hebben maar wel DTO's om de responses te
+sturen naar de frontend kan dit gezien worden als een soort view. De Model laag bevat de entiteiten die de
+database representeert, de View laag bevat de DTO's die worden gebruikt om data naar de frontend te sturen en
+de Controller laag bevat de endpoints die de communicatie tussen de frontend en de backend afhandelen.
 
 #### Voorbeeld Code
 

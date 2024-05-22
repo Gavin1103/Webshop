@@ -26,12 +26,12 @@ objecten bezitten.
         1. [Toelichting](#toelichting-3)
         2. [Voorbeeld Code](#voorbeeld-code-3)
 3. [Polymorphism](#polymorphism)
-   1. [Voorbeeld 1: Polymorphic in - "WizardContainer" Class](#voorbeeld-1-polymorphic-in---wizardcontainer-class)
+    1. [Voorbeeld 1: Polymorphic in - "WizardContainer" Class](#voorbeeld-1-polymorphic-in---wizardcontainer-class)
         1. [Toelichting](#toelichting-4)
         2. [Voorbeeld Code](#voorbeeld-code-4)
-   2. [Voorbeeld 2: Polymorphic in - "ShoppingCart" Class](#voorbeeld-2-polymorphic-in---shoppingcart-class)
-      1. [Toelichting](#toelichting-5)
-      2. [Voorbeeld Code](#voorbeeld-code-5)
+    2. [Voorbeeld 2: Polymorphic in - "ShoppingCart" Class](#voorbeeld-2-polymorphic-in---shoppingcart-class)
+        1. [Toelichting](#toelichting-5)
+        2. [Voorbeeld Code](#voorbeeld-code-5)
 4. [Abstraction](#abstraction)
     1. [Voorbeeld 1: Method Abstraction - "renderPaymentDetails()"](#voorbeeld-1-method-abstraction---renderpaymentdetails)
         1. [Toelichting](#toelichting)
@@ -39,7 +39,17 @@ objecten bezitten.
     2. [Voorbeeld 2: Gebruik maken van Geïmporteerde Helper Function - "createInputField()"](#voorbeeld-2-gebruik-maken-van-geïmporteerde-helper-function---createinputfield)
         1. [Toelichting](#toelichting-1)
         2. [Voorbeeld Code](#voorbeeld-code-1)
-5. [Database](#database)
+5. [Design patterns](#design-patterns)
+    1. [Model-View-Controller (MVC) design pattern](#model-view-controller-mvc-design-pattern)
+        1. [Toelichting](#toelichting-1)
+        2. [Voorbeeld Code](#voorbeeld-code-1)
+            1. [Model voor het representeren van een user in de database](#model-voor-het-representeren-van-een-user-in-de-database)
+            2. [DTO (Data Transfer Object) voor het versturen van gebruikersgegevens naar de frontend](#dto-data-transfer-object-voor-het-versturen-van-gebruikersgegevens-naar-de-frontend)
+            3. [Controller voor het afhandelen van gebruikersgerelateerde endpoints](#controller-voor-het-afhandelen-van-gebruikersgerelateerde-endpoints)
+    2. [Singleton design pattern](#singleton-design-pattern)
+        1. [Toelichting](#toelichting-2)
+        2. [Voorbeeld Code](#voorbeeld-code-2)
+6. [Database](#database)
     1. [Voorbeeld Model](#voorbeeld-model)
 
 ## Encapsulation
@@ -197,7 +207,8 @@ export class WizardContainer extends LitElement {
 #### Toelichting
 
 Polymorfisme wordt toegepast in de `ShoppingCart` class door middel van methode-overriding. De class
-overschrijft de `connectedCallback` methode van zijn superclass `LitElement`. Dit stelt de `ShoppingCart` in staat
+overschrijft de `connectedCallback` methode van zijn superclass `LitElement`. Dit stelt de `ShoppingCart` in
+staat
 om zijn eigen logica uit te voeren wanneer het component aan de DOM wordt toegevoegd, terwijl het nog steeds
 het gedrag van de basis class behoudt en benut door `super.connectedCallback()` aan te roepen.
 
@@ -206,7 +217,7 @@ het gedrag van de basis class behoudt en benut door `super.connectedCallback()` 
 ```typescript
 @customElement("shopping-cart")
 export class ShoppingCart extends LitElement {
-    
+
     public connectedCallback(): void {
         super.connectedCallback();
         this.updateCurrentPath();
@@ -301,6 +312,195 @@ export class OrderOverviewSummary extends LitElement {
     `;
     }
 }
+```
+
+## Design patterns:
+
+### Model-View-Controller (MVC) design pattern:
+
+#### Toelichting
+
+Het Model-View-Controller (MVC) design pattern wordt gebruikt om de applicatie te structureren in drie lagen:
+Model, View en Controller. In ons project wordt dit design pattern gebruikt om de backend te structureren.
+De Model laag bevat de entiteiten die de database representeert, de View laag bevat de DTO's die worden
+gebruikt om data naar de frontend te sturen en de Controller laag bevat de endpoints die de communicatie
+tussen de frontend en de backend afhandelen.
+
+#### Voorbeeld Code
+
+##### Model voor het representeren van een user in de database:
+
+```java
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+
+    private String firstname;
+    private String lastname;
+    private String username;
+    private String email;
+    private String phonenumber;
+
+    @JsonIgnore
+    private String password;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "addressId")
+    private Address address;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<CustomerOrder> customerOrders;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Cart> carts;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+            .collect(Collectors.toSet());
+    }
+
+    @JsonIgnore
+    public List<String> getAuthoritiesList() {
+        return roles.stream()
+            .map(role -> role.getName().name())
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}
+```
+
+##### DTO (Data Transfer Object) voor het versturen van gebruikersgegevens naar de frontend:
+
+```java
+
+@Getter
+@Setter
+public class UserDTO {
+    private String firstname;
+    private String lastname;
+    private String username;
+    private String email;
+    private String phonenumber;
+    private Long addressId;
+    private String password;
+}
+```
+
+##### Controller voor het afhandelen van gebruikersgerelateerde endpoints:
+
+```java
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    /**
+     * Retrieves a user by email.
+     *
+     * @param email the email address
+     * @return a user with the specified email address
+     */
+    User findByEmail(String email);
+}
+``` 
+
+### Singleton design pattern:
+
+#### Toelichting
+
+Het `Singleton` design pattern wordt gebruikt om ervoor te zorgen dat er slechts één instantie van een class
+kan bestaan. In ons project hebben we het Singleton design pattern op een iets andere manier geïmplementeerd
+door gebruik te maken van statische methoden binnen de `CartManager` class. Dit zorgt ervoor dat alle methoden
+en binnen de CartManager class statisch zijn, waardoor er slechts één gemeenschappelijk winkelwagentje
+is dat door de hele applicatie wordt gebruikt. Door het gebruik van statische methoden is er geen behoefte aan
+het instantiëren van de CartManager class, wat zorgt voor een enkel toegangspunt voor winkelwagenbeheer.
+
+#### Voorbeeld Code
+
+```typescript
+export class CartManager {
+    public static getCart(): CartItem[] {
+        const cart: string = localStorage.getItem("cart") as string;
+        return cart ? JSON.parse(cart) : [];
+    }
+
+    public static addItem(item: CartItem): void {
+        const items: CartItem[] = CartManager.getCart();
+        const index: number = items.findIndex(cartItem => cartItem.id === item.id);
+        if (index > -1) {
+            items[index].quantity += item.quantity;
+        } else {
+            items.push(item);
+        }
+        CartManager.saveCart(items);
+    }
+
+    public static updateItemQuantity(id: number, quantity: number): void {
+        const items: CartItem[] = CartManager.getCart();
+        const index: number = items.findIndex(item => item.id === id);
+        if (index > -1 && quantity > 0) {
+            items[index].quantity = quantity;
+            CartManager.saveCart(items);
+        } else if (quantity === 0) {
+            CartManager.removeItem(id);
+        }
+    }
+
+    public static removeItem(id: number): void {
+        let items: CartItem[] = CartManager.getCart();
+        items = items.filter(item => item.id !== id);
+        CartManager.saveCart(items);
+    }
+
+    private static saveCart(items: CartItem[]): void {
+        localStorage.setItem("cart", JSON.stringify(items));
+    }
+}
+
 ```
 
 ## Database

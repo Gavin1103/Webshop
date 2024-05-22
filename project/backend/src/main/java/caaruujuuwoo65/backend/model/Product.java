@@ -1,17 +1,16 @@
 package caaruujuuwoo65.backend.model;
 
-
-import caaruujuuwoo65.backend.dto.ProductDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,25 +18,17 @@ import lombok.Setter;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long productId;
 
-    private String name;
-
-    private int price;
-
-    @Column(length = 1000)
+    private String productName;
     private String description;
+    private Integer stock;
+    private BigDecimal price;
 
-    private int stock;
-
-    private String image;
-
-    @ManyToOne
-    @JoinColumn(name = "type_product")
-    @JsonIgnore
-    private TypeProduct type;
+    @ElementCollection
+    private List<String> image;
 
     @ManyToOne
-    @JoinColumn(name = "category_product")
-    private CategoryProduct category;
+    @JoinColumn(name = "category_id")
+    private ProductCategory category;
 }

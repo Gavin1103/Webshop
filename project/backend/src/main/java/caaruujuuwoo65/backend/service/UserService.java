@@ -1,9 +1,10 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.UserEditDto;
+import caaruujuuwoo65.backend.dto.user.UpdateUserDTO;
+import caaruujuuwoo65.backend.model.Address;
 import caaruujuuwoo65.backend.model.User;
+import caaruujuuwoo65.backend.repository.AddressRepository;
 import caaruujuuwoo65.backend.repository.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,14 @@ import java.util.List;
 @Transactional
 public class UserService {
 
-    private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
+        this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -45,31 +46,42 @@ public class UserService {
      * @param changeRoles whether to change the user's roles
      * @return the edited user
      */
-    public ResponseEntity<?> editUser(UserEditDto userDto, String email, boolean changeRoles) {
-        User user = modelMapper.map(userDto, User.class);
-
+    public ResponseEntity<?> editUser(UpdateUserDTO userDto, String email, boolean changeRoles) {
         User existingUser = this.getUserByEmail(email); // Check if user already exists
         if (existingUser == null) {
             return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
         }
 
-        if (!changeRoles) {
-            user.setRoles(existingUser.getRoles());
+        existingUser.setFirstname(userDto.getFirstname());
+        existingUser.setLastname(userDto.getLastname());
+        existingUser.setEmail(userDto.getEmail());
+        existingUser.setPhonenumber(userDto.getPhonenumber());
+
+        if (userDto.getAddressId() != null) {
+            Address address = addressRepository.findById(userDto.getAddressId()).orElse(null);
+            if (address != null) {
+                existingUser.setAddress(address);
+            } else {
+                return new ResponseEntity<>("Address not found", HttpStatus.NOT_FOUND);
+            }
         }
 
         if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
 
-        user.setId(existingUser.getId());
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+        if (!changeRoles) {
+            existingUser.setRoles(existingUser.getRoles());
+        }
+
+        return new ResponseEntity<>(userRepository.save(existingUser), HttpStatus.OK);
     }
 
     /**
      * Retrieves a user by email.
      *
      * @param email the email address
-     * @return a list of users with the specified email address
+     * @return a user with the specified email address
      */
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -81,7 +93,7 @@ public class UserService {
      * @param id the user id
      * @return a user with the specified id
      */
-    public User getById(String id) {
-        return userRepository.findById(Integer.parseInt(id));
+    public User getById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 }

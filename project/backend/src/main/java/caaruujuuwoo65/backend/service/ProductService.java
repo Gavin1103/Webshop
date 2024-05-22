@@ -1,7 +1,7 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.ProductDTO;
 import caaruujuuwoo65.backend.dto.ProductPreviewDTO;
+import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.repository.ProductRepository;
 import org.modelmapper.ModelMapper;

@@ -43,6 +43,7 @@ Deploy Backend:
         - kill $(jobs -p) || true
     needs:
         - "Build Backend"
+        - "Backend Unit Test"
     when: always
     rules:
         -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"

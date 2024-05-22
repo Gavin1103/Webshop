@@ -1,7 +1,8 @@
-import {ProductPreviewResponse} from "../types/ProductPreviewResponse";
+import { Product } from "../../types/Product";
+import { ProductPreviewResponse } from "../types/ProductPreviewResponse";
 
 export class ProductService {
-    public async getTopDealProducts():Promise<ProductPreviewResponse | undefined> {
+    public async getTopDealProducts(): Promise<ProductPreviewResponse | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/products/topDeals`, {
             method: "get",
         });
@@ -15,7 +16,7 @@ export class ProductService {
         return (await response.json()) as ProductPreviewResponse;
     }
 
-    public async getRecommendProducts():Promise<ProductPreviewResponse | undefined> {
+    public async getRecommendProducts(): Promise<ProductPreviewResponse | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/products/recommend`, {
             method: "get",
         });
@@ -32,10 +33,10 @@ export class ProductService {
         const response: Response = await fetch(`${viteConfiguration.API_URL}product/getBy/${id}`, {
             method: "GET",
         });
-        if (!response.ok) {
 
-        }
+        if (!response.ok) {
             return undefined;
+        }
 
         const productData: any = await response.json();
 

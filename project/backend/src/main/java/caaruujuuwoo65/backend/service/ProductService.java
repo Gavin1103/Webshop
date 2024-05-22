@@ -43,4 +43,9 @@ public class ProductService {
             .map(product -> modelMapper.map(product, ProductPreviewDTO.class))
             .collect(Collectors.toList());
     }
+
+    public ProductDTO getProductById(long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        return product != null ? modelMapper.map(product, ProductDTO.class) : null;
+    }
 }

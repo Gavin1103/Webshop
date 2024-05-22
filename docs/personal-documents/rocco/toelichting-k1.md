@@ -436,16 +436,15 @@ public class UserDTO {
 ##### Controller voor het afhandelen van gebruikersgerelateerde endpoints:
 
 ```java
-
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    /**
-     * Retrieves a user by email.
-     *
-     * @param email the email address
-     * @return a user with the specified email address
-     */
-    User findByEmail(String email);
+@GetMapping("/")
+@Operation(summary = "Get all users", description = "Get all users from the database")
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Users retrieved successfully"),
+    @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+})
+public ResponseEntity<List<User>> getAllUsers() {
+    List<User> users = userService.getAllUsers();
+    return new ResponseEntity<>(users, HttpStatus.OK);
 }
 ``` 
 

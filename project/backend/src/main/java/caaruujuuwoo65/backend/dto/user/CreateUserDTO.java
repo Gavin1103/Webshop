@@ -2,17 +2,15 @@ package caaruujuuwoo65.backend.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDateTime;
 
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserDto {
+public class CreateUserDTO {
     @NotBlank(message = "Username is mandatory")
     private String username;
 

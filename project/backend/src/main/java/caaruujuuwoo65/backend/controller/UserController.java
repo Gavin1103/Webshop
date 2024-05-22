@@ -2,7 +2,6 @@ package caaruujuuwoo65.backend.controller;
 
 import caaruujuuwoo65.backend.dto.user.UpdateUserDTO;
 import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
-import caaruujuuwoo65.backend.dto.UserEditDto;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.service.JwtService;
 import caaruujuuwoo65.backend.service.UserService;

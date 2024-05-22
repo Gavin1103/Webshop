@@ -1,7 +1,7 @@
 package caaruujuuwoo65.backend.controller;
 
+import caaruujuuwoo65.backend.dto.CreateUserDTO;
 import caaruujuuwoo65.backend.dto.JwtRequest;
-import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
 import caaruujuuwoo65.backend.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

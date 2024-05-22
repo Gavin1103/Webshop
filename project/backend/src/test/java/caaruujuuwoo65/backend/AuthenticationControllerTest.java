@@ -1,7 +1,7 @@
 package caaruujuuwoo65.backend;
 
+import caaruujuuwoo65.backend.dto.CreateUserDTO;
 import caaruujuuwoo65.backend.dto.JwtRequest;
-import caaruujuuwoo65.backend.dto.UserDto;
 import caaruujuuwoo65.backend.service.AuthenticationService;
 import caaruujuuwoo65.backend.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,18 +33,18 @@ public class AuthenticationControllerTest {
     @Autowired
     private UserService userService;
 
-    private UserDto userDto;
+    private CreateUserDTO userDto;
 
     @BeforeEach
     public void setUp() {
-        userDto = new UserDto(
+        userDto = new CreateUserDTO(
             "Test",
             "test@test.com",
             "0612345678",
             "testfirstname",
             "testlastname",
             "testpassword"
-        );;
+        );
 
         try {
             authenticationService.register(userDto);
@@ -55,7 +55,7 @@ public class AuthenticationControllerTest {
 
     @Test
     public void testRegister() throws Exception {
-        UserDto newUserDto = new UserDto(
+        CreateUserDTO newUserDto = new CreateUserDTO(
             "newuser",
             "newUser@test.com",
             "0612345678",

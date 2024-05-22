@@ -39,6 +39,11 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "addressId")
     private Address address;
@@ -47,7 +52,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<CustomerOrder> customerOrders;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

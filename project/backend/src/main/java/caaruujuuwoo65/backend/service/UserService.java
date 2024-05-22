@@ -4,6 +4,7 @@ import caaruujuuwoo65.backend.dto.user.UpdateUserDTO;
 import caaruujuuwoo65.backend.model.Address;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.repository.AddressRepository;
+import caaruujuuwoo65.backend.repository.TokenRepository;
 import caaruujuuwoo65.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenRepository tokenRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenRepository = tokenRepository;
     }
 
     /**
@@ -87,13 +90,16 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    /**
-     * Retrieves a user by id.
-     *
-     * @param id the user id
-     * @return a user with the specified id
-     */
-    public User getById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public User deleteUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+
+        if(user != null) {
+            tokenRepository.deleteByUser_UserId(user.getUserId());
+        }
+
+
+        userRepository.delete(user);
+        return user;
     }
+
 }

@@ -1,4 +1,4 @@
-import {ProductPreviewResponse} from "../../types/responses/ProductPreviewResponse";
+import {ProductPreviewResponse} from "../types/ProductPreviewResponse";
 
 export class ProductService {
     public async getTopDealProducts():Promise<ProductPreviewResponse | undefined> {

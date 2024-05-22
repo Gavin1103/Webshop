@@ -1,6 +1,5 @@
 package caaruujuuwoo65.backend.model;
 
-
 import caaruujuuwoo65.backend.model.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,23 +7,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "tokens")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Token {
-
     @Id
     @GeneratedValue
-    public Integer id;
+    public Long tokenId;
 
     @Column(unique = true)
     public String token;
 
     @Enumerated(EnumType.STRING)
-    @Builder.Default
-    public TokenType tokenType = TokenType.BEARER;
+    public TokenType tokenType;
 
     public boolean revoked;
 

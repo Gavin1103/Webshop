@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -21,22 +22,15 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long productId;
 
-    private String name;
-
-    private int price;
-
-    @Column(length = 1000)
+    private String productName;
     private String description;
+    private Integer stock;
+    private BigDecimal price;
 
-    private int stock;
-
-    private String image;
-
-    @ManyToOne
-    @JoinColumn(name = "type_product")
-    private TypeProduct type;
+    @ElementCollection
+    private List<String> image;
 
     @ManyToOne
     @JoinColumn(name = "category_product")

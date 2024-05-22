@@ -2,9 +2,9 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import homePageStyle from "../../../styles/homePage/homePageStyle";
 import {ProductService} from "../../../services/ProductService";
-import {ProductPreviewResponse} from "../../../types/responses/ProductPreviewResponse";
+import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
 import {CategoryService} from "../../../services/CategoryService";
-import {CategoryResponse} from "../../../types/responses/CategoryResponse";
+import {CategoryResponse} from "../../../types/CategoryResponse";
 
 
 @customElement("home-page")

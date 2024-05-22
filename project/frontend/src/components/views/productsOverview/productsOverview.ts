@@ -5,7 +5,7 @@ import {getCurrentPath, navigateTo} from "../../router";
 import {OverviewType} from "../../../enums/overviewPage/OverviewType";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 import {ShowcaseSection} from "./showcaseSection";
-import {ProductOverviewResponse} from "../../../types/responses/ProductOverviewResponse";
+import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
 import {FilterSection} from "./filterSection";
 
 

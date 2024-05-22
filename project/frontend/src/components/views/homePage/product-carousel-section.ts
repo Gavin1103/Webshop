@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
 import {navigateTo} from "../../router";
-import {ProductPreviewResponse} from "../../../types/responses/ProductPreviewResponse";
+import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
 
 @customElement("product-carousel-section")
 export class ProductCarouselSection extends LitElement {

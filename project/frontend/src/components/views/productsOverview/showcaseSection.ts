@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import showcaseSectionStyle from "../../../styles/productsOverview/showcaseSectionStyle";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
-import {ProductOverviewResponse} from "../../../types/responses/ProductOverviewResponse";
+import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
 
 @customElement("showcase-section")
 export class ShowcaseSection extends LitElement {

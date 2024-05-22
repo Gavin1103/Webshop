@@ -1,4 +1,4 @@
-import {CategoryResponse} from "../types/responses/CategoryResponse";
+import {CategoryResponse} from "../types/CategoryResponse";
 
 export class CategoryService {
     public async getRandomCategoriesWithImage(count: number): Promise<CategoryResponse | undefined> {

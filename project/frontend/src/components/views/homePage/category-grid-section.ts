@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import categoryGridSectionStyle from "../../../styles/homePage/categoryGridSectionStyle";
 import {navigateTo} from "../../router";
-import {CategoryResponse} from "../../../types/responses/CategoryResponse";
+import {CategoryResponse} from "../../../types/CategoryResponse";
 
 @customElement("category-grid-section")
 export class CategoryGridSection extends LitElement {

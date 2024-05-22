@@ -74,13 +74,15 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
 
     await router.setRoutes(routes);
 
+    const initialPath = window.location.hash.slice(1) || '/';
+    await router.render(createRouterLocation(initialPath));
+
     window.addEventListener('hashchange', (): void => {
         const path: string = window.location.hash.slice(1);
 
         navigateTo(path);
     });
 
-    await router.render(createRouterLocation(routerState.currentPath));
 
     return router;
 };

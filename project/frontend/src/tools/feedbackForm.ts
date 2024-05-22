@@ -48,12 +48,12 @@ export class FeedbackForm extends LitElement {
         button {
             align-self: flex-start;
         }
-        
+
         img {
             width: 100%;
             height: auto;
             margin-bottom: 10px;
-            object-fit: cover;
+            object-fit: contain;
         }
     `;
 

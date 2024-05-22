@@ -2,6 +2,7 @@ import {defineConfig, loadEnv} from "vite";
 import {resolve} from "path";
 import checker from "vite-plugin-checker";
 import eslintPlugin from "vite-plugin-eslint";
+import buildScreenshotServer from "./src/vite-plugin-build-screenshot-server";
 
 export default defineConfig((config) => {
 
@@ -43,6 +44,7 @@ export default defineConfig((config) => {
             eslintPlugin({
                 overrideConfigFile: '.eslintrc.js',
             }),
+            buildScreenshotServer()
         ],
         define: {
             viteConfiguration: viteConfiguration,

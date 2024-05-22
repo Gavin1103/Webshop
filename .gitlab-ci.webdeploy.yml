@@ -30,7 +30,9 @@ Deploy Frontend:
             lftp -u $SFTP_WEB_USERNAME,$SFTP_WEB_PASSWORD -p $SFTP_WEB_PORT sftp://$SFTP_WEB_SERVERNAME -e "
             set sftp:auto-confirm yes;
             glob -a rm -r $ENVIRONMENT/wwwroot/*;
+            glob -a rm -r $ENVIRONMENT/app/*;
             mirror --reverse --verbose ./dist/web /$ENVIRONMENT/wwwroot;
+            mirror --reverse --verbose ./dist/api /$ENVIRONMENT/app;
             bye"
     after_script:
         - kill $(jobs -p) || true

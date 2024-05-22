@@ -18,7 +18,7 @@ export class ProductCarouselSection extends LitElement {
 
     public connectedCallback(): void {
         super.connectedCallback();
-        this.loadItems();
+        // this.loadItems();
     }
 
     public loadItems(): void {
@@ -36,7 +36,7 @@ export class ProductCarouselSection extends LitElement {
             imageSrc: product.imageSrc
         };
         CartManager.addItem(newItem);
-        this.loadItems();
+        // this.loadItems();
     }
 
     public render(): TemplateResult {
@@ -50,19 +50,7 @@ export class ProductCarouselSection extends LitElement {
             </div>
 
             <section class="product-carousel">
-                ${this.productsData.map(product => html`
-                    <div class="product-card" tabindex="1">
-                        <img class="product-image" src="${product.imageSrc}" alt="${product.name}">
-                        <div class="product-info">
-                            <span class="product-name">${product.name}</span>
-                            <span class="product-price">$${product.price}</span>
-                            <img tabindex="1" @click="${(): void => this.addItemToCart(product)}"
-                                 class="add-to-cart-button"
-                                 src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
-                        </div>
-                    </div>
-                `)}
-                </div>
+                
             </section>
         `;
     }

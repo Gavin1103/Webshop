@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import categoryGridSectionStyle from "../../../styles/homePage/categoryGridSectionStyle";
 import {CategoryResponse} from "../../../../types/responses/CategoryResponse";
-import {Router} from "@vaadin/router";
+import {navigateTo} from "../../router";
 
 @customElement("category-grid-section")
 export class CategoryGridSection extends LitElement {
@@ -10,13 +10,13 @@ export class CategoryGridSection extends LitElement {
     public categoryList: CategoryResponse[] | undefined;
 
     private redirectToCategoryPage(id: number): void {
-        Router.go(`category/${id}`);
+        navigateTo(`category/${id}`);
     }
 
     public static styles = [categoryGridSectionStyle];
 
     public render(): TemplateResult {
-        return html `
+        return html`
             <div class="header-container">
                 <Span class="header-text">Categories</Span>
             </div>
@@ -24,13 +24,14 @@ export class CategoryGridSection extends LitElement {
                 ${this.categoryList ? this.categoryList.map(category => html`
                     <div class="category-card">
                         <img class="category-image" src="${category.image}" alt="${category.name}">
-                        <div class="more-info-button" tabindex="1" @click="${(): void => this.redirectToCategoryPage(category.id)}">
+                        <div class="more-info-button" tabindex="1"
+                             @click="${(): void => this.redirectToCategoryPage(category.id)}">
                             <span tabindex="1" class="category-name">${category.name}</span>
                         </div>
                     </div>
                 `) : ""}
             </section>
-            
+
         `;
     }
 }

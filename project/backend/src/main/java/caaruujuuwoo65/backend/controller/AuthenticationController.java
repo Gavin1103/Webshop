@@ -1,13 +1,12 @@
 package caaruujuuwoo65.backend.controller;
 
 import caaruujuuwoo65.backend.dto.JwtRequest;
-import caaruujuuwoo65.backend.dto.UserDto;
+import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
 import caaruujuuwoo65.backend.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +38,7 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "201", description = "Successfully registered"),
         @ApiResponse(responseCode = "409", description = "User already exists")
     })
-    public ResponseEntity<?> register(@Valid @RequestBody UserDto user) throws Exception {
+    public ResponseEntity<?> register(@RequestBody CreateUserDTO user) throws Exception {
         return ResponseEntity.ok(authenticationService.register(user));
     }
 

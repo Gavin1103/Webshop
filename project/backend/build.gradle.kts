@@ -11,11 +11,13 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
+
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
 }
+
 
 repositories {
     mavenCentral()
@@ -43,6 +45,10 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+    mainClass.set("caaruujuuwoo65.backend.BackendApplication")
 }
 
 tasks.bootJar {

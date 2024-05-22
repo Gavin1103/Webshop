@@ -5,7 +5,7 @@ Build Frontend:
         - apt-get update
     script:
         - npm ci
-        - npm run build:pipeline
+        - npm run build:frontend
     after_script:
         - kill $(jobs -p) || true
     artifacts:
@@ -36,6 +36,7 @@ Deploy Frontend:
         - kill $(jobs -p) || true
     needs:
         - "Build Frontend"
+        - "Backend Unit Test"
     when: always
     rules:
         -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"

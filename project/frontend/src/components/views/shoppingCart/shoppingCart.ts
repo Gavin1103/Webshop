@@ -1,9 +1,8 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property, state} from "lit/decorators.js";
-import {OrderItem} from "../../../types/OrderItem";
 import shoppingCartStyle from "../../../styles/shoppingCart/shoppingCartStyle";
 import {getCurrentPath} from "../../router";
-import {itemType} from "../../../enums/itemTypeEnum";
+import {CartItem, CartManager} from "../../helpers/CartHelpers";
 
 @customElement("shopping-cart")
 export class ShoppingCart extends LitElement {
@@ -13,27 +12,8 @@ export class ShoppingCart extends LitElement {
     @state()
     private currentPath: string = "";
 
-    // TODO get shopping cart data from session storage.
     @property({type: Array})
-    private products: OrderItem[] = [
-        {
-            id: 1,
-            name: "Epic Fantasy Game",
-            type: itemType.GAME,
-            description: "A strategy based computer game.",
-            price: 59.99,
-            quantity: 1,
-            imageURLs: ["https://example.com/game.jpg"]
-        },
-        {
-            id: 2,
-            name: "Logo T-Shirt",
-            type: itemType.MERCH,
-            price: 29.99,
-            quantity: 3,
-            imageURLs: ["https://example.com/shirt1.jpg", "https://example.com/shirt2.jpg"]
-        }
-    ];
+    private products: CartItem[] = CartManager.getCart();
 
     public connectedCallback(): void {
         super.connectedCallback();
@@ -55,11 +35,11 @@ export class ShoppingCart extends LitElement {
                     <order-info .products=${this.products}></order-info>
                 ` : null}
 
-                ${this.currentPath.startsWith("/cart/personal-info") ? html`
+                ${this.currentPath === "/cart/personal-info" ? html`
                     <personal-info></personal-info>
                 ` : null}
 
-                ${this.currentPath.startsWith("/cart/overview") ? html`
+                ${this.currentPath === "/cart/overview" ? html`
                     <order-overview .products=${this.products}></order-overview>
                 ` : null}
             </div>

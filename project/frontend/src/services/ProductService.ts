@@ -1,21 +1,41 @@
-import { Product } from "../../types/Product";
-
-const headers: { "Content-Type": string } = {
-    "Content-Type": "application/json",
-};
+import {ProductPreviewResponse} from "../types/ProductPreviewResponse";
 
 export class ProductService {
-    public async getProductById(id: number): Promise<Product | undefined> {
-        const requestHeaders: Headers = new Headers(headers);
-
-        const response: Response = await fetch(`${viteConfiguration.API_URL}product/getBy/${id}`, {
-            method: "GET",
-            headers: requestHeaders,
+    public async getTopDealProducts():Promise<ProductPreviewResponse | undefined> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/topDeals`, {
+            method: "get",
         });
 
         if (!response.ok) {
+            console.error(response);
+
             return undefined;
         }
+
+        return (await response.json()) as ProductPreviewResponse;
+    }
+
+    public async getRecommendProducts():Promise<ProductPreviewResponse | undefined> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/recommend`, {
+            method: "get",
+        });
+
+        if (!response.ok) {
+            console.error(response);
+
+            return undefined;
+        }
+
+        return (await response.json()) as ProductPreviewResponse;
+    }
+    public async getProductById(id: number): Promise<Product | undefined> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}product/getBy/${id}`, {
+            method: "GET",
+        });
+        if (!response.ok) {
+
+        }
+            return undefined;
 
         const productData: any = await response.json();
 

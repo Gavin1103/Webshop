@@ -1,12 +1,13 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, state} from "lit/decorators.js";
 
-import {OrderItem} from "../../../../types/OrderItem";
 import OrderOverviewSummaryStyle
     from "../../../../styles/shoppingCart/orderOverview/orderOverviewSummaryStyle";
 import inputFieldStyle from "../../../../styles/shoppingCart/inputFieldStyle";
 import {createInputField} from "../../../helpers/formHelpers";
-import {navigateTo} from "../../../helpers/helpers";
+import {navigateTo} from "../../../router";
+import {roundToTwoDecimals} from "../../../helpers/helpers";
+import {CartItem} from "../../../helpers/CartHelpers";
 
 const FREE_SHIPPING_THRESHOLD: number = 0;
 const HOME_PATH: string = "/";
@@ -17,7 +18,7 @@ export class OrderOverviewSummary extends LitElement {
     public static styles = [OrderOverviewSummaryStyle, inputFieldStyle];
 
     @state()
-    private products: OrderItem[] = [];
+    private products: CartItem[] = [];
 
     @state()
     private user: { name: string, address: string, zip: string, country: string } = {
@@ -137,7 +138,7 @@ export class OrderOverviewSummary extends LitElement {
     }
 
     private renderTotalSection(): TemplateResult {
-        const totalPrice: number = this.calculateTotalPrice();
+        const totalPrice: string = roundToTwoDecimals(this.calculateTotalPrice());
         return html`
             <div class="summary-section">
                 ${this.renderSummaryItem("Subtotal (3 items)", `€ ${totalPrice}`)}

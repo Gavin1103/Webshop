@@ -5,6 +5,7 @@ import {UserAuthResponse} from "../../types/responses/UserAuthResponse";
 import {UserRegisterFormModel} from "../types/UserRegisterFormModel";
 import {api} from "@hboictcloud/api";
 import {Email} from "../types/Email";
+import {RegistrationEmail} from "../types/RegistrationEmail";
 
 
 const headers: { "Content-Type": string } = {
@@ -79,7 +80,7 @@ export class UserService {
             const email: Email = new Email();
             email.to = [{name: formData.firstname, address: formData.email}];
             email.subject = "Welcome to our webshop!";
-            email.html = `<p>Dear ${formData.firstname},</p><p>Welcome to our webshop! We hope you enjoy your stay.</p>`;
+            email.html = new RegistrationEmail(formData).generateEmail();
 
             await this.sendEmail(email);
 

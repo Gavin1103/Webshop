@@ -1,7 +1,11 @@
+import "../hboictcloud-config";
 import { TokenService } from "./TokenService";
 import {UserLoginFormModel} from "../types/UserLoginFormModel";
 import {UserAuthResponse} from "../../types/responses/UserAuthResponse";
 import {UserRegisterFormModel} from "../types/UserRegisterFormModel";
+import {api} from "@hboictcloud/api";
+import {Email} from "../types/Email";
+
 
 const headers: { "Content-Type": string } = {
     "Content-Type": "application/json",
@@ -71,6 +75,14 @@ export class UserService {
         if (json.body.access_token && json.body.refresh_token && json.statusCodeValue === 201) {
             this._tokenService.setToken(json.body.access_token);
             this._tokenService.setRefreshToken(json.body.refresh_token);
+
+            const email: Email = new Email();
+            email.to = [{name: formData.firstname, address: formData.email}];
+            email.subject = "Welcome to our webshop!";
+            email.html = `<p>Dear ${formData.firstname},</p><p>Welcome to our webshop! We hope you enjoy your stay.</p>`;
+
+            await this.sendEmail(email);
+
             return {success: true, status: json.statusCodeValue};
         } else if (json.statusCodeValue === 409) {
             return {success: false, status: json.statusCodeValue, message: "User already exists"};
@@ -130,5 +142,9 @@ export class UserService {
         }
 
         return (await response.json()) as number;
+    }
+
+    private async sendEmail(email: Email): Promise<void> {
+        await api.sendEmail(email);
     }
 }

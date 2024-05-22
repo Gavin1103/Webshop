@@ -1,4 +1,4 @@
-package caaruujuuwoo65.backend.dto;
+package caaruujuuwoo65.backend.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;

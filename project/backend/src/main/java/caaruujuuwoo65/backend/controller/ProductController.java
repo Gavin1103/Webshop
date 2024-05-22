@@ -1,7 +1,8 @@
 package caaruujuuwoo65.backend.controller;
 
-import caaruujuuwoo65.backend.dto.ProductPreviewDTO;
-import caaruujuuwoo65.backend.model.Product;
+import caaruujuuwoo65.backend.dto.product.ProductAverageRating;
+import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
+import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -60,7 +63,13 @@ public class ProductController {
     }
 
     @GetMapping("/filter")
-    public List<Product> getFilteredProducts(
+    @Operation(summary = "Filter products", description = "Filter products based on various criteria")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved filtered products"),
+        @ApiResponse(responseCode = "400", description = "Invalid filter criteria"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public List<ProductAverageRating> getFilteredProducts(
         @RequestParam(required = false) String categories,
         @RequestParam(required = false) Integer minPrice,
         @RequestParam(required = false) Integer maxPrice,

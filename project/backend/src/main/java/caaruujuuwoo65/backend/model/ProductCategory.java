@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Table(name = "product_categories")
@@ -24,4 +25,17 @@ public class ProductCategory {
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
+
+    public String getRandomProductImage() {
+        if (products == null || products.isEmpty()) {
+            return null;
+        }
+        Random random = new Random();
+        Product randomProduct = products.get(random.nextInt(products.size()));
+        List<String> images = randomProduct.getImage();
+        if (images == null || images.isEmpty()) {
+            return null;
+        }
+        return images.get(random.nextInt(images.size()));
+    }
 }

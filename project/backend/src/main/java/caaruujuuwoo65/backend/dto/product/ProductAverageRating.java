@@ -1,15 +1,15 @@
 package caaruujuuwoo65.backend.dto.product;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class ProductDTO {
+public class ProductAverageRating {
     private String name;
     private String description;
-    private Double price;
-    private Long categoryId;
+    private BigDecimal price;
+    private Double averageRating ;
 }

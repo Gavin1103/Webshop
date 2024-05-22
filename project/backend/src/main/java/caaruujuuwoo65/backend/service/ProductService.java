@@ -1,8 +1,10 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.ProductPreviewDTO;
+import caaruujuuwoo65.backend.dto.product.ProductAverageRating;
+import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.model.Product;
+import caaruujuuwoo65.backend.model.Review;
 import caaruujuuwoo65.backend.repository.ProductRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.ModelMapper;
@@ -47,12 +49,13 @@ public class ProductService {
             .collect(Collectors.toList());
     }
 
-    public List<Product> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating) {
-        return productRepository.findAll((Specification<Product>) (root, query, criteriaBuilder) -> {
+
+    public List<ProductAverageRating> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating) {
+        List<Product> filteredProducts = productRepository.findAll((Specification<Product>) (root, query, criteriaBuilder) -> {
             var predicates = new ArrayList<Predicate>();
 
             if (categories != null && !categories.isEmpty()) {
-                predicates.add(root.get("category").get("name").in(categories));
+                predicates.add(root.get("category").get("categoryName").in(categories));
             }
 
             if (minPrice != null) {
@@ -63,12 +66,19 @@ public class ProductService {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
             }
 
-            if (minRating != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.join("reviews").get("rating"), minRating));
-            }
-
-
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+
+        // Filter products by minimum rating
+        if (minRating != null) {
+            filteredProducts = filteredProducts.stream()
+                .filter(product -> product.getAverageRating() >= minRating)
+                .toList();
+        }
+
+        return filteredProducts.stream()
+            .map(product -> modelMapper.map(product, ProductAverageRating.class))
+            .collect(Collectors.toList());
     }
+
 }

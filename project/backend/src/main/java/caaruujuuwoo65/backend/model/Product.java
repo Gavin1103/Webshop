@@ -1,7 +1,6 @@
 package caaruujuuwoo65.backend.model;
 
 
-import caaruujuuwoo65.backend.dto.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,9 +34,21 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_product")
     @JsonIgnore
-    private CategoryProduct category;
+    private ProductCategory category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(mappedBy = "product")
     private List<Review> reviews;
+
+    // Method to calculate average rating
+    @JsonIgnore
+    public double getAverageRating() {
+        if (reviews == null || reviews.isEmpty()) {
+            return 0;
+        }
+        double totalRating = reviews.stream()
+            .mapToInt(Review::getRating)
+            .sum();
+        return totalRating / reviews.size();
+    }
+
 }

@@ -1,6 +1,7 @@
 package caaruujuuwoo65.backend.controller;
 
 import caaruujuuwoo65.backend.dto.user.UpdateUserDTO;
+import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.service.JwtService;
 import caaruujuuwoo65.backend.service.UserService;
@@ -28,7 +29,7 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorizeAdmin()
     @GetMapping("/")
     @Operation(summary = "Get all users", description = "Get all users from the database")
     @ApiResponses(value = {
@@ -40,7 +41,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorizeAdmin()
     @PutMapping("/{email}")
     @Operation(summary = "Edit a user", description = "Edit a user in the database")
     @ApiResponses(value = {
@@ -75,6 +76,18 @@ public class UserController {
     })
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
         User users = userService.getUserByEmail(email);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{email}")
+    @Operation(summary = "Delete user by email", description = "Delete a user by email address")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+        @ApiResponse(responseCode = "404", description = "User not found"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<User> deleteUserByEmail(@PathVariable String email) {
+        User users = userService.deleteUserByEmail(email);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

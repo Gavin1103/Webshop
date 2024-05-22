@@ -8,14 +8,14 @@ function buildScreenshotServer(): Plugin {
         buildStart: async () => {
             try {
                 await build({
-                    entryPoints: [resolve(__dirname, './script/temp-screenshot-server.js')],
+                    entryPoints: [resolve(__dirname, './scripts/screenshot-server.js')],
                     bundle: true,
-                    outfile: resolve(__dirname, '../../../dist/api/temp-screenshot-server.js'),
+                    outfile: resolve(__dirname, '../../../dist/api/screenshot-server.js'),
                     platform: 'node',
                     sourcemap: true,
                 });
             } catch (err) {
-                console.error('Error building temp-screenshot-server.js:', err);
+                console.error('Error building screenshot-server.js:', err);
                 process.exit(1);
             }
         }

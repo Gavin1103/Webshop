@@ -19,6 +19,6 @@
   "include": [
     "vite.config.mts",
     "src/**/*.ts",
-    "src/script/capture-screenshot.ts"
+      "src/scripts/capture-screenshot.ts"
   ]
 }

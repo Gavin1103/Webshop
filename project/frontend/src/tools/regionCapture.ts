@@ -99,11 +99,7 @@ export class RegionCapture extends LitElement {
             const width = Math.round(Math.abs(this.selection.endX - this.selection.startX));
             const height = Math.round(Math.abs(this.selection.endY - this.selection.startY));
 
-            console.log(`Capturing region: x=${x}, y=${y}, width=${width}, height=${height}`);
-
             const clip = {x, y, width, height};
-
-            console.log('Clip region:', clip);
 
             try {
                 const response = await axios.post('http://localhost:3001/screenshot', {
@@ -126,6 +122,4 @@ export class RegionCapture extends LitElement {
             }
         }
     }
-
-
 }

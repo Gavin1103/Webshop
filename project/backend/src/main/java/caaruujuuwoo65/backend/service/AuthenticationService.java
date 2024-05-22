@@ -86,7 +86,7 @@ public class AuthenticationService {
      * @param userDto the user data transfer object
      * @return the saved user
      */
-    public ResponseEntity<?> register(CreateUserDTO userDto) {
+    public ResponseEntity<?> register(CreateUserDTO userDto, RoleEnum roleEnum) {
         User user = modelMapper.map(userDto, User.class);
 
         User existingUser = this.userService.getUserByEmail(user.getEmail()); // Check if user already exists
@@ -96,10 +96,9 @@ public class AuthenticationService {
         }
 
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setUsername(user.getFirstname() + user.getLastname());
 
         Role userRole = new Role();
-        userRole.setName(RoleEnum.USER);
+        userRole.setName(roleEnum);
         userRole.setUser(user);
         user.setRoles(new HashSet<>(Set.of(userRole)));
 

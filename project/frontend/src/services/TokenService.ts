@@ -11,6 +11,10 @@ export class TokenService {
         localStorage.setItem("token", token);
     }
 
+    public setRefreshToken(token: string): void {
+        localStorage.setItem("refresh_token", token);
+    }
+
     /**
      * Retrieve the stored JWT token from local storage
      * 
@@ -20,10 +24,18 @@ export class TokenService {
         return localStorage.getItem("token") || undefined;
     }
 
+    public getRefreshToken(): string | undefined {
+        return localStorage.getItem("refresh_token") || undefined;
+    }
+
     /**
      * Remove the JWT token from local storage
      */
     public removeToken(): void {
         return localStorage.removeItem("token");
+    }
+
+    public removeRefreshToken(): void {
+        return localStorage.removeItem("refresh_token");
     }
 }

@@ -1,18 +1,32 @@
 package caaruujuuwoo65.backend.dto.user;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Data Transfer Object for creating a new user.
- * Used to transfer user creation data between client and server.
- */
+
 @Getter
 @Setter
+@AllArgsConstructor
 public class CreateUserDTO {
-    private String firstname;
-    private String lastname;
+    @NotBlank(message = "Username is mandatory")
+    private String username;
+
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
     private String email;
-    private String phonenumber;
+
+    @NotBlank(message = "Phone number is mandatory")
+    private String phoneNumber;
+
+    @NotBlank(message = "First name is mandatory")
+    private String firstname;
+
+    @NotBlank(message = "Last name is mandatory")
+    private String lastname;
+
+    @NotBlank(message = "Password is mandatory")
     private String password;
 }

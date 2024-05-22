@@ -1,6 +1,12 @@
+import "../hboictcloud-config";
 import {TokenService} from "./TokenService";
 import {UserLoginFormModel} from "../types/UserLoginFormModel";
 import {UserRegisterFormModel} from "../types/UserRegisterFormModel";
+import {api} from "@hboictcloud/api";
+import {Email} from "../types/Email";
+import {UserAuthResponse} from "../types/UserAuthResponse";
+import {RegistrationEmail} from "../types/RegistrationEmail";
+
 
 const headers: { "Content-Type": string } = {
     "Content-Type": "application/json",
@@ -19,7 +25,7 @@ export class UserService {
      *
      * @returns `true` when successful, otherwise `false`.
      */
-    public async login(formData: UserLoginFormModel): Promise<boolean> {
+    public async login(formData: UserLoginFormModel): Promise<UserAuthResponse> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}auth/authenticate`, {
             method: "post",
             headers: headers,
@@ -27,21 +33,19 @@ export class UserService {
         });
 
         if (!response.ok) {
-            console.error(response);
-
-            return false;
+            return {success: false, status: response.status, message: "Invalid credentials"};
         }
 
-        const json: { access_token: string | undefined, refresh_token: string | undefined } = await response.json();
+        const json: { access_token: string, refresh_token: string } = await response.json();
 
-        if (json.access_token && json.refresh_token){
+        if (json.access_token && json.refresh_token) {
             this._tokenService.setToken(json.access_token);
-            this._tokenService.setToken(json.refresh_token);
+            this._tokenService.setRefreshToken(json.refresh_token);
 
-            return true;
+            return {success: true};
         }
 
-        return false;
+        return {success: false};
     }
 
     /**
@@ -51,7 +55,7 @@ export class UserService {
      *
      * @returns `true` when successful, otherwise `false`.
      */
-    public async register(formData: UserRegisterFormModel): Promise<boolean> {
+    public async register(formData: UserRegisterFormModel): Promise<UserAuthResponse> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}auth/register`, {
             method: "post",
             headers: headers,
@@ -61,10 +65,31 @@ export class UserService {
         if (!response.ok) {
             console.error(response);
 
-            return false;
+            return {success: false};
         }
 
-        return true;
+        const json: {
+            statusCodeValue: number,
+            body: { access_token: string | undefined, refresh_token: string | undefined }
+        } = await response.json();
+
+        if (json.body.access_token && json.body.refresh_token && json.statusCodeValue === 201) {
+            this._tokenService.setToken(json.body.access_token);
+            this._tokenService.setRefreshToken(json.body.refresh_token);
+
+            const email: Email = new Email();
+            email.to = [{name: formData.firstname, address: formData.email}];
+            email.subject = "Welcome to our webshop!";
+            email.html = new RegistrationEmail(formData).generateEmail();
+
+            await this.sendEmail(email);
+
+            return {success: true, status: json.statusCodeValue};
+        } else if (json.statusCodeValue === 409) {
+            return {success: false, status: json.statusCodeValue, message: "User already exists"};
+        }
+
+        return {success: false};
     }
 
     /**
@@ -94,8 +119,9 @@ export class UserService {
     }
 
     /**
-     * Handles adding an order item to the shoppingCart of the current user. Requires a valid token.
+     * Handles adding an order item to the cart of the current user. Requires a valid token.
      *
+     * @returns Current number of order items in the cart when successful, otherwise `false`.
      * @returns Current number of order items in the shoppingCart when successful, otherwise `false`.
      */
     public async addOrderItemToCart(id: number): Promise<number | undefined> {
@@ -117,5 +143,9 @@ export class UserService {
         }
 
         return (await response.json()) as number;
+    }
+
+    private async sendEmail(email: Email): Promise<void> {
+        await api.sendEmail(email);
     }
 }

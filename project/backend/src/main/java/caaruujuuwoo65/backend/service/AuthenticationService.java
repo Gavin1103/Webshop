@@ -2,10 +2,11 @@ package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.AuthenticationResponse;
 import caaruujuuwoo65.backend.dto.JwtRequest;
-import caaruujuuwoo65.backend.dto.UserDto;
+import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
+import caaruujuuwoo65.backend.model.Role;
 import caaruujuuwoo65.backend.model.Token;
 import caaruujuuwoo65.backend.model.User;
-import caaruujuuwoo65.backend.model.enums.Role;
+import caaruujuuwoo65.backend.model.enums.RoleEnum;
 import caaruujuuwoo65.backend.model.enums.TokenType;
 import caaruujuuwoo65.backend.repository.TokenRepository;
 import caaruujuuwoo65.backend.repository.UserRepository;
@@ -85,7 +86,7 @@ public class AuthenticationService {
      * @param userDto the user data transfer object
      * @return the saved user
      */
-    public ResponseEntity<?> register(UserDto userDto) {
+    public ResponseEntity<?> register(CreateUserDTO userDto, RoleEnum roleEnum) {
         User user = modelMapper.map(userDto, User.class);
 
         User existingUser = this.userService.getUserByEmail(user.getEmail()); // Check if user already exists
@@ -95,7 +96,12 @@ public class AuthenticationService {
         }
 
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRoles(new HashSet<>(Set.of(Role.USER)));
+
+        Role userRole = new Role();
+        userRole.setName(roleEnum);
+        userRole.setUser(user);
+        user.setRoles(new HashSet<>(Set.of(userRole)));
+
         User savedUser = userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
@@ -131,7 +137,7 @@ public class AuthenticationService {
      * @param user the user
      */
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getUserId());
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {

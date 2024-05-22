@@ -1,25 +1,23 @@
 package caaruujuuwoo65.backend.model;
 
-
-import caaruujuuwoo65.backend.model.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import caaruujuuwoo65.backend.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,47 +25,61 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private String username;
-
-    private String email;
+    private Long userId;
 
     private String firstname;
-
     private String lastname;
-
+    private String username;
+    private String email;
     private String phonenumber;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
+    @JsonIgnore
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "addressId")
+    private Address address;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<CustomerOrder> customerOrders;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Cart> carts;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roles.stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+            .collect(Collectors.toSet());
     }
 
     @JsonIgnore
     public List<String> getAuthoritiesList() {
         return roles.stream()
-            .map(Role::name)
+            .map(role -> role.getName().name())
             .collect(Collectors.toList());
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override

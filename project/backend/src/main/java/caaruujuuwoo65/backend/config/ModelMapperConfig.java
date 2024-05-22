@@ -1,8 +1,8 @@
 package caaruujuuwoo65.backend.config;
 
 import caaruujuuwoo65.backend.dto.CategoryWithImageDTO;
-import caaruujuuwoo65.backend.model.CategoryProduct;
 import caaruujuuwoo65.backend.model.Product;
+import caaruujuuwoo65.backend.model.ProductCategory;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
@@ -19,15 +19,15 @@ public class ModelMapperConfig {
         ModelMapper modelMapper = new ModelMapper();
 
         // Custom mapping from CategoryProduct to CategoryWithImageDTO
-        modelMapper.addMappings(new PropertyMap<CategoryProduct, CategoryWithImageDTO>() {
+        modelMapper.addMappings(new PropertyMap<ProductCategory, CategoryWithImageDTO>() {
             @Override
             protected void configure() {
-                map().setId(source.getId());
-                map().setName(source.getName());
+                map().setId(source.getCategoryId());
+                map().setName(source.getCategoryName());
 
                 // Custom logic for setting the image field
                 using(context -> {
-                    CategoryProduct categoryProduct = (CategoryProduct) context.getSource();
+                    ProductCategory categoryProduct = (ProductCategory) context.getSource();
                     if (categoryProduct.getProducts().isEmpty()) {
                         return null;
                     }

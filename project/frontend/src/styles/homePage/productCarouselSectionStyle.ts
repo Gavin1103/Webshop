@@ -82,6 +82,7 @@ export default css`
     }
 
     .add-to-cart-button {
+        cursor: pointer;
         position: absolute;
         bottom: 10px;
         right: 5px;

@@ -30,11 +30,11 @@ export class WizardContainer extends LitElement {
 
     private updateStepsStatus(currentPath: string): void {
         const pathToStepIndex: { [key: string]: number } = {
-            "cart": 0,
-            "cart/personal-info": 1,
-            "cart/overview": 2
+            "/cart": 0,
+            "/cart/personal-info": 1,
+            "/cart/overview": 2
         };
-
+        
         const activeStepIndex: number = pathToStepIndex[currentPath] || 0;
 
         this.steps.forEach((step, index) => {

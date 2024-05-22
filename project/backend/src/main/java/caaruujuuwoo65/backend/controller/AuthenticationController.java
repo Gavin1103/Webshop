@@ -1,7 +1,8 @@
 package caaruujuuwoo65.backend.controller;
 
 import caaruujuuwoo65.backend.dto.JwtRequest;
-import caaruujuuwoo65.backend.dto.UserDto;
+import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
+import caaruujuuwoo65.backend.model.enums.RoleEnum;
 import caaruujuuwoo65.backend.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,8 +39,8 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "201", description = "Successfully registered"),
         @ApiResponse(responseCode = "409", description = "User already exists")
     })
-    public ResponseEntity<?> register(@RequestBody UserDto user) throws Exception {
-        return ResponseEntity.ok(authenticationService.register(user));
+    public ResponseEntity<?> register(@RequestBody CreateUserDTO user) throws Exception {
+        return ResponseEntity.ok(authenticationService.register(user, RoleEnum.USER));
     }
 
     @PostMapping("/refresh-token")

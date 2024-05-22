@@ -5,18 +5,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface TokenRepository extends JpaRepository<Token, Integer> {
-
+public interface TokenRepository extends JpaRepository<Token, Long> {
     @Query(value = """
         SELECT t 
         FROM Token t 
-        INNER JOIN User u ON t.user.id = u.id 
-        WHERE u.id = :id 
+        INNER JOIN User u ON t.user.userId = u.userId 
+        WHERE u.userId = :tokenId 
         AND (t.expired = false OR t.revoked = false)
         """)
-    List<Token> findAllValidTokenByUser(Integer id);
+    List<Token> findAllValidTokenByUser(Long tokenId);
 
-    Optional<Token> findByToken(String token);
+    void deleteByUser_UserId(Long id);
 }

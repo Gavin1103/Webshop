@@ -2,20 +2,15 @@ import {css} from "lit";
 
 export default css `
     .navigation {
-        position: fixed;
+        position: sticky;
         top: 0;
-        left: 0;
-        right: 0;
-        height: 8%;
-        background: rgba(180, 180, 180, 0.1);
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
+        background: white;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px;
+        padding: 10px 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        z-index: 9999;
+        z-index: 50;
     }
 
     .sidebar {

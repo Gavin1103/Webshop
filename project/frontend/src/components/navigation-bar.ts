@@ -9,6 +9,9 @@ import {navigateTo} from "./router";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {
+    public static styles = [navigationBarStyle];
+
+
     private sidebarVisible: boolean = false;
     private categoryList: CategoryResponse | undefined;
 
@@ -43,9 +46,6 @@ export class NavigationBar extends LitElement {
     private goToShoppingCart(): void {
         navigateTo("/cart");
     }
-
-    public static styles = [navigationBarStyle];
-
 
     public render(): TemplateResult {
         return html`

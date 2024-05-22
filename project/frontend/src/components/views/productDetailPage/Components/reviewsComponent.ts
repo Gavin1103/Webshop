@@ -56,7 +56,6 @@ export class ReviewComponent extends LitElement {
                             width: auto;
                             align-items: center;
                             flex-direction: column;
-                            /* align-self: flex-start; */
                         }
 
                         .review-detail {

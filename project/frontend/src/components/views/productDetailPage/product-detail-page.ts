@@ -8,7 +8,7 @@ import { ProductService } from "../../../services/ProductService";
 @customElement("product-detail-page")
 export class ProductDetailPage extends LitElement {
     @property({ type: String })
-    private infoStatus: string = "reviews";
+    private infoStatus: string = "description";
 
     @property({ type: String })
     private buttonColor: string = "#5AB2FF";
@@ -34,6 +34,10 @@ export class ProductDetailPage extends LitElement {
                     min-width:300px;
                     width: 60%;
                     margin: 5px 0;
+
+                    h2{
+                    font-weight:bolder;
+                   }
                 }
             }
 
@@ -50,6 +54,7 @@ export class ProductDetailPage extends LitElement {
                 }
 
                 section {
+  
                     display: flex;
                     width: auto;
                     justify-content: space-between;
@@ -130,8 +135,6 @@ export class ProductDetailPage extends LitElement {
             return html``;
         }
 
-        console.log(this.product);
-
         return html`
             <main>
                 <section>
@@ -176,7 +179,9 @@ export class ProductDetailPage extends LitElement {
                 ${this.infoStatus === "description"
                     ? html`
                           <section>
-                              <description-component></description-component>
+                              <description-component
+                                productCategory="${this.product.categoryProduct.name}"
+                              ></description-component>
                           </section>
                       `
                     : null}

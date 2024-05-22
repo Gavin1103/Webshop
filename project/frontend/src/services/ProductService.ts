@@ -5,22 +5,29 @@ const headers: { "Content-Type": string } = {
 };
 
 export class ProductService {
-
     public async getProductById(id: number): Promise<Product | undefined> {
-
         const requestHeaders: Headers = new Headers(headers);
 
         const response: Response = await fetch(`${viteConfiguration.API_URL}product/getBy/${id}`, {
             method: "GET",
-            headers: requestHeaders
+            headers: requestHeaders,
         });
 
         if (!response.ok) {
             return undefined;
         }
 
-        const product: Product = await response.json();
-        return product;
+        const productData: any = await response.json();
 
+        const product: Product = {
+            id: productData.id,
+            name: productData.name,
+            description: productData.description,
+            price: productData.price,
+            image: productData.image,
+            categoryProduct: productData.category,
+        };
+
+        return product;
     }
 }

@@ -1,9 +1,9 @@
-import { Product } from "../../types/Product";
+import { Product } from "../types/Product";
 import { ProductPreviewResponse } from "../types/ProductPreviewResponse";
 
 export class ProductService {
     public async getTopDealProducts(): Promise<ProductPreviewResponse | undefined> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/topDeals`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}products/topDeals`, {
             method: "get",
         });
 
@@ -38,16 +38,7 @@ export class ProductService {
             return undefined;
         }
 
-        const productData: any = await response.json();
-
-        const product: Product = {
-            id: productData.id,
-            name: productData.name,
-            description: productData.description,
-            price: productData.price,
-            image: productData.image,
-            categoryProduct: productData.category,
-        };
+        const product: Product = await response.json();
 
         return product;
     }

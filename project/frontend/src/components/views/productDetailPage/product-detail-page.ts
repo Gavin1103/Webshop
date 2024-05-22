@@ -2,7 +2,7 @@ import { css, html, LitElement, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import globalStyle from "./styles/globalStyle";
 import { Router } from "@vaadin/router";
-import { Product } from "../../../../types/Product";
+import { Product } from "../../../types/Product";
 import { ProductService } from "../../../services/ProductService";
 
 @customElement("product-detail-page")
@@ -180,7 +180,7 @@ export class ProductDetailPage extends LitElement {
                     ? html`
                           <section>
                               <description-component
-                                productCategory="${this.product.categoryProduct.name}"
+                                productCategory="${this.product.productCategory.name}"
                               ></description-component>
                           </section>
                       `

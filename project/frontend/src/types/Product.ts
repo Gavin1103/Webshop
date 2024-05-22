@@ -1,4 +1,5 @@
-import { CategoryProduct } from "./CategoryProduct";
+import { ProductCategory } from "./productCategory";
+
 
 export type Product = {
     id: number;
@@ -6,5 +7,5 @@ export type Product = {
     description: string;
     price: number;
     image: string;
-    categoryProduct: CategoryProduct;
+    productCategory: ProductCategory;
 };

@@ -1,0 +1,51 @@
+import {UserRegisterFormModel} from "./UserRegisterFormModel";
+
+export class RegistrationEmail {
+    private username: string = "";
+    private email: string = "";
+    private phoneNumber: string = "";
+    private firstname: string = "";
+    private lastname: string = "";
+
+    public constructor (userRegisterModel: UserRegisterFormModel)
+    {
+        this.username = userRegisterModel.username;
+        this.email = userRegisterModel.email;
+        this.phoneNumber = userRegisterModel.phoneNumber;
+        this.firstname = userRegisterModel.firstname;
+        this.lastname = userRegisterModel.lastname;
+    }
+
+    public generateEmail(): string {
+        return `
+    <h1>Registration</h1>
+    <p>Dear ${this.firstname} ${this.lastname},</p>
+    <p>Thank you for registering with our webshop. Here are your details:</p>
+    <table style="width:100%; border: 1px solid black; border-collapse: collapse;">
+        <tr>
+            <th style="border: 1px solid black; padding: 15px; text-align: left;">Username</th>
+            <td style="border: 1px solid black; padding: 15px; text-align: left;">${this.username}</td>
+        </tr>
+         <tr>
+            <th style="border: 1px solid black; padding: 15px; text-align: left;">Firstname</th>
+            <td style="border: 1px solid black; padding: 15px; text-align: left;">${this.firstname}</td>
+        </tr>
+         <tr>
+            <th style="border: 1px solid black; padding: 15px; text-align: left;">Lastname</th>
+            <td style="border: 1px solid black; padding: 15px; text-align: left;">${this.lastname}</td>
+        </tr>
+        <tr>
+            <th style="border: 1px solid black; padding: 15px; text-align: left;">Email Address</th>
+            <td style="border: 1px solid black; padding: 15px; text-align: left;">${this.email}</td>
+        </tr>
+        <tr>
+            <th style="border: 1px solid black; padding: 15px; text-align: left;">Phone Number</th>
+            <td style="border: 1px solid black; padding: 15px; text-align: left;">${this.phoneNumber}</td>
+        </tr>
+    </table>
+    <p>Thank you for registering with our webshop.</p>
+    <p>Kind regards,</p>
+    <p>Webshop</p>
+    `;
+    }
+}

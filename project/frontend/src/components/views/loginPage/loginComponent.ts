@@ -2,10 +2,10 @@ import {html, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import { BaseAuthComponent } from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
-import {UserAuthResponse} from "../../../../types/responses/UserAuthResponse";
 import authInputStyle from "../../../styles/authentication/authInputStyle";
 import LoginStyle from "../../../styles/authentication/loginPage/loginStyle";
-import {navigateTo} from "../../helpers/helpers";
+import {navigateTo} from "../../router";
+import {UserAuthResponse} from "../../../types/UserAuthResponse";
 
 @customElement("login-component")
 export class LoginComponent extends BaseAuthComponent {

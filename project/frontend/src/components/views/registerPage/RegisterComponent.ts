@@ -3,10 +3,10 @@ import {customElement} from "lit/decorators.js";
 import {BaseAuthComponent} from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
 import {UserRegisterFormModel} from "../../../types/UserRegisterFormModel";
-import {UserAuthResponse} from "../../../../types/responses/UserAuthResponse";
 import authInputStyle from "../../../styles/authentication/authInputStyle";
 import registerPage from "../../../styles/authentication/registerPage/registerStyle";
-import {navigateTo} from "../../helpers/helpers";
+import {navigateTo} from "../../router";
+import {UserAuthResponse} from "../../../types/UserAuthResponse";
 
 @customElement("register-component")
 export class RegisterComponent extends BaseAuthComponent {

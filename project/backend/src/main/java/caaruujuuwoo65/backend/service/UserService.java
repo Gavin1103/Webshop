@@ -93,6 +93,11 @@ public class UserService {
     public User deleteUserByEmail(String email) {
         User user = userRepository.findByEmail(email);
 
+        if(user != null) {
+            tokenRepository.deleteByUser_UserId(user.getUserId());
+        }
+
+
         userRepository.delete(user);
         return user;
     }

@@ -1,9 +1,13 @@
 package caaruujuuwoo65.backend.seeder;
 
+import caaruujuuwoo65.backend.dto.CreateUserDTO;
+import caaruujuuwoo65.backend.dto.user.UserDTO;
 import caaruujuuwoo65.backend.model.Role;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.model.enums.RoleEnum;
 import caaruujuuwoo65.backend.repository.UserRepository;
+import caaruujuuwoo65.backend.service.AuthenticationService;
+import caaruujuuwoo65.backend.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,33 +21,36 @@ import java.util.Set;
 @Order(1)
 public class DatabaseSeeder implements CommandLineRunner {
 
-    private final UserRepository userRepository;
+    private final AuthenticationService authenticationService;
 
     private final PasswordEncoder passwordEncoder;
 
-    public DatabaseSeeder(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public DatabaseSeeder(AuthenticationService authenticationService, PasswordEncoder passwordEncoder) {
+        this.authenticationService = authenticationService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        // Create admin user
-        User admin = new User();
-        Role adminRole = new Role();
-        adminRole.setName(RoleEnum.ADMIN);
-        admin.setEmail("admin@admin.com");
-        admin.setPassword(passwordEncoder.encode("admin"));
-        admin.setRoles(new HashSet<>(Set.of(adminRole)));
-        this.userRepository.save(admin);
+        CreateUserDTO userDto = new CreateUserDTO(
+            "User",
+            "user@user.com",
+            "0612345678",
+            "user",
+            "tester",
+            "user"
+        );
 
-        // Create normal user
-        User user = new User();
-        Role userRole = new Role();
-        userRole.setName(RoleEnum.USER);
-        user.setEmail("user@user.com");
-        user.setPassword(passwordEncoder.encode("user"));
-        admin.setRoles(new HashSet<>(Set.of(userRole)));
-        this.userRepository.save(user);
+        this.authenticationService.register(userDto, RoleEnum.USER);
+
+        CreateUserDTO adminDto = new CreateUserDTO(
+            "Aemin",
+            "admin@admin.com",
+            "0612345678",
+            "admin",
+            "tester",
+            "admin"
+        );
+        this.authenticationService.register(adminDto, RoleEnum.ADMIN);
     }
 }

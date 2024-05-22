@@ -16,4 +16,6 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
         AND (t.expired = false OR t.revoked = false)
         """)
     List<Token> findAllValidTokenByUser(Long tokenId);
+
+    void deleteByUser_UserId(Long id);
 }

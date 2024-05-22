@@ -2,6 +2,7 @@ package caaruujuuwoo65.backend;
 
 import caaruujuuwoo65.backend.dto.CreateUserDTO;
 import caaruujuuwoo65.backend.dto.JwtRequest;
+import caaruujuuwoo65.backend.model.enums.RoleEnum;
 import caaruujuuwoo65.backend.service.AuthenticationService;
 import caaruujuuwoo65.backend.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +48,7 @@ public class AuthenticationControllerTest {
         );
 
         try {
-            authenticationService.register(userDto);
+            authenticationService.register(userDto, RoleEnum.USER);
         } catch (Exception e) {
             e.printStackTrace();
         }

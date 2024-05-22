@@ -6,7 +6,8 @@ import OrderOverviewSummaryStyle
     from "../../../../styles/shoppingCart/orderOverview/orderOverviewSummaryStyle";
 import inputFieldStyle from "../../../../styles/shoppingCart/inputFieldStyle";
 import {createInputField} from "../../../helpers/formHelpers";
-import {navigateTo, roundToTwoDecimals} from "../../../helpers/helpers";
+import {navigateTo} from "../../../router";
+import {roundToTwoDecimals} from "../../../helpers/helpers";
 
 const FREE_SHIPPING_THRESHOLD: number = 0;
 const HOME_PATH: string = "/";

@@ -35,11 +35,11 @@ export class ShoppingCart extends LitElement {
                     <order-info .products=${this.products}></order-info>
                 ` : null}
 
-                ${this.currentPath.startsWith("/cart/personal-info") ? html`
+                ${this.currentPath === "/cart/personal-info" ? html`
                     <personal-info></personal-info>
                 ` : null}
 
-                ${this.currentPath.startsWith("/cart/overview") ? html`
+                ${this.currentPath === "/cart/overview" ? html`
                     <order-overview .products=${this.products}></order-overview>
                 ` : null}
             </div>

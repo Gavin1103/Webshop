@@ -3,11 +3,32 @@ import {customElement} from "lit/decorators.js";
 import "./category-card-horizontal";
 import "./search-bar";
 import navigationBarStyle from "../styles/navigationBarStyle";
+import {CategoryResponse} from "../../types/responses/CategoryResponse";
+import {CategoryService} from "../services/CategoryService";
+import {navigateTo} from "./router";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {
     private sidebarVisible: boolean = false;
+    private categoryList: CategoryResponse | undefined;
 
+
+    public async connectedCallback(): Promise<void> {
+        super.connectedCallback();
+        await this.loadData();
+    }
+
+    private async loadData(): Promise<void> {
+        const categoryService: CategoryService = new CategoryService();
+
+        try {
+            this.categoryList = await categoryService.getCategoriesWithImage();
+        } catch (error) {
+            console.error("Error loading data: ", error);
+        } finally {
+            this.requestUpdate();
+        }
+    }
 
     private toggleSidebar(): void {
         this.sidebarVisible = !this.sidebarVisible;
@@ -20,8 +41,7 @@ export class NavigationBar extends LitElement {
     }
 
     private goToShoppingCart(): void {
-        location.replace("/cart");
-        this.requestUpdate();
+        navigateTo("/cart");
     }
 
     public static styles = [navigationBarStyle];
@@ -62,19 +82,7 @@ export class NavigationBar extends LitElement {
 
                 <div class="category-container">
                     <category-card-horizontal
-                        categoryName="Action Game">
-                    </category-card-horizontal>
-
-                    <category-card-horizontal
-                        categoryName="Action Game">
-                    </category-card-horizontal>
-
-                    <category-card-horizontal
-                        categoryName="Action Game">
-                    </category-card-horizontal>
-
-                    <category-card-horizontal
-                        categoryName="Action Game">
+                        .categoryList="${this.categoryList}">
                     </category-card-horizontal>
                 </div>
             </div>

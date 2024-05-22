@@ -1,9 +1,8 @@
 module.exports = {
     parserOptions: {
-        project: ["./tsconfig.json"],
+        project: ["tsconfig.json"],
     },
-    plugins: ["@hboictcloud"],
-    extends: ["plugin:@typescript-eslint/recommended-type-checked", "plugin:@hboictcloud/base"],
+    extends: ["plugin:@typescript-eslint/recommended-type-checked"],
     rules: {
         //NOTE: Indentation warnings are a little weird from time to time, so disable them to prevent confusion.
         indent: "off",

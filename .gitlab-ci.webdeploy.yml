@@ -5,7 +5,7 @@ Build Frontend:
         - apt-get update
     script:
         - npm ci
-        - npm run build:pipeline
+        - npm run build:frontend
     after_script:
         - kill $(jobs -p) || true
     artifacts:

@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import OrderSummaryStyle from "../../../../styles/shoppingCart/orderInfo/orderSummaryStyle";
-import {navigateTo, roundToTwoDecimals} from "../../../helpers/helpers";
+import {navigateTo} from "../../../router";
 import {CartItem} from "../../../helpers/CartHelpers";
 
 

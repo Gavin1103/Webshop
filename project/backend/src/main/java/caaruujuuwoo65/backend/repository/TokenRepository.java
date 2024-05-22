@@ -7,11 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface TokenRepository extends JpaRepository<Token, Long> {
-
     @Query(value = """
         SELECT t 
         FROM Token t 
-        INNER JOIN t.user u 
+        INNER JOIN User u ON t.user.userId = u.userId 
         WHERE u.userId = :tokenId 
         AND (t.expired = false OR t.revoked = false)
         """)

@@ -1,8 +1,8 @@
 package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.AuthenticationResponse;
-import caaruujuuwoo65.backend.dto.CreateUserDTO;
 import caaruujuuwoo65.backend.dto.JwtRequest;
+import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
 import caaruujuuwoo65.backend.model.Role;
 import caaruujuuwoo65.backend.model.Token;
 import caaruujuuwoo65.backend.model.User;
@@ -96,7 +96,6 @@ public class AuthenticationService {
         }
 
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setUsername(user.getFirstname() + user.getLastname());
 
         Role userRole = new Role();
         userRole.setName(roleEnum);

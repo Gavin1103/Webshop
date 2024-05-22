@@ -1,7 +1,7 @@
 package caaruujuuwoo65.backend;
 
-import caaruujuuwoo65.backend.dto.CreateUserDTO;
 import caaruujuuwoo65.backend.dto.JwtRequest;
+import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
 import caaruujuuwoo65.backend.model.enums.RoleEnum;
 import caaruujuuwoo65.backend.service.AuthenticationService;
 import caaruujuuwoo65.backend.service.UserService;

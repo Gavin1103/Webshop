@@ -1,4 +1,4 @@
-package caaruujuuwoo65.backend.dto;
+package caaruujuuwoo65.backend.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

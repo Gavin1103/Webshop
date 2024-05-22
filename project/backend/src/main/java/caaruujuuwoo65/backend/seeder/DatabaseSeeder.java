@@ -1,13 +1,8 @@
 package caaruujuuwoo65.backend.seeder;
 
-import caaruujuuwoo65.backend.dto.CreateUserDTO;
-import caaruujuuwoo65.backend.dto.user.UserDTO;
-import caaruujuuwoo65.backend.model.Role;
-import caaruujuuwoo65.backend.model.User;
+import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
 import caaruujuuwoo65.backend.model.enums.RoleEnum;
-import caaruujuuwoo65.backend.repository.UserRepository;
 import caaruujuuwoo65.backend.service.AuthenticationService;
-import caaruujuuwoo65.backend.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +39,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         this.authenticationService.register(userDto, RoleEnum.USER);
 
         CreateUserDTO adminDto = new CreateUserDTO(
-            "Aemin",
+            "Admin",
             "admin@admin.com",
             "0612345678",
             "admin",

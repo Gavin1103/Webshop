@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "product")
@@ -34,10 +36,14 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "type_product")
-    @JsonIgnore
     private TypeProduct type;
 
     @ManyToOne
     @JoinColumn(name = "category_product")
+    @JsonIgnore
     private CategoryProduct category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Review> reviews;
 }

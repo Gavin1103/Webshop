@@ -4,10 +4,13 @@ import caaruujuuwoo65.backend.dto.ProductDTO;
 import caaruujuuwoo65.backend.dto.ProductPreviewDTO;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.repository.ProductRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.jpa.domain.Specification;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,5 +45,30 @@ public class ProductService {
         return products.stream()
             .map(product -> modelMapper.map(product, ProductPreviewDTO.class))
             .collect(Collectors.toList());
+    }
+
+    public List<Product> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating) {
+        return productRepository.findAll((Specification<Product>) (root, query, criteriaBuilder) -> {
+            var predicates = new ArrayList<Predicate>();
+
+            if (categories != null && !categories.isEmpty()) {
+                predicates.add(root.get("category").get("name").in(categories));
+            }
+
+            if (minPrice != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice));
+            }
+
+            if (maxPrice != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
+            }
+
+            if (minRating != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.join("reviews").get("rating"), minRating));
+            }
+
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
     }
 }

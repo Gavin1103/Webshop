@@ -25,7 +25,7 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
         {
             path: "/register",
             component: "register-component",
-            action: (context, commands): any => {
+            action: (context: Context, commands: Commands): any => {
                 updatePath(context.pathname);
                 return commands.component("register-component");
             }
@@ -33,7 +33,7 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
         {
             path: "/login",
             component: "login-component",
-            action: (context, commands): any => {
+            action: (context: Context, commands: Commands): any => {
                 updatePath(context.pathname);
                 return commands.component("login-component");
             }

@@ -1,10 +1,10 @@
 import "../hboictcloud-config";
-import { TokenService } from "./TokenService";
+import {TokenService} from "./TokenService";
 import {UserLoginFormModel} from "../types/UserLoginFormModel";
-import {UserAuthResponse} from "../../types/responses/UserAuthResponse";
 import {UserRegisterFormModel} from "../types/UserRegisterFormModel";
 import {api} from "@hboictcloud/api";
 import {Email} from "../types/Email";
+import {UserAuthResponse} from "../types/UserAuthResponse";
 
 
 const headers: { "Content-Type": string } = {
@@ -32,7 +32,7 @@ export class UserService {
         });
 
         if (!response.ok) {
-            return { success: false, status: response.status, message: "Invalid credentials"};
+            return {success: false, status: response.status, message: "Invalid credentials"};
         }
 
         const json: { access_token: string, refresh_token: string } = await response.json();

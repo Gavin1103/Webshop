@@ -30,7 +30,7 @@ export class ProductService {
         return (await response.json()) as ProductPreviewResponse;
     }
     public async getProductById(id: number): Promise<Product | undefined> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}product/getBy/${id}`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}products/getBy/${id}`, {
             method: "GET",
         });
 

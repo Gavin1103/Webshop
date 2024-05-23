@@ -48,7 +48,7 @@ public class AuthenticationControllerTest {
         );
 
         try {
-            authenticationService.register(userDto, RoleEnum.USER);
+            authenticationService.register(userDto, RoleEnum.USER, true);
         } catch (Exception e) {
             e.printStackTrace();
         }

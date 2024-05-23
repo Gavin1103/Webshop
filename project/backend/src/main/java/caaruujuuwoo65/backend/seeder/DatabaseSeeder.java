@@ -32,7 +32,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             "user"
         );
 
-        this.authenticationService.register(userDto, RoleEnum.USER, true);
+        this.authenticationService.register(userDto, RoleEnum.USER);
 
         CreateUserDTO adminDto = new CreateUserDTO(
             "Admin",
@@ -42,6 +42,6 @@ public class DatabaseSeeder implements CommandLineRunner {
             "tester",
             "admin"
         );
-        this.authenticationService.register(adminDto, RoleEnum.ADMIN, true);
+        this.authenticationService.register(adminDto, RoleEnum.ADMIN);
     }
 }

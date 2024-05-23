@@ -49,7 +49,7 @@ public class AuthenticationControllerTest {
         );
 
         try {
-            authenticationService.register(userDto, RoleEnum.USER, true);
+            authenticationService.register(userDto, RoleEnum.USER);
         } catch (Exception e) {
             e.printStackTrace();
         }

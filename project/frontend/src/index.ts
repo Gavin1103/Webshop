@@ -38,3 +38,5 @@ export * from "./tools/regionCapture";
 export * from "./tools/feedbackForm";
 export * from "./tools/feedbackTool";
 export * from "./tools/loadingIndicator";
+
+export * from "./components/views/unauthorizedPage/401Page";

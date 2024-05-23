@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
+import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.dto.JwtRequest;
 import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
 import caaruujuuwoo65.backend.model.enums.RoleEnum;
@@ -51,5 +52,11 @@ public class AuthenticationController {
     })
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         return this.authenticationService.refreshToken(request);
+    }
+
+    @PreAuthorizeAdmin
+    @GetMapping("/is-admin")
+    public boolean isAdmin(){
+        return true;
     }
 }

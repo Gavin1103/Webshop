@@ -26,8 +26,8 @@ export class UserService {
      * @returns `true` when successful, otherwise `false`.
      */
     public async login(formData: UserLoginFormModel): Promise<UserAuthResponse> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}auth/authenticate`, {
-            method: "post",
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/authenticate`, {
+            method: "POST",
             headers: headers,
             body: JSON.stringify(formData),
         });
@@ -56,7 +56,7 @@ export class UserService {
      * @returns `true` when successful, otherwise `false`.
      */
     public async register(formData: UserRegisterFormModel): Promise<UserAuthResponse> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}auth/register`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/register`, {
             method: "post",
             headers: headers,
             body: JSON.stringify(formData),

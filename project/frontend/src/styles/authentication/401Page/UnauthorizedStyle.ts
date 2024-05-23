@@ -25,6 +25,7 @@ export default css `
         background-color: #007BFF;
         text-decoration: none;
         border-radius: 5px;
+        cursor: pointer;
     }
 
     a:hover {

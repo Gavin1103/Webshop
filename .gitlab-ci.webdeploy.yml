@@ -6,6 +6,7 @@ Build Frontend:
     script:
         - npm ci
         - npm run build:frontend
+        - npm run build:proxy
     after_script:
         - kill $(jobs -p) || true
     artifacts:
@@ -65,7 +66,8 @@ Deploy Screenshot Server:
     after_script:
         - kill $(jobs -p) || true
     needs:
-        - Build Frontend
+        - "Build Frontend"
+        - "Backend Unit Test"
     when: always
     rules:
         -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"

@@ -51,7 +51,7 @@ export class ProductCarouselSection extends LitElement {
             </div>
 
             <section class="product-carousel">
-                ${this.productsData.map(product => html`
+                ${this.productsData? this.productsData.map(product => html`
                     <div class="product-card" tabindex="1">
                         <img class="product-image" src="${product.image}" alt="${product.name}">
                         <div class="product-info">
@@ -62,7 +62,7 @@ export class ProductCarouselSection extends LitElement {
                                  src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
                         </div>
                     </div>
-                `)}
+                `) : ""}
                 </div>
             </section>
         `;

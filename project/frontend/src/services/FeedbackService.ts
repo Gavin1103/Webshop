@@ -1,7 +1,10 @@
 import "../hboictcloud-config";
 import {v4 as uuidv4} from 'uuid';
+import {TokenService} from "./TokenService";
 
 export class FeedbackService {
+    private _tokenService: TokenService = new TokenService();
+
     public async uploadFeedback(base64Image: string, feedbackText: string): Promise<void> {
         try {
             const feedbackId: string = uuidv4();
@@ -21,8 +24,7 @@ export class FeedbackService {
             createdAt: new Date().toISOString()
         };
 
-
-        const response: Response = await fetch(`${viteConfiguration.API_URL}/feedback/`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/feedback/create`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -45,10 +47,17 @@ export class FeedbackService {
     }
 
     public async getAllFeedback(): Promise<any[]> {
+        const token: string | undefined = this._tokenService.getToken();
+
+        if(!token) {
+            return [];
+        }
+
         const response: Response = await fetch(`${viteConfiguration.API_URL}/feedback/`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
             }
         });
 

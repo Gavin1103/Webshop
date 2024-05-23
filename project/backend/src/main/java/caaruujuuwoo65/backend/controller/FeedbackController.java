@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
+import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.dto.CreateFeedbackDTO;
 import caaruujuuwoo65.backend.model.Feedback;
 import caaruujuuwoo65.backend.service.FeedbackService;
@@ -23,7 +24,7 @@ public class FeedbackController {
         this.feedbackService = feedbackService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/create")
     @Operation(summary = "Create a feedback record", description = "Create a feedback record in the database!")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Feedback created successfully"),
@@ -38,6 +39,7 @@ public class FeedbackController {
         }
     }
 
+    @PreAuthorizeAdmin()
     @GetMapping("/")
     @Operation(summary = "Get all feedback records", description = "Get all feedback records from the database")
     @ApiResponses(value = {

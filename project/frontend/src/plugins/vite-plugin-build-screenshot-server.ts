@@ -8,9 +8,9 @@ function buildScreenshotServer(): Plugin {
         buildStart: async () => {
             try {
                 await build({
-                    entryPoints: [resolve(__dirname, './scripts/screenshot-server.js')],
+                    entryPoints: [resolve(__dirname, '../scripts/screenshot-server.js')],
                     bundle: true,
-                    outfile: resolve(__dirname, '../../../dist/api/screenshot-server.js'),
+                    outfile: resolve(__dirname, '../../../../dist/server/index.js'),
                     platform: 'node',
                     sourcemap: true,
                 });

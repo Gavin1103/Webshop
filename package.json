@@ -20,9 +20,10 @@
         "preview": "run-p preview:api preview:web",
         "preview:backend": "cd project/backend && ./gradlew bootRun",
         "preview:web": "npm run preview -w project/frontend",
-        "build": "run-p build:backend build:frontend",
+        "build": "run-p build:backend build:frontend build:proxy",
         "build:frontend": "npm run build -w project/frontend",
-        "build:backend": "cd project/backend && ./gradlew build"
+        "build:backend": "cd project/backend && ./gradlew build",
+        "build:proxy": "npm run build -w project/proxy"
     },
     "devDependencies": {
         "@types/mysql": "^2.15.26",

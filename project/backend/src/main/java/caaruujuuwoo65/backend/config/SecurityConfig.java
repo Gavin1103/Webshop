@@ -18,7 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity()
 public class SecurityConfig {
-    private static final String[] WHITE_LIST_URL = {"/auth/**",
+    private static final String[] WHITE_LIST_URL = {
+        "/auth/**",
         "/v3/api-docs",
         "/v3/api-docs/**",
         "/swagger-resources",

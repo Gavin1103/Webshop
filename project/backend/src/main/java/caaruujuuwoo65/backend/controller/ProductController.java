@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,5 +79,20 @@ public class ProductController {
         List<String> categoryList = categories != null ? Arrays.asList(categories.split(",")) : null;
 
         return productService.getFilteredProducts(categoryList, minPrice, maxPrice, minRating);
+    }
+
+    @GetMapping("getBy/{id}")
+    @Operation(summary = "Get product by id", description = "Get product by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "Product not found"),
+            @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<?> getProductById(@PathVariable int id) {
+        ProductDTO product = productService.getProductById((long) id);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+        return ResponseEntity.ok(product);
     }
 }

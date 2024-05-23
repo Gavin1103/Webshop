@@ -1,6 +1,7 @@
 package caaruujuuwoo65.backend.controller;
 
-import caaruujuuwoo65.backend.dto.ProductPreviewDTO;
+import caaruujuuwoo65.backend.dto.product.ProductAverageRating;
+import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,8 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -57,5 +60,23 @@ public class ProductController {
     public ResponseEntity<List<ProductPreviewDTO>> getRecommendProducts() {
         List<ProductPreviewDTO> dtos = productService.getRecommendProducts();
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    @Operation(summary = "Filter products", description = "Filter products based on various criteria")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved filtered products"),
+        @ApiResponse(responseCode = "400", description = "Invalid filter criteria"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public List<ProductAverageRating> getFilteredProducts(
+        @RequestParam(required = false) String categories,
+        @RequestParam(required = false) Integer minPrice,
+        @RequestParam(required = false) Integer maxPrice,
+        @RequestParam(required = false) Integer minRating) {
+
+        List<String> categoryList = categories != null ? Arrays.asList(categories.split(",")) : null;
+
+        return productService.getFilteredProducts(categoryList, minPrice, maxPrice, minRating);
     }
 }

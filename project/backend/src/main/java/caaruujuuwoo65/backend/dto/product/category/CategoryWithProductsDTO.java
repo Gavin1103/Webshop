@@ -1,4 +1,4 @@
-package caaruujuuwoo65.backend.dto;
+package caaruujuuwoo65.backend.dto.product.category;
 
 import caaruujuuwoo65.backend.model.Product;
 import lombok.Getter;

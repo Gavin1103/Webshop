@@ -11,13 +11,11 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
-
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
 }
-
 
 repositories {
     mavenCentral()
@@ -39,7 +37,11 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-gson:0.11.5")
     annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
     testImplementation("org.springframework.security:spring-security-test")
 }
 

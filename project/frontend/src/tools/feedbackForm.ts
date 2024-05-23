@@ -1,6 +1,7 @@
 import {css, html, LitElement} from "lit-element";
 import {customElement, property} from "lit/decorators.js";
 import {TemplateResult} from "lit";
+import {FeedbackService} from "../services/FeedbackService";
 
 @customElement("feedback-form")
 export class FeedbackForm extends LitElement {
@@ -68,7 +69,7 @@ export class FeedbackForm extends LitElement {
                         @input="${this.updateComments}"
                         required
                     ></textarea>
-                    ${this.screenshot ? html`<img src="data:image/png;base64,${this.screenshot}" alt="Snipped Screenshot"/>` : ''}
+                    ${this.screenshot ? html`<img src="${this.screenshot}" alt="Snipped Screenshot"/>` : ''}
                     <button type="submit">Submit Feedback</button>
                 </form>
             </div>
@@ -83,6 +84,10 @@ export class FeedbackForm extends LitElement {
     private handleSubmit(event: Event): void {
         event.preventDefault();
         // Submit the feedback to your backend or API
+        const feedbackService: FeedbackService = new FeedbackService();
+
+        void feedbackService.uploadFeedback(this.screenshot as string, this.comments);
+
         console.log({comments: this.comments, screenshot: this.screenshot});
     }
 }

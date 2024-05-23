@@ -50,7 +50,7 @@ export class FeedbackTool extends LitElement {
     }
 
     private handleScreenshotCaptured(event: CustomEvent): void {
-        this.screenshot = event.detail;
+        this.screenshot = "data:image/png;base64," + event.detail;
         this.startScreenShot = false;
     }
 

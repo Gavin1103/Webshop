@@ -61,7 +61,7 @@ export class FeedbackList extends LitElement {
                 <h2>Feedback List</h2>
                 ${this.isLoading ? html`<p>Loading...</p>` : ''}
 
-                ${this.feedbackList.length === 0 ?? !this.isLoading ? html`<p>No feedback available</p>` : ''}
+                ${this.feedbackList.length === 0 && !this.isLoading ? html`<p>No feedback available</p>` : ''}
 
                 ${this.feedbackList.map(feedback => html`
                     <div class="feedback-item">

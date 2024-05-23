@@ -2,49 +2,51 @@ import "../hboictcloud-config";
 import {v4 as uuidv4} from 'uuid';
 
 export class FeedbackService {
-    public async uploadFeedback(fileInput: string, feedbackText: string): Promise<void> {
+    private readonly backendUrl: string;
+
+    constructor(backendUrl: string) {
+        this.backendUrl = backendUrl;
+    }
+
+    public async uploadFeedback(base64Image: string, feedbackText: string): Promise<void> {
         try {
             const feedbackId: string = uuidv4();
 
-            const blob: Blob = this.base64ToBlob(fileInput);
-            await this.saveFeedbackRecord(feedbackId, blob, feedbackText);
-
+            await this.saveFeedbackRecord(feedbackId, base64Image, feedbackText);
 
         } catch (reason) {
             console.error(reason);
         }
     }
 
-    private base64ToBlob(base64: string): Blob {
-        const arr = base64.split(',');
-        const mime = arr[0].match(/:(.*?);/)![1];
-        const bstr = atob(arr[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new Blob([u8arr], {type: mime});
-    }
+    private async saveFeedbackRecord(feedbackId: string, base64Image: string, feedbackText: string): Promise<void> {
+        const feedbackRecord = {
+            id: feedbackId,
+            image: base64Image,
+            feedback: feedbackText,
+            createdAt: new Date().toISOString()
+        };
 
-    private async saveFeedbackRecord(feedbackId: string, blob: Blob, feedbackText: string): Promise<void> {
-        const formData = new FormData();
-        formData.append('id', feedbackId);
-        formData.append('image', blob);
-        formData.append('feedback', feedbackText);
-        formData.append('createdAt', new Date().toISOString());
-
-        const response: Response = await fetch(`${viteConfiguration.API_URL}/feedback/`, {
+        const response: Response = await fetch(`${this.backendUrl}/feedback/`, {
             method: 'POST',
-            body: formData
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(feedbackRecord)
         });
-
 
         if (!response.ok) {
             throw new Error('Failed to save feedback record');
         }
 
-        console.log('Feedback record saved successfully:', await response.json());
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            const jsonResponse = await response.json();
+            console.log('Feedback record saved successfully:', jsonResponse);
+        } else {
+            const textResponse = await response.text();
+            console.log('Feedback record saved successfully:', textResponse);
+        }
     }
 }
 

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class CreateFeedbackDTO {
     private Long feedbackId;
-    private byte[] image;
+    private String image;
     private String feedback;
     private LocalDateTime createdAt;
 }

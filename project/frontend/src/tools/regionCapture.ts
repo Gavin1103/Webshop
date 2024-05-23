@@ -1,7 +1,8 @@
-import {css, html, LitElement} from 'lit-element';
+import {html, LitElement} from 'lit-element';
 import {customElement, property} from 'lit/decorators.js';
 import {TemplateResult} from 'lit';
 import axios from 'axios';
+import regionCaptureStyle from "../styles/feedbackTool/regionCaptureStyle";
 
 @customElement('region-capture')
 export class RegionCapture extends LitElement {
@@ -14,28 +15,7 @@ export class RegionCapture extends LitElement {
     } | undefined;
     @property({type: String}) private screenshot: string | null = null;
 
-    static styles = css`
-        :host {
-            display: block;
-            position: relative;
-        }
-
-        .selection-box {
-            position: absolute;
-            border: 2px dashed red;
-            background: rgba(255, 255, 255, 0.3);
-            pointer-events: none;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-        }
-    `;
+    public static styles = [regionCaptureStyle];
 
     protected render(): TemplateResult {
         return html`
@@ -93,11 +73,18 @@ export class RegionCapture extends LitElement {
 
     private async endSelection(): Promise<void> {
         this.isSelecting = false;
+        this.dispatchEvent(new CustomEvent('loading-start', {bubbles: true, composed: true}));
         if (this.selection) {
             const x = Math.round(Math.min(this.selection.startX, this.selection.endX));
             const y = Math.round(Math.min(this.selection.startY, this.selection.endY));
             const width = Math.round(Math.abs(this.selection.endX - this.selection.startX));
             const height = Math.round(Math.abs(this.selection.endY - this.selection.startY));
+
+            if (width <= 0 || height <= 0) {
+                this.dispatchEvent(new CustomEvent('screenshot-error', {detail: 'Invalid selection area. Please try again.'}));
+                this.dispatchEvent(new CustomEvent('loading-end', {bubbles: true, composed: true}));
+                return;
+            }
 
             const clip = {x, y, width, height};
 
@@ -116,9 +103,13 @@ export class RegionCapture extends LitElement {
                     this.dispatchEvent(new CustomEvent('screenshot-captured', {detail: this.screenshot}));
                 } else {
                     console.error('Failed to capture screenshot');
+                    this.dispatchEvent(new CustomEvent('screenshot-error', {detail: 'Failed to capture screenshot'}));
                 }
             } catch (error) {
                 console.error('Error capturing screenshot:', error);
+                this.dispatchEvent(new CustomEvent('screenshot-error', {detail: 'Error capturing screenshot'}));
+            } finally {
+                this.dispatchEvent(new CustomEvent('loading-end', {bubbles: true, composed: true}));
             }
         }
     }

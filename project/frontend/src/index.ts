@@ -25,3 +25,4 @@ export * from "./components/views/registerPage/RegisterComponent";
 export * from "./tools/regionCapture";
 export * from "./tools/feedbackForm";
 export * from "./tools/feedbackTool";
+export * from "./tools/loadingIndicator";

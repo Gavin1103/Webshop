@@ -1,62 +1,16 @@
-import {css, html, LitElement} from "lit-element";
-import {customElement, property} from "lit/decorators.js";
+import {html, LitElement} from "lit-element";
+import {customElement, property, state} from "lit/decorators.js";
 import {TemplateResult} from "lit";
 import {FeedbackService} from "../services/FeedbackService";
+import feedbackFormStyle from "../styles/feedbackTool/feedbackFormStyle";
 
 @customElement("feedback-form")
 export class FeedbackForm extends LitElement {
     @property({type: String}) comments: string = '';
     @property({type: String}) screenshot: string | null = null;
+    @state() private isSubmitting: boolean = false;
 
-    static styles = css`
-        :host {
-            min-height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 100;
-        }
-
-        .form-wrapper {
-            background: rgba(0, 0, 0, 0.5);
-            width: 100%;
-            height: 100%;
-        }
-
-        form {
-            position: absolute;
-            z-index: 100;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            width: 500px;
-        }
-
-        textarea {
-            resize: vertical;
-            height: 100px;
-            margin-bottom: 10px;
-        }
-
-        button {
-            align-self: flex-start;
-        }
-
-        img {
-            width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-            object-fit: contain;
-        }
-    `;
+    public static styles = [feedbackFormStyle];
 
     protected render(): TemplateResult {
         return html`
@@ -69,8 +23,13 @@ export class FeedbackForm extends LitElement {
                         @input="${this.updateComments}"
                         required
                     ></textarea>
-                    ${this.screenshot ? html`<img src="${this.screenshot}" alt="Snipped Screenshot"/>` : ''}
-                    <button type="submit">Submit Feedback</button>
+                   
+                        ${this.screenshot ? html`
+                            <div class="screenshot-box">
+                                <img src="${this.screenshot}" alt="Snipped Screenshot"/>
+                            </div>
+                        ` : ''}
+                    <button class="button" type="submit" ?disabled="${this.isSubmitting}">Submit Feedback</button>
                 </form>
             </div>
         `;
@@ -81,13 +40,19 @@ export class FeedbackForm extends LitElement {
         this.comments = target.value;
     }
 
-    private handleSubmit(event: Event): void {
+    private async handleSubmit(event: Event): Promise<void> {
         event.preventDefault();
-        // Submit the feedback to your backend or API
-        const feedbackService: FeedbackService = new FeedbackService();
+        this.isSubmitting = true;
+        const feedbackService: FeedbackService = new FeedbackService(viteConfiguration.API_URL);
 
-        void feedbackService.uploadFeedback(this.screenshot as string, this.comments);
-
-        console.log({comments: this.comments, screenshot: this.screenshot});
+        try {
+            await feedbackService.uploadFeedback(this.screenshot as string, this.comments);
+            this.isSubmitting = false;
+            this.dispatchEvent(new CustomEvent('feedback-submitted'));
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+            this.isSubmitting = false;
+            this.dispatchEvent(new CustomEvent('feedback-error', {detail: 'Error submitting feedback. Please try again.'}));
+        }
     }
 }

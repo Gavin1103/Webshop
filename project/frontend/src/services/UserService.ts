@@ -27,7 +27,7 @@ export class UserService {
      */
     public async login(formData: UserLoginFormModel): Promise<UserAuthResponse> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/authenticate`, {
-            method: "post",
+            method: "POST",
             headers: headers,
             body: JSON.stringify(formData),
         });

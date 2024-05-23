@@ -21,8 +21,9 @@ public class Feedback {
     private Long feedbackId;
 
     @Lob
-    private byte[] image;
-    
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     private String feedback;
     private LocalDateTime createdAt;
 }

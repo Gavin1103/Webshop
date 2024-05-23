@@ -89,7 +89,7 @@ export class RegionCapture extends LitElement {
             const clip = {x, y, width, height};
 
             try {
-                const response = await axios.post('http://localhost:3001/screenshot', {
+                const response = await axios.post(`${viteConfiguration.SERVER_URL}`, {
                     url: window.location.href,
                     clientViewPort: {
                         width: document.documentElement.clientWidth,

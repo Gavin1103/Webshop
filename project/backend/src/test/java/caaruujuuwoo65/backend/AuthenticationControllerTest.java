@@ -2,7 +2,6 @@ package caaruujuuwoo65.backend;
 
 import caaruujuuwoo65.backend.dto.JwtRequest;
 import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
-import caaruujuuwoo65.backend.model.enums.RoleEnum;
 import caaruujuuwoo65.backend.service.AuthenticationService;
 import caaruujuuwoo65.backend.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -28,10 +28,10 @@ public class AuthenticationControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
+    @MockBean
     private AuthenticationService authenticationService;
 
-    @Autowired
+    @MockBean
     private UserService userService;
 
     private CreateUserDTO userDto;
@@ -46,12 +46,6 @@ public class AuthenticationControllerTest {
             "testlastname",
             "testpassword"
         );
-
-        try {
-            authenticationService.register(userDto, RoleEnum.USER);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Test

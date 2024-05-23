@@ -6,6 +6,7 @@ Build Frontend:
     script:
         - npm ci
         - npm run build:frontend
+        - npm run build:proxy
     after_script:
         - kill $(jobs -p) || true
     artifacts:
@@ -47,5 +48,37 @@ Deploy Frontend:
         -   if: $CI_COMMIT_BRANCH == "develop" && $DEPLOY_WEB == "true"
             variables:
                 ENVIRONMENT: "dev"
+    tags:
+        - hva
+
+Deploy Screenshot Server:
+    image: node:20
+    stage: Deploy
+    before_script:
+        - apt-get update
+        - apt-get install -y sshpass
+    script:
+        - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "rm -f node/index.js"
+        - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "rm -f node/index.js.map"
+        - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no ./dist/server/index.js $SSH_USER@$SSH_HOST:node/
+        - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no ./dist/server/index.js.map $SSH_USER@$SSH_HOST:node/
+        - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "./start_server.shh"
+    after_script:
+        - kill $(jobs -p) || true
+    needs:
+        - "Build Frontend"
+        - "Backend Unit Test"
+    when: always
+    rules:
+        -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"
+            variables:
+                ENVIRONMENT: "live"
+                SSH_USER: $SSH_USER_LIVE
+                SSH_PASSWORD: $SSH_PASSWORD_LIVE
+        -   if: $CI_COMMIT_BRANCH == "develop" && $DEPLOY_WEB == "true"
+            variables:
+                ENVIRONMENT: "dev"
+                SSH_USER: $SSH_USER_DEV
+                SSH_PASSWORD: $SSH_PASSWORD_DEV
     tags:
         - hva

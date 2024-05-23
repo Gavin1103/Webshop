@@ -1,6 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
-import caaruujuuwoo65.backend.dto.product.ProductAverageRating;
+import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
 import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.service.ProductService;
@@ -70,7 +70,7 @@ public class ProductController {
         @ApiResponse(responseCode = "400", description = "Invalid filter criteria"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public List<ProductAverageRating> getFilteredProducts(
+    public List<ProductAverageRatingDTO> getFilteredProducts(
         @RequestParam(required = false) String categories,
         @RequestParam(required = false) Integer minPrice,
         @RequestParam(required = false) Integer maxPrice,

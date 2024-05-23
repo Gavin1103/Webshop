@@ -1,16 +1,16 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import categoryGridSectionStyle from "../../../styles/homePage/categoryGridSectionStyle";
-import {navigateTo} from "../../router";
 import {CategoryResponse} from "../../../types/CategoryResponse";
+import {Router} from "@vaadin/router";
 
 @customElement("category-grid-section")
 export class CategoryGridSection extends LitElement {
     @property({type: Array})
     public categoryList: CategoryResponse[] | undefined;
 
-    private redirectToCategoryPage(id: number): void {
-        navigateTo(`category/${id}`);
+    private redirectToCategoryPage(name: string): void {
+        Router.go(`category/${name}`);
     }
 
     public static styles = [categoryGridSectionStyle];
@@ -25,7 +25,7 @@ export class CategoryGridSection extends LitElement {
                     <div class="category-card">
                         <img class="category-image" src="${category.image}" alt="${category.name}">
                         <div class="more-info-button" tabindex="1"
-                             @click="${(): void => this.redirectToCategoryPage(category.id)}">
+                             @click="${(): void => this.redirectToCategoryPage(category.name)}">
                             <span tabindex="1" class="category-name">${category.name}</span>
                         </div>
                     </div>

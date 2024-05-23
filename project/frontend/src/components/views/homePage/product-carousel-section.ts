@@ -39,11 +39,16 @@ export class ProductCarouselSection extends LitElement {
         };
         CartManager.addItem(newItem);
         this.loadItems();
+        this.redirectToCart();
     }
 
 
     public redirectToDetailPage(productId:number):void{
         Router.go(`/product-detail-page?productId=${productId}`)
+    }
+
+    private redirectToCart(): void {
+        Router.go(`cart`);
     }
 
     public render(): TemplateResult {
@@ -58,8 +63,8 @@ export class ProductCarouselSection extends LitElement {
 
             <section class="product-carousel">
                 ${this.productsData? this.productsData.map(product => html`
-                    <div @click=${() => this.redirectToDetailPage(product.id)} class="product-card" tabindex="1">
-                        <img class="product-image" src="${product.image}" alt="${product.name}">
+                    <div class="product-card" tabindex="1">
+                        <img class="product-image" @click=${() => this.redirectToDetailPage(product.id)} src="${product.image}" alt="${product.name}">
                         <div class="product-info">
                             <span class="product-name">${product.name}</span>
                             <span class="product-price">$${product.price}</span>

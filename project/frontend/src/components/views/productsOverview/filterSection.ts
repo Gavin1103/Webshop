@@ -111,7 +111,6 @@ export class FilterSection extends LitElement {
     public updateFilter(): void {
         // Check sessionStorage for stored filter request
         const storedFilterRequest: string | null = sessionStorage.getItem("filterRequest");
-        console.log(storedFilterRequest);
         if (storedFilterRequest) {
             // Apply stored filter request
             this.filterRequest = JSON.parse(storedFilterRequest);

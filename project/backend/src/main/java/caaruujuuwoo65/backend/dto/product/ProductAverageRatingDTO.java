@@ -7,9 +7,11 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class ProductAverageRating {
+public class ProductAverageRatingDTO {
+    private Long id;
     private String name;
     private String description;
     private BigDecimal price;
+    private String image;
     private Double averageRating ;
 }

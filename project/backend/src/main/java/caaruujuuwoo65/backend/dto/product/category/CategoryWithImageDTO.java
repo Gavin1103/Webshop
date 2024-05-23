@@ -1,7 +1,9 @@
-package caaruujuuwoo65.backend.dto;
+package caaruujuuwoo65.backend.dto.product.category;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 
 @Getter

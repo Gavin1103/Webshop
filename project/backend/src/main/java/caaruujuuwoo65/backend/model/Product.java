@@ -1,5 +1,7 @@
 package caaruujuuwoo65.backend.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +11,9 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,6 +32,23 @@ public class Product {
     private List<String> image;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_product")
+    @JsonIgnore
     private ProductCategory category;
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
+
+    // Method to calculate average rating
+    @JsonIgnore
+    public double getAverageRating() {
+        if (reviews == null || reviews.isEmpty()) {
+            return 0;
+        }
+        double totalRating = reviews.stream()
+            .mapToInt(Review::getRating)
+            .sum();
+        return totalRating / reviews.size();
+    }
+
 }

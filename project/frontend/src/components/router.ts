@@ -3,6 +3,7 @@ import "@granite-elements/granite-vaadin-router";
 import "./views/homePage/home-page";
 import "./views/shoppingCart/shoppingCart";
 import "./views/404Page";
+import "./views/productDetailPage/product-detail-page";
 
 const routerState: { currentPath: string } = {
     currentPath: window.location.hash.slice(1) || '/'
@@ -22,6 +23,24 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
                 return commands.component("home-page");
             }
         },
+        {
+            path: "/product-detail-page",
+            component: "product-detail-page",
+            action: (context:Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("product-detail-page");
+            }
+        },
+        {
+            path: "/category/:id",
+            component: "products-overview",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("products-overview");
+            }
+
+        },
+
         {
             path: "/register",
             component: "register-component",

@@ -41,7 +41,7 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "409", description = "User already exists")
     })
     public ResponseEntity<?> register(@RequestBody CreateUserDTO user) throws Exception {
-        return ResponseEntity.ok(authenticationService.register(user, RoleEnum.USER));
+        return ResponseEntity.ok(authenticationService.register(user, RoleEnum.USER, false));
     }
 
     @PostMapping("/refresh-token")
@@ -52,6 +52,16 @@ public class AuthenticationController {
     })
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         return this.authenticationService.refreshToken(request);
+    }
+
+    @GetMapping("/confirm-account/{token}")
+    @Operation(summary = "Confirm a user's account")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully confirmed account"),
+        @ApiResponse(responseCode = "400", description = "Invalid token")
+    })
+    public ResponseEntity<?> confirmAccount(@PathVariable String token) {
+        return authenticationService.confirmUserAccount(token);
     }
 
     @PreAuthorizeAdmin

@@ -8,10 +8,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
-
-
 @Component
 @Order(1)
 public class DatabaseSeeder implements CommandLineRunner {
@@ -36,7 +32,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             "user"
         );
 
-        this.authenticationService.register(userDto, RoleEnum.USER);
+        this.authenticationService.register(userDto, RoleEnum.USER, true);
 
         CreateUserDTO adminDto = new CreateUserDTO(
             "Admin",
@@ -46,6 +42,6 @@ public class DatabaseSeeder implements CommandLineRunner {
             "tester",
             "admin"
         );
-        this.authenticationService.register(adminDto, RoleEnum.ADMIN);
+        this.authenticationService.register(adminDto, RoleEnum.ADMIN, true);
     }
 }

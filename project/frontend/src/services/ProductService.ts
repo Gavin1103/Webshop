@@ -3,7 +3,7 @@ import { ProductPreviewResponse } from "../types/ProductPreviewResponse";
 
 export class ProductService {
     public async getTopDealProducts(): Promise<ProductPreviewResponse | undefined> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}products/topDeals`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/topDeals`, {
             method: "get",
         });
 
@@ -30,7 +30,7 @@ export class ProductService {
         return (await response.json()) as ProductPreviewResponse;
     }
     public async getProductById(id: number): Promise<Product | undefined> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}products/getBy/${id}`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/getBy/${id}`, {
             method: "GET",
         });
 

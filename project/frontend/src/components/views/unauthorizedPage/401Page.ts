@@ -11,7 +11,6 @@ export class UnauthorizedPage extends LitElement {
         navigateTo("/");
     }
 
-
     render() {
         return html`
       <h1>401 Unauthorized</h1>

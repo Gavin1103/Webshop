@@ -1,10 +1,9 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.product.ProductAverageRating;
+import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
 import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.model.Product;
-import caaruujuuwoo65.backend.model.Review;
 import caaruujuuwoo65.backend.repository.ProductRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.ModelMapper;
@@ -50,7 +49,7 @@ public class ProductService {
     }
 
 
-    public List<ProductAverageRating> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating) {
+    public List<ProductAverageRatingDTO> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating) {
         List<Product> filteredProducts = productRepository.findAll((Specification<Product>) (root, query, criteriaBuilder) -> {
             var predicates = new ArrayList<Predicate>();
 
@@ -77,7 +76,7 @@ public class ProductService {
         }
 
         return filteredProducts.stream()
-            .map(product -> modelMapper.map(product, ProductAverageRating.class))
+            .map(product -> modelMapper.map(product, ProductAverageRatingDTO.class))
             .collect(Collectors.toList());
     }
 

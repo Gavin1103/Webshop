@@ -12,7 +12,8 @@ export default css `
 
         img {
             width: 50%;
-            height: auto;
+            object-fit: cover;
+            height: 30vh;
             margin-right: 20px;
             border-radius: 10px 0 0 10px;
         }

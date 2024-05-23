@@ -3,6 +3,10 @@ import {customElement, property} from "lit/decorators.js";
 import showcaseSectionStyle from "../../../styles/productsOverview/showcaseSectionStyle";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
+import {Router} from "@vaadin/router";
+import {CartItem, CartManager} from "../../helpers/CartHelpers";
+import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
+import {itemType} from "../../../enums/itemTypeEnum";
 
 @customElement("showcase-section")
 export class ShowcaseSection extends LitElement {
@@ -13,11 +17,24 @@ export class ShowcaseSection extends LitElement {
     public overViewType: string | undefined;
 
     @property({type: String})
+    public param: string | undefined;
+
+    @property({type: String})
     private productList: ProductOverviewResponse[] | undefined;
 
     private filterRequest: FilterRequest | undefined;
 
     private deleteButtonPath: string = "/assets/image/icons/close-icon.svg";
+
+    public items: CartItem[] = [];
+
+    private capitalizeFirstLetter(str: string | undefined): string | undefined{
+        if (!str) {
+            return undefined
+        }
+
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
 
     public updateFilterRequest(filterRequest: FilterRequest | undefined): void {
         this.filterRequest = filterRequest;
@@ -38,6 +55,32 @@ export class ShowcaseSection extends LitElement {
             composed: true
         });
         this.dispatchEvent(event);
+    }
+
+    public redirectToDetailPage(productId:number):void{
+        Router.go(`/product-detail-page?productId=${productId}`)
+    }
+
+    public loadItems(): void {
+        this.items = CartManager.getCart();
+    }
+
+    public addItemToCart(product: ProductPreviewResponse): void {
+        const newItem: CartItem = {
+            id: product.id,
+            name: product.name,
+            quantity: 1,
+            type: itemType.GAME,
+            price: product.price,
+            imageSrc: product.image
+        };
+        CartManager.addItem(newItem);
+        this.loadItems();
+        this.redirectToCart();
+    }
+
+    private redirectToCart(): void {
+        Router.go(`cart`);
     }
 
 
@@ -123,8 +166,8 @@ export class ShowcaseSection extends LitElement {
     public render(): TemplateResult {
         return html`
             <div class="header">
-                <span class="title">${this.overViewType}</span>
-                <span class="sub-title">/Game</span>
+                <span class="title">${this.capitalizeFirstLetter(this.overViewType)}</span>
+                <span class="sub-title">/${this.param}</span>
             </div>
             <div class="filter-results">
                 ${this.renderCategories()}
@@ -134,11 +177,11 @@ export class ShowcaseSection extends LitElement {
             <section class="products-list-section">
                 ${this.productList ? this.productList.map(product => html `
                     <div class="products-card">
-                        <img class="product-image" src="${product.image}" alt="image">
+                        <img @click="${() => this.redirectToDetailPage(product.id)}" class="product-image" src="${product.image}" alt="image">
                         <div class="product-info">
                             <div class="info-left">
-                                <span class="name">${product.name}</span>
-                                <san class="rating">${this.generateStars(product.rating)} (${product.rating})</san>
+                                <span class="name" @click="${() => this.redirectToDetailPage(product.id)}">${product.name}</span>
+                                <san class="rating">${this.generateStars(product.averageRating)} (${product.averageRating})</san>
                                 <span class="description">${product.description}</span>
                             </div>
 
@@ -146,7 +189,7 @@ export class ShowcaseSection extends LitElement {
                                 <span class="price">
                                     €${product.price}
                                 </span>
-                                <img class="cart-button" src="/assets/image/icons/shopping-bag.svg"/ alt="add to cart">
+                                <img @click="${(): void => this.addItemToCart(product)}" class="cart-button" src="/assets/image/icons/shopping-bag.svg"/ alt="add to cart">
                             </div>
                         </div>
                     </div>

@@ -71,7 +71,7 @@ export default css`
             border-radius: 10px 10px 0 0;
             width: 20vw;
             height: 30vh;
-            object-fit: cover;
+            object-fit: contain;
         }
         
     }
@@ -137,7 +137,7 @@ export default css`
             .product-image{
                 border-radius: 10px 0 0 10px;
                 width: 30vw;
-                height: auto;
+                max-height: 20vh;
             }
 
             .product-info {

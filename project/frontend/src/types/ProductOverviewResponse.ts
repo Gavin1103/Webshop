@@ -1,7 +1,8 @@
 export type ProductOverviewResponse = {
+    id: number
     name: string;
     description: string;
     image: string;
-    rating: number;
+    averageRating: number;
     price : number;
 }

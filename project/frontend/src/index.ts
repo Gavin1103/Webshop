@@ -32,3 +32,11 @@ export * from "./components/views/productsOverview/filterSection";
 export * from "./components/views/productsOverview/showcaseSection";
 export * from "./components/views/loginPage/loginComponent";
 export * from "./components/views/registerPage/RegisterComponent";
+export * from "./components/views/feedback/feedbackListPage";
+export * from "./components/views/feedback/imageModel";
+export * from "./tools/regionCapture";
+export * from "./tools/feedbackForm";
+export * from "./tools/feedbackTool";
+export * from "./tools/loadingIndicator";
+
+export * from "./components/views/unauthorizedPage/401Page";

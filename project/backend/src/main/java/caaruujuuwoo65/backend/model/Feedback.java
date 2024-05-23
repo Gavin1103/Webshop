@@ -21,7 +21,7 @@ public class Feedback {
     private Long feedbackId;
 
     @Lob
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String image;
 
     private String feedback;

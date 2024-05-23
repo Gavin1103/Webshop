@@ -43,7 +43,7 @@ export class FeedbackForm extends LitElement {
     private async handleSubmit(event: Event): Promise<void> {
         event.preventDefault();
         this.isSubmitting = true;
-        const feedbackService: FeedbackService = new FeedbackService(viteConfiguration.API_URL);
+        const feedbackService: FeedbackService = new FeedbackService();
 
         try {
             await feedbackService.uploadFeedback(this.screenshot as string, this.comments);

@@ -63,6 +63,14 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
+            path: "/feedback",
+            component: "feedback-list",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("feedback-list");
+            }
+        },
+        {
             path: "(.*)",
             component: "not-found",
             action: (context: Context, commands: Commands): any => {

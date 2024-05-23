@@ -2,12 +2,6 @@ import "../hboictcloud-config";
 import {v4 as uuidv4} from 'uuid';
 
 export class FeedbackService {
-    private readonly backendUrl: string;
-
-    constructor(backendUrl: string) {
-        this.backendUrl = backendUrl;
-    }
-
     public async uploadFeedback(base64Image: string, feedbackText: string): Promise<void> {
         try {
             const feedbackId: string = uuidv4();
@@ -27,7 +21,8 @@ export class FeedbackService {
             createdAt: new Date().toISOString()
         };
 
-        const response: Response = await fetch(`${this.backendUrl}/feedback/`, {
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/feedback/`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -47,6 +42,21 @@ export class FeedbackService {
             const textResponse = await response.text();
             console.log('Feedback record saved successfully:', textResponse);
         }
+    }
+
+    public async getAllFeedback(): Promise<any[]> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/feedback/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch feedback records');
+        }
+
+        return await response.json();
     }
 }
 

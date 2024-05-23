@@ -54,6 +54,16 @@ public class AuthenticationController {
         return this.authenticationService.refreshToken(request);
     }
 
+    @GetMapping("/confirm-account/{token}")
+    @Operation(summary = "Confirm a user's account")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully confirmed account"),
+        @ApiResponse(responseCode = "400", description = "Invalid token")
+    })
+    public ResponseEntity<?> confirmAccount(@PathVariable String token) {
+        return authenticationService.confirmUserAccount(token);
+    }
+
     @PreAuthorizeAdmin
     @GetMapping("/is-admin")
     public boolean isAdmin(){

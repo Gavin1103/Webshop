@@ -5,6 +5,7 @@ import "./views/shoppingCart/shoppingCart";
 import "./views/404Page";
 import "./views/productDetailPage/product-detail-page";
 import {TokenService} from "../services/TokenService";
+import {UserService} from "../services/UserService";
 
 const routerState: { currentPath: string } = {
     currentPath: window.location.hash.slice(1) || '/'
@@ -12,6 +13,7 @@ const routerState: { currentPath: string } = {
 
 let router: Router;
 const _tokenService = new TokenService();
+const _userservice = new UserService();
 
 
 export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outlet: HTMLElement): Promise<Router> => {
@@ -43,7 +45,6 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
 
         },
-
         {
             path: "/register",
             component: "register-component",
@@ -58,6 +59,15 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             action: (context: Context, commands: Commands): any => {
                 updatePath(context.pathname);
                 return commands.component("login-component");
+            }
+        },
+        {
+            path: '/confirmation/:id',
+            component: 'email-confirmation',
+            action: async (context: Context, commands: Commands): Promise<any> => {
+                const id: any = context.params.id;
+                await _userservice.confirmEmail(id);
+                return commands.component('email-confirmation');
             }
         },
         {

@@ -2,6 +2,8 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
 import {CartItem, CartManager} from "../../helpers/CartHelpers";
+import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
+import {itemType} from "../../../enums/itemTypeEnum";
 
 @customElement("product-carousel-section")
 export class ProductCarouselSection extends LitElement {
@@ -12,7 +14,7 @@ export class ProductCarouselSection extends LitElement {
     public items: CartItem[] = [];
 
     @property({type: Array})
-    public productsData: CartItem[] = [];
+    public productsData: ProductPreviewResponse[] = [];
 
     public static styles = [productCarouselSectionStyle];
 
@@ -23,17 +25,16 @@ export class ProductCarouselSection extends LitElement {
 
     public loadItems(): void {
         this.items = CartManager.getCart();
-        console.log(this.items);
     }
 
-    public addItemToCart(product: CartItem): void {
+    public addItemToCart(product: ProductPreviewResponse): void {
         const newItem: CartItem = {
             id: product.id,
             name: product.name,
             quantity: 1,
-            type: product.type,
+            type: itemType.GAME,
             price: product.price,
-            imageSrc: product.imageSrc
+            imageSrc: product.image
         };
         CartManager.addItem(newItem);
         this.loadItems();
@@ -52,7 +53,7 @@ export class ProductCarouselSection extends LitElement {
             <section class="product-carousel">
                 ${this.productsData.map(product => html`
                     <div class="product-card" tabindex="1">
-                        <img class="product-image" src="${product.imageSrc}" alt="${product.name}">
+                        <img class="product-image" src="${product.image}" alt="${product.name}">
                         <div class="product-info">
                             <span class="product-name">${product.name}</span>
                             <span class="product-price">$${product.price}</span>

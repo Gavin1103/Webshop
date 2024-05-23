@@ -9,8 +9,4 @@ try {
     });
 } catch (reason) {
     console.error(reason);
-    console.log(viteConfiguration.HBOICTCLOUD_APIKEY);
-    console.log(viteConfiguration.HBOICTCLOUD_DATABASE);
-    console.log(viteConfiguration.HBOICTCLOUD_ENVIRONMENT);
-
 }

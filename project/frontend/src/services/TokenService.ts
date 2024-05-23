@@ -38,4 +38,23 @@ export class TokenService {
     public removeRefreshToken(): void {
         return localStorage.removeItem("refresh_token");
     }
+
+
+    public async isAdmin(): Promise<boolean> {
+        const token: string | undefined = this.getToken();
+
+        if(!token) {
+            return false;
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/is-admin`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        });
+
+        return !(!response.ok || response.status === 403);
+    }
 }

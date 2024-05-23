@@ -4,12 +4,15 @@ import "./views/homePage/home-page";
 import "./views/shoppingCart/shoppingCart";
 import "./views/404Page";
 import "./views/productDetailPage/product-detail-page";
+import {TokenService} from "../services/TokenService";
 
 const routerState: { currentPath: string } = {
     currentPath: window.location.hash.slice(1) || '/'
 };
 
 let router: Router;
+const _tokenService = new TokenService();
+
 
 export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outlet: HTMLElement): Promise<Router> => {
     router = new Router(outlet);
@@ -84,7 +87,11 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
         {
             path: "/feedback",
             component: "feedback-list",
-            action: (context: Context, commands: Commands): any => {
+            action: async (context: Context, commands: Commands): Promise<any> => {
+                if (!await _tokenService.isAdmin()) {
+                    return commands.component("unauthorized-page");
+                }
+
                 updatePath(context.pathname);
                 return commands.component("feedback-list");
             }

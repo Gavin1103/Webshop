@@ -5,7 +5,7 @@
 ### [Smart doel 1 - Ik wil graag leren hoe ik rollen implementeer in mijn applicatie om gebruikers te authorizeren](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/115)
 
 ### Situatie: 
-Ik werkte aan onze Spring Boot-applicatie en realiseerde me dat ik gebruikersrollen moest implementeren om de toegang tot specifieke delen van de applicatie te beheren. Dit was cruciaal voor de veiligheid en beveiliging van onze app.
+Ik werkte aan onze Spring Boot applicatie en realiseerde me dat ik gebruikersrollen moest implementeren om de toegang tot specifieke delen van de applicatie te beheren. Dit was cruciaal voor de veiligheid en beveiliging van onze app.
 
 ### Taak: 
 Mijn specifieke taak was om te leren hoe ik rollen kon toewijzen aan gebruikers en deze rollen kon gebruiken om toegangscontrole in te stellen voor verschillende functies en endpoints.
@@ -30,7 +30,7 @@ Ik ben tevreden met het resultaat, het implementeren van de rollen was minder mo
 We willen graag gebruikers authenticeren met behulp van JWT (JSON Web Tokens) om toegang te geven tot beveiligde endpoints.
 
 ### Taak: 
-Mijn specifieke taak was om te leren hoe ik JWT-authenticatie kon implementeren en dit vervolgens toe te passen in mijn Spring Boot applicatie.
+Mijn specifieke taak was om te leren hoe ik JWT authenticatie kon implementeren en dit vervolgens toe te passen in mijn Spring Boot applicatie.
 
 ### Actie:
 - **Bestuderen van JWT**: Ik heb tijd besteed aan het begrijpen van JWT en hoe het werkt. Ik heb andere projecten en documentatie geraadpleegd om mijn kennis op te bouwen.

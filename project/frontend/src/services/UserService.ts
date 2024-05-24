@@ -26,18 +26,11 @@ export class UserService {
      * @returns `true` when successful, otherwise `false`.
      */
     public async login(formData: UserLoginFormModel): Promise<UserAuthResponse> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}/springboot/auth/authenticate`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/authenticate`, {
             method: "POST",
             headers: headers,
             body: JSON.stringify(formData),
         });
-
-        const response1: Response = await fetch(`${viteConfiguration.API_URL}/springboot/products`, {
-            method: "GET",
-        });
-
-        console.log(await response1.json());
-
 
         if (!response.ok) {
             if(response.status === 401){

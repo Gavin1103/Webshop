@@ -62,7 +62,7 @@ export class UserService {
      */
     public async register(formData: UserRegisterFormModel): Promise<UserAuthResponse> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/register`, {
-            method: "post",
+            method: "POST",
             headers: headers,
             body: JSON.stringify(formData),
         });
@@ -109,7 +109,7 @@ export class UserService {
             return false;
         }
 
-        const response: Response = await fetch(`${viteConfiguration.API_URL}users/logout`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/users/logout`, {
             method: "get",
             headers: {...headers, authorization: token},
         });
@@ -152,7 +152,7 @@ export class UserService {
             return undefined;
         }
 
-        const response: Response = await fetch(`${viteConfiguration.API_URL}users/cart/${id}`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/users/cart/${id}`, {
             method: "post",
             headers: {...headers, authorization: token},
         });

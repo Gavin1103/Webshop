@@ -24,5 +24,5 @@
 - Het hamburger menu is nog niet af.
 
 ## Foto's:
-![sprint 2 backlog](./foto's/product-review-2.png)
+![sprint 2 backlog](../../personal-documents/aaron/foto's/product-review-2.png)
 

@@ -3,11 +3,13 @@ package caaruujuuwoo65.backend.service;
 import caaruujuuwoo65.backend.dto.AuthenticationResponse;
 import caaruujuuwoo65.backend.dto.JwtRequest;
 import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
+import caaruujuuwoo65.backend.model.ConfirmationToken;
 import caaruujuuwoo65.backend.model.Role;
 import caaruujuuwoo65.backend.model.Token;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.model.enums.RoleEnum;
 import caaruujuuwoo65.backend.model.enums.TokenType;
+import caaruujuuwoo65.backend.repository.ConfirmationTokenRepository;
 import caaruujuuwoo65.backend.repository.TokenRepository;
 import caaruujuuwoo65.backend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,15 +37,17 @@ public class AuthenticationService {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
+    private final ConfirmationTokenRepository confirmationTokenRepository;
 
     @Autowired
-    public AuthenticationService(UserService userService, @Lazy JwtService jwtService, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ModelMapper modelMapper, UserRepository userRepository) {
+    public AuthenticationService(UserService userService, @Lazy JwtService jwtService, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ModelMapper modelMapper, UserRepository userRepository, ConfirmationTokenRepository confirmationTokenRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.jwtService = jwtService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.tokenRepository = tokenRepository;
+        this.confirmationTokenRepository = confirmationTokenRepository;
     }
 
 
@@ -66,6 +70,10 @@ public class AuthenticationService {
             return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
         }
 
+        if(!user.isEnabled()){
+            return new ResponseEntity<>("Account not confirmed", HttpStatus.FORBIDDEN);
+        }
+
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("authorities", user.getAuthoritiesList());
 
@@ -86,7 +94,7 @@ public class AuthenticationService {
      * @param userDto the user data transfer object
      * @return the saved user
      */
-    public ResponseEntity<?> register(CreateUserDTO userDto, RoleEnum roleEnum) {
+    public ResponseEntity<?> register(CreateUserDTO userDto, RoleEnum roleEnum, boolean isEnabled) {
         User user = modelMapper.map(userDto, User.class);
 
         User existingUser = this.userService.getUserByEmail(user.getEmail()); // Check if user already exists
@@ -96,6 +104,7 @@ public class AuthenticationService {
         }
 
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setEnabled(isEnabled);
 
         Role userRole = new Role();
         userRole.setName(roleEnum);
@@ -108,9 +117,13 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);
 
+        ConfirmationToken confirmationToken = new ConfirmationToken(savedUser);
+        confirmationTokenRepository.save(confirmationToken);
+
         return new ResponseEntity<>(AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
+            .confirmationToken(confirmationToken.getConfirmationToken())
             .build(), HttpStatus.CREATED);
     }
 
@@ -185,5 +198,18 @@ public class AuthenticationService {
                 .build(), HttpStatus.OK);
         }
         return null;
+    }
+
+    public ResponseEntity<?> confirmUserAccount(String confirmationToken) {
+        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+
+        if (token != null) {
+            User user = userService.getUserByEmail(token.getUser().getEmail());
+            user.setEnabled(true);
+            userRepository.save(user);
+            return new ResponseEntity<>("Account confirmed successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("The link is invalid or broken!", HttpStatus.BAD_REQUEST);
+        }
     }
 }

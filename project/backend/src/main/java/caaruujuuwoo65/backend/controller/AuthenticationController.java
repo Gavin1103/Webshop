@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
+import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.dto.JwtRequest;
 import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
 import caaruujuuwoo65.backend.model.enums.RoleEnum;
@@ -40,7 +41,7 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "409", description = "User already exists")
     })
     public ResponseEntity<?> register(@RequestBody CreateUserDTO user) throws Exception {
-        return ResponseEntity.ok(authenticationService.register(user, RoleEnum.USER));
+        return ResponseEntity.ok(authenticationService.register(user, RoleEnum.USER, false));
     }
 
     @PostMapping("/refresh-token")
@@ -51,5 +52,21 @@ public class AuthenticationController {
     })
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         return this.authenticationService.refreshToken(request);
+    }
+
+    @GetMapping("/confirm-account/{token}")
+    @Operation(summary = "Confirm a user's account")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully confirmed account"),
+        @ApiResponse(responseCode = "400", description = "Invalid token")
+    })
+    public ResponseEntity<?> confirmAccount(@PathVariable String token) {
+        return authenticationService.confirmUserAccount(token);
+    }
+
+    @PreAuthorizeAdmin
+    @GetMapping("/is-admin")
+    public boolean isAdmin(){
+        return true;
     }
 }

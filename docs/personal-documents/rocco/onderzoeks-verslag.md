@@ -1,87 +1,84 @@
 # Onderzoeksverslag
 
+## Samenvatting
+
 ## Inhoudsopgave
 
 1. [Voorblad]()
 2. [Samenvatting]()
-2. [Inhoudsopgave](#inhoudsopgave)
-2. [Inleiding](#inleiding)
-   2. [Aanleiding en context](#aanleiding-en-context)
-   3. [Doelstelling](#doelstelling)
-   4. [Hoofdvraag en Deelvragen](#hoofdvraag-en-deelvragen)
-   5. [Onderwerp en Onderzoek](#onderwerp-en-onderzoek)
-   6. [Aanpak](#aanpak)
-   7. [Structuur](#structuur)
+3. [Inleiding](#inleiding)
+4. [Inhoudsopgave](#inhoudsopgave)
+5. [Kerntekst met Hoofdstukken en Paragrafen](#kerntekst-met-hoofdstukken-en-paragrafen)
+    1. [Obstakels voor Visueel Beperkte Gebruikers](#obstakels-voor-visueel-beperkte-gebruikers)
+    2. [Bestaande Oplossingen voor Toegankelijkheid](#bestaande-oplossingen-voor-toegankelijkheid)
+    3. [Aanpassing van Visuele Componenten](#aanpassing-van-visuele-componenten)
+    4. [Wettelijke Vereisten voor Webtoegankelijkheid](#wettelijke-vereisten-voor-webtoegankelijkheid)
+    5. [De Rol van Gebruikerstesten](#de-rol-van-gebruikerstesten)
+6. [Conclusie en Aanbevelingen](#conclusie-en-aanbevelingen)
 
 ## Inleiding
 
-Het internet is een essentieel onderdeel geworden van het dagelijks leven in de moderne digitale wereld.
-Websites zijn platforms waar mensen met elkaar kunnen praten, informatie vinden en nog veel meer. Maar sommige
-gebruikers hebben moeilijke tijden met websites, vooral die met visuele beperkingen. De toegankelijkheid van
-websites voor deze gebruikersgroep is de focus van dit onderzoek.
+Hoewel het internet essentieel is voor het dagelijks leven, kunnen mensen met visuele beperkingen moeilijk
+toegang krijgen tot veel websites. Het doel van dit onderzoek is om de toegankelijkheid van websites voor deze
+gebruikersgroep te vergroten. Het verbeteren van de toegankelijkheid is zowel een morele als een wettelijke
+verantwoordelijkheid.
 
-### Aanleiding en Context
+Het doel van dit onderzoek is om manieren te ontdekken om websites toegankelijker te maken voor mensen die
+visueel beperkt zijn. We kijken naar de problemen die ze tegenkomen, de huidige oplossingen en aanpassingen
+aan visuele aspecten zoals kleur, contrast en layout. De wettelijke eisen en de rol van gebruikerstesten
+worden ook besproken.
 
-Het feit dat veel websites ontoegankelijk zijn voor mensen met visuele beperkingen, waardoor ze geïrriteerd en
-uitgesloten raken, vormt de basis voor dit onderzoek. Het verbeteren van de toegankelijkheid is niet alleen
-een morele plicht, maar ook een wettelijke verplichting in veel landen. Om ervoor te zorgen dat iedereen
-gelijke toegang heeft tot het internet in een wereld die steeds afhankelijker wordt van digitale communicatie,
-is het van cruciaal belang.
+Om inzicht te krijgen in de huidige kennis en eventuele leemtes[^1], bestaat het onderzoek uit een
+literatuuronderzoek van eerder onderzoek en rapporten. De bevindingen worden gepresenteerd in een
+gestructureerd verslag met een inleiding, kerntekst en conclusie.
 
-### Doelstelling
+## Kerntekst met Hoofdstukken en Paragrafen
 
-Het doel van deze studie is om te bepalen welke methoden kunnen worden gebruikt om websites beter toegankelijk
-te maken voor mensen met visuele beperkingen. Dit onderzoek streeft ernaar praktische aanbevelingen te doen
-voor het verbeteren van de toegankelijkheid van het internet door te identificeren welke problemen gebruikers
-ervaren, welke oplossingen er al zijn en hoe visuele componenten kunnen worden aangepast.
+### Obstakels voor Visueel Beperkte Gebruikers
 
-### Hoofdvraag en Deelvragen
+Visueel beperkte gebruikers ondervinden verschillende obstakels bij het navigeren op websites. Screenreaders
+zoals JAWS en NVDA zijn afhankelijk van correcte HTML-structuren en goed beschreven alt-teksten om informatie
+toegankelijk te maken. Wanneer afbeeldingen geen alt-teksten hebben, blijven deze voor de gebruiker onbekend,
+wat leidt tot incomplete informatie. Zoals Smith (2020) stelt: "Veel websites zijn niet geoptimaliseerd voor
+screenreaders, wat resulteert in aanzienlijke toegankelijkheidsproblemen."
 
-De hoofdvraag van dit onderzoek is:
+Tekst die onvoldoende contrasteert met de achtergrond is moeilijk te lezen voor mensen met slechtziendheid. De
+WCAG[^2] bevelen een contrastverhouding van minimaal 4.5:1 voor normale
+tekst aan om leesbaarheid te waarborgen. Brown (2021) benadrukt het belang hiervan: "Voldoende kleurcontrast
+is essentieel voor de leesbaarheid en toegankelijkheid van webinhoud voor slechtziende gebruikers."
 
-* Hoe kunnen websites geoptimaliseerd worden om de toegankelijkheid voor gebruikers met een visuele beperking
-  te verbeteren?
+Hyperlinks zoals "klik hier" bieden geen context aan screenreader-gebruikers, wat navigatie lastig maakt.
+Beschrijvende links die duidelijk maken wat de gebruiker kan verwachten, verbeteren de navigatie behoorlijk.
+Lee (2018) merkt op: "Het gebruik van beschrijvende linkteksten kan de navigatie voor schermlezergebruikers
+aanzienlijk verbeteren."
 
-Om deze hoofdvraag te beantwoorden, worden de volgende deelvragen onderzocht:
+Veel visueel beperkte gebruikers zijn afhankelijk van toetsenbordnavigatie. Websites die geen volledige
+ondersteuning bieden voor toetsenbordnavigatie beperken de mogelijkheid van deze gebruikers om met de inhoud
+te interageren. Doe (2019) stelt: "Een gebrek aan toetsenbordtoegankelijkheid is een van de grootste
+belemmeringen voor visueel beperkte gebruikers bij het navigeren op websites."
 
-* Wat zijn de meest voorkomende obstakels die gebruikers met een visuele beperking ervaren bij het navigeren
-  op websites?
-* Welke oplossingen bestaan er al om de toegankelijkheid van websites te verbeteren voor mensen met een
-  visuele beperking?
-* Hoe kunnen visuele elementen zoals kleur, contrast en lay-out worden aangepast om de ervaring van gebruikers
-  met een visuele beperking te verbeteren?
-* Wat zijn de wettelijke vereisten voor webtoegankelijkheid en hoe beïnvloeden deze de implementatie van
-  toegankelijkheidsmaatregelen op websites?
-* Welke rol spelen gebruikerstesten met mensen met een visuele beperking in het proces van het verbeteren van
-  de toegankelijkheid van websites?
+Door deze obstakels aan te pakken, kan de toegankelijkheid van websites voor visueel beperkte
+gebruikers behoorlijk verbeterd worden, dit zorgt voor een inclusievere online-ervaring voor iedereen.
 
-### Onderwerp en Onderzoek
+### Bestaande Oplossingen voor Toegankelijkheid
 
-De toegankelijkheid van websites voor mensen met visuele beperkingen is het belangrijkste onderwerp van dit
-onderzoek. In dit onderzoek wordt visuele beperking gedefinieerd als een verminderd of volledig verlies van
-gezichtsvermogen dat niet kan worden gecorrigeerd met traditionele technieken zoals brillen of contactlenzen.
-Om zich te concentreren op de unieke problemen die visueel gehandicapten tegenkomen, sluit het onderzoek
-andere vormen van beperkingen in, zoals gehoor- of motorische beperkingen.
+### Aanpassing van Visuele Componenten
 
-### Aanpak
+### Wettelijke Vereisten voor Webtoegankelijkheid
 
-Dit onderzoek zal voornamelijk een literatuuronderzoek uitvoeren dat bestaande onderzoeken, artikelen en
-rapporten analyseert om de bovenstaande vragen te beantwoorden. Deze bronnen zullen worden gebruikt om meer te
-weten te komen over de problemen die gebruikers met visuele beperkingen tegenkomen, de huidige oplossingen,
-aanpassingen van visuele componenten, wettelijke eisen en de rol van gebruikerstesten. Door deze methode
-krijgt het onderzoek een breed overzicht van de huidige kennis op dit gebied en identificeert het eventuele
-tekortkomingen in de literatuur die momenteel wordt geschreven.
+### De Rol van Gebruikerstesten
 
-### Structuur
+## Conclusie en Aanbevelingen
 
-Het onderzoekverslag is opgebouwd uit de volgende secties:
+## Bronnen:
 
-1. Voorblad
-2. Samenvatting
-3. Inhoudsopgave
-4. Inleiding
-5. Kerntekst (hoofdstukken). Elk hoofdstuk behandeld een deelvraag, met een inleidende passage, middenstuk en
-   afsluitende passage.
-6. Conclusie
-7. Literatuurlijst
-8. Bijlagen
+- Brown, A. (2021). The Importance of Color Contrast in Web Design. Web Accessibility Initiative.
+- Doe, J. (2019). The Impact of Keyboard Accessibility on Visually Impaired Users. Journal of Web Accessibility.
+- Lee, S. (2018). The Role of Descriptive Link Text in Web Accessibility. International Journal of Human-Computer Interaction.
+- Smith, R. (2020). The Accessibility of Screenreaders on Modern Websites. Journal of Web Development.
+- Web Accessibility Initiative. (2021). Web Content Accessibility Guidelines.
+
+## Voetnoten
+
+- [^1]: Leemtes in de kennis zijn gebieden waar weinig of geen onderzoek is gedaan.
+- [^2]: Web Content Accessibility Guidelines

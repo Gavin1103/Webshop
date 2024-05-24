@@ -1,64 +1,27 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import overviewStyle from "../../../styles/productsOverview/overviewStyle";
-import {getCurrentPath, navigateTo} from "../../router";
+import {getCurrentPath} from "../../router";
 import {OverviewType} from "../../../enums/overviewPage/OverviewType";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 import {ShowcaseSection} from "./showcaseSection";
 import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
 import {FilterSection} from "./filterSection";
+import {ProductService} from "../../../services/ProductService";
+import {Router} from "@vaadin/router";
 
 
 @customElement("products-overview")
 export class ProductsOverview extends LitElement {
-    private categoryList: {name: string}[] = [
-        {name: "Games"},
-        {name: "Books"},
-        {name: "Electronic"},
-    ];
+    private categoryList: {name: string}[] = [];
 
-    private productList: ProductOverviewResponse[] = [
-        {
-            name: "Wireless Earbuds",
-            description: "High-quality wireless earbuds with noise cancellation.",
-            image: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-            rating: 1.5,
-            price: 19.99
-        },
-        {
-            name: "Smart Watch",
-            description: "A stylish smart watch with fitness tracking features.",
-            image: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-            rating: 2.4,
-            price: 29.99
-        },
-        {
-            name: "Gaming Laptop",
-            description: "Powerful gaming laptop with the latest graphics card.",
-            image: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-            rating: 3.6,
-            price: 39.99
-        },
-        {
-            name: "Bluetooth Speaker",
-            description: "Portable Bluetooth speaker with deep bass and long battery life.",
-            image: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-            rating: 4.2,
-            price: 49.99
-        },
-        {
-            name: "4K TV",
-            description: "Ultra HD 4K TV with vibrant colors and smart features.",
-            image: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-            rating: 5,
-            price: 59.99
-        }
-    ];
+    private productList: ProductOverviewResponse | undefined;
 
-    private currentPath: string | undefined;
-    // private param: string | undefined;
+    private overviewType: OverviewType | undefined;
+    private param: string | undefined;
 
     public filterRequest: FilterRequest | undefined;
+
 
 
     public connectedCallback(): void {
@@ -68,22 +31,33 @@ export class ProductsOverview extends LitElement {
     }
 
 
+    private async loadProducts(): Promise<void> {
+        const productService: ProductService = new ProductService();
+        if (this.filterRequest) {
+            if (this.overviewType == OverviewType.category) {
+                this.productList = await productService.getFilteredProduct(this.filterRequest, this.param);
+            }
+            this.requestUpdate();
+            console.log(this.productList);
+        }
+    }
+
 
 
     private updateCurrentPath = (): void => {
         const parts: string[] = getCurrentPath().split("/");
-        const overviewType: OverviewType = parts[1] as OverviewType;
-        switch (overviewType) {
+        this.overviewType = parts[1] as OverviewType;
+        this.param = parts[2];
+        switch (this.overviewType) {
             case OverviewType.category:
-                this.currentPath = "Category";
+                this.categoryList.push({name: this.param});
         }
-        // this.param = parts[2];
         this.requestUpdate();
     };
 
 
     private redirectToPreviousPage(): void {
-        navigateTo("/");
+        Router.go("/");
     }
 
     public showFilter(): void {
@@ -111,11 +85,16 @@ export class ProductsOverview extends LitElement {
 
             <main>
                 <main>
-                    <filter-section .categoryList="${this.categoryList}" @filter-changed="${this._handelFilterChanged}"></filter-section>
+                    <filter-section 
+                        .categoryList="${this.categoryList}"
+                        @filter-changed="${this._handelFilterChanged}">
+                        
+                    </filter-section>
                     <showcase-section 
-                        overviewType="${this.currentPath}"
+                        overviewType="${this.overviewType}"
                         .productList="${this.productList}"
                         .filterRequest="${this.filterRequest}"
+                        .param="${this.param}"
                         @filter-deleted="${this._handelFilterDeleted}"
                     >
                     </showcase-section>
@@ -124,16 +103,26 @@ export class ProductsOverview extends LitElement {
         `;
     }
 
-    private _handelFilterDeleted(): void {
+    private async _handelFilterDeleted(): Promise<void> {
         const filterSection: FilterSection | undefined | Element | null = this.shadowRoot!.querySelector("filter-section");
+
+        //Refresh the product list
+        const storedFilterRequest: string | null = sessionStorage.getItem("filterRequest");
+        if (storedFilterRequest) {
+            this.filterRequest = JSON.parse(storedFilterRequest);
+            await this.loadProducts();
+        }
+
+        // refresh the filter
         if (filterSection && filterSection instanceof FilterSection) {
             filterSection.clearFilter();
             filterSection.updateFilter();
         }
     }
 
-    private _handelFilterChanged(event: CustomEvent): void {
+    private async _handelFilterChanged(event: CustomEvent): Promise<void> {
         this.filterRequest = event.detail.message;
+        await this.loadProducts();
         const showcaseSection: ShowcaseSection | undefined | Element | null = this.shadowRoot!.querySelector("showcase-section");
         if (showcaseSection && showcaseSection instanceof ShowcaseSection) {
             showcaseSection.updateFilterRequest(this.filterRequest);

@@ -26,14 +26,19 @@ export class UserService {
      * @returns `true` when successful, otherwise `false`.
      */
     public async login(formData: UserLoginFormModel): Promise<UserAuthResponse> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}auth/authenticate`, {
-            method: "post",
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/authenticate`, {
+            method: "POST",
             headers: headers,
             body: JSON.stringify(formData),
         });
 
         if (!response.ok) {
-            return {success: false, status: response.status, message: "Invalid credentials"};
+            if(response.status === 401){
+                return {success: false, status: response.status, message: "Invalid credentials"};
+            }
+            else if(response.status === 403){
+                return {success: false, status: response.status, message: "Account not confirmed"};
+            }
         }
 
         const json: { access_token: string, refresh_token: string } = await response.json();
@@ -56,7 +61,7 @@ export class UserService {
      * @returns `true` when successful, otherwise `false`.
      */
     public async register(formData: UserRegisterFormModel): Promise<UserAuthResponse> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}auth/register`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/register`, {
             method: "post",
             headers: headers,
             body: JSON.stringify(formData),
@@ -70,17 +75,17 @@ export class UserService {
 
         const json: {
             statusCodeValue: number,
-            body: { access_token: string | undefined, refresh_token: string | undefined }
+            body: { access_token: string | undefined, refresh_token: string | undefined, confirmation_token: string | undefined }
         } = await response.json();
 
-        if (json.body.access_token && json.body.refresh_token && json.statusCodeValue === 201) {
+        if (json.body.access_token && json.body.refresh_token &&  json.body.confirmation_token && json.statusCodeValue === 201) {
             this._tokenService.setToken(json.body.access_token);
             this._tokenService.setRefreshToken(json.body.refresh_token);
 
             const email: Email = new Email();
             email.to = [{name: formData.firstname, address: formData.email}];
             email.subject = "Welcome to our webshop!";
-            email.html = new RegistrationEmail(formData).generateEmail();
+            email.html = new RegistrationEmail(formData, json.body.confirmation_token).generateEmail();
 
             await this.sendEmail(email);
 
@@ -117,6 +122,22 @@ export class UserService {
 
         return true;
     }
+
+    public async confirmEmail(confirmationToken: string): Promise<boolean> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/confirm-account/${confirmationToken}`, {
+            method: "get",
+            headers: {...headers},
+        });
+
+        if (!response.ok) {
+            console.error(response);
+
+            return false;
+        }
+
+        return true;
+    }
+
 
     /**
      * Handles adding an order item to the cart of the current user. Requires a valid token.

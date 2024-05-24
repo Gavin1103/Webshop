@@ -51,4 +51,12 @@ public class Product {
         return totalRating / reviews.size();
     }
 
+    // Method to get the first image
+    @JsonIgnore
+    public String getFirstImage() {
+        return (image != null && !image.isEmpty()) ? image.get(0) : null;
+    }
+
+
+
 }

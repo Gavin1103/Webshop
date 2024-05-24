@@ -9,9 +9,10 @@
         "project/*"
     ],
     "scripts": {
-        "dev": "run-p dev:backend dev:web",
+        "dev": "run-p dev:backend dev:web dev:server",
         "dev:backend": "cd project/backend && ./gradlew bootRun",
         "dev:web": "npm run dev -w project/frontend",
+        "dev:server": "node project/frontend/src/scripts/screenshot-server.js",
         "typedoc": "typedoc",
         "db:init": "node project/scripts/init-db.js",
         "test:frontend": "npm run test -w project/tests",
@@ -19,9 +20,10 @@
         "preview": "run-p preview:api preview:web",
         "preview:backend": "cd project/backend && ./gradlew bootRun",
         "preview:web": "npm run preview -w project/frontend",
-        "build": "run-p build:backend build:frontend",
+        "build": "run-p build:backend build:frontend build:proxy",
         "build:frontend": "npm run build -w project/frontend",
-        "build:backend": "cd project/backend && ./gradlew build"
+        "build:backend": "cd project/backend && ./gradlew build",
+        "build:proxy": "npm run build -w project/proxy"
     },
     "devDependencies": {
         "@types/mysql": "^2.15.26",

@@ -1,5 +1,5 @@
 export type CategoryResponse = {
     id: number;
-    name: number;
+    name: string;
     image: number;
 }

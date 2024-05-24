@@ -39,6 +39,8 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private boolean enabled;
+
     @Override
     public String getUsername() {
         return email;
@@ -99,6 +101,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

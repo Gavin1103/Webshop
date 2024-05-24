@@ -38,7 +38,7 @@ Mijn specifieke taak was om te leren hoe ik JWT-authenticatie kon implementeren 
 Het resultaat was dat onze Spring Boot applicatie nu gebruik maakt van JWT voor authenticatie. Gebruikers kunnen alleen toegang krijgen tot beveiligde endpoints als ze een geldige JWT hebben.
 
 ### Reflectie: 
-Ik voel me tevreden met het resultaat, ook dit was makkelijker dan ik had veracht omdat spring security hier goeie hulpmiddelen voor heeft. Het gebruik van JWT zal de algehele beveiliging van onze applicatie verbeteren.
+Ik voel me tevreden met het resultaat, ook dit was makkelijker dan ik had verwacht omdat spring security hier goeie hulpmiddelen voor heeft. Het gebruik van JWT zal de algehele beveiliging van onze applicatie verbeteren.
 
 ### Nieuwe leerdoelen voor sprint 3
 - [Ik wil mijn vaardigheden verbeteren in het vinden van betrouwbare academische bronnen voor mijn onderzoeken](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/122)

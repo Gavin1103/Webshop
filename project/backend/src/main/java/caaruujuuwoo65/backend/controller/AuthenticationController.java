@@ -41,7 +41,7 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "409", description = "User already exists")
     })
     public ResponseEntity<?> register(@RequestBody CreateUserDTO user) throws Exception {
-        return ResponseEntity.ok(authenticationService.register(user, RoleEnum.USER));
+        return ResponseEntity.ok(authenticationService.register(user, RoleEnum.USER, false));
     }
 
     @PostMapping("/refresh-token")

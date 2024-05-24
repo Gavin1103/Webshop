@@ -22,6 +22,9 @@ Het resultaat was dat ik succesvol rollen heb geimplementeerd in onze applicatie
 ### Reflectie: 
 Ik ben tevreden met het resultaat, het implementeren van de rollen was minder moeite dan ik had verwacht aangezien dit spring security hier goeie hulpmiddelen voor heeft. Maar het is wel een erg belangrijk onderdeel van de applicatie, dus ik ben blij dat ik dit doel heb bereikt.
 
+### Links:
+[Link naar merge request voor de rollen implementatie](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/merge_requests/6)
+
 ### [Smart doel 2 - Ik wil graag leren hoe ik jwt authenticatie opzet in springboot](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/114)
 ### Situatie: 
 We willen graag gebruikers authenticeren met behulp van JWT (JSON Web Tokens) om toegang te geven tot beveiligde endpoints.
@@ -39,6 +42,9 @@ Het resultaat was dat onze Spring Boot applicatie nu gebruik maakt van JWT voor 
 
 ### Reflectie: 
 Ik voel me tevreden met het resultaat, ook dit was makkelijker dan ik had verwacht omdat spring security hier goeie hulpmiddelen voor heeft. Het gebruik van JWT zal de algehele beveiliging van onze applicatie verbeteren.
+
+### Links:
+[Link naar merge request voor de jwt_authenticatie](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/merge_requests/6)
 
 ### Nieuwe leerdoelen voor sprint 3
 - [Ik wil mijn vaardigheden verbeteren in het vinden van betrouwbare academische bronnen voor mijn onderzoeken](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/122)

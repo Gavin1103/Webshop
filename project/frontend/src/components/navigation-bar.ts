@@ -5,6 +5,7 @@ import "./search-bar";
 import navigationBarStyle from "../styles/navigationBarStyle";
 import {CategoryResponse} from "../types/CategoryResponse";
 import {navigateTo} from "./router";
+import { CategoryService } from "../services/CategoryService";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {
@@ -15,21 +16,23 @@ export class NavigationBar extends LitElement {
     private categoryList: CategoryResponse | undefined;
 
 
-    public connectedCallback(): void {
+    public async connectedCallback(): Promise<void> {
         super.connectedCallback();
+        await this.loadData();
+        this.requestUpdate();
     }
 
-    // private async loadData(): Promise<void> {
-    //     const categoryService: CategoryService = new CategoryService();
-    //
-    //     try {
-    //         this.categoryList = await categoryService.getCategoriesWithImage();
-    //     } catch (error) {
-    //         console.error("Error loading data: ", error);
-    //     } finally {
-    //         this.requestUpdate();
-    //     }
-    // }
+    private async loadData(): Promise<void> {
+        const categoryService: CategoryService = new CategoryService();
+
+        try {
+            this.categoryList = await categoryService.getCategoriesWithImage();
+        } catch (error) {
+            console.error("Error loading data: ", error);
+        } finally {
+            this.requestUpdate();
+        }
+    }
 
     private toggleSidebar(): void {
         this.sidebarVisible = !this.sidebarVisible;

@@ -11,12 +11,17 @@ Ik heb hun suggesties opgevolgd en uiteindelijk de wijzigingen aan de voorkant d
 
 Hier is een vergelijking van het prototype en de webpagina:
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/36494278-cf5b-4253-bd75-74bfb4fc9fb4/4f0f23e1-a594-469f-a6c7-ad990f93d43b/Untitled.png)
+<div style="display: flex; justify-content: center; margin-bottom: 10px">
+    <img style="flex: 1; max-width: 40%; height: auto;" src="image/prototype.png" alt="Description" style="margin-right: 10px;" />
+    <div>
+        <img  src="image/overviewpage_1_.png" alt="Description" style="margin-right: 10px;" />
+        <img  src="image/overviewpage_2_.png" alt="Description" style="margin-right: 10px;" />
+    </div>
+</div>
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/36494278-cf5b-4253-bd75-74bfb4fc9fb4/f5c47f34-98d3-4a87-ac83-4bfd674f2e3b/Untitled.png)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/36494278-cf5b-4253-bd75-74bfb4fc9fb4/f90e1795-9aac-4088-ae59-869c9ea6795a/Untitled.png)
 
-In de mobiele lay-out heb ik een verticale lay-out gebruikt zodat elk weergegeven productgebied groter is en gebruikers nauwkeuriger op producten kunnen klikken op hun mobiele apparaten.
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/36494278-cf5b-4253-bd75-74bfb4fc9fb4/57f37d25-6dfe-4831-b180-7d40623ff61d/Untitled.png)
+<div style="display: flex; justify-content: center">
+<img style="flex: 1; max-width: 40%; height: auto;" src="image/overviewpage_3_.png" alt="Description" style="margin-right: 10px;" />
+    <span style="flex: 1">In de mobiele lay-out heb ik een verticale lay-out gebruikt zodat elk weergegeven productgebied groter is en gebruikers nauwkeuriger op producten kunnen klikken op hun mobiele apparaten.</span>
+</div>

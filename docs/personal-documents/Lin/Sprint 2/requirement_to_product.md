@@ -11,17 +11,13 @@ Ik heb hun suggesties opgevolgd en uiteindelijk de wijzigingen aan de voorkant d
 
 Hier is een vergelijking van het prototype en de webpagina:
 
-<div style="display: flex; justify-content: center; margin-bottom: 10px">
-    <img style="flex: 1; max-width: 40%; height: auto;" src="image/prototype.png" alt="Description" style="margin-right: 10px;" />
-    <div>
-        <img  src="image/overviewpage_1_.png" alt="Description" style="margin-right: 10px;" />
-        <img  src="image/overviewpage_2_.png" alt="Description" style="margin-right: 10px;" />
-    </div>
-</div>
+![Untitled](image/prototype.png)
+
+![Untitled](image/overviewpage_1_.png)
+
+![Untitled](image/overviewpage_2_.png)
 
 
+In de mobiele lay-out heb ik een verticale lay-out gebruikt zodat elk weergegeven productgebied groter is en gebruikers nauwkeuriger op producten kunnen klikken op hun mobiele apparaten.
 
-<div style="display: flex; justify-content: center">
-<img style="flex: 1; max-width: 40%; height: auto;" src="image/overviewpage_3_.png" alt="Description" style="margin-right: 10px;" />
-    <span style="flex: 1">In de mobiele lay-out heb ik een verticale lay-out gebruikt zodat elk weergegeven productgebied groter is en gebruikers nauwkeuriger op producten kunnen klikken op hun mobiele apparaten.</span>
-</div>
+![Untitled](image/overviewpage_3_.png)

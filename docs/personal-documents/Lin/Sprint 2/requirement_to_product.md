@@ -1,6 +1,6 @@
 ## Afgelopen sprint heb ik productoverzichtspagina's gemaakt op basis van prototype producten.
 
-In [**userstories**](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/29?work_item_iid=53) Voor de overzichtspagina gelden twee vereisten. Ten eerste moet de pagina minimaal een filtersectie en een productenlijst bevatten. Ten tweede moet de pagina een responsive lay-out hebben.
+In [**userstories**](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/29?work_item_iid=53) Voor de overzichtspagina gelden twee vereisten. Ten eerste moet de pagina minimaal filtersectie en productenlijst bevatten. Ten tweede moet de pagina een responsive lay-out hebben.
 
 Ik heb het prototype gemaakt op basis van de vereisten en kreeg de volgende feedback
 

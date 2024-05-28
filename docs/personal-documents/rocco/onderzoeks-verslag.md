@@ -36,31 +36,60 @@ gestructureerd verslag met een inleiding, kerntekst en conclusie.
 
 ### Obstakels voor Visueel Beperkte Gebruikers
 
-Visueel beperkte gebruikers ondervinden verschillende obstakels bij het navigeren op websites. Screenreaders
+Visueel beperkte gebruikers ondervinden verschillende obstakels bij het navigeren van websites. Screenreaders
 zoals JAWS en NVDA zijn afhankelijk van correcte HTML-structuren en goed beschreven alt-teksten om informatie
 toegankelijk te maken. Wanneer afbeeldingen geen alt-teksten hebben, blijven deze voor de gebruiker onbekend,
-wat leidt tot incomplete informatie. Zoals Smith (2020) stelt: "Veel websites zijn niet geoptimaliseerd voor
-screenreaders, wat resulteert in aanzienlijke toegankelijkheidsproblemen."
+wat leidt tot incomplete informatie. Zoals in (SIU et al., 2021) wordt benadrukt: "Respondenten beschreven dat
+alt-tekst en gegevens in tabelvorm vaak ontbraken, ondanks dat dit als best practice wordt beschouwd,
+naast ontoereikende afbeelding beschrijvingen en problemen met de opmaak van tabellen.".
 
 Tekst die onvoldoende contrasteert met de achtergrond is moeilijk te lezen voor mensen met slechtziendheid. De
-WCAG[^2] bevelen een contrastverhouding van minimaal 4.5:1 voor normale
-tekst aan om leesbaarheid te waarborgen. Brown (2021) benadrukt het belang hiervan: "Voldoende kleurcontrast
-is essentieel voor de leesbaarheid en toegankelijkheid van webinhoud voor slechtziende gebruikers."
+WCAG[^2] bevelen een contrastverhouding van minimaal 4.5:1 voor normale tekst aan om leesbaarheid te
+waarborgen.
 
 Hyperlinks zoals "klik hier" bieden geen context aan screenreader-gebruikers, wat navigatie lastig maakt.
 Beschrijvende links die duidelijk maken wat de gebruiker kan verwachten, verbeteren de navigatie behoorlijk.
-Lee (2018) merkt op: "Het gebruik van beschrijvende linkteksten kan de navigatie voor schermlezergebruikers
-aanzienlijk verbeteren."
 
 Veel visueel beperkte gebruikers zijn afhankelijk van toetsenbordnavigatie. Websites die geen volledige
 ondersteuning bieden voor toetsenbordnavigatie beperken de mogelijkheid van deze gebruikers om met de inhoud
-te interageren. Doe (2019) stelt: "Een gebrek aan toetsenbordtoegankelijkheid is een van de grootste
-belemmeringen voor visueel beperkte gebruikers bij het navigeren op websites."
-
-Door deze obstakels aan te pakken, kan de toegankelijkheid van websites voor visueel beperkte
-gebruikers behoorlijk verbeterd worden, dit zorgt voor een inclusievere online-ervaring voor iedereen.
+te interageren.
 
 ### Bestaande Oplossingen voor Toegankelijkheid
+
+Er zijn verschillende manieren om websites toegankelijker te maken voor mensen met visuele beperkingen.
+
+Een van de meest gebruikte hulpmiddelen voor mensen met visuele beperkingen is een screenreader[^3].
+Supernova, JAWS en NVDA zijn zijn de meest gebruikte screenreaders  . Om gebruikers te helpen navigeren en
+informatie te begrijpen, maken deze tools gebruik van
+braille-uitvoer en tekst-naar-spraak technologie.
+
+Mensen met visuele beperkingen kunnen de inhoud gemakkelijker begrijpen en navigeren als koppen en labels
+duidelijk en beschrijvend zijn. Goed georganiseerde koppen en labels maken het voor schermlezers gemakkelijk
+om door de inhoud te bladeren en de secties te vinden die ze willen.
+
+Het toevoegen van alternatieve tekst aan foto's helpt schermlezers om de inhoud beter te beschrijven. Dit is
+essentieel voor een toegankelijke gebruikerservaring. Dit maakt het gemakkelijker voor personen met visuele
+beperkingen om de volledige inhoud van websites te begrijpen. De alt-tekst moet informatief en beschrijvend
+zijn om de afbeelding goed te begrijpen (Swallow, 2023).
+
+De implementatie van internationale toegankelijkheidsnormen, zoals de WCAG, is essentieel om websites
+toegankelijk te maken. Deze richtlijnen geven uitgebreide instructies over hoe je webinhoud toegankelijk kunt
+maken. WCAG richt zich op vier principes: waarneembaarheid, bedienbaarheid, begrijpelijkheid en robuustheid.
+Het naleven van deze richtlijnen helpt ontwikkelaars om inclusieve en toegankelijke websites te creëren.
+
+Het gebruik van voldoende kleurcontrast en aanpasbare tekstgrootte is belangrijk voor gebruikers met lage
+visie of kleurenblindheid. Websites moeten voldoende contrast bieden tussen tekst en achtergrondkleuren, en
+gebruikers moeten de mogelijkheid hebben om de tekstgrootte aan te passen zonder dat dit de leesbaarheid
+beïnvloedt.
+
+Toegankelijke navigatie betekent dat alle interactie-elementen, zoals knoppen en links, gemakkelijk
+toegankelijk zijn via het toetsenbord. Dit helpt gebruikers die geen muis kunnen gebruiken om efficiënt door
+de website te navigeren. Zorg ervoor dat alle interactieve elementen duidelijk gemarkeerd zijn en een logische
+tabvolgorde hebben.
+
+Voor multimedia-inhoud zoals video's moeten alternatieven zoals ondertiteling, transcripties en
+audiodescripties beschikbaar zijn. Dit zorgt ervoor dat alle gebruikers toegang hebben tot dezelfde
+informatie, ongeacht hun visuele vermogen.
 
 ### Aanpassing van Visuele Componenten
 
@@ -72,13 +101,18 @@ gebruikers behoorlijk verbeterd worden, dit zorgt voor een inclusievere online-e
 
 ## Bronnen:
 
-- Brown, A. (2021). The Importance of Color Contrast in Web Design. Web Accessibility Initiative.
-- Doe, J. (2019). The Impact of Keyboard Accessibility on Visually Impaired Users. Journal of Web Accessibility.
-- Lee, S. (2018). The Role of Descriptive Link Text in Web Accessibility. International Journal of Human-Computer Interaction.
-- Smith, R. (2020). The Accessibility of Screenreaders on Modern Websites. Journal of Web Development.
-- Web Accessibility Initiative. (2021). Web Content Accessibility Guidelines.
+- Web Content Accessibility Guidelines (WCAG) 2.1 (2021). W3C Recommendation. Retrieved
+  from https://www.w3.org/TR/WCAG21/.
+- Siu, A.F., Fan, D., Kim, G.S., Rao, H.V., Vazquez, X., O'Modhrain, S. and Follmer, S., 2021, April. COVID-19
+  highlights the issues facing blind and visually impaired people in accessing data on the web. In Proceedings
+  of the 18th International Web for All Conference (pp. 1-15).
+- Power, C., Petrie, H., Swallow, D., Murphy, E., Gallagher, B. and Velasco, C.A., 2013. Navigating,
+  discovering and exploring the web: strategies used by people with print disabilities on interactive
+  websites. In Human-Computer Interaction–INTERACT 2013: 14th IFIP TC 13 International Conference, Cape Town,
+  South Africa, September 2-6, 2013, Proceedings, Part I 14 (pp. 667-684). Springer Berlin Heidelberg.
 
 ## Voetnoten
 
-- [^1]: Leemtes in de kennis zijn gebieden waar weinig of geen onderzoek is gedaan.
-- [^2]: Web Content Accessibility Guidelines
+[^1]: Leemtes in de kennis zijn gebieden waar weinig of geen onderzoek is gedaan.
+[^2]: Web Content Accessibility Guidelines.
+[^3]: Een softwareprogramma dat de tekst van het computerscherm voorleest.

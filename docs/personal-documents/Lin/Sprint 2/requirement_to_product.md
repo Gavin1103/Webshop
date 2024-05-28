@@ -1,6 +1,6 @@
-Afgelopen sprint heb ik productoverzichtspagina's gemaakt op basis van prototype producten.
+## Afgelopen sprint heb ik productoverzichtspagina's gemaakt op basis van prototype producten.
 
-In [userstories](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/29?work_item_iid=53) zijn er twee vereisten voor overview pagina, een daarvan is dat de pagina filters, productoverzichten heeft. De tweede is dat de pagina een responsive lay-out moet implementeren.
+In [**userstories**](https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/2023-2024/out-b-se-bim/blok-4/caaruujuuwoo65/-/issues/29?work_item_iid=53) zijn er twee vereisten voor overview pagina, een daarvan is dat de pagina filters, productoverzichten heeft. De tweede is dat de pagina een responsive lay-out moet implementeren.
 
 Ik heb het prototype gemaakt op basis van de vereisten en kreeg de volgende feedback
 
@@ -9,15 +9,24 @@ Ik heb het prototype gemaakt op basis van de vereisten en kreeg de volgende feed
 
 Ik heb hun suggesties opgevolgd en uiteindelijk de wijzigingen aan de voorkant doorgevoerd.
 
-Hier is een vergelijking van het prototype en de webpagina:
+## Hier is een vergelijking van het prototype en de webpagina:
+
+**_Dit is het prototype van de overviewspagina. ↓_**
 
 ![Untitled](image/prototype.png)
 
+**_Dit is de overviewspagina met het filter ↓_**
+
 ![Untitled](image/overviewpage_1_.png)
+
+_**Dit is de overzichtspagina, die het filter verbergt ↓**_
 
 ![Untitled](image/overviewpage_2_.png)
 
 
-In de mobiele lay-out heb ik een verticale lay-out gebruikt zodat elk weergegeven productgebied groter is en gebruikers nauwkeuriger op producten kunnen klikken op hun mobiele apparaten.
+## In de mobiele lay-out heb ik een verticale lay-out gebruikt.
+Zodat elk weergegeven productgebied groter is, en gebruikers nauwkeuriger op producten kunnen klikken op hun mobiele apparaten.
 
 ![Untitled](image/overviewpage_3_.png)
+
+

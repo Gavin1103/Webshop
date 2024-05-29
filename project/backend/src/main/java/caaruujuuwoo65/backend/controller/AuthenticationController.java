@@ -64,6 +64,27 @@ public class AuthenticationController {
         return authenticationService.confirmUserAccount(token);
     }
 
+    @PostMapping("/forgot-password")
+    @Operation(summary = "Process a password reset request")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully processed request"),
+        @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    public ResponseEntity<?> processForgotPassword(@RequestParam String email) {
+        return authenticationService.forgotPassword(email);
+    }
+
+    @PostMapping("/reset-password")
+    @Operation(summary = "Reset a user's password")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully reset password"),
+        @ApiResponse(responseCode = "400", description = "Invalid token")
+    })
+    public ResponseEntity<?> resetPassword(@RequestParam String token, @RequestParam String password) {
+        return authenticationService.resetPassword(token, password);
+    }
+
+
     @PreAuthorizeAdmin
     @GetMapping("/is-admin")
     public boolean isAdmin(){

@@ -241,15 +241,18 @@ public class AuthenticationService {
     /**
      * Resets the user's password.
      *
-     * @param token      the token
+     * @param token       the token
      * @param newPassword the new password
+     * @return a response entity, containing a success message if the password is reset, or an error message with an appropriate HTTP status code if the password is not reset
      */
-    public void resetPassword(String token, String newPassword) {
+    public ResponseEntity<String> resetPassword(String token, String newPassword) {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByConfirmationToken(token);
         if (confirmationToken != null) {
             User user = userRepository.findByEmail(confirmationToken.getUser().getEmail());
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
+            return new ResponseEntity<>("Password reset successfully", HttpStatus.OK);
         }
+        return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
     }
 }

@@ -200,6 +200,12 @@ public class AuthenticationService {
         return null;
     }
 
+    /**
+     * Confirms the user's account.
+     *
+     * @param confirmationToken the confirmation token
+     * @return a ResponseEntity containing a success message if the account is confirmed, or an error message with an appropriate HTTP status code if the account is not confirmed
+     */
     public ResponseEntity<?> confirmUserAccount(String confirmationToken) {
         ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
@@ -213,6 +219,12 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * Processes the forgot password request.
+     *
+     * @param email the email address
+     * @return a ResponseEntity containing the confirmation token if the user exists, or an error message with an appropriate HTTP status code if the user does not exist
+     */
     public ResponseEntity<?> forgotPassword(String email) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
@@ -226,6 +238,12 @@ public class AuthenticationService {
         return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Resets the user's password.
+     *
+     * @param token      the token
+     * @param newPassword the new password
+     */
     public void resetPassword(String token, String newPassword) {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByConfirmationToken(token);
         if (confirmationToken != null) {

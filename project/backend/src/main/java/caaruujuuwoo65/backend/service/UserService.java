@@ -90,6 +90,12 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    /**
+     * Deletes a user by email.
+     *
+     * @param email the email address
+     * @return the deleted user
+     */
     public User deleteUserByEmail(String email) {
         User user = userRepository.findByEmail(email);
 

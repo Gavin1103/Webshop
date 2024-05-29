@@ -212,4 +212,26 @@ public class AuthenticationService {
             return new ResponseEntity<>("The link is invalid or broken!", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<?> forgotPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            ConfirmationToken confirmationToken = new ConfirmationToken(user);
+            confirmationTokenRepository.save(confirmationToken);
+
+            return new ResponseEntity<>(AuthenticationResponse.builder()
+                .confirmationToken(confirmationToken.getConfirmationToken())
+                .build(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+    }
+
+    public void resetPassword(String token, String newPassword) {
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findByConfirmationToken(token);
+        if (confirmationToken != null) {
+            User user = userRepository.findByEmail(confirmationToken.getUser().getEmail());
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+        }
+    }
 }

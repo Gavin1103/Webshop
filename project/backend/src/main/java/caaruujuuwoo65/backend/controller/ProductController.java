@@ -3,6 +3,8 @@ package caaruujuuwoo65.backend.controller;
 import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
 import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
+import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
+import caaruujuuwoo65.backend.dto.product.category.CategoryPreviewDTO;
 import caaruujuuwoo65.backend.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -74,11 +76,12 @@ public class ProductController {
         @RequestParam(required = false) String categories,
         @RequestParam(required = false) Integer minPrice,
         @RequestParam(required = false) Integer maxPrice,
-        @RequestParam(required = false) Integer minRating) {
+        @RequestParam(required = false) Integer minRating,
+        @RequestParam(required = false) String name) {
 
         List<String> categoryList = categories != null ? Arrays.asList(categories.split(",")) : null;
 
-        return productService.getFilteredProducts(categoryList, minPrice, maxPrice, minRating);
+        return productService.getFilteredProducts(categoryList, minPrice, maxPrice, minRating, name);
     }
 
     @GetMapping("getBy/{id}")
@@ -95,4 +98,18 @@ public class ProductController {
         }
         return ResponseEntity.ok(product);
     }
+
+    @GetMapping("/search")
+    @Operation(summary = "Search products", description = "Search products by keyword")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Products successfully retrieved"),
+        @ApiResponse(responseCode = "400", description = "Invalid search keyword"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<List<ProductSearchResultDTO>> searchProducts(@RequestParam("keyword") String keyword) {
+        List<ProductSearchResultDTO> products = productService.searchProducts(keyword);
+        return ResponseEntity.ok(products);
+    }
+
+
 }

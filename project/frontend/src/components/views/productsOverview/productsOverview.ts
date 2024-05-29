@@ -1,19 +1,20 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import overviewStyle from "../../../styles/productsOverview/overviewStyle";
-import {getCurrentPath} from "../../router";
+import {getCurrentPath, navigateTo} from "../../router";
 import {OverviewType} from "../../../enums/overviewPage/OverviewType";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 import {ShowcaseSection} from "./showcaseSection";
 import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
 import {FilterSection} from "./filterSection";
 import {ProductService} from "../../../services/ProductService";
-import {Router} from "@vaadin/router";
+import {CategoryPreviewResponse} from "../../../types/CategoryPreviewResponse";
+import {CategoryService} from "../../../services/CategoryService";
 
 
 @customElement("products-overview")
 export class ProductsOverview extends LitElement {
-    private categoryList: {name: string}[] = [];
+    private categoryList: CategoryPreviewResponse[] | undefined;
 
     private productList: ProductOverviewResponse | undefined;
 
@@ -24,40 +25,58 @@ export class ProductsOverview extends LitElement {
 
 
 
-    public connectedCallback(): void {
+    public async connectedCallback(): Promise<void> {
         super.connectedCallback();
-        this.updateCurrentPath();
+        await this.updateCurrentPath();
+        await this.loadProducts();
         this.requestUpdate();
+    }
+
+    public disconnectedCallback() {
+        super.disconnectedCallback();
+        sessionStorage.removeItem("filterRequest");
     }
 
 
     private async loadProducts(): Promise<void> {
         const productService: ProductService = new ProductService();
-        if (this.filterRequest) {
-            if (this.overviewType == OverviewType.category) {
-                this.productList = await productService.getFilteredProduct(this.filterRequest, this.param);
-            }
-            this.requestUpdate();
-            console.log(this.productList);
+        if (this.overviewType == OverviewType.category) {
+            this.productList = await productService.getFilteredProduct(this.filterRequest, this.param);
         }
+        if (this.overviewType == OverviewType.search) {
+            this.productList = await productService.getFilteredProduct(this.filterRequest,undefined, this.param);
+        }
+        this.requestUpdate();
+    }
+
+    private async loadCategories(ProductName: string): Promise<void> {
+        const categoryService: CategoryService = new CategoryService();
+        this.categoryList = await categoryService.getCategoryByProductName(ProductName);
+        this.requestUpdate();
     }
 
 
 
-    private updateCurrentPath = (): void => {
+    private updateCurrentPath = async (): Promise<void> => {
         const parts: string[] = getCurrentPath().split("/");
         this.overviewType = parts[1] as OverviewType;
         this.param = parts[2];
         switch (this.overviewType) {
             case OverviewType.category:
-                this.categoryList.push({name: this.param});
+                this.categoryList = [
+                    {name: this.param}
+                ];
+                break;
+            case OverviewType.search:
+                await this.loadCategories(this.param);
+                break;
         }
         this.requestUpdate();
     };
 
 
     private redirectToPreviousPage(): void {
-        Router.go("/");
+        navigateTo("/");
     }
 
     public showFilter(): void {

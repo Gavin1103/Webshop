@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import categoryCardHorizontalStyle from "../styles/categoryCardHorizontalStyle";
 import {CategoryResponse} from "../types/CategoryResponse";
-import {Router} from "@vaadin/router";
+import {navigateTo} from "./router";
 
 @customElement("category-card-horizontal")
 export class CategoryCardHorizontal extends LitElement {
@@ -10,7 +10,7 @@ export class CategoryCardHorizontal extends LitElement {
     public categoryList: CategoryResponse[] | undefined;
 
     private redirectToCategoryPage(name: string): void {
-        Router.go(`category/${name}`);
+        navigateTo(`/category/${name}`);
     }
 
     public static styles = [categoryCardHorizontalStyle];

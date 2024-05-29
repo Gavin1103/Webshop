@@ -1,9 +1,9 @@
 import { css, html, LitElement, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import globalStyle from "./styles/globalStyle";
-import { Router } from "@vaadin/router";
 import { Product } from "../../../types/Product";
 import { ProductService } from "../../../services/ProductService";
+import {getCurrentPath, navigateTo} from "../../router";
 
 @customElement("product-detail-page")
 export class ProductDetailPage extends LitElement {
@@ -199,15 +199,10 @@ export class ProductDetailPage extends LitElement {
 
     // Check if the url contains a parameter named "productId".
     private IsUrlParameterPresent(): boolean {
-        const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
-        const param: string | null = urlParams.get("productId");
+        const currentPath: string = getCurrentPath();
+        const param: string | null = currentPath.split("/")[2];
 
-        if (!param) {
-            Router.go("/unknown-parameter");
-            return false;
-        }
-
-        this.productId = parseInt(param);
+       this.productId = parseInt(param);
 
         return true;
     }
@@ -216,7 +211,7 @@ export class ProductDetailPage extends LitElement {
         const product: Product | undefined = await this.productService.getProductById(this.productId);
 
         if (!product) {
-            Router.go("/product-not-found");
+            navigateTo("/product-not-found");
             return;
         }
 

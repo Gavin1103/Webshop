@@ -58,6 +58,14 @@ export default css `
     }
 
 
+    .navbar-right {
+        width: 15%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
     .links {
         width: 20%;
         display: flex;

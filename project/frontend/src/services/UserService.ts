@@ -138,34 +138,6 @@ export class UserService {
         return true;
     }
 
-
-    /**
-     * Handles adding an order item to the cart of the current user. Requires a valid token.
-     *
-     * @returns Current number of order items in the cart when successful, otherwise `false`.
-     * @returns Current number of order items in the shoppingCart when successful, otherwise `false`.
-     */
-    public async addOrderItemToCart(id: number): Promise<number | undefined> {
-        const token: string | undefined = this._tokenService.getToken();
-
-        if (!token) {
-            return undefined;
-        }
-
-        const response: Response = await fetch(`${viteConfiguration.API_URL}/users/cart/${id}`, {
-            method: "post",
-            headers: {...headers, authorization: token},
-        });
-
-        if (!response.ok) {
-            console.error(response);
-
-            return undefined;
-        }
-
-        return (await response.json()) as number;
-    }
-
     private async sendEmail(email: Email): Promise<void> {
         await api.sendEmail(email);
     }

@@ -12,24 +12,15 @@ export class ProductCarouselSection extends LitElement {
     public title: string = "";
 
     @property({type: Array})
-    public items: CartItem[] = [];
-
-    @property({type: Array})
     public productsData: ProductPreviewResponse[] = [];
 
     public static styles = [productCarouselSectionStyle];
 
     public connectedCallback(): void {
         super.connectedCallback();
-        this.loadItems();
     }
 
-    public loadItems(): void {
-        const cartManager = CartManager.getInstance();
-        this.items = cartManager.getCart();
-    }
-
-    public addItemToCart(product: ProductPreviewResponse): void {
+    public async addItemToCart(product: ProductPreviewResponse): Promise<void> {
         const cartManager = CartManager.getInstance();
 
         const newItem: CartItem = {
@@ -40,13 +31,12 @@ export class ProductCarouselSection extends LitElement {
             price: product.price,
             imageSrc: product.image
         };
-        cartManager.addItem(newItem);
-        this.loadItems();
+        await cartManager.addItem(newItem);
         this.redirectToCart();
     }
 
 
-    public redirectToDetailPage(productId:number):void{
+    public redirectToDetailPage(productId: number): void {
         navigateTo(`/product-detail-page/${productId}`)
     }
 
@@ -65,13 +55,15 @@ export class ProductCarouselSection extends LitElement {
             </div>
 
             <section class="product-carousel">
-                ${this.productsData? this.productsData.map(product => html`
+                ${this.productsData ? this.productsData.map(product => html`
                     <div class="product-card" tabindex="1">
-                        <img class="product-image" @click=${() => this.redirectToDetailPage(product.id)} src="${product.image}" alt="${product.name}">
+                        <img class="product-image" @click=${() => this.redirectToDetailPage(product.id)}
+                             src="${product.image}" alt="${product.name}">
                         <div class="product-info">
                             <span class="product-name">${product.name}</span>
                             <span class="product-price">$${product.price}</span>
-                            <img tabindex="1" @click="${(): void => this.addItemToCart(product)}"
+                            <img tabindex="1"
+                                 @click="${async (): Promise<void> => await this.addItemToCart(product)}"
                                  class="add-to-cart-button"
                                  src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
                         </div>

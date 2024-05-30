@@ -2,11 +2,13 @@ package caaruujuuwoo65.backend.controller;
 
 import caaruujuuwoo65.backend.dto.cart.CartDTO;
 import caaruujuuwoo65.backend.dto.cart.UpdateCartDTO;
+import caaruujuuwoo65.backend.repository.CartItemRepository;
+import caaruujuuwoo65.backend.repository.CartRepository;
+import caaruujuuwoo65.backend.repository.UserRepository;
 import caaruujuuwoo65.backend.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,7 @@ public class CartController {
     private final CartService cartService;
 
     @Autowired
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, CartItemRepository cartItemRepository, CartRepository cartRepository, UserRepository userRepository) {
         this.cartService = cartService;
     }
 
@@ -29,19 +31,8 @@ public class CartController {
         @ApiResponse(responseCode = "404", description = "Cart not found"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<CartDTO> getCartForCurrentUser() {
-        return cartService.getCartForCurrentUser();
-    }
-
-    @PostMapping("/")
-    @Operation(summary = "Create a new cart for the current user", description = "Create a new cart in the database for the current user")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Cart created successfully"),
-        @ApiResponse(responseCode = "400", description = "Cart already exists"),
-        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
-    })
-    public ResponseEntity<CartDTO> createCartForCurrentUser() {
-        return cartService.createCartForCurrentUser();
+    public ResponseEntity<CartDTO> getOrCreateCartForCurrentUser() {
+        return cartService.getOrCreateCartForCurrentUser();
     }
 
     @PutMapping("/")
@@ -52,7 +43,7 @@ public class CartController {
         @ApiResponse(responseCode = "404", description = "Cart not found"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<CartDTO> updateCart(@Valid @RequestBody UpdateCartDTO updateCartDTO) {
+    public ResponseEntity<CartDTO> updateCart(@RequestBody UpdateCartDTO updateCartDTO) {
         return cartService.updateCart(updateCartDTO);
     }
 

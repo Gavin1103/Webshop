@@ -29,7 +29,7 @@ export class ShowcaseSection extends LitElement {
 
     public items: CartItem[] = [];
 
-    private capitalizeFirstLetter(str: string | undefined): string | undefined{
+    private capitalizeFirstLetter(str: string | undefined): string | undefined {
         if (!str) {
             return undefined
         }
@@ -58,16 +58,16 @@ export class ShowcaseSection extends LitElement {
         this.dispatchEvent(event);
     }
 
-    public redirectToDetailPage(productId:number):void{
+    public redirectToDetailPage(productId: number): void {
         navigateTo(`/product-detail-page/${productId}`)
     }
 
-    public loadItems(): void {
+    public async loadItems(): Promise<void> {
         const cartManager = CartManager.getInstance();
-        this.items = cartManager.getCart();
+        this.items = await cartManager.getCart();
     }
 
-    public addItemToCart(product: ProductPreviewResponse): void {
+    public async addItemToCart(product: ProductPreviewResponse): Promise<void> {
         const cartManager = CartManager.getInstance();
 
         const newItem: CartItem = {
@@ -78,8 +78,8 @@ export class ShowcaseSection extends LitElement {
             price: product.price,
             imageSrc: product.image
         };
-        cartManager.addItem(newItem);
-        this.loadItems();
+        await cartManager.addItem(newItem);
+        await this.loadItems();
         this.redirectToCart();
     }
 
@@ -90,19 +90,20 @@ export class ShowcaseSection extends LitElement {
 
     private renderCategories(): TemplateResult {
         return html`
-      ${this.filterRequest?.categories?.map(
-            (category: string) => html`
-                <span class="category-filter-result result">
+            ${this.filterRequest?.categories?.map(
+                (category: string) => html`
+                    <span class="category-filter-result result">
                     ${category}
-                    <img src="${this.deleteButtonPath}" @click="${(): void => this.handleDeleteCategory(category)}" alt="delete">
+                    <img src="${this.deleteButtonPath}"
+                         @click="${(): void => this.handleDeleteCategory(category)}" alt="delete">
                 </span>`
-        )}
-    `;
+            )}
+        `;
     }
 
     private renderPriceRange(): TemplateResult {
-        const priceRange: {min: number, max: number} | undefined = this.filterRequest?.priceRange;
-        if (priceRange){
+        const priceRange: { min: number, max: number } | undefined = this.filterRequest?.priceRange;
+        if (priceRange) {
             return html`<span class="priceRange-filter-result result">
                 ${priceRange.min} to ${priceRange.max} euros
                 <img src="${this.deleteButtonPath}" @click="${this.handleDeletePriceRange}" alt="delete">
@@ -111,17 +112,17 @@ export class ShowcaseSection extends LitElement {
         return html``;
     }
 
-    public renderRatings(): TemplateResult  {
+    public renderRatings(): TemplateResult {
         const rating: number | undefined = this.filterRequest?.ratings;
         if (rating) {
-            return html `
-            <span class="rating-filter-result result">
+            return html`
+                <span class="rating-filter-result result">
                 ${this.filterRequest?.ratings} Star
                 <img src="${this.deleteButtonPath}" @click="${this.handleDeleteRating}" alt="delete">
             </span>
-        `;
+            `;
         }
-        return html ``;
+        return html``;
     }
 
     private generateStars(rating: number): string {
@@ -179,13 +180,17 @@ export class ShowcaseSection extends LitElement {
                 ${this.renderRatings()}
             </div>
             <section class="products-list-section">
-                ${this.productList ? this.productList.map(product => html `
+                ${this.productList ? this.productList.map(product => html`
                     <div class="products-card">
-                        <img @click="${() => this.redirectToDetailPage(product.id)}" class="product-image" src="${product.image}" alt="image">
+                        <img @click="${() => this.redirectToDetailPage(product.id)}" class="product-image"
+                             src="${product.image}" alt="image">
                         <div class="product-info">
                             <div class="info-left">
-                                <span class="name" @click="${() => this.redirectToDetailPage(product.id)}">${product.name}</span>
-                                <san class="rating">${this.generateStars(product.averageRating)} (${product.averageRating})</san>
+                                <span class="name"
+                                      @click="${() => this.redirectToDetailPage(product.id)}">${product.name}</span>
+                                <san class="rating">${this.generateStars(product.averageRating)}
+                                        (${product.averageRating})
+                                </san>
                                 <span class="description">${product.description}</span>
                             </div>
 
@@ -193,14 +198,15 @@ export class ShowcaseSection extends LitElement {
                                 <span class="price">
                                     €${product.price}
                                 </span>
-                                <img @click="${(): void => this.addItemToCart(product)}" class="cart-button" src="/assets/image/icons/shopping-bag.svg"/ alt="add to cart">
+                                <img @click="${async (): Promise<void> => await this.addItemToCart(product)}"
+                                     class="cart-button" src="/assets/image/icons/shopping-bag.svg"
+                                     alt="add to cart">
                             </div>
                         </div>
                     </div>
                 `) : ""}
 
-                
-                
+
             </section>
         `;
     }

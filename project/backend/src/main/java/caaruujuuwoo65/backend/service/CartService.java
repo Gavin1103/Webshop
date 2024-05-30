@@ -42,36 +42,25 @@ public class CartService {
     }
 
     /**
-     * Retrieves the cart for the current user.
+     * Retrieves or creates the cart for the current user.
      *
      * @return the cart DTO
      */
-    public ResponseEntity<CartDTO> getCartForCurrentUser() {
+    public ResponseEntity<CartDTO> getOrCreateCartForCurrentUser() {
         User currentUser = authHelper.getCurrentUser();
         Optional<Cart> cartOptional = cartRepository.findByUser(currentUser);
-        if (cartOptional.isPresent()) {
-            CartDTO cartDTO = modelMapper.map(cartOptional.get(), CartDTO.class);
-            return new ResponseEntity<>(cartDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
 
-    /**
-     * Creates a new cart for the current user.
-     *
-     * @return the created cart DTO
-     */
-    public ResponseEntity<CartDTO> createCartForCurrentUser() {
-        User currentUser = authHelper.getCurrentUser();
-        if (cartRepository.findByUser(currentUser).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Cart cart;
+        if (cartOptional.isPresent()) {
+            cart = cartOptional.get();
+        } else {
+            cart = new Cart();
+            cart.setUser(currentUser);
+            cart = cartRepository.save(cart);
         }
-        Cart cart = new Cart();
-        cart.setUser(currentUser);
-        cart = cartRepository.save(cart);
+
         CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
-        return new ResponseEntity<>(cartDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(cartDTO, HttpStatus.OK);
     }
 
     /**

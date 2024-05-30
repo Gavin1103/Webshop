@@ -22,8 +22,11 @@ export class OrderInfo extends LitElement {
 
     private handleCartUpdated = (): void => {
         const cartManager = CartManager.getInstance();
-        
-        this.products = [...cartManager.getCart()];
+        const cart: CartItem[] | undefined = void cartManager.getCart();
+
+        if (cart !== undefined) {
+            this.products = [...cart];
+        }
     };
 
     protected render(): TemplateResult {

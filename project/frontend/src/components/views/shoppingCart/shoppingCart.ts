@@ -18,13 +18,13 @@ export class ShoppingCart extends LitElement {
     public connectedCallback(): void {
         super.connectedCallback();
         this.updateCurrentPath();
-        this.loadProducts();
+        void this.loadProducts();
         this.requestUpdate();
     }
 
-    private loadProducts(): void {
+    private async loadProducts(): Promise<void> {
         const cartManager = CartManager.getInstance();
-        this.products = cartManager.getCart();
+        this.products = await cartManager.getCart();
     }
 
     private updateCurrentPath = (): void => {

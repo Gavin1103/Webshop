@@ -15,28 +15,31 @@ export class CartListItem extends LitElement {
     public showControls: boolean = true;
 
 
-    public increaseQuantity(): void {
+    public async increaseQuantity(): Promise<void> {
         const cartManager = CartManager.getInstance();
-        cartManager.updateItemQuantity(this.product.id, this.product.quantity + 1);
+        await cartManager.updateItemQuantity(this.product.id, this.product.quantity + 1);
         this.dispatchEvent(new CustomEvent("cart-updated", {bubbles: true, composed: true}));
+        this.requestUpdate();
     }
 
-    public decreaseQuantity(): void {
+    public async decreaseQuantity(): Promise<void> {
         const cartManager = CartManager.getInstance();
 
         if (this.product.quantity > 1) {
-            cartManager.updateItemQuantity(this.product.id, this.product.quantity - 1);
+            await cartManager.updateItemQuantity(this.product.id, this.product.quantity - 1);
         } else {
-            cartManager.removeItem(this.product.id);
+            await cartManager.removeItem(this.product.id);
         }
         this.dispatchEvent(new CustomEvent("cart-updated", {bubbles: true, composed: true}));
+        this.requestUpdate();
     }
 
-    public deleteItem(): void {
+    public async deleteItem(): Promise<void> {
         const cartManager = CartManager.getInstance();
 
-        cartManager.removeItem(this.product.id);
+        await cartManager.removeItem(this.product.id);
         this.dispatchEvent(new CustomEvent("cart-updated", {bubbles: true, composed: true}));
+        this.requestUpdate();
     }
 
     public render(): TemplateResult {

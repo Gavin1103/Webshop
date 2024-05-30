@@ -57,7 +57,6 @@ export default css `
         transform: scale(1.1);
     }
 
-
     .navbar-right {
         width: 15%;
         display: flex;

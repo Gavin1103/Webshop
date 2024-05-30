@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class ProductSearchResultDTO {
     public Long id;
     public String name;

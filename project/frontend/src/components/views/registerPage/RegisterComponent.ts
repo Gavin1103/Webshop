@@ -66,7 +66,7 @@ export class RegisterComponent extends BaseAuthComponent {
                 ${this.createInput("password", this.confirmPassword, "confirmPassword", "Confirm password")}
                 ${this.renderErrors(this.errors)}
                 <button class="form-submit" type="submit">Register</button>
-                <p class="form-redirect-message">Already have an account? <a href="/login">login here</a></p>
+                <p class="form-redirect-message">Already have an account? <a @click=${this.goToLogin}>login here</a></p>
             </form>
         `;
     }

@@ -30,6 +30,9 @@ export class LoginComponent extends BaseAuthComponent {
         }
     }
 
+    private goToForgotPassword(): void {
+        navigateTo("/forgot-password");
+    }
 
     protected render(): TemplateResult {
         return html`
@@ -39,8 +42,8 @@ export class LoginComponent extends BaseAuthComponent {
         ${this.renderForm()}
         ${this.renderErrors(this.errors)}
         <button class="form-submit" type="submit">Login</button>
-        <p class="form-redirect-message">Don't have an account? <a href="/register">sign up here</a></p>
-        <p class="form-redirect-message"><a href="/forgot-password">Forgot password?</a></p>
+        <p class="form-redirect-message">Don't have an account? <a @click=${this.goToRegister}>sign up here</a></p>
+        <p class="form-redirect-message"><a @click=${this.goToForgotPassword}>Forgot password?</a></p>
 
       </form>
     `;

@@ -40,11 +40,15 @@ export class ProductsOverview extends LitElement {
 
     private async loadProducts(): Promise<void> {
         const productService: ProductService = new ProductService();
-        if (this.overviewType == OverviewType.category) {
-            this.productList = await productService.getFilteredProduct(this.filterRequest, this.param);
-        }
-        if (this.overviewType == OverviewType.search) {
-            this.productList = await productService.getFilteredProduct(this.filterRequest,undefined, this.param);
+        switch (this.overviewType) {
+            case OverviewType.category:
+                this.productList = await productService.getFilteredProduct(this.filterRequest, this.param);
+                break;
+            case OverviewType.search:
+                this.productList = await productService.getFilteredProduct(this.filterRequest, undefined, this.param);
+                break;
+            default:
+                break;
         }
         this.requestUpdate();
     }

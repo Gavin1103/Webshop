@@ -75,7 +75,6 @@ export class ProductService {
             }
         }
 
-
         if (presetQuery) {
             url += `name=${presetQuery}&`;
         }

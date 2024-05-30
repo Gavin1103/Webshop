@@ -110,6 +110,4 @@ public class ProductController {
         List<ProductSearchResultDTO> products = productService.searchProducts(keyword);
         return ResponseEntity.ok(products);
     }
-
-
 }

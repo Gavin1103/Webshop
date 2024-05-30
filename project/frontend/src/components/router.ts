@@ -43,7 +43,6 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
                 updatePath(context.pathname);
                 return commands.component("products-overview");
             }
-
         },
         {
             path: "/search/:query",

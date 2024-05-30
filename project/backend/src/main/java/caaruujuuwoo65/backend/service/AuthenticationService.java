@@ -1,6 +1,7 @@
 package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.AuthenticationResponse;
+import caaruujuuwoo65.backend.dto.ForgotPasswordResponse;
 import caaruujuuwoo65.backend.dto.JwtRequest;
 import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
 import caaruujuuwoo65.backend.model.ConfirmationToken;
@@ -231,7 +232,8 @@ public class AuthenticationService {
             ConfirmationToken confirmationToken = new ConfirmationToken(user);
             confirmationTokenRepository.save(confirmationToken);
 
-            return new ResponseEntity<>(AuthenticationResponse.builder()
+            return new ResponseEntity<>(ForgotPasswordResponse.builder()
+                .username(user.getFirstname() + " " + user.getLastname())
                 .confirmationToken(confirmationToken.getConfirmationToken())
                 .build(), HttpStatus.OK);
         }

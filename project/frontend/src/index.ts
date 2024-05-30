@@ -41,3 +41,4 @@ export * from "./tools/loadingIndicator";
 
 export * from "./components/views/unauthorizedPage/401Page";
 export * from "./components/views/emailConfirmationPage/EmailConfirmationComponent";
+export * from "./components/views/loginPage/forgotPasswordComponent"

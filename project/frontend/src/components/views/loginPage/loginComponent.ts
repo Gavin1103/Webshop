@@ -40,6 +40,8 @@ export class LoginComponent extends BaseAuthComponent {
         ${this.renderErrors(this.errors)}
         <button class="form-submit" type="submit">Login</button>
         <p class="form-redirect-message">Don't have an account? <a href="/register">sign up here</a></p>
+        <p class="form-redirect-message"><a href="/forgot-password">Forgot password?</a></p>
+
       </form>
     `;
     }

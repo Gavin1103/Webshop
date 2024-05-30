@@ -65,7 +65,6 @@ export default css `
         align-items: center;
     }
 
-
     .links {
         width: 20%;
         display: flex;

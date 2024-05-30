@@ -34,6 +34,7 @@ export class ResetPasswordComponent extends BaseAuthComponent {
         if(response.success){
             this.errors.push("Your password has been reset. You can now log in with your new password.");
             this.requestUpdate();
+            setTimeout(() => this.goToLogin(), 5000);
             return;
         }
         else if(!response.success && response.message){

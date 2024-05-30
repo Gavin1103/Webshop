@@ -167,6 +167,24 @@ export class UserService {
         return {success: true};
     }
 
+    public async resetPassword(confirmationToken: string, password: string): Promise<UserAuthResponse> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/reset-password?token=${confirmationToken}&password=${password}`, {
+            method: "post",
+            headers: {...headers},
+        });
+
+        if (!response.ok) {
+            if(response.status === 404) {
+                return {success: false, status: response.status, message: "Email does not exist"};
+            }
+            else {
+                return {success: false, status: response.status, "message": "Something went wrong"};
+            }
+        }
+
+        return {success: true};
+    }
+
     /**
      * Handles adding an order item to the cart of the current user. Requires a valid token.
      *

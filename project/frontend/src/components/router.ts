@@ -69,6 +69,14 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
+            path: "/reset-password/:token",
+            component: "reset-password-component",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("reset-password-component");
+            }
+        },
+        {
             path: '/confirmation/:id',
             component: 'email-confirmation',
             action: async (context: Context, commands: Commands): Promise<any> => {

@@ -255,6 +255,6 @@ public class AuthenticationService {
             userRepository.save(user);
             return new ResponseEntity<>("Password reset successfully", HttpStatus.OK);
         }
-        return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Token not found", HttpStatus.NOT_FOUND);
     }
 }

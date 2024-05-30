@@ -17,7 +17,9 @@ export class ForgotPasswordComponent extends BaseAuthComponent {
         const response = await userService.forgotPassword(this.email);
 
         if(response.success){
-            // handle success
+            this.errors.push("An email has been sent to you with a link to reset your password.");
+            this.requestUpdate();
+            return;
         }
         else if(!response.success && response.message){
             this.errors.push(response.message);

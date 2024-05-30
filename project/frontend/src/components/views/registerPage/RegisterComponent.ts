@@ -4,13 +4,12 @@ import {BaseAuthComponent} from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
 import {UserRegisterFormModel} from "../../../types/UserRegisterFormModel";
 import authInputStyle from "../../../styles/authentication/authInputStyle";
-import registerPage from "../../../styles/authentication/registerPage/registerStyle";
 import {navigateTo} from "../../router";
 import {UserAuthResponse} from "../../../types/UserAuthResponse";
 
 @customElement("register-component")
 export class RegisterComponent extends BaseAuthComponent {
-    public static styles = [authInputStyle, registerPage];
+    public static styles = [authInputStyle];
 
     protected async handleSubmit(e: Event): Promise<void> {
         e.preventDefault();

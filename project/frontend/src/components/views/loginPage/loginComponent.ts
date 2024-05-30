@@ -3,14 +3,13 @@ import {customElement} from "lit/decorators.js";
 import { BaseAuthComponent } from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
 import authInputStyle from "../../../styles/authentication/authInputStyle";
-import LoginStyle from "../../../styles/authentication/loginPage/loginStyle";
 import {navigateTo} from "../../router";
 import {UserAuthResponse} from "../../../types/UserAuthResponse";
 
 @customElement("login-component")
 export class LoginComponent extends BaseAuthComponent {
 
-    public static styles = [authInputStyle, LoginStyle];
+    public static styles = [authInputStyle];
 
     protected async handleSubmit(e: Event): Promise<void> {
         e.preventDefault();

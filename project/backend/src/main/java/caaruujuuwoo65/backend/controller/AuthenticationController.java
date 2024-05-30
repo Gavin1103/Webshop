@@ -85,7 +85,6 @@ public class AuthenticationController {
         return authenticationService.resetPassword(token, password);
     }
 
-
     @PreAuthorizeAdmin
     @GetMapping("/is-admin")
     public boolean isAdmin(){

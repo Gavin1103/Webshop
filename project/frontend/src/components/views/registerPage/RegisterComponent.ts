@@ -58,7 +58,7 @@ export class RegisterComponent extends BaseAuthComponent {
                 <h1 class="form-title">Register</h1>
                 <h3 class="form-message">Please enter your details</h3>
                 ${this.createInput("text", this.username, "username", "Username")}
-                ${this.createInput("text", this.phoneNumber, "phoneNumber", "Phone Number")}
+                <input class="form-input" required type="tel" .value="${this.phoneNumber}" @input="${(e: Event): void => this.updateField("phoneNumber", e)}" placeholder="Phone Number" pattern="^$|[0-9]{10}">
                 ${this.createInput("text", this.firstname, "firstname", "First Name")}
                 ${this.createInput("text", this.lastname, "lastname", "Last Name")}
                 ${this.renderForm()}

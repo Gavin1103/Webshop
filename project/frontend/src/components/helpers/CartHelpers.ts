@@ -10,40 +10,56 @@ export interface CartItem {
 }
 
 export class CartManager {
-    public static getCart(): CartItem[] {
+    private static instance: CartManager;
+    private items: CartItem[];
+
+    private constructor() {
+        this.items = this.getCartFromStorage();
+    }
+
+
+    public static getInstance(): CartManager {
+        if (!CartManager.instance) {
+            CartManager.instance = new CartManager();
+        }
+        return CartManager.instance;
+    }
+
+    private getCartFromStorage(): CartItem[] {
         const cart: string = localStorage.getItem("cart") as string;
         return cart ? JSON.parse(cart) : [];
     }
 
-    public static addItem(item: CartItem): void {
-        const items: CartItem[] = CartManager.getCart();
-        const index: number = items.findIndex(cartItem => cartItem.id === item.id);
+    public getCart(): CartItem[] {
+        return this.items;
+    }
+
+    public addItem(item: CartItem): void {
+        const index: number = this.items.findIndex(cartItem => cartItem.id === item.id);
         if (index > -1) {
-            items[index].quantity += item.quantity;
+            this.items[index].quantity += item.quantity;
         } else {
-            items.push(item);
+            this.items.push(item);
         }
-        CartManager.saveCart(items);
+        this.saveCart();
     }
 
-    public static updateItemQuantity(id: number, quantity: number): void {
-        const items: CartItem[] = CartManager.getCart();
-        const index: number = items.findIndex(item => item.id === id);
+    public updateItemQuantity(id: number, quantity: number): void {
+        const index: number = this.items.findIndex(item => item.id === id);
         if (index > -1 && quantity > 0) {
-            items[index].quantity = quantity;
-            CartManager.saveCart(items);
+            this.items[index].quantity = quantity;
+            this.saveCart();
         } else if (quantity === 0) {
-            CartManager.removeItem(id);
+            this.removeItem(id);
         }
     }
 
-    public static removeItem(id: number): void {
-        let items: CartItem[] = CartManager.getCart();
-        items = items.filter(item => item.id !== id);
-        CartManager.saveCart(items);
+    public removeItem(id: number): void {
+        this.items = this.items.filter(item => item.id !== id);
+        this.saveCart();
     }
 
-    private static saveCart(items: CartItem[]): void {
-        localStorage.setItem("cart", JSON.stringify(items));
+    private saveCart(): void {
+        localStorage.setItem("cart", JSON.stringify(this.items));
     }
 }

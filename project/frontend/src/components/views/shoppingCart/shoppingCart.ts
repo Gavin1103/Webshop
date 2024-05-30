@@ -13,12 +13,18 @@ export class ShoppingCart extends LitElement {
     private currentPath: string = "";
 
     @property({type: Array})
-    private products: CartItem[] = CartManager.getCart();
+    private products: CartItem[] = [];
 
     public connectedCallback(): void {
         super.connectedCallback();
         this.updateCurrentPath();
+        this.loadProducts();
         this.requestUpdate();
+    }
+
+    private loadProducts(): void {
+        const cartManager = CartManager.getInstance();
+        this.products = cartManager.getCart();
     }
 
     private updateCurrentPath = (): void => {

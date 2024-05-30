@@ -63,10 +63,13 @@ export class ShowcaseSection extends LitElement {
     }
 
     public loadItems(): void {
-        this.items = CartManager.getCart();
+        const cartManager = CartManager.getInstance();
+        this.items = cartManager.getCart();
     }
 
     public addItemToCart(product: ProductPreviewResponse): void {
+        const cartManager = CartManager.getInstance();
+
         const newItem: CartItem = {
             id: product.id,
             name: product.name,
@@ -75,7 +78,7 @@ export class ShowcaseSection extends LitElement {
             price: product.price,
             imageSrc: product.image
         };
-        CartManager.addItem(newItem);
+        cartManager.addItem(newItem);
         this.loadItems();
         this.redirectToCart();
     }

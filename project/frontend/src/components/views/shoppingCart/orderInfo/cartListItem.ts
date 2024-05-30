@@ -16,21 +16,26 @@ export class CartListItem extends LitElement {
 
 
     public increaseQuantity(): void {
-        CartManager.updateItemQuantity(this.product.id, this.product.quantity + 1);
+        const cartManager = CartManager.getInstance();
+        cartManager.updateItemQuantity(this.product.id, this.product.quantity + 1);
         this.dispatchEvent(new CustomEvent("cart-updated", {bubbles: true, composed: true}));
     }
 
     public decreaseQuantity(): void {
+        const cartManager = CartManager.getInstance();
+
         if (this.product.quantity > 1) {
-            CartManager.updateItemQuantity(this.product.id, this.product.quantity - 1);
+            cartManager.updateItemQuantity(this.product.id, this.product.quantity - 1);
         } else {
-            CartManager.removeItem(this.product.id);
+            cartManager.removeItem(this.product.id);
         }
         this.dispatchEvent(new CustomEvent("cart-updated", {bubbles: true, composed: true}));
     }
 
     public deleteItem(): void {
-        CartManager.removeItem(this.product.id);
+        const cartManager = CartManager.getInstance();
+
+        cartManager.removeItem(this.product.id);
         this.dispatchEvent(new CustomEvent("cart-updated", {bubbles: true, composed: true}));
     }
 

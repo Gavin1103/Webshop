@@ -5,7 +5,6 @@ import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
 import {Router} from "@vaadin/router";
 import {CartItem, CartManager} from "../../helpers/CartHelpers";
-import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
 import {itemType} from "../../../enums/itemTypeEnum";
 import {navigateTo} from "../../router";
 
@@ -66,13 +65,13 @@ export class ShowcaseSection extends LitElement {
         this.items = CartManager.getCart();
     }
 
-    public addItemToCart(product: ProductPreviewResponse): void {
+    public addItemToCart(product: ProductOverviewResponse): void {
         const newItem: CartItem = {
             id: product.id,
             name: product.name,
             quantity: 1,
             type: itemType.GAME,
-            price: product.price,
+            price: product.currentPrice,
             imageSrc: product.image
         };
         CartManager.addItem(newItem);
@@ -188,7 +187,7 @@ export class ShowcaseSection extends LitElement {
 
                             <div class="info-right">
                                 <span class="price">
-                                    €${product.price}
+                                    €${product.currentPrice}
                                 </span>
                                 <img @click="${(): void => this.addItemToCart(product)}" class="cart-button" src="/assets/image/icons/shopping-bag.svg"/ alt="add to cart">
                             </div>

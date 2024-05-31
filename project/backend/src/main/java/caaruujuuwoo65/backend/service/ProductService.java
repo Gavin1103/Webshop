@@ -1,17 +1,16 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
-import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
-import caaruujuuwoo65.backend.dto.product.ProductDTO;
-import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
+import caaruujuuwoo65.backend.dto.product.*;
 import caaruujuuwoo65.backend.dto.product.category.CategoryPreviewDTO;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.repository.ProductRepository;
 import jakarta.persistence.criteria.Predicate;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,16 +28,22 @@ public class ProductService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     public List<ProductDTO> getAllProducts() {
         List<Product> products = productRepository.findAll();
+        products.forEach(product -> {
+            Hibernate.initialize(product.getImage());
+        });
         return products.stream()
             .map(product -> modelMapper.map(product, ProductDTO.class))
             .collect(Collectors.toList());
+
     }
 
     public List<ProductPreviewDTO> getTopDeals() {
-        List<Product> products = productRepository.findTop10ByOrderByPriceAsc();
+        List<Product> products = productRepository.findAll();
         return products.stream()
+            .filter(Product::isOnSale)
             .map(product -> modelMapper.map(product, ProductPreviewDTO.class))
             .collect(Collectors.toList());
     }
@@ -106,5 +111,10 @@ public class ProductService {
             .distinct()
             .map(category -> modelMapper.map(category, CategoryPreviewDTO.class))
             .collect(Collectors.toList());
+    }
+
+    public Product createProduct(CreateProductDTO productDTO) {
+        Product product = modelMapper.map(productDTO, Product.class);
+        return productRepository.save(product);
     }
 }

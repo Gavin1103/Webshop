@@ -28,13 +28,21 @@ export class ProductCarouselSection extends LitElement {
         this.items = CartManager.getCart();
     }
 
+    public calculateDiscount(product: ProductPreviewResponse): string | null {
+        if (product.originalPrice <= product.currentPrice) {
+            return null;
+        }
+        const discount: number = Math.floor(((product.originalPrice - product.currentPrice) / product.originalPrice) * 100);
+        return "-" + discount + "%";
+    }
+
     public addItemToCart(product: ProductPreviewResponse): void {
         const newItem: CartItem = {
             id: product.id,
             name: product.name,
             quantity: 1,
             type: itemType.GAME,
-            price: product.price,
+            price: product.currentPrice,
             imageSrc: product.image
         };
         CartManager.addItem(newItem);
@@ -64,14 +72,20 @@ export class ProductCarouselSection extends LitElement {
             <section class="product-carousel">
                 ${this.productsData? this.productsData.map(product => html`
                     <div class="product-card" tabindex="1">
+                        ${this.calculateDiscount(product) ? html `
+                            <span class="discount">${this.calculateDiscount(product)}</span>
+                        ` : ""}
                         <img class="product-image" @click=${() => this.redirectToDetailPage(product.id)} src="${product.image}" alt="${product.name}">
-                        <div class="product-info">
-                            <span class="product-name">${product.name}</span>
-                            <span class="product-price">$${product.price}</span>
-                            <img tabindex="1" @click="${(): void => this.addItemToCart(product)}"
-                                 class="add-to-cart-button"
-                                 src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
+                        <div class="product-name">
+                            <span>${product.name}</span>
                         </div>
+                        <div class="product-price">
+                            <span class="product-price-original">${product.originalPrice > product.currentPrice + 1 ? "$ " + product.originalPrice : ""}</span>
+                            <span class="product-price-current">$${product.currentPrice}</span>
+                        </div>
+                        <img tabindex="1" @click="${(): void => this.addItemToCart(product)}"
+                             class="add-to-cart-button"
+                             src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
                     </div>
                 `) : ""}
                 </div>

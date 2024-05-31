@@ -4,7 +4,6 @@ import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
 import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
-import caaruujuuwoo65.backend.dto.product.category.CategoryPreviewDTO;
 import caaruujuuwoo65.backend.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

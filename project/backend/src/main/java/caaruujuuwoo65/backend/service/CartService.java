@@ -97,8 +97,8 @@ public class CartService {
             cartItem.setProduct(productOptional.get());
             cartItem.setCart(cart);
             cartItem.setQuantity(itemDTO.getQuantity());
-            cartItem.setUnitPrice(productOptional.get().getPrice());
-            cartItem.setTotalPrice(productOptional.get().getPrice().multiply(BigDecimal.valueOf(itemDTO.getQuantity())));
+            cartItem.setUnitPrice(productOptional.get().getCurrentPrice());
+            cartItem.setTotalPrice(productOptional.get().getCurrentPrice().multiply(BigDecimal.valueOf(itemDTO.getQuantity())));
             return cartItem;
         }).collect(Collectors.toSet());
 

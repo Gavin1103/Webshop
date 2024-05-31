@@ -153,7 +153,7 @@ export class ProductDetailPage extends LitElement {
 
                 <section class="button-section">
                     <section>
-                        <p>$${this.product.price}</p>
+                        <p>$${this.product.currentPrice}</p>
                         <!-- TODO: add product to cart -->
                         <custom-button-component @click="${this.addToCart}" text="Add to cart">
                         </custom-button-component>

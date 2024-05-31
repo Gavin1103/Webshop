@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.dto.product.category;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

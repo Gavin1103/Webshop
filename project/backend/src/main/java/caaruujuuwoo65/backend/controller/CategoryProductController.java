@@ -86,5 +86,9 @@ public class CategoryProductController {
 
     }
 
-
+    @GetMapping("/discounted-products")
+    public ResponseEntity<List<CategoryPreviewDTO>> getDiscountedProducts() {
+        List<CategoryPreviewDTO> categoryPreviewDTO = productService.getCategoriesWithDiscountedProducts();
+        return new ResponseEntity<>(categoryPreviewDTO, HttpStatus.OK);
+    }
 }

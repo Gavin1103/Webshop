@@ -1,10 +1,7 @@
 package caaruujuuwoo65.backend.service;
 
 
-import caaruujuuwoo65.backend.dto.product.category.CategoryWithImageDTO;
-import caaruujuuwoo65.backend.dto.product.category.CategoryWithProductsDTO;
-import caaruujuuwoo65.backend.dto.product.category.CreateProductCategoryDTO;
-import caaruujuuwoo65.backend.dto.product.category.ProductCategoryDTO;
+import caaruujuuwoo65.backend.dto.product.category.*;
 import caaruujuuwoo65.backend.model.ProductCategory;
 import caaruujuuwoo65.backend.repository.ProductCategoryRepository;
 import org.modelmapper.ModelMapper;

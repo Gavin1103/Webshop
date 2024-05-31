@@ -44,6 +44,22 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
+            path: "/promotion",
+            component: "products-overview",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("products-overview");
+            }
+        },
+        {
+            path: "/allProducts",
+            component: "products-overview",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("products-overview");
+            }
+        },
+        {
             path: "/search/:query",
             component: "products-overview",
             action: (context: Context, commands: Commands): any => {

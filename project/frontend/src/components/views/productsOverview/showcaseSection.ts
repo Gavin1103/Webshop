@@ -14,10 +14,10 @@ export class ShowcaseSection extends LitElement {
     public static styles = [showcaseSectionStyle];
 
     @property({type: String})
-    public overViewType: string | undefined;
+    public header: string | undefined;
 
     @property({type: String})
-    public param: string | undefined;
+    public subHeader: string | undefined;
 
     @property({type: String})
     private productList: ProductOverviewResponse[] | undefined;
@@ -166,8 +166,8 @@ export class ShowcaseSection extends LitElement {
     public render(): TemplateResult {
         return html`
             <div class="header">
-                <span class="title">${this.capitalizeFirstLetter(this.overViewType)}</span>
-                <span class="sub-title">/${this.param}</span>
+                <span class="title">${this.capitalizeFirstLetter(this.header)}</span>
+                <span class="sub-title">/${this.subHeader}</span>
             </div>
             <div class="filter-results">
                 ${this.renderCategories()}

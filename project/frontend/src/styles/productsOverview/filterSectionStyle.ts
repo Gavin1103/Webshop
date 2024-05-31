@@ -2,6 +2,7 @@ import {css} from "lit";
 
 export default css `
     .filter-section {
+        margin-left: 2vw;
         padding: 20px;
         border-radius: 10px;
         background-color: #E6E6E6;
@@ -24,7 +25,7 @@ export default css `
         transition: box-shadow 0.3s, transform 0.3s;
 
         .title {
-            font-weight: bolder;
+            font-weight: lighter;
             font-size: xx-large;
         }
     }
@@ -49,7 +50,7 @@ export default css `
 
     .price-separator {
         font-size: x-large;
-        font-weight: normal;
+        font-weight: lighter;
     }
 
     .price-range input[type="number"] {

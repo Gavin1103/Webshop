@@ -17,6 +17,9 @@ export class ProductCarouselSection extends LitElement {
     @property({type: Array})
     public productsData: ProductPreviewResponse[] = [];
 
+    @property({type: String})
+    public redirectUrl: string | undefined;
+
     public static styles = [productCarouselSectionStyle];
 
     public connectedCallback(): void {
@@ -59,11 +62,17 @@ export class ProductCarouselSection extends LitElement {
         navigateTo("/cart")
     }
 
+    private redirectToSeeMore(): void {
+        if (this.redirectUrl) {
+            navigateTo(this.redirectUrl);
+        }
+    }
+
     public render(): TemplateResult {
         return html`
             <div class="header-container">
                 <span class="title">${this.title}</span>
-                <div class="header-actions">
+                <div  @click="${this.redirectToSeeMore}" class="header-actions">
                     <span tabindex="1" class="action-text">See More</span>
                     <img class="action-icon" src="/assets/image/icons/chevron-right.svg" alt="see more">
                 </div>

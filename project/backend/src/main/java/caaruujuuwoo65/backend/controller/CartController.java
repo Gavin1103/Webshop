@@ -9,6 +9,7 @@ import caaruujuuwoo65.backend.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,7 @@ public class CartController {
         @ApiResponse(responseCode = "404", description = "Cart not found"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<CartDTO> updateCart(@RequestBody UpdateCartDTO updateCartDTO) {
+    public ResponseEntity<CartDTO> updateCart(@Valid @RequestBody UpdateCartDTO updateCartDTO) {
         return cartService.updateCart(updateCartDTO);
     }
 

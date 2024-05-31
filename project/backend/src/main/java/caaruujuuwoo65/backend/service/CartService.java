@@ -92,13 +92,13 @@ public class CartService {
             CartItem cartItem;
             if (existingCartItemOptional.isPresent()) {
                 cartItem = existingCartItemOptional.get();
-                cartItem.setQuantity(itemDTO.getQuantity()); // Set the quantity directly
+                cartItem.setQuantity(itemDTO.getQuantity());
             } else {
                 cartItem = new CartItem();
                 cartItem.setProduct(product);
                 cartItem.setCart(cart);
                 cartItem.setQuantity(itemDTO.getQuantity());
-                cart.getCartItems().add(cartItem); // Ensure new items are added to the cart
+                cart.getCartItems().add(cartItem);
             }
 
             cartItem.setUnitPrice(product.getPrice());

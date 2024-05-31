@@ -20,6 +20,17 @@ export class ShoppingCart extends LitElement {
         super.connectedCallback();
         this.updateCurrentPath();
         void this.loadProducts();
+        this.addEventListener("cart-updated", this.handleCartUpdated);
+        this.requestUpdate();
+    }
+
+    public disconnectedCallback(): void {
+        super.disconnectedCallback();
+        this.removeEventListener("cart-updated", this.handleCartUpdated);
+    }
+
+    private handleCartUpdated = (): void => {
+        void this.loadProducts();
         this.requestUpdate();
     }
 

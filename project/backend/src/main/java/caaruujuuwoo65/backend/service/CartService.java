@@ -79,7 +79,7 @@ public class CartService {
         Cart cart = cartOptional.get();
 
         // Create a temporary collection to hold the updated items
-        Set<CartItem> updatedCartItems = updateCartDTO.getItems().stream().map(itemDTO -> {
+        Set<CartItem> updatedCartItems = updateCartDTO.getCartItems().stream().map(itemDTO -> {
             Optional<Product> productOptional = productRepository.findById(itemDTO.getProductId());
             if (!productOptional.isPresent()) {
                 throw new RuntimeException("Product not found");
@@ -92,7 +92,7 @@ public class CartService {
             CartItem cartItem;
             if (existingCartItemOptional.isPresent()) {
                 cartItem = existingCartItemOptional.get();
-                cartItem.setQuantity(cartItem.getQuantity() + itemDTO.getQuantity());
+                cartItem.setQuantity(itemDTO.getQuantity()); // Set the quantity directly
             } else {
                 cartItem = new CartItem();
                 cartItem.setProduct(product);
@@ -114,6 +114,7 @@ public class CartService {
         CartDTO cartDTO = modelMapper.map(updatedCart, CartDTO.class);
         return new ResponseEntity<>(cartDTO, HttpStatus.OK);
     }
+
 
     /**
      * Deletes the cart for the current user.

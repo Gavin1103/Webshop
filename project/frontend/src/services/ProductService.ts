@@ -37,8 +37,6 @@ export class ProductService {
             method: "GET",
         });
 
-        console.log(response.json(), "response");
-
         if (!response.ok) {
             return undefined;
         }

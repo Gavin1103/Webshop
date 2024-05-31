@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Data Transfer Object for updating an existing cart.
@@ -13,5 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class UpdateCartDTO {
-    private List<CartItemDTO> items;
+    private Long cartId;
+    private Long userId;
+    private Set<CartItemDTO> cartItems;
 }

@@ -1,4 +1,4 @@
-import {Cart, ProductItem} from "../interfaces/Cart";
+import {Cart} from "../interfaces/Cart";
 import {TokenService} from "./TokenService";
 
 
@@ -29,7 +29,7 @@ export class CartService {
         return this.handleResponse(response);
     }
 
-    async updateCart(updateCart: Cart): Promise<ProductItem[]> {
+    async updateCart(updateCart: Cart): Promise<Cart> {
         const response = await fetch(`${viteConfiguration.API_URL}/cart/`, {
             method: 'PUT',
             headers: this.headers,

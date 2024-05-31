@@ -19,8 +19,8 @@ public class ConfirmationToken {
 
     private String confirmationToken;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public ConfirmationToken(User user) {

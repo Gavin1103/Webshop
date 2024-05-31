@@ -3,14 +3,13 @@ import {customElement} from "lit/decorators.js";
 import { BaseAuthComponent } from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
 import authInputStyle from "../../../styles/authentication/authInputStyle";
-import LoginStyle from "../../../styles/authentication/loginPage/loginStyle";
 import {navigateTo} from "../../router";
 import {UserAuthResponse} from "../../../types/UserAuthResponse";
 
 @customElement("login-component")
 export class LoginComponent extends BaseAuthComponent {
 
-    public static styles = [authInputStyle, LoginStyle];
+    public static styles = [authInputStyle];
 
     protected async handleSubmit(e: Event): Promise<void> {
         e.preventDefault();
@@ -30,6 +29,9 @@ export class LoginComponent extends BaseAuthComponent {
         }
     }
 
+    private goToForgotPassword(): void {
+        navigateTo("/forgot-password");
+    }
 
     protected render(): TemplateResult {
         return html`
@@ -39,7 +41,9 @@ export class LoginComponent extends BaseAuthComponent {
         ${this.renderForm()}
         ${this.renderErrors(this.errors)}
         <button class="form-submit" type="submit">Login</button>
-        <p class="form-redirect-message">Don't have an account? <a href="/register">sign up here</a></p>
+        <p class="form-redirect-message">Don't have an account? <a @click=${this.goToRegister}>sign up here</a></p>
+        <p class="form-redirect-message"><a @click=${this.goToForgotPassword}>Forgot password?</a></p>
+
       </form>
     `;
     }

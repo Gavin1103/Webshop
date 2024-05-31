@@ -1,6 +1,7 @@
 package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.AuthenticationResponse;
+import caaruujuuwoo65.backend.dto.ForgotPasswordResponse;
 import caaruujuuwoo65.backend.dto.JwtRequest;
 import caaruujuuwoo65.backend.dto.user.CreateUserDTO;
 import caaruujuuwoo65.backend.model.ConfirmationToken;
@@ -200,6 +201,12 @@ public class AuthenticationService {
         return null;
     }
 
+    /**
+     * Confirms the user's account.
+     *
+     * @param confirmationToken the confirmation token
+     * @return a ResponseEntity containing a success message if the account is confirmed, or an error message with an appropriate HTTP status code if the account is not confirmed
+     */
     public ResponseEntity<?> confirmUserAccount(String confirmationToken) {
         ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
@@ -211,5 +218,43 @@ public class AuthenticationService {
         } else {
             return new ResponseEntity<>("The link is invalid or broken!", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * Processes the forgot password request.
+     *
+     * @param email the email address
+     * @return a ResponseEntity containing the confirmation token if the user exists, or an error message with an appropriate HTTP status code if the user does not exist
+     */
+    public ResponseEntity<?> forgotPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            ConfirmationToken confirmationToken = new ConfirmationToken(user);
+            confirmationTokenRepository.save(confirmationToken);
+
+            return new ResponseEntity<>(ForgotPasswordResponse.builder()
+                .username(user.getFirstname() + " " + user.getLastname())
+                .confirmationToken(confirmationToken.getConfirmationToken())
+                .build(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Resets the user's password.
+     *
+     * @param token       the token
+     * @param newPassword the new password
+     * @return a response entity, containing a success message if the password is reset, or an error message with an appropriate HTTP status code if the password is not reset
+     */
+    public ResponseEntity<String> resetPassword(String token, String newPassword) {
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findByConfirmationToken(token);
+        if (confirmationToken != null) {
+            User user = userRepository.findByEmail(confirmationToken.getUser().getEmail());
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            return new ResponseEntity<>("Password reset successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Token not found", HttpStatus.NOT_FOUND);
     }
 }

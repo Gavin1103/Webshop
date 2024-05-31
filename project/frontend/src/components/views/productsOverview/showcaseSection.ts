@@ -58,7 +58,7 @@ export class ShowcaseSection extends LitElement {
         this.dispatchEvent(event);
     }
 
-    public redirectToDetailPage(productId: number): void {
+    public redirectToDetailPage(productId:number):void{
         navigateTo(`/product-detail-page/${productId}`)
     }
 

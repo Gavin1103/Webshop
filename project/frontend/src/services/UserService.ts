@@ -6,6 +6,7 @@ import {api} from "@hboictcloud/api";
 import {Email} from "../types/Email";
 import {UserAuthResponse} from "../types/UserAuthResponse";
 import {RegistrationEmail} from "../types/RegistrationEmail";
+import {ForgotPasswordEmail} from "../types/ForgotPasswordEmail";
 
 
 const headers: { "Content-Type": string } = {
@@ -136,6 +137,79 @@ export class UserService {
         }
 
         return true;
+    }
+
+    public async forgotPassword(userEmail: string): Promise<UserAuthResponse> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/forgot-password?email=${userEmail}`, {
+            method: "post",
+            headers: {...headers},
+        });
+
+        if (!response.ok) {
+            if(response.status === 404) {
+                return {success: false, status: response.status, message: "Email does not exist"};
+            }
+        }
+
+        const json: {
+            username: string | undefined, confirmation_token: string | undefined
+        } = await response.json();
+
+        if(json.username && json.confirmation_token){
+            const email: Email = new Email();
+            email.to = [{name: json.username, address: userEmail}];
+            email.subject = "Forgot password.";
+            email.html = new ForgotPasswordEmail(json.username, json.confirmation_token).generateEmail();
+
+            await this.sendEmail(email);
+        }
+
+        return {success: true};
+    }
+
+    public async resetPassword(confirmationToken: string, password: string): Promise<UserAuthResponse> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/auth/reset-password?token=${confirmationToken}&password=${password}`, {
+            method: "post",
+            headers: {...headers},
+        });
+
+        if (!response.ok) {
+            if(response.status === 404) {
+                return {success: false, status: response.status, message: "Email does not exist"};
+            }
+            else {
+                return {success: false, status: response.status, "message": "Something went wrong"};
+            }
+        }
+
+        return {success: true};
+    }
+
+    /**
+     * Handles adding an order item to the cart of the current user. Requires a valid token.
+     *
+     * @returns Current number of order items in the cart when successful, otherwise `false`.
+     * @returns Current number of order items in the shoppingCart when successful, otherwise `false`.
+     */
+    public async addOrderItemToCart(id: number): Promise<number | undefined> {
+        const token: string | undefined = this._tokenService.getToken();
+
+        if (!token) {
+            return undefined;
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/users/cart/${id}`, {
+            method: "post",
+            headers: {...headers, authorization: token},
+        });
+
+        if (!response.ok) {
+            console.error(response);
+
+            return undefined;
+        }
+
+        return (await response.json()) as number;
     }
 
     private async sendEmail(email: Email): Promise<void> {

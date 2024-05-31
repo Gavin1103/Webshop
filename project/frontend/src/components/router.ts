@@ -15,7 +15,6 @@ let router: Router;
 const _tokenService = new TokenService();
 const _userservice = new UserService();
 
-
 export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outlet: HTMLElement): Promise<Router> => {
     router = new Router(outlet);
 
@@ -59,6 +58,22 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             action: (context: Context, commands: Commands): any => {
                 updatePath(context.pathname);
                 return commands.component("login-component");
+            }
+        },
+        {
+            path: "/forgot-password",
+            component: "forgot-password-component",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("forgot-password-component");
+            }
+        },
+        {
+            path: "/reset-password/:token",
+            component: "reset-password-component",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("reset-password-component");
             }
         },
         {

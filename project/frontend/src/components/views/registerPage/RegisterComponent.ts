@@ -4,13 +4,12 @@ import {BaseAuthComponent} from "../../BaseAuthComponent";
 import {UserService} from "../../../services/UserService";
 import {UserRegisterFormModel} from "../../../types/UserRegisterFormModel";
 import authInputStyle from "../../../styles/authentication/authInputStyle";
-import registerPage from "../../../styles/authentication/registerPage/registerStyle";
 import {navigateTo} from "../../router";
 import {UserAuthResponse} from "../../../types/UserAuthResponse";
 
 @customElement("register-component")
 export class RegisterComponent extends BaseAuthComponent {
-    public static styles = [authInputStyle, registerPage];
+    public static styles = [authInputStyle];
 
     protected async handleSubmit(e: Event): Promise<void> {
         e.preventDefault();
@@ -58,7 +57,7 @@ export class RegisterComponent extends BaseAuthComponent {
                 <h1 class="form-title">Register</h1>
                 <h3 class="form-message">Please enter your details</h3>
                 ${this.createInput("text", this.username, "username", "Username")}
-                ${this.createInput("text", this.phoneNumber, "phoneNumber", "Phone Number")}
+                <input class="form-input" required type="tel" .value="${this.phoneNumber}" @input="${(e: Event): void => this.updateField("phoneNumber", e)}" placeholder="Phone Number" pattern="^$|[0-9]{10}">
                 ${this.createInput("text", this.firstname, "firstname", "First Name")}
                 ${this.createInput("text", this.lastname, "lastname", "Last Name")}
                 ${this.renderForm()}
@@ -66,7 +65,7 @@ export class RegisterComponent extends BaseAuthComponent {
                 ${this.createInput("password", this.confirmPassword, "confirmPassword", "Confirm password")}
                 ${this.renderErrors(this.errors)}
                 <button class="form-submit" type="submit">Register</button>
-                <p class="form-redirect-message">Already have an account? <a href="/login">login here</a></p>
+                <p class="form-redirect-message">Already have an account? <a @click=${this.goToLogin}>login here</a></p>
             </form>
         `;
     }

@@ -1,5 +1,6 @@
 import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {navigateTo} from "../../router";
 
 @customElement('email-confirmation')
 export class EmailConfirmation extends LitElement {
@@ -22,6 +23,11 @@ export class EmailConfirmation extends LitElement {
             color: #666;
         }
     `;
+
+    connectedCallback() {
+        super.connectedCallback();
+        setTimeout(() => navigateTo("/login"), 5000);
+    }
 
     render() {
         return html`

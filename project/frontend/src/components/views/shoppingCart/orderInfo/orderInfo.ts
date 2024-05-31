@@ -9,10 +9,14 @@ export class OrderInfo extends LitElement {
     public static styles = [OrderInfoStyle];
 
     @property({type: Object})
-    private products!: Cart;
+    private products!: Cart | ProductItem[];
+
+    private getProductItems(): ProductItem[] {
+        return "cartItems" in this.products ? mapCartItems(this.products) : this.products;
+    }
 
     protected render(): TemplateResult {
-        const productItems: ProductItem[] = mapCartItems(this.products);
+        const productItems = this.getProductItems();
 
         return html`
             <div class="order-info-wrapper">

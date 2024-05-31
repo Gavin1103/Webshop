@@ -33,7 +33,7 @@ export class ProductCarouselSection extends LitElement {
         console.log(newItem);
 
         await cartManager.addItem(newItem);
-        this.redirectToCart();
+        // this.redirectToCart();
     }
 
 
@@ -41,9 +41,9 @@ export class ProductCarouselSection extends LitElement {
         navigateTo(`/product-detail-page/${productId}`)
     }
 
-    private redirectToCart(): void {
-        navigateTo("/cart")
-    }
+    // private redirectToCart(): void {
+    //     navigateTo("/cart")
+    // }
 
     public render(): TemplateResult {
         return html`

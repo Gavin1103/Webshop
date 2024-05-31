@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import categoryGridSectionStyle from "../../../styles/homePage/categoryGridSectionStyle";
 import {CategoryResponse} from "../../../types/CategoryResponse";
-import {Router} from "@vaadin/router";
+import {navigateTo} from "../../router";
 
 @customElement("category-grid-section")
 export class CategoryGridSection extends LitElement {
@@ -10,7 +10,7 @@ export class CategoryGridSection extends LitElement {
     public categoryList: CategoryResponse[] | undefined;
 
     private redirectToCategoryPage(name: string): void {
-        Router.go(`category/${name}`);
+        navigateTo(`/category/${name}`);
     }
 
     public static styles = [categoryGridSectionStyle];

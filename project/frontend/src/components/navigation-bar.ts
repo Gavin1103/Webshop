@@ -48,17 +48,29 @@ export class NavigationBar extends LitElement {
         navigateTo("/cart");
     }
 
+    private goToHome(): void {
+        navigateTo("/");
+    }
+
     public render(): TemplateResult {
         return html`
             <nav class="navigation">
+                <div class="navbar-right">
+                    <img
+                        @click=${this.toggleSidebar}
+                        @keydown=${(e: KeyboardEvent): void => {
+                            if (e.key === "Enter") this.toggleSidebar();
+                        }}
+                        class="icon" src="/assets/image/icons/menu-icon.svg" alt="Side menu button"
+                        tabindex="0"
+                    >
 
-                <img
-                    @click=${this.toggleSidebar}
-                    @keydown=${(e: KeyboardEvent): void => {
-                        if (e.key === "Enter") this.toggleSidebar();
-                    }}
-                    class="icon" src="../assets/image/icons/menu-icon.svg" alt="Side menu button"
-                    tabindex="0">
+                    <img
+                        @click=${this.goToHome}
+                        class="icon" src="/assets/image/icons/home.svg" alt="home button"
+                        tabindex="0"
+                    >
+                </div>
 
                 <search-bar></search-bar>
 

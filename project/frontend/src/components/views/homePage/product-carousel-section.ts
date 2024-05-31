@@ -2,9 +2,9 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
 import {CartItem, CartManager} from "../../helpers/CartHelpers";
-import { Router } from "@vaadin/router";
 import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
 import {itemType} from "../../../enums/itemTypeEnum";
+import {navigateTo} from "../../router";
 
 @customElement("product-carousel-section")
 export class ProductCarouselSection extends LitElement {
@@ -44,11 +44,11 @@ export class ProductCarouselSection extends LitElement {
 
 
     public redirectToDetailPage(productId:number):void{
-        Router.go(`/product-detail-page?productId=${productId}`)
+        navigateTo(`/product-detail-page/${productId}`)
     }
 
     private redirectToCart(): void {
-        Router.go(`cart`);
+        navigateTo("/cart")
     }
 
     public render(): TemplateResult {

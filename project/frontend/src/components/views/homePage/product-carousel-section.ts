@@ -1,10 +1,10 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
-import {CartItem, CartManager} from "../../helpers/CartHelpers";
+import {CartManager} from "../../helpers/CartHelpers";
 import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
-import {itemType} from "../../../enums/itemTypeEnum";
 import {navigateTo} from "../../router";
+import {ProductItem} from "../../../interfaces/Cart";
 
 @customElement("product-carousel-section")
 export class ProductCarouselSection extends LitElement {
@@ -23,13 +23,11 @@ export class ProductCarouselSection extends LitElement {
     public async addItemToCart(product: ProductPreviewResponse): Promise<void> {
         const cartManager = CartManager.getInstance();
 
-        const newItem: CartItem = {
-            id: product.id,
-            name: product.name,
+        const newItem: ProductItem = {
+            productId: product.id,
             quantity: 1,
-            type: itemType.GAME,
-            price: product.price,
-            imageSrc: product.image
+            unitPrice: product.price,
+            totalPrice: product.price
         };
         await cartManager.addItem(newItem);
         this.redirectToCart();

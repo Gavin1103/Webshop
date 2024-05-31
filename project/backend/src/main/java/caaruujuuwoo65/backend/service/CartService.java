@@ -77,22 +77,40 @@ public class CartService {
         }
 
         Cart cart = cartOptional.get();
+
+        // Create a temporary collection to hold the updated items
         Set<CartItem> updatedCartItems = updateCartDTO.getItems().stream().map(itemDTO -> {
             Optional<Product> productOptional = productRepository.findById(itemDTO.getProductId());
             if (!productOptional.isPresent()) {
                 throw new RuntimeException("Product not found");
             }
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct(productOptional.get());
-            cartItem.setCart(cart);
-            cartItem.setQuantity(itemDTO.getQuantity());
-            cartItem.setUnitPrice(productOptional.get().getPrice());
-            cartItem.setTotalPrice(productOptional.get().getPrice().multiply(BigDecimal.valueOf(itemDTO.getQuantity())));
+            Product product = productOptional.get();
+            Optional<CartItem> existingCartItemOptional = cart.getCartItems().stream()
+                .filter(cartItem -> cartItem.getProduct().getProductId().equals(itemDTO.getProductId()))
+                .findFirst();
+
+            CartItem cartItem;
+            if (existingCartItemOptional.isPresent()) {
+                cartItem = existingCartItemOptional.get();
+                cartItem.setQuantity(cartItem.getQuantity() + itemDTO.getQuantity());
+            } else {
+                cartItem = new CartItem();
+                cartItem.setProduct(product);
+                cartItem.setCart(cart);
+                cartItem.setQuantity(itemDTO.getQuantity());
+                cart.getCartItems().add(cartItem); // Ensure new items are added to the cart
+            }
+
+            cartItem.setUnitPrice(product.getPrice());
+            cartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
             return cartItem;
         }).collect(Collectors.toSet());
 
-        cart.setCartItems(updatedCartItems);
+        // Update the existing collection in-place
+        cart.getCartItems().clear();
+        cart.getCartItems().addAll(updatedCartItems);
         Cart updatedCart = cartRepository.save(cart);
+
         CartDTO cartDTO = modelMapper.map(updatedCart, CartDTO.class);
         return new ResponseEntity<>(cartDTO, HttpStatus.OK);
     }

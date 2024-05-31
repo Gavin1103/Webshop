@@ -4,10 +4,10 @@ import showcaseSectionStyle from "../../../styles/productsOverview/showcaseSecti
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
 import {Router} from "@vaadin/router";
-import {CartItem, CartManager} from "../../helpers/CartHelpers";
+import {CartManager} from "../../helpers/CartHelpers";
 import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
-import {itemType} from "../../../enums/itemTypeEnum";
 import {navigateTo} from "../../router";
+import {Cart, ProductItem} from "../../../interfaces/Cart";
 
 @customElement("showcase-section")
 export class ShowcaseSection extends LitElement {
@@ -27,7 +27,7 @@ export class ShowcaseSection extends LitElement {
 
     private deleteButtonPath: string = "/assets/image/icons/close-icon.svg";
 
-    public items: CartItem[] = [];
+    public items: Cart | ProductItem[] = [];
 
     private capitalizeFirstLetter(str: string | undefined): string | undefined {
         if (!str) {
@@ -70,13 +70,11 @@ export class ShowcaseSection extends LitElement {
     public async addItemToCart(product: ProductPreviewResponse): Promise<void> {
         const cartManager = CartManager.getInstance();
 
-        const newItem: CartItem = {
-            id: product.id,
-            name: product.name,
+        const newItem: ProductItem = {
+            productId: product.id,
             quantity: 1,
-            type: itemType.GAME,
-            price: product.price,
-            imageSrc: product.image
+            unitPrice: product.price,
+            totalPrice: product.price,
         };
         await cartManager.addItem(newItem);
         await this.loadItems();

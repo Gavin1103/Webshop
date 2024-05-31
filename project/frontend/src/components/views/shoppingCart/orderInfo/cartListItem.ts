@@ -1,23 +1,38 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import CartItemStyle from "../../../../styles/shoppingCart/orderInfo/cartItemStyle";
-import {CartItem, CartManager} from "../../../helpers/CartHelpers";
-import {roundToTwoDecimals} from "../../../helpers/helpers";
+import {CartManager} from "../../../helpers/CartHelpers";
+import {ProductItem} from "../../../../interfaces/Cart";
+import {ProductService} from "../../../../services/ProductService";
+import {Product} from "../../../../types/Product";
 
 @customElement("cart-list-item")
 export class CartListItem extends LitElement {
     public static styles = [CartItemStyle];
 
     @property({type: Object})
-    private product!: CartItem;
+    private product!: ProductItem;
+
+    @property({type: Object})
+    private productData!: Product;
 
     @property({type: Boolean})
     public showControls: boolean = true;
 
+    public connectedCallback(): void {
+        super.connectedCallback();
+        void this.getProductData();
+    }
+
+    public async getProductData(): Promise<void> {
+        const productService = new ProductService();
+        this.productData = await productService.getProductById(this.product.productId) as Product;
+    }
+
 
     public async increaseQuantity(): Promise<void> {
         const cartManager = CartManager.getInstance();
-        await cartManager.updateItemQuantity(this.product.id, this.product.quantity + 1);
+        await cartManager.updateItemQuantity(this.product.productId, this.product.quantity + 1);
         this.dispatchEvent(new CustomEvent("cart-updated", {bubbles: true, composed: true}));
         this.requestUpdate();
     }
@@ -26,9 +41,9 @@ export class CartListItem extends LitElement {
         const cartManager = CartManager.getInstance();
 
         if (this.product.quantity > 1) {
-            await cartManager.updateItemQuantity(this.product.id, this.product.quantity - 1);
+            await cartManager.updateItemQuantity(this.product.productId, this.product.quantity - 1);
         } else {
-            await cartManager.removeItem(this.product.id);
+            await cartManager.removeItem(this.product.productId);
         }
         this.dispatchEvent(new CustomEvent("cart-updated", {bubbles: true, composed: true}));
         this.requestUpdate();
@@ -37,22 +52,17 @@ export class CartListItem extends LitElement {
     public async deleteItem(): Promise<void> {
         const cartManager = CartManager.getInstance();
 
-        await cartManager.removeItem(this.product.id);
+        await cartManager.removeItem(this.product.productId);
         this.dispatchEvent(new CustomEvent("cart-updated", {bubbles: true, composed: true}));
         this.requestUpdate();
     }
 
     public render(): TemplateResult {
+        console.log(this.productData, "productData");
+
         return html`
-            <div class="item-wrapper" id="${this.product.id}">
+            <div class="item-wrapper" id="${this.product.productId}">
                 <div class="container">
-                    <div class="image">
-                        <img src="${this.product.imageSrc}" alt="Order item image" class="image-item">
-                    </div>
-                    <div class="info">
-                        <p class="title">${this.product.name}</p>
-                        <p class="type">${this.product.type}</p>
-                    </div>
                     <div class="quantity">
                         <h2>${this.product.quantity}</h2>
                         ${this.showControls ? html`
@@ -62,9 +72,6 @@ export class CartListItem extends LitElement {
                                 <img @click=${this.decreaseQuantity} src="/assets/image/icons/arrow-down.svg"
                                      alt="Button to decrease item quantity">
                             </div>` : ""}
-                    </div>
-                    <div class="price">
-                        <h4>€${roundToTwoDecimals(this.product.price * this.product.quantity)}</h4>
                     </div>
                     ${this.showControls ? html`
                         <div class="delete-button">

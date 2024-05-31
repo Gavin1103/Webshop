@@ -9,7 +9,7 @@
         "project/*"
     ],
     "scripts": {
-        "dev": "run-p dev:backend dev:web dev:server",
+        "dev": "run-p dev:backend dev:web",
         "dev:backend": "cd project/backend && ./gradlew bootRun",
         "dev:web": "npm run dev -w project/frontend",
         "dev:server": "node project/frontend/src/scripts/screenshot-server.js",

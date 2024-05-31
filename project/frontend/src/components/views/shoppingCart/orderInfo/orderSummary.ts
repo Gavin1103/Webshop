@@ -2,8 +2,8 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import OrderSummaryStyle from "../../../../styles/shoppingCart/orderInfo/orderSummaryStyle";
 import {navigateTo} from "../../../router";
-import {CartItem} from "../../../helpers/CartHelpers";
 import {roundToTwoDecimals} from "../../../helpers/helpers";
+import {ProductItem} from "../../../../interfaces/Cart";
 
 
 const TAX_RATE: number = 21;
@@ -16,11 +16,11 @@ export class OrderSummary extends LitElement {
     public static styles = [OrderSummaryStyle];
 
     @property({type: Object})
-    private products: CartItem[] = [];
+    private products: ProductItem[] = [];
 
     private getTotalPrice(): number {
         if (!this.products.length) return 0;
-        return this.products.reduce((total, product) => total + product.price * product.quantity, 0);
+        return this.products.reduce((total, product) => total + product.unitPrice * product.quantity, 0);
     }
 
     private getTaxAmount(): number {

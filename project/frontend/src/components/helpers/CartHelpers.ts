@@ -1,20 +1,11 @@
-import {itemType} from "../../enums/itemTypeEnum";
 import {CartService} from "../../services/CartService";
 import {TokenService} from "../../services/TokenService";
-import {UpdateCart} from "../../interfaces/UpdateCart";
+import {Cart, ProductItem} from "../../interfaces/Cart";
 
-export interface CartItem {
-    id: number;
-    name: string;
-    quantity: number;
-    price: number;
-    type: itemType;
-    imageSrc: string;
-}
 
 export class CartManager {
     private static instance: CartManager;
-    private items: CartItem[];
+    private items: ProductItem[];
     private cartService: CartService;
     private tokenService: TokenService;
 
@@ -32,17 +23,17 @@ export class CartManager {
         return CartManager.instance;
     }
 
-    private async createOrUpdateCart(updateCartDTO: UpdateCart): Promise<void> {
+    private async createOrUpdateCart(updateCart: Cart): Promise<void> {
         await this.getCart();
-        await this.cartService.updateCart(updateCartDTO);
+        await this.cartService.updateCart(updateCart);
     }
 
-    public async addItem(item: CartItem): Promise<void> {
+    public async addItem(item: ProductItem): Promise<void> {
         if (this.isUserLoggedIn()) {
-            const updateCart: UpdateCart = {items: [...this.items, item]};
+            const updateCart: Cart = {cartItems: [...this.items, item]} as Cart;
             await this.createOrUpdateCart(updateCart);
         } else {
-            const index: number = this.items.findIndex(cartItem => cartItem.id === item.id);
+            const index: number = this.items.findIndex(cartItem => cartItem.productId === item.productId);
             if (index > -1) {
                 this.items[index].quantity += item.quantity;
             } else {
@@ -54,13 +45,13 @@ export class CartManager {
 
     public async updateItemQuantity(id: number, quantity: number): Promise<void> {
         if (this.isUserLoggedIn()) {
-            const updatedItems: CartItem[] = this.items.map(item =>
-                item.id === id ? {...item, quantity} : item
+            const updatedItems: ProductItem[] = this.items.map(item =>
+                item.productId === id ? {...item, quantity} : item
             );
-            const updateCart: UpdateCart = {items: updatedItems};
+            const updateCart: Cart = {cartItems: updatedItems} as Cart;
             await this.createOrUpdateCart(updateCart);
         } else {
-            const index: number = this.items.findIndex(item => item.id === id);
+            const index: number = this.items.findIndex(item => item.productId === id);
             if (index > -1 && quantity > 0) {
                 this.items[index].quantity = quantity;
                 this.saveCart();
@@ -72,11 +63,11 @@ export class CartManager {
 
     public async removeItem(id: number): Promise<void> {
         if (this.isUserLoggedIn()) {
-            const updatedItems: CartItem[] = this.items.filter(item => item.id !== id);
-            const updateCart: UpdateCart = {items: updatedItems};
+            const updatedItems: ProductItem[] = this.items.filter(item => item.productId !== id);
+            const updateCart: Cart = {cartItems: updatedItems} as Cart;
             await this.createOrUpdateCart(updateCart);
         } else {
-            this.items = this.items.filter(item => item.id !== id);
+            this.items = this.items.filter(item => item.productId !== id);
             this.saveCart();
         }
     }
@@ -88,12 +79,12 @@ export class CartManager {
         return token !== undefined;
     }
 
-    private getCartFromStorage(): CartItem[] {
+    private getCartFromStorage(): ProductItem[] {
         const cart: string = localStorage.getItem("cart") as string;
         return cart ? JSON.parse(cart) : [];
     }
 
-    public async getCart(): Promise<CartItem[]> {
+    public async getCart(): Promise<ProductItem[] | Cart> {
         if (this.isUserLoggedIn()) {
             return await this.cartService.getOrCreateCartForCurrentUser()
         }

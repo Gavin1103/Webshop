@@ -1,14 +1,17 @@
-import {UpdateCart} from "../interfaces/UpdateCart";
-import {CartItem} from "../components/helpers/CartHelpers";
+import {Cart, ProductItem} from "../interfaces/Cart";
+import {TokenService} from "./TokenService";
 
-const headers: { "Content-Type": string } = {
-    "Content-Type": "application/json"
-};
 
 /**
  * Handles shopping cart related functionality
  */
 export class CartService {
+    private _tokenService: TokenService = new TokenService();
+
+    private headers: { "Content-Type": string, "Authorization": string } = {
+        "Content-Type": "Application/json",
+        "Authorization": "Bearer " + this._tokenService.getToken()
+    };
 
     private async handleResponse(response: Response) {
         if (!response.ok) {
@@ -18,33 +21,27 @@ export class CartService {
         return response.json();
     }
 
-    async getOrCreateCartForCurrentUser(): Promise<CartItem[]> {
-        const token = localStorage.getItem('token');
-
+    async getOrCreateCartForCurrentUser(): Promise<Cart> {
         const response = await fetch(`${viteConfiguration.API_URL}/cart/`, {
-            method: 'get',
-            headers: {...headers, authorization: 'Bearer ' + token},
+            method: 'GET',
+            headers: this.headers,
         });
         return this.handleResponse(response);
     }
 
-    async updateCart(updateCartDTO: UpdateCart): Promise<CartItem[]> {
-        const token = localStorage.getItem('token');
-
+    async updateCart(updateCart: Cart): Promise<ProductItem[]> {
         const response = await fetch(`${viteConfiguration.API_URL}/cart/`, {
             method: 'PUT',
-            headers: {...headers, authorization: 'Bearer ' + token},
-            body: JSON.stringify(updateCartDTO)
+            headers: this.headers,
+            body: JSON.stringify(updateCart)
         });
         return this.handleResponse(response);
     }
 
     async deleteCartForCurrentUser(): Promise<void> {
-        const token = localStorage.getItem('token');
-
         const response = await fetch(`${viteConfiguration.API_URL}/cart/`, {
             method: 'DELETE',
-            headers: {...headers, authorization: 'Bearer ' + token}
+            headers: this.headers
         });
 
         if (!response.ok) {

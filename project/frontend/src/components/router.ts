@@ -28,7 +28,7 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
-            path: "/product-detail-page",
+            path: "/product-detail-page/:id",
             component: "product-detail-page",
             action: (context:Context, commands: Commands): any => {
                 updatePath(context.pathname);
@@ -36,7 +36,15 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
-            path: "/category/:id",
+            path: "/category/:name",
+            component: "products-overview",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("products-overview");
+            }
+        },
+        {
+            path: "/search/:query",
             component: "products-overview",
             action: (context: Context, commands: Commands): any => {
                 updatePath(context.pathname);

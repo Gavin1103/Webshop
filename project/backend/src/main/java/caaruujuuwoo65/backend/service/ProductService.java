@@ -3,6 +3,8 @@ package caaruujuuwoo65.backend.service;
 import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
 import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
+import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
+import caaruujuuwoo65.backend.dto.product.category.CategoryPreviewDTO;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.repository.ProductRepository;
 import jakarta.persistence.criteria.Predicate;
@@ -49,7 +51,7 @@ public class ProductService {
     }
 
 
-    public List<ProductAverageRatingDTO> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating) {
+    public List<ProductAverageRatingDTO> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating, String name) {
         List<Product> filteredProducts = productRepository.findAll((Specification<Product>) (root, query, criteriaBuilder) -> {
             var predicates = new ArrayList<Predicate>();
 
@@ -63,6 +65,10 @@ public class ProductService {
 
             if (maxPrice != null) {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
+            }
+
+            if (name != null && !name.isEmpty()) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("productName")), "%" + name.toLowerCase() + "%"));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -84,5 +90,21 @@ public class ProductService {
     public ProductDTO getProductById(long id) {
         Product product = productRepository.findById(id).orElse(null);
         return product != null ? modelMapper.map(product, ProductDTO.class) : null;
+    }
+
+    public List<ProductSearchResultDTO> searchProducts(String keyword) {
+        List<Product> products = productRepository.searchProducts(keyword);
+        return products.stream()
+            .map(product -> modelMapper.map(product, ProductSearchResultDTO.class))
+            .collect(Collectors.toList());
+    }
+
+    public List<CategoryPreviewDTO> getCategoriesByProductName(String name) {
+        List<Product> products = productRepository.findByProductNameContainingIgnoreCase(name);
+        return products.stream()
+            .map(Product::getCategory)
+            .distinct()
+            .map(category -> modelMapper.map(category, CategoryPreviewDTO.class))
+            .collect(Collectors.toList());
     }
 }

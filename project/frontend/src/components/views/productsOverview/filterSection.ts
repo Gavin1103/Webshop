@@ -2,6 +2,7 @@ import { html, LitElement, TemplateResult } from "lit";
 import {customElement, property} from "lit/decorators.js";
 import filterSectionStyle from "../../../styles/productsOverview/filterSectionStyle";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
+import {CategoryPreviewResponse} from "../../../types/CategoryPreviewResponse";
 
 interface ToggleableElement {
     visible: boolean;
@@ -11,7 +12,7 @@ interface ToggleableElement {
 @customElement("filter-section")
 export class FilterSection extends LitElement {
     @property({type: Array})
-    public categoryList: {name: string}[] = [];
+    public categoryList: CategoryPreviewResponse[] = [];
 
     public filterRequest: FilterRequest | undefined;
 
@@ -176,12 +177,12 @@ export class FilterSection extends LitElement {
                         >
                     </div>
                     <ul class="category-checkbox" style="${this.category.visible ? "" : "display: none;"}">
-                        ${this.categoryList.map((category, index) => html`
+                        ${this.categoryList ? this.categoryList.map((category, index) => html`
                             <li>
                                 <input type="checkbox" id="category_${index}" name="${category.name}" @change="${this.generateFilterRequest}">
                                 <label for="category_${index}">${category.name}</label>
                             </li>
-                        `)}
+                        `) : ""}
                     </ul>
                 </div>
                 

@@ -7,6 +7,7 @@ import {Router} from "@vaadin/router";
 import {CartItem, CartManager} from "../../helpers/CartHelpers";
 import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
 import {itemType} from "../../../enums/itemTypeEnum";
+import {navigateTo} from "../../router";
 
 @customElement("showcase-section")
 export class ShowcaseSection extends LitElement {
@@ -58,7 +59,7 @@ export class ShowcaseSection extends LitElement {
     }
 
     public redirectToDetailPage(productId:number):void{
-        Router.go(`/product-detail-page?productId=${productId}`)
+        navigateTo(`/product-detail-page/${productId}`)
     }
 
     public loadItems(): void {

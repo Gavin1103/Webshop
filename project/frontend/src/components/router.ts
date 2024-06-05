@@ -131,15 +131,24 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
         },
         {
             path: "/backoffice",
-            component: "cms-dashboard",
+            component: "cms-main",
             action: async (context: Context, commands: Commands): Promise<any> => {
                 if (!await _tokenService.isAdmin()) {
                     return commands.component("unauthorized-page");
                 }
 
                 updatePath(context.pathname);
-                return commands.component("cms-dashboard");
-            }
+                return commands.component("cms-main");
+            },
+            children: [
+                {path: '/', component: 'cms-dashboard'},
+                {path: '/users', component: 'cms-users'},
+                {path: '/statistics', component: 'cms-statistics'},
+                {path: '/orders', component: 'cms-orders'},
+                {path: '/products', component: 'cms-products'},
+                {path: '/reviews', component: 'cms-reviews'},
+                {path: '/tools', component: 'cms-tools'},
+            ]
         },
         {
             path: "(.*)",

@@ -178,7 +178,7 @@ export class FilterSection extends LitElement {
                     </div>
                     <ul class="category-checkbox" style="${this.category.visible ? "" : "display: none;"}">
                         ${this.categoryList ? this.categoryList.map((category, index) => html`
-                            <li>
+                            <li class="category-list">
                                 <input type="checkbox" id="category_${index}" name="${category.name}" @change="${this.generateFilterRequest}">
                                 <label for="category_${index}">${category.name}</label>
                             </li>
@@ -220,7 +220,7 @@ export class FilterSection extends LitElement {
                     </div>
                     <ul class="rating-stars" style="${this.rating.visible ? "" : "display: none;"}">
                         ${[0, 1, 2, 3, 4, 5].map((index) => html`
-                            <li>
+                            <li class="rating-list">
                                 <input type="radio" name="rating" id="${index}" @change="${this.generateFilterRequest}" >
                                 <label for="${index} star">${index === 0 ? "All rating" : "★".repeat(index)}</label>
                             </li>

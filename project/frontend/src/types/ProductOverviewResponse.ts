@@ -4,5 +4,6 @@ export type ProductOverviewResponse = {
     description: string;
     image: string;
     averageRating: number;
-    price : number;
+    currentPrice : number;
+    originalPrice: number;
 }

@@ -21,6 +21,9 @@ export class ProductsOverview extends LitElement {
     private overviewType: OverviewType | undefined;
     private param: string | undefined;
 
+    private header: string | undefined;
+    private subHeader: string | undefined;
+
     public filterRequest: FilterRequest | undefined;
 
 
@@ -47,21 +50,23 @@ export class ProductsOverview extends LitElement {
             case OverviewType.search:
                 this.productList = await productService.getFilteredProduct(this.filterRequest, undefined, this.param);
                 break;
+            case OverviewType.promotion:
+                this.productList = await productService.getFilteredProduct(this.filterRequest, undefined, undefined, true);
+                break;
+            case OverviewType.allProducts:
+                this.productList = await productService.getFilteredProduct(this.filterRequest);
+                break;
             default:
                 break;
         }
         this.requestUpdate();
     }
 
-    private async loadCategories(ProductName: string): Promise<void> {
-        const categoryService: CategoryService = new CategoryService();
-        this.categoryList = await categoryService.getCategoryByProductName(ProductName);
-        this.requestUpdate();
-    }
 
 
 
     private updateCurrentPath = async (): Promise<void> => {
+        const categoryService: CategoryService = new CategoryService();
         const parts: string[] = getCurrentPath().split("/");
         this.overviewType = parts[1] as OverviewType;
         this.param = parts[2];
@@ -70,9 +75,23 @@ export class ProductsOverview extends LitElement {
                 this.categoryList = [
                     {name: this.param}
                 ];
+                this.header = this.overviewType;
+                this.subHeader = this.param;
                 break;
             case OverviewType.search:
-                await this.loadCategories(this.param);
+                this.categoryList = await categoryService.getCategoriesByProductName(this.param);
+                this.header = "Search results of";
+                this.subHeader = this.param;
+                break;
+            case OverviewType.promotion:
+                this.categoryList = await categoryService.getPromotionCategories();
+                this.header = "Products";
+                this.subHeader = "Discounting";
+                break;
+            case OverviewType.allProducts:
+                this.categoryList = await categoryService.getAllCategories();
+                this.header = "Products";
+                this.subHeader = "recommend";
                 break;
         }
         this.requestUpdate();
@@ -114,10 +133,10 @@ export class ProductsOverview extends LitElement {
                         
                     </filter-section>
                     <showcase-section 
-                        overviewType="${this.overviewType}"
+                        header="${this.header}"
                         .productList="${this.productList}"
                         .filterRequest="${this.filterRequest}"
-                        .param="${this.param}"
+                        .subHeader="${this.subHeader}"
                         @filter-deleted="${this._handelFilterDeleted}"
                     >
                     </showcase-section>

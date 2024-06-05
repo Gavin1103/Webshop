@@ -5,7 +5,6 @@ import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
 import {Router} from "@vaadin/router";
 import {CartItem, CartManager} from "../../helpers/CartHelpers";
-import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
 import {itemType} from "../../../enums/itemTypeEnum";
 import {navigateTo} from "../../router";
 
@@ -15,10 +14,10 @@ export class ShowcaseSection extends LitElement {
     public static styles = [showcaseSectionStyle];
 
     @property({type: String})
-    public overViewType: string | undefined;
+    public header: string | undefined;
 
     @property({type: String})
-    public param: string | undefined;
+    public subHeader: string | undefined;
 
     @property({type: String})
     private productList: ProductOverviewResponse[] | undefined;
@@ -66,13 +65,13 @@ export class ShowcaseSection extends LitElement {
         this.items = CartManager.getCart();
     }
 
-    public addItemToCart(product: ProductPreviewResponse): void {
+    public addItemToCart(product: ProductOverviewResponse): void {
         const newItem: CartItem = {
             id: product.id,
             name: product.name,
             quantity: 1,
             type: itemType.GAME,
-            price: product.price,
+            price: product.currentPrice,
             imageSrc: product.image
         };
         CartManager.addItem(newItem);
@@ -163,12 +162,20 @@ export class ShowcaseSection extends LitElement {
         }
     }
 
+    public calculateDiscount(product: ProductOverviewResponse): string | null {
+        if (product.originalPrice <= product.currentPrice) {
+            return null;
+        }
+        const discount: number = Math.floor(((product.originalPrice - product.currentPrice) / product.originalPrice) * 100);
+        return "-" + discount + "%";
+    }
+
 
     public render(): TemplateResult {
         return html`
             <div class="header">
-                <span class="title">${this.capitalizeFirstLetter(this.overViewType)}</span>
-                <span class="sub-title">/${this.param}</span>
+                <span class="title">${this.capitalizeFirstLetter(this.header)}</span>
+                <span class="sub-title">/${this.subHeader}</span>
             </div>
             <div class="filter-results">
                 ${this.renderCategories()}
@@ -181,15 +188,27 @@ export class ShowcaseSection extends LitElement {
                         <img @click="${() => this.redirectToDetailPage(product.id)}" class="product-image" src="${product.image}" alt="image">
                         <div class="product-info">
                             <div class="info-left">
-                                <span class="name" @click="${() => this.redirectToDetailPage(product.id)}">${product.name}</span>
+                                <div class="info-top">
+                                    <span class="name" @click="${() => this.redirectToDetailPage(product.id)}">${product.name}</span>
+                                    ${this.calculateDiscount(product) ? html `
+                                <span class="discount">${this.calculateDiscount(product)}</span>
+                            ` : ""}
+                                </div>
                                 <san class="rating">${this.generateStars(product.averageRating)} (${product.averageRating})</san>
                                 <span class="description">${product.description}</span>
                             </div>
-
+                            
                             <div class="info-right">
-                                <span class="price">
-                                    €${product.price}
+                                <div class="price">
+                                    ${this.calculateDiscount(product) ? html `
+                                    <span class="original-price">
+                                    ${product.originalPrice}
+                                    </span>
+                                ` : ""}
+                                    <span class="current-price">
+                                    €${product.currentPrice}
                                 </span>
+                                </div>
                                 <img @click="${(): void => this.addItemToCart(product)}" class="cart-button" src="/assets/image/icons/shopping-bag.svg"/ alt="add to cart">
                             </div>
                         </div>

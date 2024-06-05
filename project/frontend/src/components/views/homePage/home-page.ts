@@ -38,17 +38,20 @@ export class HomePage extends LitElement {
 
         return html`
             <hero-section-homepage
+                redirectUrl="/promotion"
                 title="New Product Promotion"
                 subTitle="Up To 70% Off">
             </hero-section-homepage>
 
             <product-carousel-section
                 title="Top Deal"
+                redirectUrl="/promotion"
                 .productsData="${this.topDealProducts}">
             </product-carousel-section>
 
             <product-carousel-section
                 title="Recommended For You"
+                redirectUrl="/allProducts"
                 .productsData="${this.recommendProducts}">
             </product-carousel-section>
 

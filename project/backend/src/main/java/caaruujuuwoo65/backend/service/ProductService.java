@@ -1,17 +1,20 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
-import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
-import caaruujuuwoo65.backend.dto.product.ProductDTO;
-import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
+import caaruujuuwoo65.backend.dto.product.*;
 import caaruujuuwoo65.backend.dto.product.category.CategoryPreviewDTO;
+import caaruujuuwoo65.backend.dto.product.category.ProductCategoryDTO;
 import caaruujuuwoo65.backend.model.Product;
+import caaruujuuwoo65.backend.model.ProductCategory;
 import caaruujuuwoo65.backend.repository.ProductRepository;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.Predicate;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,23 +25,32 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final EntityManager entityManager;
+
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, EntityManager entityManager) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
+        this.entityManager = entityManager;
     }
 
+    @Transactional
     public List<ProductDTO> getAllProducts() {
         List<Product> products = productRepository.findAll();
+        products.forEach(product -> {
+            Hibernate.initialize(product.getImage());
+        });
         return products.stream()
             .map(product -> modelMapper.map(product, ProductDTO.class))
             .collect(Collectors.toList());
+
     }
 
     public List<ProductPreviewDTO> getTopDeals() {
-        List<Product> products = productRepository.findTop10ByOrderByPriceAsc();
+        List<Product> products = productRepository.findAll();
         return products.stream()
+            .filter(Product::isOnSale)
             .map(product -> modelMapper.map(product, ProductPreviewDTO.class))
             .collect(Collectors.toList());
     }
@@ -51,7 +63,7 @@ public class ProductService {
     }
 
 
-    public List<ProductAverageRatingDTO> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating, String name) {
+    public List<ProductAverageRatingDTO> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating, String name, boolean isDiscounted) {
         List<Product> filteredProducts = productRepository.findAll((Specification<Product>) (root, query, criteriaBuilder) -> {
             var predicates = new ArrayList<Predicate>();
 
@@ -60,15 +72,19 @@ public class ProductService {
             }
 
             if (minPrice != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice));
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("currentPrice"), minPrice));
             }
 
             if (maxPrice != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("currentPrice"), maxPrice));
             }
 
             if (name != null && !name.isEmpty()) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("productName")), "%" + name.toLowerCase() + "%"));
+            }
+
+            if (isDiscounted) {
+                predicates.add(criteriaBuilder.notEqual(root.get("currentPrice"), root.get("originalPrice")));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -105,6 +121,20 @@ public class ProductService {
             .map(Product::getCategory)
             .distinct()
             .map(category -> modelMapper.map(category, CategoryPreviewDTO.class))
+            .collect(Collectors.toList());
+    }
+
+    public Product createProduct(CreateProductDTO productDTO) {
+        Product product = modelMapper.map(productDTO, Product.class);
+        return productRepository.save(product);
+    }
+
+    public List<CategoryPreviewDTO> getCategoriesWithDiscountedProducts() {
+        String jpql = "SELECT DISTINCT p.category FROM Product p WHERE p.currentPrice < p.originalPrice";
+        TypedQuery<ProductCategory> query = entityManager.createQuery(jpql, ProductCategory.class);
+        List<ProductCategory> discountedCategories = query.getResultList();
+        return discountedCategories.stream()
+            .map(productCategory -> modelMapper.map(productCategory, CategoryPreviewDTO.class))
             .collect(Collectors.toList());
     }
 }

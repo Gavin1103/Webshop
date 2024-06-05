@@ -4,7 +4,6 @@ import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
 import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
-import caaruujuuwoo65.backend.dto.product.category.CategoryPreviewDTO;
 import caaruujuuwoo65.backend.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -77,11 +76,13 @@ public class ProductController {
         @RequestParam(required = false) Integer minPrice,
         @RequestParam(required = false) Integer maxPrice,
         @RequestParam(required = false) Integer minRating,
-        @RequestParam(required = false) String name) {
+        @RequestParam(required = false) String name,
+        @RequestParam(required = false) boolean isDiscounted
+    ) {
 
         List<String> categoryList = categories != null ? Arrays.asList(categories.split(",")) : null;
 
-        return productService.getFilteredProducts(categoryList, minPrice, maxPrice, minRating, name);
+        return productService.getFilteredProducts(categoryList, minPrice, maxPrice, minRating, name, isDiscounted);
     }
 
     @GetMapping("getBy/{id}")

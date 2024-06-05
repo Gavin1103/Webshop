@@ -9,5 +9,6 @@ public class ProductPreviewDTO {
     public Long id;
     public String name;
     public String image;
-    public float price;
+    public Double currentPrice;
+    public Double originalPrice;
 }

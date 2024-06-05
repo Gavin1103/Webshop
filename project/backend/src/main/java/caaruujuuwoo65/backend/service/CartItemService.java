@@ -69,8 +69,8 @@ public class CartItemService {
             cartItem.setProduct(product);
             cartItem.setQuantity(createCartItemDTO.getQuantity());
         }
-        cartItem.setUnitPrice(product.getPrice());
-        cartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+        cartItem.setUnitPrice(product.getCurrentPrice());
+        cartItem.setTotalPrice(product.getCurrentPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
 
         cartItem = cartItemRepository.save(cartItem);
         CartItemDTO cartItemDTO = modelMapper.map(cartItem, CartItemDTO.class);

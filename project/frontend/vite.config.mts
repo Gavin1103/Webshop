@@ -1,10 +1,9 @@
-import { defineConfig, loadEnv } from "vite";
-import { resolve } from "path";
+import {defineConfig, loadEnv} from "vite";
+import {resolve} from "path";
 import checker from "vite-plugin-checker";
 import eslintPlugin from "vite-plugin-eslint";
-import buildScreenshotServer from "./src/plugins/vite-plugin-build-screenshot-server";
 import copyEnvPlugin from "./src/plugins/vite-plugin-copt-env";
-import { viteStaticCopy } from 'vite-plugin-static-copy';
+import {viteStaticCopy} from 'vite-plugin-static-copy';
 
 export default defineConfig((config) => {
     const env: Record<string, string> = loadEnv(config.mode, process.cwd(), "VITE");
@@ -16,7 +15,7 @@ export default defineConfig((config) => {
         };
     }, {});
 
-    const { VITE_DOCKER_HOST } = env;
+    const {VITE_DOCKER_HOST} = env;
 
     return {
         base: "./",
@@ -41,11 +40,10 @@ export default defineConfig((config) => {
             },
         },
         plugins: [
-            checker({ typescript: true }),
+            checker({typescript: true}),
             eslintPlugin({
                 overrideConfigFile: '.eslintrc.js',
             }),
-            buildScreenshotServer(),
             copyEnvPlugin(),
             viteStaticCopy({
                 targets: [

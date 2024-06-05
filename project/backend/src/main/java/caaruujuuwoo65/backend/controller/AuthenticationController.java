@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +41,7 @@ public class AuthenticationController {
         @ApiResponse(responseCode = "201", description = "Successfully registered"),
         @ApiResponse(responseCode = "409", description = "User already exists")
     })
-    public ResponseEntity<?> register(@RequestBody CreateUserDTO user) throws Exception {
+    public ResponseEntity<?> register(@Valid @RequestBody CreateUserDTO user) throws Exception {
         return ResponseEntity.ok(authenticationService.register(user, RoleEnum.USER, false));
     }
 
@@ -62,6 +63,26 @@ public class AuthenticationController {
     })
     public ResponseEntity<?> confirmAccount(@PathVariable String token) {
         return authenticationService.confirmUserAccount(token);
+    }
+
+    @PostMapping("/forgot-password")
+    @Operation(summary = "Process a password reset request")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully processed request"),
+        @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    public ResponseEntity<?> processForgotPassword(@RequestParam String email) {
+        return authenticationService.forgotPassword(email);
+    }
+
+    @PostMapping("/reset-password")
+    @Operation(summary = "Reset a user's password")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully reset password"),
+        @ApiResponse(responseCode = "400", description = "Invalid token")
+    })
+    public ResponseEntity<?> resetPassword(@RequestParam String token, @RequestParam String password) {
+        return authenticationService.resetPassword(token, password);
     }
 
     @PreAuthorizeAdmin

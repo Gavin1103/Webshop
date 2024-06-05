@@ -2,6 +2,7 @@ import { LitElement, html } from "lit-element";
 import {TemplateResult} from "lit";
 import {property} from "lit/decorators.js";
 import {passwordStages} from "../enums/passwordStrength";
+import {navigateTo} from "./router";
 
 type Field = "email" | "password" | "username" | "phoneNumber" | "firstname" | "lastname" | "confirmPassword";
 
@@ -44,12 +45,20 @@ export abstract class BaseAuthComponent extends LitElement {
         this[field] = (e.target as HTMLInputElement).value;
     }
 
+    protected goToLogin(): void {
+        navigateTo("/login");
+    }
+
+    protected goToRegister(): void {
+        navigateTo("/register");
+    }
+
     /**
      * This method handles password input events. It updates the password and passwordStrength properties.
      *
      * @param e - The event containing the new password.
      */
-    private handlePasswordInput(e: any): void {
+    protected handlePasswordInput(e: any): void {
         this.password = e.target.value;
         this.passwordStrength = this.getPasswordStrength(this.password);
     }

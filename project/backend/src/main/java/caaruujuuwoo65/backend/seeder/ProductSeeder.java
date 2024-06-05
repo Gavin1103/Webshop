@@ -59,7 +59,7 @@ public class ProductSeeder implements CommandLineRunner {
         List<CreateProductDTO> productDTOs = List.of(
             new CreateProductDTO(
                 "Smartphone",
-                "A modern smartphone with many features",
+                "Introducing our latest Smartphone, a state-of-the-art device designed to meet all your modern needs. With an array of advanced features, this smartphone combines sleek design with exceptional functionality. Enjoy a crystal-clear display, high-resolution camera, and fast processing power, making multitasking a breeze. Priced at $699.99, it offers great value with a retail price of $799.99. Capture your moments with stunning clarity and stay connected with its long-lasting battery. Perfect for tech enthusiasts and everyday users alike, this smartphone is a must-have in the Electronics category. Check out the image and grab yours today!",
                 100,
                 699.99,
                 799.99,
@@ -68,7 +68,7 @@ public class ProductSeeder implements CommandLineRunner {
             ),
             new CreateProductDTO(
                 "T-shirt",
-                "A stylish and comfortable t-shirt",
+                "Discover the perfect blend of style and comfort with our latest T-shirt. Made from high-quality materials, this t-shirt ensures a soft and comfortable fit, making it ideal for daily wear. Its stylish design caters to modern fashion trends, ensuring you look great on any occasion. With a price of $19.99, it offers exceptional value compared to the retail price of $29.99. Available in various sizes, it is a must-have addition to your wardrobe. Suitable for all seasons, this t-shirt is part of our Fashion category. Check out the image and elevate your style today!",
                 100,
                 19.99,
                 29.99,
@@ -77,7 +77,7 @@ public class ProductSeeder implements CommandLineRunner {
             ),
             new CreateProductDTO(
                 "Soccer Ball",
-                "High-quality soccer ball for professional matches",
+                "Introducing our premium Soccer Ball, designed for professional matches and serious players. Crafted with high-quality materials, this soccer ball ensures optimal performance, durability, and precision in every game. Priced at $24.99, it offers great value compared to the retail price of $29.99. Perfect for both training sessions and competitive matches, it provides excellent control and stability on the field. Whether you're a seasoned player or an aspiring athlete, this soccer ball will enhance your game. Part of our Sports category, it's a must-have for soccer enthusiasts. Check out the image and get ready to score!",
                 100,
                 24.99,
                 29.99,
@@ -86,7 +86,7 @@ public class ProductSeeder implements CommandLineRunner {
             ),
             new CreateProductDTO(
                 "Novel",
-                "Bestselling novel for an engaging reading experience",
+                "Dive into a world of captivating storytelling with our bestselling Novel. This book promises an engaging reading experience that will keep you hooked from start to finish. Priced at $14.99, it offers excellent value compared to the retail price of $19.99. Perfect for book lovers and casual readers alike, this novel is a great addition to any collection. Whether you're looking for an escape or a thoughtful gift, this book delivers on all fronts. Part of our Books category, it guarantees hours of immersive reading. Check out the image and get your copy today!",
                 100,
                 14.99,
                 19.99,

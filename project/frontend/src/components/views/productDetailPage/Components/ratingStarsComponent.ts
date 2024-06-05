@@ -1,5 +1,6 @@
-import { LitElement, html, css, TemplateResult } from "lit";
+import { LitElement, html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import ratingStarsComponentStyle from "../styles/components/ratingStarsComponentStyle";
 
 @customElement("rating-stars-component")
 export class RatingStarsCompent extends LitElement {
@@ -7,20 +8,9 @@ export class RatingStarsCompent extends LitElement {
     @property({ type: String })
     private fontSize: string = "";
 
-    public static styles = css`
-
-        .stars-section {
-            width: 100%;
-            height: 50px;
-            display: flex;
-            align-items: center;
-
-            .star {
-                color: gold;
-                font-size: var(--custom-size, "20px");
-            }
-        }
-    `;
+    public static styles = [
+        ratingStarsComponentStyle
+    ];
 
 public connectedCallback(): void {
     super.connectedCallback();

@@ -44,8 +44,12 @@ export class ProductService {
         return await response.json();
     }
 
-    public async getFilteredProduct(filterRequest?: FilterRequest, presetCategory?: string, presetQuery?:string): Promise<ProductOverviewResponse | undefined> {
+    public async getFilteredProduct(filterRequest?: FilterRequest, presetCategory?: string, presetQuery?:string, isDiscounted?:boolean): Promise<ProductOverviewResponse | undefined> {
         let url: string = "/products/filter?";
+
+        if (isDiscounted) {
+            url += `isDiscounted=${isDiscounted}&`;
+        }
 
         if (presetCategory) {
             url += `categories=${presetCategory}&`;
@@ -74,6 +78,7 @@ export class ProductService {
                 url += `minRating=${filterRequest.ratings}&`;
             }
         }
+
 
         if (presetQuery) {
             url += `name=${presetQuery}&`;

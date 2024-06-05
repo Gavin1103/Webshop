@@ -60,20 +60,35 @@ export default css`
 
     .products-card {
         margin: 20px;
+        padding: 10px;
         border-radius: 10px;
-        width: 20vw;
+        width: 18vw;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: box-shadow 0.3s, transform 0.3s;
         
         .product-image{
             border-radius: 10px 10px 0 0;
-            width: 20vw;
+            width: 18vw;
             height: 30vh;
             object-fit: contain;
         }
         
+    }
+
+    .discount {
+        display: flex;
+        align-self: center;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        color: white;
+        font-weight: bold;
+        background-color: #FF2F00;
+        justify-content: center;
+        align-items: center;
     }
     
     
@@ -87,14 +102,20 @@ export default css`
     .product-info {
         display: flex;
         flex-direction: column;
-        padding: 10px;
         
         .info-left {
             display: flex;
             flex-direction: column;
             
+            .info-top {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
             .name {
                 font-size: xx-large;
+                font-weight: bolder;
                 margin-top: 5px;
             }
             
@@ -111,9 +132,22 @@ export default css`
             justify-content: space-between;
             
             .price {
+                display: flex;
+                flex-direction: column;
+                margin-top: 10px;
+            }
+            
+            .current-price {
                 font-size: x-large;
                 color: #FF2F00;
                 font-weight: bolder;
+            }
+
+            .original-price {
+                font-size: medium;
+                font-weight: lighter;
+                text-decoration: line-through;
+                color: #989898;
             }
             
             .cart-button {
@@ -132,7 +166,8 @@ export default css`
         .products-card {
             display: flex;
             flex-direction: row;
-            width: 80vw;
+            width: 90vw;
+            align-self: center;
 
             .product-image{
                 border-radius: 10px 0 0 10px;
@@ -140,27 +175,50 @@ export default css`
                 max-height: 20vh;
             }
 
+            .discount {
+                height: 30px;
+                width: 30px;
+                font-size: x-small;
+                font-weight: bold;
+                background-color: #FF2F00;
+                justify-content: center;
+                align-items: center;
+            }
+            .product-image {
+                margin-right: 10px;
+            }
+
             .product-info {
                 display: flex;
                 flex-direction: row;
+                
+                .info-top {
+                    display: block;
+                }
 
                 .info-left {
                     .name {
-                        font-size: large;
+                        font-size: x-large;
                     }
                     
                     .description, .rating{
-                        font-size: small;
+                        font-size: medium;
+                        font-weight: lighter;
+                        width: 140%;
                     }
                 }
             }
                 .info-right {
                     display: flex;
                     flex-direction: column;
-                    justify-content: space-around;
+                    justify-content: space-between;
 
                     .price {
                         font-size: medium;
+                    }
+                    
+                    .cart-button {
+                        align-self: end;
                     }
             }
 

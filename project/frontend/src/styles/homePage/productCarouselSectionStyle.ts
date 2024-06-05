@@ -48,10 +48,23 @@ export default css`
         position: relative;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         border-radius: 10px;
         margin: 20px;
+        padding: 10px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .discount {
+        position: absolute;
+        padding: 10px;
+        color: white;
+        font-weight: bold;
+        border-radius: 0 10px 0 10px;
+        top: 0;
+        right: 0;
+        background-color: #FF2F00;
     }
 
     .product-image {
@@ -61,24 +74,30 @@ export default css`
         border-radius: 10px 10px 0 0;
         margin-bottom: 10px;
     }
-
-    .product-info {
-        display: flex;
-        flex-direction: column;
-        padding: 10px;
-    }
+    
 
     .product-name {
         font-size: large;
         font-weight: bold;
-        color: #000000;
+        color: #353535;
     }
 
     .product-price {
-        margin-top: 5px;
-        font-size: medium;
-        font-weight: bolder;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-price-current {
+        font-size: x-large;
+        font-weight: bold;
         color: #FF2F00;
+    }
+    
+    .product-price-original {
+        font-size: medium;
+        font-weight: lighter;
+        text-decoration: line-through;
+        color: #989898;
     }
 
     .add-to-cart-button {
@@ -121,9 +140,13 @@ export default css`
         .product-name {
             font-size: medium;
         }
-        
-        .product-price {
+
+        .product-price-original {
             font-size: small;
+        }
+        
+        .product-price-current {
+            font-size: large;
         }
 
         .add-to-cart-button {

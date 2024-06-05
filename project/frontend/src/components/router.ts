@@ -30,7 +30,7 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
         {
             path: "/product-detail-page/:id",
             component: "product-detail-page",
-            action: (context:Context, commands: Commands): any => {
+            action: (context: Context, commands: Commands): any => {
                 updatePath(context.pathname);
                 return commands.component("product-detail-page");
             }
@@ -130,6 +130,18 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
+            path: "/backoffice",
+            component: "cms-dashboard",
+            action: async (context: Context, commands: Commands): Promise<any> => {
+                if (!await _tokenService.isAdmin()) {
+                    return commands.component("unauthorized-page");
+                }
+
+                updatePath(context.pathname);
+                return commands.component("cms-dashboard");
+            }
+        },
+        {
             path: "(.*)",
             component: "not-found",
             action: (context: Context, commands: Commands): any => {
@@ -149,7 +161,6 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
 
         navigateTo(path);
     });
-
 
     return router;
 };

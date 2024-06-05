@@ -43,3 +43,7 @@ export * from "./components/views/unauthorizedPage/401Page";
 export * from "./components/views/emailConfirmationPage/EmailConfirmationComponent";
 export * from "./components/views/loginPage/forgotPasswordComponent"
 export * from "./components/views/loginPage/resetPasswordComponent"
+
+
+// CMS files
+export * from "./components/views/cms/dashboard";

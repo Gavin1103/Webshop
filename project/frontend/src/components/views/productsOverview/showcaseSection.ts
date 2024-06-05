@@ -162,6 +162,14 @@ export class ShowcaseSection extends LitElement {
         }
     }
 
+    public calculateDiscount(product: ProductOverviewResponse): string | null {
+        if (product.originalPrice <= product.currentPrice) {
+            return null;
+        }
+        const discount: number = Math.floor(((product.originalPrice - product.currentPrice) / product.originalPrice) * 100);
+        return "-" + discount + "%";
+    }
+
 
     public render(): TemplateResult {
         return html`
@@ -180,15 +188,27 @@ export class ShowcaseSection extends LitElement {
                         <img @click="${() => this.redirectToDetailPage(product.id)}" class="product-image" src="${product.image}" alt="image">
                         <div class="product-info">
                             <div class="info-left">
-                                <span class="name" @click="${() => this.redirectToDetailPage(product.id)}">${product.name}</span>
+                                <div class="info-top">
+                                    <span class="name" @click="${() => this.redirectToDetailPage(product.id)}">${product.name}</span>
+                                    ${this.calculateDiscount(product) ? html `
+                                <span class="discount">${this.calculateDiscount(product)}</span>
+                            ` : ""}
+                                </div>
                                 <san class="rating">${this.generateStars(product.averageRating)} (${product.averageRating})</san>
                                 <span class="description">${product.description}</span>
                             </div>
-
+                            
                             <div class="info-right">
-                                <span class="price">
+                                <div class="price">
+                                    ${this.calculateDiscount(product) ? html `
+                                    <span class="original-price">
+                                    ${product.originalPrice}
+                                    </span>
+                                ` : ""}
+                                    <span class="current-price">
                                     €${product.currentPrice}
                                 </span>
+                                </div>
                                 <img @click="${(): void => this.addItemToCart(product)}" class="cart-button" src="/assets/image/icons/shopping-bag.svg"/ alt="add to cart">
                             </div>
                         </div>

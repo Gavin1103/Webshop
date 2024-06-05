@@ -89,7 +89,7 @@ export class ProductCarouselSection extends LitElement {
                             <span>${product.name}</span>
                         </div>
                         <div class="product-price">
-                            <span class="product-price-original">${product.originalPrice > product.currentPrice + 1 ? "$ " + product.originalPrice : ""}</span>
+                            <span class="product-price-original">${this.calculateDiscount(product) ? "$ " + product.originalPrice : ""}</span>
                             <span class="product-price-current">$${product.currentPrice}</span>
                         </div>
                         <img tabindex="1" @click="${(): void => this.addItemToCart(product)}"

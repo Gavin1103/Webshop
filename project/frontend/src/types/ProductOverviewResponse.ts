@@ -5,4 +5,5 @@ export type ProductOverviewResponse = {
     image: string;
     averageRating: number;
     currentPrice : number;
+    originalPrice: number;
 }

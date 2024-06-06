@@ -7,6 +7,7 @@ import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
 import caaruujuuwoo65.backend.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,10 +110,19 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+
     @PreAuthorizeAdmin
     @PutMapping("/{productId}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long productId, @RequestBody ProductDTO updateProductDTO) {
-        ProductDTO updatedProduct = productService.updateProduct(productId ,updateProductDTO);
+    @Operation(summary = "Update product", description = "Update an existing product by its ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Product updated successfully"),
+        @ApiResponse(responseCode = "400", description = "Product not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<ProductDTO> updateProduct(
+        @Parameter(description = "ID of the product to be updated", required = true) @PathVariable Long productId,
+        @Parameter(description = "Updated product information", required = true) @RequestBody ProductDTO updateProductDTO) {
+        ProductDTO updatedProduct = productService.updateProduct(productId, updateProductDTO);
         if (updatedProduct != null) {
             return ResponseEntity.ok(updatedProduct);
         } else {

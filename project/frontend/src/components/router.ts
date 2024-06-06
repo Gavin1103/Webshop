@@ -150,7 +150,7 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             component: "cms-main",
             action: async (context: Context, commands: Commands): Promise<any> => {
                 if (!await _tokenService.isAdmin()) {
-                    return commands.component("unauthoorized-page");
+                    return commands.component("unauthorized-page");
                 }
 
                 updatePath(context.pathname);

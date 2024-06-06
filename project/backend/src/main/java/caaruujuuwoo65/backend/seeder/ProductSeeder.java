@@ -58,39 +58,39 @@ public class ProductSeeder implements CommandLineRunner {
         // Create product data
         List<CreateProductDTO> productDTOs = List.of(
             new CreateProductDTO(
-                "Smartphone",
-                "Introducing our latest Smartphone, a state-of-the-art device designed to meet all your modern needs. With an array of advanced features, this smartphone combines sleek design with exceptional functionality. Enjoy a crystal-clear display, high-resolution camera, and fast processing power, making multitasking a breeze. Priced at $699.99, it offers great value with a retail price of $799.99. Capture your moments with stunning clarity and stay connected with its long-lasting battery. Perfect for tech enthusiasts and everyday users alike, this smartphone is a must-have in the Electronics category. Check out the image and grab yours today!",
+                "Lost Memories: Quest of the Forgotten Knight",
+                "In a realm of magic and mystery, an unnamed protagonist sets out on a quest to find the lost damsel, aided by strange artifacts and unexpected allies. Through forests, caves, and cliffs, he uncovers fragments of his forgotten memories.",
                 100,
                 699.99,
                 799.99,
-                List.of("https://cf-images.dustin.eu/cdn-cgi/image/format=auto,quality=75,width=828,,fit=contain/image/d200001272315/apple-iphone-15-128gb-groen.jpg"),
+                List.of("https://lucastars.hbo-ict.cloud/media/75ab80bc368c4fc09aee74dca61d3679/00000006000000000000000000000000.png"),
                 categories.get("Electronics").getCategoryId()
             ),
             new CreateProductDTO(
-                "T-shirt",
-                "Discover the perfect blend of style and comfort with our latest T-shirt. Made from high-quality materials, this t-shirt ensures a soft and comfortable fit, making it ideal for daily wear. Its stylish design caters to modern fashion trends, ensuring you look great on any occasion. With a price of $19.99, it offers exceptional value compared to the retail price of $29.99. Available in various sizes, it is a must-have addition to your wardrobe. Suitable for all seasons, this t-shirt is part of our Fashion category. Check out the image and elevate your style today!",
+                "The dragon-Slayer 3000",
+                "Bij deze game ga je met een van de drie characters op pad met je party om de draak te verslaan.",
                 100,
                 19.99,
                 29.99,
-                List.of("https://cdn.engelbert-strauss.nl/assets/pdp/images/Original/product/6.Release.3100031/e_s_T-Shirt_cotton-8075-3-637868074595225719.png"),
+                List.of("https://lucastars.hbo-ict.cloud/media/aeb7eb3c542347b6830659a4e0d9885d/00000006000000000000000000000000.png"),
                 categories.get("Fashion").getCategoryId()
             ),
             new CreateProductDTO(
-                "Soccer Ball",
-                "Introducing our premium Soccer Ball, designed for professional matches and serious players. Crafted with high-quality materials, this soccer ball ensures optimal performance, durability, and precision in every game. Priced at $24.99, it offers great value compared to the retail price of $29.99. Perfect for both training sessions and competitive matches, it provides excellent control and stability on the field. Whether you're a seasoned player or an aspiring athlete, this soccer ball will enhance your game. Part of our Sports category, it's a must-have for soccer enthusiasts. Check out the image and get ready to score!",
+                "Save The Future",
+                "Are you able to save the future of mankind? If you like science, logical thinking and wine you should give it a go...",
                 100,
                 24.99,
                 29.99,
-                List.of("https://m.media-amazon.com/images/I/61IkrxQ9p8L._AC_UF1000,1000_QL80_.jpg"),
+                List.of("https://lucastars.hbo-ict.cloud/media/2626cba298e74c869dfabb1fe9f778b3/00000006000000000000000000000000.png"),
                 categories.get("Sports").getCategoryId()
             ),
             new CreateProductDTO(
-                "Novel",
-                "Dive into a world of captivating storytelling with our bestselling Novel. This book promises an engaging reading experience that will keep you hooked from start to finish. Priced at $14.99, it offers excellent value compared to the retail price of $19.99. Perfect for book lovers and casual readers alike, this novel is a great addition to any collection. Whether you're looking for an escape or a thoughtful gift, this book delivers on all fronts. Part of our Books category, it guarantees hours of immersive reading. Check out the image and get your copy today!",
+                "Lost Girl",
+                "Je bent met je vriendin in een hotel. Wanneer je even naar de lobby gaat om snacks te halen en terugkeert naar je kamer, ontdek je dat je vriendin weg is...",
                 100,
                 14.99,
                 19.99,
-                List.of("https://m.media-amazon.com/images/I/51xcnrUbLZL._AC_UF894,1000_QL80_DpWeblab_.jpg"),
+                List.of("https://lucastars.hbo-ict.cloud/media/b6890840ab554224ac6cfcaaa7e9d90d/00000006000000000000000000000000.png"),
                 categories.get("Books").getCategoryId()
             )
         );

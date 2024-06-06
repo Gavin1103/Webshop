@@ -1,23 +1,34 @@
 import {html, LitElement, TemplateResult} from "lit";
-import {customElement, query} from "lit/decorators.js";
-import {initRouter} from "./router";
-import webshopRootStyle from "../styles/webshopRootStyle";
+import {customElement, query, state} from "lit/decorators.js";
+import {getCurrentPath, initRouter} from "./router";
 
 @customElement("webshop-root")
 export class WebshopRoot extends LitElement {
-
-    public static styles = [webshopRootStyle];
+    @state()
+    private isCMSPage: boolean = false;
 
     @query("#main-shop-wrapper")
     private shopWrapper!: HTMLElement;
 
     public connectedCallback(): void {
         super.connectedCallback();
+        this.checkIfCMSPage();
     }
 
-    public firstUpdated(): void {
-        // Initialize the router with a designated outlet
-        void initRouter(this.shopWrapper);
+    public async firstUpdated(): Promise<void> {
+        await initRouter(this.shopWrapper);
+        window.addEventListener('hashchange', this.onRouteChange.bind(this));
+        this.onRouteChange();
+    }
+
+    public checkIfCMSPage(): void {
+        const currentPath: string = getCurrentPath();
+        this.isCMSPage = currentPath.includes("backoffice");
+    }
+
+    // Callback to handle route changes
+    private onRouteChange(): void {
+        this.checkIfCMSPage();
     }
 
     /**
@@ -26,7 +37,9 @@ export class WebshopRoot extends LitElement {
     protected render(): TemplateResult {
 
         return html`
-            <navigation-bar></navigation-bar>
+            ${this.isCMSPage ? html`` : html`
+                <navigation-bar></navigation-bar>`}
+
             <main id="main-shop-wrapper">
 
             </main>

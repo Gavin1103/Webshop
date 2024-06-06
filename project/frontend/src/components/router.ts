@@ -145,6 +145,15 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
                 return commands.component("feedback-list");
             }
         },
+        // cms
+        {
+            path: "/cms/products",
+            component: "products-overview-management",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("products-overview-management");
+            }
+        },
         {
             path: "(.*)",
             component: "not-found",

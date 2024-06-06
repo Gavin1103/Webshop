@@ -1,4 +1,5 @@
 // NOTE: This makes sure the component can be rendered by the browser
+
 export * from "./components/webshopRoot";
 export * from "./components/views/shoppingCart/shoppingCart";
 export * from "./components/views/shoppingCart/orderInfo/orderInfo";
@@ -43,3 +44,8 @@ export * from "./components/views/unauthorizedPage/401Page";
 export * from "./components/views/emailConfirmationPage/EmailConfirmationComponent";
 export * from "./components/views/loginPage/forgotPasswordComponent"
 export * from "./components/views/loginPage/resetPasswordComponent"
+
+
+
+export * from "./components/views/cms/productsManagement/products-overview-management"
+export * from "./components/views/cms/cms-header"

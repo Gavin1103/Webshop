@@ -3,7 +3,7 @@ import {customElement} from "lit/decorators.js";
 import "./category-card-horizontal";
 import "./search-bar";
 import navigationBarStyle from "../styles/navigationBarStyle";
-import {CategoryResponse} from "../types/CategoryResponse";
+import {CategoryResponse} from "../types/product/CategoryResponse";
 import {navigateTo} from "./router";
 import { CategoryService } from "../services/CategoryService";
 

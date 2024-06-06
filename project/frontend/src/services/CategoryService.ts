@@ -1,5 +1,5 @@
-import {CategoryResponse} from "../types/CategoryResponse";
-import {CategoryPreviewResponse} from "../types/CategoryPreviewResponse";
+import {CategoryResponse} from "../types/product/CategoryResponse";
+import {CategoryPreviewResponse} from "../types/product/CategoryPreviewResponse";
 
 export class CategoryService {
     public async getAllCategories():Promise<CategoryResponse[] | undefined> {

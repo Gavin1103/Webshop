@@ -1,8 +1,8 @@
-import {Product} from "../types/Product";
-import {ProductPreviewResponse} from "../types/ProductPreviewResponse";
+import {Product} from "../types/product/Product";
+import {ProductPreviewResponse} from "../types/product/ProductPreviewResponse";
 import {FilterRequest} from "../types/overviewPage/FilterRequest";
-import {ProductOverviewResponse} from "../types/ProductOverviewResponse";
-import {ProductSearchResponse} from "../types/ProductSearchResponse";
+import {ProductOverviewResponse} from "../types/product/ProductOverviewResponse";
+import {ProductSearchResponse} from "../types/product/ProductSearchResponse";
 
 export class ProductService {
     public async getTopDealProducts(): Promise<ProductPreviewResponse | undefined> {

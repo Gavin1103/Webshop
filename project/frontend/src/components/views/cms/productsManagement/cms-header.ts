@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import headingStyle from "../../../styles/cms/product/headingStyle";
-import {navigateTo} from "../../router";
+import headingStyle from "../../../../styles/cms/product/headingStyle";
+import {navigateTo} from "../../../router";
 
 @customElement("cms-header")
 export class CmsHeader extends LitElement {

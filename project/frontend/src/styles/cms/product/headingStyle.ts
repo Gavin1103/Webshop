@@ -38,7 +38,6 @@ export default css`
     }
     
     .sub-title {
-        font-size: medium;
         font-weight: lighter;
     }
     

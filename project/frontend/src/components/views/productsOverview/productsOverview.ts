@@ -5,10 +5,10 @@ import {getCurrentPath, navigateTo} from "../../router";
 import {OverviewType} from "../../../enums/overviewPage/OverviewType";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
 import {ShowcaseSection} from "./showcaseSection";
-import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
+import {ProductOverviewResponse} from "../../../types/product/ProductOverviewResponse";
 import {FilterSection} from "./filterSection";
 import {ProductService} from "../../../services/ProductService";
-import {CategoryPreviewResponse} from "../../../types/CategoryPreviewResponse";
+import {CategoryPreviewResponse} from "../../../types/product/CategoryPreviewResponse";
 import {CategoryService} from "../../../services/CategoryService";
 
 

@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import categoryCardHorizontalStyle from "../styles/categoryCardHorizontalStyle";
-import {CategoryResponse} from "../types/CategoryResponse";
+import {CategoryResponse} from "../types/product/CategoryResponse";
 import {navigateTo} from "./router";
 
 @customElement("category-card-horizontal")

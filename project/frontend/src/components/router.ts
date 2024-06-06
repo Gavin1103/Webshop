@@ -145,21 +145,12 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
                 return commands.component("feedback-list");
             }
         },
-        // cms
-        {
-            path: "/cms/products",
-            component: "products-overview-management",
-            action: (context: Context, commands: Commands): any => {
-                updatePath(context.pathname);
-                return commands.component("products-overview-management");
-            }
-        },
         {
             path: "/backoffice",
             component: "cms-main",
             action: async (context: Context, commands: Commands): Promise<any> => {
                 if (!await _tokenService.isAdmin()) {
-                    return commands.component("unauthorized-page");
+                    return commands.component("unauthoorized-page");
                 }
 
                 updatePath(context.pathname);
@@ -170,7 +161,7 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
                 {path: '/users', component: 'cms-users'},
                 {path: '/statistics', component: 'cms-statistics'},
                 {path: '/orders', component: 'cms-orders'},
-                {path: '/products', component: 'cms-products'},
+                {path: '/products', component: 'products-overview-management'},
                 {path: '/reviews', component: 'cms-reviews'},
                 {path: '/tools', component: 'cms-tools'},
             ]

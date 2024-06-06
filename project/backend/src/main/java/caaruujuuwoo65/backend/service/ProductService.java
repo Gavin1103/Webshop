@@ -1,10 +1,12 @@
 package caaruujuuwoo65.backend.service;
 
+import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.dto.product.*;
 import caaruujuuwoo65.backend.dto.product.category.CategoryPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.category.ProductCategoryDTO;
 import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.model.ProductCategory;
+import caaruujuuwoo65.backend.repository.ProductCategoryRepository;
 import caaruujuuwoo65.backend.repository.ProductRepository;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.EntityManager;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,13 +27,20 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductCategoryRepository productCategoryRepository;
     private final ModelMapper modelMapper;
     private final EntityManager entityManager;
 
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, EntityManager entityManager) {
+    public ProductService(
+        ProductRepository productRepository,
+        ProductCategoryRepository productCategoryRepository,
+        ModelMapper modelMapper,
+        EntityManager entityManager
+    ) {
         this.productRepository = productRepository;
+        this.productCategoryRepository = productCategoryRepository;
         this.modelMapper = modelMapper;
         this.entityManager = entityManager;
     }
@@ -137,4 +147,34 @@ public class ProductService {
             .map(productCategory -> modelMapper.map(productCategory, CategoryPreviewDTO.class))
             .collect(Collectors.toList());
     }
+
+    @Transactional
+    public ProductDTO updateProduct(Long productId, ProductDTO updateProductDTO) {
+        Product existingProduct = productRepository.findById(productId).orElse(null);
+        if (existingProduct == null) {
+            return null;
+        }
+
+        existingProduct.setProductName(updateProductDTO.getName());
+        existingProduct.setDescription(updateProductDTO.getDescription());
+        existingProduct.setImage(updateProductDTO.getImage());
+        existingProduct.setCurrentPrice(BigDecimal.valueOf(updateProductDTO.getCurrentPrice()));
+        existingProduct.setOriginalPrice(BigDecimal.valueOf(updateProductDTO.getOriginalPrice()));
+        existingProduct.setStock(updateProductDTO.getStock());
+
+        if (updateProductDTO.getProductCategory() != null) {
+            ProductCategoryDTO categoryDTO = updateProductDTO.getProductCategory();
+            int categoryId = categoryDTO.getId().intValue();
+            ProductCategory category = productCategoryRepository.findById(categoryId).orElse(null);
+            if (category != null) {
+                existingProduct.setCategory(category);
+            }
+        }
+
+        existingProduct = productRepository.save(existingProduct);
+
+        return modelMapper.map(existingProduct, ProductDTO.class);
+    }
+
+
 }

@@ -5,6 +5,43 @@ import {ProductOverviewResponse} from "../types/product/ProductOverviewResponse"
 import {ProductSearchResponse} from "../types/product/ProductSearchResponse";
 
 export class ProductService {
+    public getToken(): string | undefined {
+        return localStorage.getItem("token") || undefined;
+    }
+
+    public async updateProduct(productId: number, updatedProduct: Product): Promise<Product | undefined> {
+        const token: string | undefined = this.getToken();
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/${productId}`, {
+            method: "put",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(updatedProduct)
+        });
+
+        if (!response.ok) {
+            console.error(response);
+            return undefined;
+        }
+
+        return (await response.json()) as Product;
+    }
+
+    public async getAllProducts(): Promise<Product[] | undefined> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products`, {
+            method: "get",
+        });
+
+        if (!response.ok) {
+            console.error(response);
+
+            return undefined;
+        }
+
+        return (await response.json()) as Product[];
+    }
+
     public async getTopDealProducts(): Promise<ProductPreviewResponse | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/products/topDeals`, {
             method: "get",
@@ -33,7 +70,7 @@ export class ProductService {
         return (await response.json()) as ProductPreviewResponse;
     }
     public async getProductById(id: number): Promise<Product | undefined> {
-        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/getBy/${id}`, {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/${id}`, {
             method: "GET",
         });
 

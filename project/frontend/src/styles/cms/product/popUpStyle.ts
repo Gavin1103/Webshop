@@ -41,7 +41,6 @@ export default css`
         margin: 10px;
         label {
             margin-bottom: 5px;
-            
         }
     }
     
@@ -68,6 +67,9 @@ export default css`
         }
     }
     
+    .label-imageURL {
+        margin: 10px;
+    }
 
     textarea {
         border: 1px solid #ccc;

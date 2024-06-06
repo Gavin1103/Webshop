@@ -1,28 +1,40 @@
-import {html, LitElement, TemplateResult} from "lit";
-import {customElement, property} from "lit/decorators.js";
+import { html, LitElement, TemplateResult } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
 import popUpStyle from "../../../../styles/cms/product/popUpStyle";
-import {UpdateProduct} from "../../../../types/product/UpdateProduct";
+import { CategoryService } from "../../../../services/CategoryService";
+import { ProductCategory } from "../../../../types/product/ProductCategory";
+import { ProductService } from "../../../../services/ProductService";
+import { Product } from "../../../../types/product/Product";
 
 @customElement("edit-pop-up")
 export class EditPopUp extends LitElement {
     public static styles = [popUpStyle];
 
-    @property({type: Number})
+    private categoryService: CategoryService = new CategoryService();
+    private productService: ProductService = new ProductService();
+
+    @property({ type: Number })
     public productId: number | undefined;
 
-    @property({type: Object})
-        public product: UpdateProduct = {
-        id: 101,
-        name: "Smartphone",
-        description: "A modern smartphone with many features",
-        "stock": 100,
-        currentPrice: 699.99,
-        originalPrice: 799.99,
-        image: [
-            "https://cf-images.dustin.eu/cdn-cgi/image/format=auto,quality=75,width=828,,fit=contain/image/d200001272315/apple-iphone-15-128gb-groen.jpg"
-        ],
-        productCategory: "Electronics"
-    };
+    @state()
+    private updateProduct: Product | undefined;
+
+    private categoryList: ProductCategory[] = [];
+
+
+    private async loadCategoryList(): Promise<void> {
+        const categoryApiData: ProductCategory[] | undefined = await this.categoryService.getAllCategories();
+        if (categoryApiData) {
+            this.categoryList = categoryApiData;
+        }
+    }
+
+    private async loadUpdateProduct(id: number): Promise<void> {
+        this.updateProduct = await this.productService.getProductById(id);
+    }
+
+    @state()
+    private newImageUrl: string = "";
 
     public truncateString(input: string, length: number): string {
         if (input.length <= length) {
@@ -35,7 +47,7 @@ export class EditPopUp extends LitElement {
     public render(): TemplateResult {
         return html`
             <div class="popup-content">
-                ${this.product ? html`
+                ${this.updateProduct ? html`
                     <div class="close-button">
                         <img @click="${this.closePopup}" class="close-icon" src="/assets/image/icons/close-icon.svg" alt="close-button">
                     </div>
@@ -43,35 +55,37 @@ export class EditPopUp extends LitElement {
                     <div class="elements">
                         <div class="name input-element">
                             <label>Product Name</label>
-                            <input type="text" value="${this.product.name}">
+                            <input type="text" .value="${this.updateProduct?.name ?? ''}" @input="${this.updateName}">
                         </div>
                         <div class="stock input-element">
                             <label>Stock</label>
-                            <input type="number" value="${this.product.stock}">
+                            <input type="number" .value="${this.updateProduct?.stock ?? 0}" @input="${this.updateStock}">
                         </div>
                         <div class="category input-element">
                             <label for="category">Category</label>
-                            <select id="category">
-                                <option value="Electronics">Electronics</option>
-                                <option value="Clothing">Clothing</option>
-                                <option value="Books">Books</option>
+                            <select id="category" @change="${this.updateCategory}">
+                                ${this.categoryList.map(existedCategory => html`
+                                    <option value="${existedCategory.id}" ?selected="${this.updateProduct?.productCategory.id === existedCategory.id}">
+                                        ${existedCategory.name}
+                                    </option>
+                                `)};
                             </select>
                         </div>
                     </div>
                     <div class="elements">
                         <div class="current-price input-element">
                             <label>Current Price</label>
-                            <input type="number" value="${this.product.currentPrice}">
+                            <input type="number" .value="${this.updateProduct?.currentPrice ?? 0}" @input="${this.updateCurrentPrice}" step="any">
                         </div>
                         <div class="original-price input-element">
                             <label>Original Price</label>
-                            <input type="number" value="${this.product.originalPrice}">
+                            <input type="number" .value="${this.updateProduct?.originalPrice ?? 0}" @input="${this.updateOriginalPrice}" step="any">
                         </div>
                     </div>
 
                     <div class="image-list">
-                        <label>ImageURL</label>
-                        ${this.product.image? this.product.image.map((image, index) => html`
+                        <label class="label-imageURL">ImageURL</label>
+                        ${this.updateProduct.image ? this.updateProduct.image.map((image, index) => html`
                             <div class="existImageURL">
                                 <span class="imageURL">${this.truncateString(image, 50)}</span>
                                 <img @click="${() => this.removeImage(index)}" src="/assets/image/icons/delete-icon.svg" alt="delete">
@@ -81,7 +95,7 @@ export class EditPopUp extends LitElement {
                         <div class="add-image input-element">
                             <label>Add New Image</label>
                             <div class="input-with-button">
-                                <input id="newImageUrl" type="text" placeholder="ImageURL..." >
+                                <input id="newImageUrl" type="text" placeholder="ImageURL..." .value="${this.newImageUrl}" @input="${this.updateNewImageUrl}">
                                 <button @click="${this.addNewImage}">Add</button> 
                             </div>
                         </div>
@@ -90,7 +104,7 @@ export class EditPopUp extends LitElement {
                     
                     <div class="description input-element">
                         <label>Description</label>
-                        <textarea>${this.product.description}</textarea>
+                        <textarea @input="${this.updateDescription}">${this.updateProduct?.description ?? ''}</textarea>
                     </div>
                     
                     <div class="buttons">
@@ -105,47 +119,99 @@ export class EditPopUp extends LitElement {
         this.removeAttribute('open');
     }
 
-    public open(productId: number) {
+    public async open(productId: number) {
         this.productId = productId;
         this.setAttribute('open', '');
+        await this.loadCategoryList();
+        await this.loadUpdateProduct(this.productId);
+        this.requestUpdate();
+    }
+
+    private updateName(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (this.updateProduct) {
+            this.updateProduct = { ...this.updateProduct, name: input.value };
+        }
+    }
+
+    private updateStock(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (this.updateProduct) {
+            this.updateProduct = { ...this.updateProduct, stock: parseInt(input.value) };
+        }
+    }
+
+    private updateCategory(event: Event) {
+        const select = event.target as HTMLSelectElement;
+        const selectedCategoryId = parseInt(select.value);
+        const selectedCategory = this.categoryList.find(category => category.id === selectedCategoryId);
+
+        if (this.updateProduct && selectedCategory) {
+            this.updateProduct = {
+                ...this.updateProduct,
+                productCategory: {
+                    id: selectedCategory.id,
+                    name: selectedCategory.name,
+                    description: selectedCategory.description
+                }
+            };
+        }
+
+        this.requestUpdate();
+    }
+
+    private updateCurrentPrice(event: Event) {
+        const input = event.target as HTMLInputElement;
+        const value: number = parseFloat(input.value);
+        if (this.updateProduct && !isNaN(value)) {
+            this.updateProduct = { ...this.updateProduct, currentPrice: value };
+        }
+    }
+
+    private updateOriginalPrice(event: Event) {
+        const input = event.target as HTMLInputElement;
+        const value: number = parseFloat(input.value);
+        if (this.updateProduct && !isNaN(value)) {
+            this.updateProduct = { ...this.updateProduct, originalPrice: value };
+        }
+    }
+
+
+    private updateDescription(event: Event) {
+        const textarea = event.target as HTMLTextAreaElement;
+        if (this.updateProduct) {
+            this.updateProduct = { ...this.updateProduct, description: textarea.value };
+        }
+    }
+
+    private updateNewImageUrl(event: Event) {
+        const input = event.target as HTMLInputElement;
+        this.newImageUrl = input.value;
     }
 
     private addNewImage() {
-        const newImageUrlInput = this.shadowRoot?.querySelector<HTMLInputElement>("#newImageUrl");
-        console.log(newImageUrlInput);
-        if (newImageUrlInput && newImageUrlInput.value.trim() !== "") {
-            this.product.image.push(newImageUrlInput.value.trim());
-            newImageUrlInput.value = "";
+        if (this.updateProduct && this.newImageUrl.trim() !== "") {
+            this.updateProduct.image = [...this.updateProduct.image, this.newImageUrl.trim()];
+            this.newImageUrl = "";
             this.requestUpdate();
         }
     }
 
     private removeImage(index: number) {
-        this.product.image.splice(index, 1);
-        this.requestUpdate();
-    }
-
-    private saveProduct() {
-        const nameInput = this.shadowRoot?.querySelector<HTMLInputElement>(".name input");
-        const stockInput = this.shadowRoot?.querySelector<HTMLInputElement>(".stock input");
-        const categorySelect = this.shadowRoot?.querySelector<HTMLSelectElement>("#category");
-        const currentPriceInput = this.shadowRoot?.querySelector<HTMLInputElement>(".current-price input");
-        const originalPriceInput = this.shadowRoot?.querySelector<HTMLInputElement>(".original-price input");
-        const descriptionTextarea = this.shadowRoot?.querySelector<HTMLTextAreaElement>(".description textarea");
-
-        if (
-            nameInput && stockInput && categorySelect &&
-            currentPriceInput && originalPriceInput && descriptionTextarea
-        ) {
-            this.product.name = nameInput.value.trim();
-            this.product.stock = parseInt(stockInput.value);
-            this.product.productCategory = categorySelect.value;
-            this.product.currentPrice = parseFloat(currentPriceInput.value);
-            this.product.originalPrice = parseFloat(originalPriceInput.value);
-            this.product.description = descriptionTextarea.value.trim();
-
-
+        if (this.updateProduct) {
+            this.updateProduct.image = this.updateProduct.image.filter((_, i) => i !== index);
             this.requestUpdate();
         }
+    }
+
+    private async saveProduct() {
+        if (this.updateProduct) {
+            if (this.productId && this.updateProduct) {
+                await this.productService.updateProduct(this.productId, this.updateProduct);
+                this.dispatchEvent(new CustomEvent('product-updated', { bubbles: true, composed: true }))
+            }
+        }
+        console.log(this.updateProduct);
+        this.closePopup();
     }
 }

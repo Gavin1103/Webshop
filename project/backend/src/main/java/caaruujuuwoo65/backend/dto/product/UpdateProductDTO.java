@@ -9,5 +9,5 @@ public class UpdateProductDTO {
     private String name;
     private String description;
     private Double currentPrice;
-    private Long categoryId;
+    private Integer categoryId;
 }

@@ -55,6 +55,10 @@ export * from "./components/views/cms/toolingPage";
 export * from "./components/views/cms/ordersPage";
 export * from "./components/views/cms/reviewsPage";
 export * from "./components/views/cms/sidebar";
+export * from "./components/views/cms/usersPage";
+export * from "./components/views/cms/UserEditModal";
+export * from "./components/views/cms/userTable";
+
 
 // product cms
 export * from "./components/views/cms/productsManagement/products-overview-management"

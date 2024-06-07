@@ -2,10 +2,10 @@ package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.user.UpdateUserDTO;
 import caaruujuuwoo65.backend.model.Address;
+import caaruujuuwoo65.backend.model.ConfirmationToken;
+import caaruujuuwoo65.backend.model.Role;
 import caaruujuuwoo65.backend.model.User;
-import caaruujuuwoo65.backend.repository.AddressRepository;
-import caaruujuuwoo65.backend.repository.TokenRepository;
-import caaruujuuwoo65.backend.repository.UserRepository;
+import caaruujuuwoo65.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 @Transactional
 public class UserService {
@@ -23,13 +25,17 @@ public class UserService {
     private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
+    private final ConfirmationTokenRepository confirmationToken;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository) {
+    public UserService(UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ConfirmationTokenRepository confirmationToken, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenRepository = tokenRepository;
+        this.confirmationToken = confirmationToken;
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -45,16 +51,10 @@ public class UserService {
      * Edits a user.
      *
      * @param userDto     the user data transfer object
-     * @param email       the email address
      * @param changeRoles whether to change the user's roles
      * @return the edited user
      */
-    public ResponseEntity<?> editUser(UpdateUserDTO userDto, String email, boolean changeRoles) {
-        User existingUser = this.getUserByEmail(email); // Check if user already exists
-        if (existingUser == null) {
-            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
-        }
-
+    public ResponseEntity<?> editUser(UpdateUserDTO userDto, User existingUser, boolean changeRoles) {
         existingUser.setFirstname(userDto.getFirstname());
         existingUser.setLastname(userDto.getLastname());
         existingUser.setEmail(userDto.getEmail());
@@ -73,8 +73,8 @@ public class UserService {
             existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
 
-        if (!changeRoles) {
-            existingUser.setRoles(existingUser.getRoles());
+        if (changeRoles) {
+            existingUser.setRoles(roleRepository.findByName(userDto.getRoleName()));
         }
 
         return new ResponseEntity<>(userRepository.save(existingUser), HttpStatus.OK);
@@ -90,6 +90,10 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public User getUserById(long id) {
+        return userRepository.findByUserId(id);
+    }
+
     /**
      * Deletes a user by email.
      *
@@ -101,8 +105,8 @@ public class UserService {
 
         if(user != null) {
             tokenRepository.deleteByUser_UserId(user.getUserId());
+            confirmationToken.deleteByUser_UserId(user.getUserId());
         }
-
 
         userRepository.delete(user);
         return user;

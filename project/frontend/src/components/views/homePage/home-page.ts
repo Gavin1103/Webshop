@@ -1,8 +1,8 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import homePageStyle from "../../../styles/homePage/homePageStyle";
-import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
-import {CategoryResponse} from "../../../types/CategoryResponse";
+import {ProductPreviewResponse} from "../../../types/product/ProductPreviewResponse";
+import {CategoryResponse} from "../../../types/product/CategoryResponse";
 import {ProductService} from "../../../services/ProductService";
 import {CategoryService} from "../../../services/CategoryService";
 

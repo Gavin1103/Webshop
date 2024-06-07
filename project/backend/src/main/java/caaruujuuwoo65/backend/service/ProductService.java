@@ -164,7 +164,7 @@ public class ProductService {
 
         if (updateProductDTO.getProductCategory() != null) {
             ProductCategoryDTO categoryDTO = updateProductDTO.getProductCategory();
-            int categoryId = categoryDTO.getId().intValue();
+            Long categoryId = categoryDTO.getId();
             ProductCategory category = productCategoryRepository.findById(categoryId).orElse(null);
             if (category != null) {
                 existingProduct.setCategory(category);

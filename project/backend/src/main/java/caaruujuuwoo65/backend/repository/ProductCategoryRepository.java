@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductCategoryRepository extends JpaRepository<ProductCategory, Integer> {
+public interface ProductCategoryRepository extends JpaRepository<ProductCategory, Long> {
 
     @Query("SELECT c FROM ProductCategory c JOIN FETCH c.products")
     List<ProductCategory> findAllWithProducts();

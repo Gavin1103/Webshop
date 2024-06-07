@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import productCarouselSectionStyle from "../../../styles/homePage/productCarouselSectionStyle";
 import {CartItem, CartManager} from "../../helpers/CartHelpers";
-import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
+import {ProductPreviewResponse} from "../../../types/product/ProductPreviewResponse";
 import {itemType} from "../../../enums/itemTypeEnum";
 import {navigateTo} from "../../router";
 

@@ -161,7 +161,7 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
                 {path: '/users', component: 'cms-users'},
                 {path: '/statistics', component: 'cms-statistics'},
                 {path: '/orders', component: 'cms-orders'},
-                {path: '/products', component: 'cms-products'},
+                {path: '/products', component: 'products-overview-management'},
                 {path: '/reviews', component: 'cms-reviews'},
                 {path: '/tools', component: 'cms-tools'},
             ]

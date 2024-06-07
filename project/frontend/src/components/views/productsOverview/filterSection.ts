@@ -2,7 +2,7 @@ import { html, LitElement, TemplateResult } from "lit";
 import {customElement, property} from "lit/decorators.js";
 import filterSectionStyle from "../../../styles/productsOverview/filterSectionStyle";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
-import {CategoryPreviewResponse} from "../../../types/CategoryPreviewResponse";
+import {CategoryPreviewResponse} from "../../../types/product/CategoryPreviewResponse";
 
 interface ToggleableElement {
     visible: boolean;

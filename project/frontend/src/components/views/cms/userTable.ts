@@ -60,8 +60,6 @@ export class UserTable extends LitElement {
         super.connectedCallback();
 
         this.users = await this.userService.getAllUsers();
-
-        console.log('Users', this.users);
     }
 
     private async deleteUser(user: UserResponse): Promise<void> {

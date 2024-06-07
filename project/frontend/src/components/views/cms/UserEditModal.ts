@@ -2,9 +2,11 @@ import {html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from "lit/decorators.js";
 import {UserResponse} from "../../../types/UserResponse";
 import {css} from "lit-element";
+import {UserService} from "../../../services/UserService";
 
 @customElement("user-edit-modal")
 export class UserEditModal extends LitElement {
+    userService: UserService = new UserService();
 
     @property({type: Object})
     user: UserResponse | null = null;
@@ -77,11 +79,10 @@ export class UserEditModal extends LitElement {
         }
     `;
 
-    private updateUser(e: Event): void {
+    private async updateUser(e: Event): Promise<void> {
         e.preventDefault(); // Prevent the form from submitting normally
         this.open = false; // Close the modal
-        console.log(this.user); // Log the updated user
-        // Implement further update user logic here
+        await this.userService.editUser(this.user!);
     }
 
     protected render(): TemplateResult {

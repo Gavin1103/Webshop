@@ -7,6 +7,7 @@ import {Email} from "../types/Email";
 import {UserAuthResponse} from "../types/UserAuthResponse";
 import {RegistrationEmail} from "../types/RegistrationEmail";
 import {ForgotPasswordEmail} from "../types/ForgotPasswordEmail";
+import {UserResponse} from "../types/UserResponse";
 
 
 const headers: { "Content-Type": string } = {
@@ -224,6 +225,33 @@ export class UserService {
 
         if (!response.ok) {
             throw new Error('Failed to delete user records');
+        }
+
+        return await response.json();
+    }
+
+    public async editUser(user: UserResponse): Promise<any[]> {
+        const token: string | undefined = this._tokenService.getToken();
+
+        if(!token) {
+            return [];
+        }
+
+        user.roleName = user.roles[0].name;
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/user/${user.userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(user)
+        });
+
+        console.log(user);
+
+        if (!response.ok) {
+            throw new Error('Failed to edit user records');
         }
 
         return await response.json();

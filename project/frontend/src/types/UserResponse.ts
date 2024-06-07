@@ -6,4 +6,5 @@ export type UserResponse = {
     roles: any[];
     email: string;
     phonenumber: string;
+    roleName: string;
 };

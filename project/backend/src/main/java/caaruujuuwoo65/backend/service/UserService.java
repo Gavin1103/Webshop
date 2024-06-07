@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 @Transactional
 public class UserService {
@@ -49,16 +51,10 @@ public class UserService {
      * Edits a user.
      *
      * @param userDto     the user data transfer object
-     * @param email       the email address
      * @param changeRoles whether to change the user's roles
      * @return the edited user
      */
-    public ResponseEntity<?> editUser(UpdateUserDTO userDto, String email, boolean changeRoles) {
-        User existingUser = this.getUserByEmail(email); // Check if user already exists
-        if (existingUser == null) {
-            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
-        }
-
+    public ResponseEntity<?> editUser(UpdateUserDTO userDto, User existingUser, boolean changeRoles) {
         existingUser.setFirstname(userDto.getFirstname());
         existingUser.setLastname(userDto.getLastname());
         existingUser.setEmail(userDto.getEmail());
@@ -92,6 +88,10 @@ public class UserService {
      */
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User getUserById(long id) {
+        return userRepository.findByUserId(id);
     }
 
     /**

@@ -9,6 +9,42 @@ export class ProductService {
         return localStorage.getItem("token") || undefined;
     }
 
+    public async deleteProduct(productId: number): Promise<void | undefined> {
+        const token: string | undefined = this.getToken();
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/${productId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        });
+
+        if (!response.ok) {
+            console.error(response);
+            return undefined;
+        }
+    }
+
+    public async addProduct(addProduct: Product): Promise<Product | undefined> {
+        const token: string | undefined = this.getToken();
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/add`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(addProduct)
+        });
+
+        if (!response.ok) {
+            console.error(response);
+            return undefined;
+        }
+
+        return (await response.json()) as Product;
+    }
+
+
     public async updateProduct(productId: number, updatedProduct: Product): Promise<Product | undefined> {
         const token: string | undefined = this.getToken();
         const response: Response = await fetch(`${viteConfiguration.API_URL}/products/${productId}`, {

@@ -4,7 +4,7 @@ import productOverviewManagementStyle from "../../../../styles/cms/product/produ
 import {EditPopUp} from "./edit-pop-up";
 import {Product} from "../../../../types/product/Product";
 import {ProductService} from "../../../../services/ProductService";
-
+import {AddPopUp} from "./add-pop-up";
 
 
 @customElement("products-overview-management")
@@ -33,6 +33,19 @@ export class ProductsOverviewManagement extends LitElement {
         }
     }
 
+    public async addProduct(): Promise<void> {
+        const popup = this.shadowRoot?.querySelector('add-pop-up') as AddPopUp;
+        await popup.open();
+    }
+
+    public async deleteProduct(productId: number | undefined): Promise<void> {
+        if(productId) {
+            await this.productService.deleteProduct(productId);
+            await this.loadProducts();
+            this.requestUpdate();
+        }
+    }
+
 
 
     public render(): TemplateResult {
@@ -46,7 +59,9 @@ export class ProductsOverviewManagement extends LitElement {
                 redirectText="to home"
             ></cms-header>
             
-            <cms-search></cms-search>
+            <cms-search
+                @search-result="${this.handleSearch}"
+            ></cms-search>
 
             <table>
                 <thead>
@@ -61,6 +76,17 @@ export class ProductsOverviewManagement extends LitElement {
                 </tr>
                 </thead>
                 <tbody>
+                <tr>
+                    <td>0</td>
+                    <td>Add new product</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>
+                        <button @click="${this.addProduct}" class="btn btn-add">Add</button>
+                    </td>
+                </tr>
                 ${this.productsList? this.productsList.map(product => html`
                     <tr>
                         <td>${product.id}</td>
@@ -71,7 +97,7 @@ export class ProductsOverviewManagement extends LitElement {
                         <td>${product.originalPrice}</td>
                         <td>
                             <button @click="${() => this.editProduct(product.id)}" class="btn btn-change">Edit</button>
-                            <button class="btn btn-delete">Delete</button>
+                            <button @click="${() => this.deleteProduct(product.id)}" class="btn btn-delete">Delete</button>
                         </td>
                     </tr>
                 `): ""}
@@ -83,6 +109,11 @@ export class ProductsOverviewManagement extends LitElement {
                 @product-updated="${this.handleProductUpdated}"
             ></edit-pop-up>
             
+            <add-pop-up
+                @product-added="${this.handleProductUpdated}"
+            >
+            </add-pop-up>
+            
             
         `;
     }
@@ -90,5 +121,10 @@ export class ProductsOverviewManagement extends LitElement {
     private async handleProductUpdated() {
         await this.loadProducts();
         this.requestUpdate()
+    }
+
+    private handleSearch(event: CustomEvent) {
+        this.productsList = event.detail.products;
+        this.requestUpdate();
     }
 }

@@ -248,8 +248,6 @@ export class UserService {
             body: JSON.stringify(user)
         });
 
-        console.log(user);
-
         if (!response.ok) {
             throw new Error('Failed to edit user records');
         }

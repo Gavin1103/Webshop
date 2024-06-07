@@ -8,7 +8,7 @@ export class UsersPage extends LitElement {
         return html`
             <div>
                 <h1>Users Page</h1>
-                <p>This is the users page content.</p>
+                <p>Manage all user information</p>
                 <user-table></user-table>
             </div>
         `;

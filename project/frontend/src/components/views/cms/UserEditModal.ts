@@ -11,6 +11,9 @@ export class UserEditModal extends LitElement {
     @property({type: Object})
     user: UserResponse | null = null;
 
+    @property({type: Object})
+    onUpdate: (user: UserResponse) => void = () => {};
+
     @property({type: Boolean})
     open: boolean = false;
 
@@ -80,9 +83,10 @@ export class UserEditModal extends LitElement {
     `;
 
     private async updateUser(e: Event): Promise<void> {
-        e.preventDefault(); // Prevent the form from submitting normally
-        this.open = false; // Close the modal
-        await this.userService.editUser(this.user!);
+        e.preventDefault();
+        this.open = false;
+        const updatedUser: any = await this.userService.editUser(this.user!);
+        this.onUpdate(updatedUser);
     }
 
     protected render(): TemplateResult {

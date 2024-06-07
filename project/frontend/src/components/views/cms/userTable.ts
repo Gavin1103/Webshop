@@ -62,6 +62,12 @@ export class UserTable extends LitElement {
         this.users = await this.userService.getAllUsers();
     }
 
+    public updateUser(updatedUser: UserResponse): void {
+        const index: number = this.users.findIndex(u => u.userId === updatedUser.userId);
+        this.users[index] = updatedUser;
+        this.requestUpdate();
+    }
+
     private async deleteUser(user: UserResponse): Promise<void> {
         if (confirm('Are you sure you want to delete this user?')) {
             await this.userService.deleteUser(user.email);
@@ -110,7 +116,6 @@ export class UserTable extends LitElement {
                 `)}
             </tbody>
         </table>
-        <user-edit-modal></user-edit-modal>
-    `;
+        <user-edit-modal .onUpdate="${this.updateUser}"></user-edit-modal>   `;
     }
 }

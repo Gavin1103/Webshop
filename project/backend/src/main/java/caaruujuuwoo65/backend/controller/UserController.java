@@ -79,6 +79,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @PreAuthorizeAdmin
     @DeleteMapping("/{email}")
     @Operation(summary = "Delete user by email", description = "Delete a user by email address")
     @ApiResponses(value = {

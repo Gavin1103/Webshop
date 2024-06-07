@@ -185,6 +185,50 @@ export class UserService {
         return {success: true};
     }
 
+    public async getAllUsers(): Promise<any[]> {
+        const token: string | undefined = this._tokenService.getToken();
+
+        if(!token) {
+            return [];
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/user/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user records');
+        }
+
+        return await response.json();
+    }
+
+    public async deleteUser(email: string): Promise<any[]> {
+        const token: string | undefined = this._tokenService.getToken();
+
+        if(!token) {
+            return [];
+        }
+
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/user/${email}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete user records');
+        }
+
+        return await response.json();
+    }
+
     /**
      * Handles adding an order item to the cart of the current user. Requires a valid token.
      *

@@ -5,10 +5,11 @@ import { CategoryService } from "../../../../services/CategoryService";
 import { ProductCategory } from "../../../../types/product/ProductCategory";
 import { Product } from "../../../../types/product/Product";
 import {ProductService} from "../../../../services/ProductService";
+import editAddPopUpStyle from "../../../../styles/cms/product/editAddPopUpStyle";
 
 @customElement("add-pop-up")
 export class AddPopUp extends LitElement {
-    public static styles = [popUpStyle];
+    public static styles = [popUpStyle, editAddPopUpStyle];
 
     private categoryService: CategoryService = new CategoryService();
     private productService: ProductService = new ProductService();
@@ -135,23 +136,27 @@ export class AddPopUp extends LitElement {
     }
 
     private closePopup() {
-        this.removeAttribute('open');
-        this.addProduct = {
-            id: 0,
-            name: '',
-            description: '',
-            image: [],
-            currentPrice: 0,
-            originalPrice: 0,
-            stock: 0,
-            productCategory: {
+        this.setAttribute('closing', '');
+        setTimeout(() => {
+            this.removeAttribute('open');
+            this.removeAttribute('closing');
+            this.addProduct = {
                 id: 0,
                 name: '',
-                description: ''
-            }
-        };
-        this.newImageUrl = "";
-        this.requestUpdate();
+                description: '',
+                image: [],
+                currentPrice: 0,
+                originalPrice: 0,
+                stock: 0,
+                productCategory: {
+                    id: 0,
+                    name: '',
+                    description: ''
+                }
+            };
+            this.newImageUrl = "";
+            this.requestUpdate();
+        }, 500);
     }
 
     public async open() {

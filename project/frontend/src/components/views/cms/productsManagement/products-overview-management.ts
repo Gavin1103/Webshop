@@ -5,7 +5,9 @@ import {EditPopUp} from "./edit-pop-up";
 import {Product} from "../../../../types/product/Product";
 import {ProductService} from "../../../../services/ProductService";
 import {AddPopUp} from "./add-pop-up";
-
+import "./confirmation-pop-up";
+import {ConfirmationPopUp} from "./confirmation-pop-up";
+import {truncateStringFront} from "../../../helpers/helpers";
 
 @customElement("products-overview-management")
 export class ProductsOverviewManagement extends LitElement {
@@ -13,7 +15,7 @@ export class ProductsOverviewManagement extends LitElement {
 
     private productService: ProductService = new ProductService();
 
-    private productsList: Product[] | undefined
+    private productsList: Product[] | undefined;
 
     public async connectedCallback() {
         super.connectedCallback();
@@ -24,7 +26,6 @@ export class ProductsOverviewManagement extends LitElement {
     private async loadProducts(): Promise<void> {
         this.productsList = await this.productService.getAllProducts();
     }
-
 
     public async editProduct(productId: number | undefined): Promise<void> {
         if (productId) {
@@ -38,6 +39,13 @@ export class ProductsOverviewManagement extends LitElement {
         await popup.open();
     }
 
+    public  confirmDeleteProduct(productId: number | undefined): void {
+        if (productId) {
+            const popup = this.shadowRoot?.querySelector('confirmation-pop-up') as ConfirmationPopUp;
+            popup.openPopup(productId);
+        }
+    }
+
     public async deleteProduct(productId: number | undefined): Promise<void> {
         if(productId) {
             await this.productService.deleteProduct(productId);
@@ -46,10 +54,8 @@ export class ProductsOverviewManagement extends LitElement {
         }
     }
 
-
-
     public render(): TemplateResult {
-        return html `
+        return html`
             <cms-header
                 iconUrl="./assets/image/icons/productsManagement/tag-black.svg"
                 title="Products"
@@ -72,6 +78,7 @@ export class ProductsOverviewManagement extends LitElement {
                     <th>Stock</th>
                     <th>Current Price</th>
                     <th>Original Price</th>
+                    <th>Category</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -79,6 +86,7 @@ export class ProductsOverviewManagement extends LitElement {
                 <tr>
                     <td>0</td>
                     <td>Add new product</td>
+                    <td>...</td>
                     <td>...</td>
                     <td>...</td>
                     <td>...</td>
@@ -91,19 +99,19 @@ export class ProductsOverviewManagement extends LitElement {
                     <tr>
                         <td>${product.id}</td>
                         <td>${product.name}</td>
-                        <td>${product.description}</td>
+                        <td>${truncateStringFront(product.description, 30)}</td>
                         <td>${product.stock}</td>
                         <td>${product.currentPrice}</td>
                         <td>${product.originalPrice}</td>
+                        <td>${product.productCategory.name}</td>
                         <td>
                             <button @click="${() => this.editProduct(product.id)}" class="btn btn-change">Edit</button>
-                            <button @click="${() => this.deleteProduct(product.id)}" class="btn btn-delete">Delete</button>
+                            <button @click="${() => this.confirmDeleteProduct(product.id)}" class="btn btn-delete">Delete</button>
                         </td>
                     </tr>
                 `): ""}
                 </tbody>
             </table>
-
 
             <edit-pop-up
                 @product-updated="${this.handleProductUpdated}"
@@ -111,16 +119,17 @@ export class ProductsOverviewManagement extends LitElement {
             
             <add-pop-up
                 @product-added="${this.handleProductUpdated}"
-            >
-            </add-pop-up>
+            ></add-pop-up>
             
-            
+            <confirmation-pop-up
+                @confirm-delete="${(e: CustomEvent) => this.deleteProduct(e.detail.productId)}"
+            ></confirmation-pop-up>
         `;
     }
 
     private async handleProductUpdated() {
         await this.loadProducts();
-        this.requestUpdate()
+        this.requestUpdate();
     }
 
     private handleSearch(event: CustomEvent) {

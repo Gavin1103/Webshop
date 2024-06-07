@@ -7,6 +7,7 @@ import {Router} from "@vaadin/router";
 import {CartItem, CartManager} from "../../helpers/CartHelpers";
 import {itemType} from "../../../enums/itemTypeEnum";
 import {navigateTo} from "../../router";
+import {truncateStringFront} from "../../helpers/helpers";
 
 @customElement("showcase-section")
 export class ShowcaseSection extends LitElement {
@@ -195,7 +196,7 @@ export class ShowcaseSection extends LitElement {
                             ` : ""}
                                 </div>
                                 <san class="rating">${this.generateStars(product.averageRating)} (${product.averageRating})</san>
-                                <span class="description">${product.description}</span>
+                                <span class="description">${truncateStringFront(product.description, 50)}</span>
                             </div>
                             
                             <div class="info-right">

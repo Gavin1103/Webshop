@@ -2,10 +2,10 @@ package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.user.UpdateUserDTO;
 import caaruujuuwoo65.backend.model.Address;
-import caaruujuuwoo65.backend.model.ConfirmationToken;
 import caaruujuuwoo65.backend.model.Role;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.repository.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
@@ -21,6 +22,7 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @Transactional
 public class UserService {
 
+    private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
@@ -29,7 +31,8 @@ public class UserService {
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ConfirmationTokenRepository confirmationToken, RoleRepository roleRepository) {
+    public UserService(ModelMapper modelMapper, UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ConfirmationTokenRepository confirmationToken, RoleRepository roleRepository) {
+        this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
@@ -55,29 +58,38 @@ public class UserService {
      * @return the edited user
      */
     public ResponseEntity<?> editUser(UpdateUserDTO userDto, User existingUser, boolean changeRoles) {
-        existingUser.setFirstname(userDto.getFirstname());
-        existingUser.setLastname(userDto.getLastname());
-        existingUser.setEmail(userDto.getEmail());
-        existingUser.setPhonenumber(userDto.getPhonenumber());
+        User user = modelMapper.map(userDto, User.class);
 
         if (userDto.getAddressId() != null) {
             Address address = addressRepository.findById(userDto.getAddressId()).orElse(null);
             if (address != null) {
-                existingUser.setAddress(address);
+                user.setAddress(address);
             } else {
                 return new ResponseEntity<>("Address not found", HttpStatus.NOT_FOUND);
             }
         }
 
         if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
-            existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+        else {
+            user.setPassword(existingUser.getPassword());
         }
 
         if (changeRoles) {
-            existingUser.setRoles(roleRepository.findByName(userDto.getRoleName()));
+            Role role = new Role();
+            role.setName(userDto.getRoleName());
+            role.setUser(user);
+            user.setRoles(Set.of(role));
+        }
+        else {
+            user.setRoles(existingUser.getRoles());
         }
 
-        return new ResponseEntity<>(userRepository.save(existingUser), HttpStatus.OK);
+        user.setEnabled(existingUser.isEnabled());
+        user.setCarts(existingUser.getCarts());
+        user.setUserId(existingUser.getUserId());
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
     /**

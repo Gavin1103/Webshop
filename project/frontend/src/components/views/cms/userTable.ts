@@ -62,10 +62,10 @@ export class UserTable extends LitElement {
         this.users = await this.userService.getAllUsers();
     }
 
-    public updateUser(updatedUser: UserResponse): void {
-        const index: number = this.users.findIndex(u => u.userId === updatedUser.userId);
-        this.users[index] = updatedUser;
-        this.requestUpdate();
+    public async updateUser(updatedUser: UserResponse): Promise<void> {
+        await this.userService.editUser(updatedUser);
+        this.users = await this.userService.getAllUsers();
+        window.location.reload();
     }
 
     private async deleteUser(user: UserResponse): Promise<void> {

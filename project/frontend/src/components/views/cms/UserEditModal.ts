@@ -82,11 +82,10 @@ export class UserEditModal extends LitElement {
         }
     `;
 
-    private async updateUser(e: Event): Promise<void> {
+    private updateUser(e: Event): void {
         e.preventDefault();
         this.open = false;
-        const updatedUser: any = await this.userService.editUser(this.user!);
-        this.onUpdate(updatedUser);
+        this.onUpdate(this.user!);
     }
 
     protected render(): TemplateResult {

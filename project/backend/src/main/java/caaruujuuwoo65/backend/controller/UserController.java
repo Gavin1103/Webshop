@@ -58,7 +58,7 @@ public class UserController {
             return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
         }
 
-        return userService.editUser(userDto, existingUser, false);
+        return userService.editUser(userDto, existingUser, true);
     }
 
     @PutMapping("/self")

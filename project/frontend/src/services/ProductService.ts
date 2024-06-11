@@ -3,6 +3,7 @@ import {ProductPreviewResponse} from "../types/product/ProductPreviewResponse";
 import {FilterRequest} from "../types/overviewPage/FilterRequest";
 import {ProductOverviewResponse} from "../types/product/ProductOverviewResponse";
 import {ProductSearchResponse} from "../types/product/ProductSearchResponse";
+import { ProductReviews } from "../types/product/ProductReviews";
 
 export class ProductService {
     public getToken(): string | undefined {
@@ -147,5 +148,19 @@ export class ProductService {
         }
 
         return await response.json();
+    }
+
+    public async getReviewsOfProduct(productId: number):Promise<ProductReviews | undefined>{
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/products/reviews/${productId}`, {
+            method: "get",
+        });
+
+        if (!response.ok) {
+            console.error(response);
+
+            return undefined;
+        }
+
+        return await response.json() as ProductReviews;
     }
 }

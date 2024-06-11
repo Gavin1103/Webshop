@@ -65,3 +65,10 @@ export * from "./components/views/cms/productsManagement/products-overview-manag
 export * from "./components/views/cms/productsManagement/cms-header"
 export * from "./components/views/cms/productsManagement/cms-search"
 export * from "./components/views/cms/productsManagement/edit-pop-up"
+
+// CMS-reviews-components
+export * from "./components/views/cms/reviewsManagement/RenderProductsComponent";
+export * from "./components/views/cms/reviewsManagement/RenderReviewComponent";
+export * from "./components/views/cms/reviewsManagement/RenderReviewsComponent";
+
+

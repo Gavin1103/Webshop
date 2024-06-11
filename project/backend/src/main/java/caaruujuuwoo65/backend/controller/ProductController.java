@@ -3,6 +3,7 @@ package caaruujuuwoo65.backend.controller;
 import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
 import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
+import caaruujuuwoo65.backend.dto.product.ProductReviewsDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
 import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
 import caaruujuuwoo65.backend.service.ProductService;
@@ -128,5 +129,20 @@ public class ProductController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/reviews/{id}")
+    @Operation(summary = "Get all reviews by product id", description = "Get all reviews by product id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reviews successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "Reviews not found"),
+            @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<?> getProductReviews(@PathVariable int id) {
+        ProductReviewsDTO product = productService.getProductWithReviewsById((long) id);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+        return ResponseEntity.ok(product);
     }
 }

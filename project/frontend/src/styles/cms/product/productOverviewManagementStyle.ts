@@ -20,6 +20,9 @@ export default css`
         border: none;
         border-radius: 3px;
         cursor: pointer;
+        color:white;
+        background-color: #373e98;
+
     }
     .btn-change {
         background-color: #373e98;

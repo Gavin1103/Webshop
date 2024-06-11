@@ -25,14 +25,14 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("getBy/{id}")
     @Operation(summary = "Get review by id", description = "Get review by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Review successfully retrieved"),
             @ApiResponse(responseCode = "404", description = "Review not found"),
             @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<?> getProductById(@PathVariable int id) {
+    public ResponseEntity<?> getReviewById(@PathVariable int id) {
         ReviewDTO review = reviewService.getReviewById((long) id);
         if (review == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Review not found");

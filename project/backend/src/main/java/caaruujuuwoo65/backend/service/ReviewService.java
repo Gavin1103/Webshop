@@ -10,16 +10,11 @@ import caaruujuuwoo65.backend.repository.ReviewRepository;
 
 @Service
 public class ReviewService {
-
     private final ReviewRepository reviewRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ReviewService(
-            ReviewRepository reviewRepository,
-            ModelMapper modelMapper
-
-    ) {
+    public ReviewService(ReviewRepository reviewRepository, ModelMapper modelMapper) {
         this.reviewRepository = reviewRepository;
         this.modelMapper = modelMapper;
     }

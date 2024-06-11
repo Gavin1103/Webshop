@@ -15,7 +15,7 @@ export class RenderProductsComponent extends LitElement {
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
 
-        await this.fethProducts();
+        await this.fetchProducts();
         this.requestUpdate();
     }
 
@@ -42,7 +42,7 @@ export class RenderProductsComponent extends LitElement {
                                           <td>${product.description}</td>
                                           <td>
                                               <button
-                                                  class="btn btn-delete"
+                                                  class="btn"
                                                   @click=${() => this.handleSeeReviewsClick(product.id)}
                                               >
                                                   <strong>See reviews</strong>
@@ -58,7 +58,7 @@ export class RenderProductsComponent extends LitElement {
         `;
     }
 
-    private async fethProducts(): Promise<void> {
+    private async fetchProducts(): Promise<void> {
         const products: Product[] | undefined = await this.productService.getAllProducts();
         if (products) {
             this.products = products;

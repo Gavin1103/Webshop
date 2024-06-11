@@ -41,8 +41,8 @@ export class RenderReviewComponent extends LitElement {
                 ? html`
                       <div>
                           <p>Delete review?</p>
-                          <button @click=${this.confirmDelete}>Delete</button>
-                          <button @click=${this.toggleDeletePopUp}>Cancel</button>
+                          <button class="btn btn-delete" @click=${this.confirmDelete}>Delete</button>
+                          <button class="btn" @click=${this.toggleDeletePopUp}>Cancel</button>
                       </div>
                   `
                 : ""}

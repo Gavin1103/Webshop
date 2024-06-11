@@ -52,7 +52,7 @@ export class RenderReviewsComponent extends LitElement {
                                           <td>${review.createdAt}</td>
                                           <td>
                                               <button
-                                                  class="btn btn-delete"
+                                                  class="btn"
                                                   @click=${() => this.handleSeeReviewsClick(review.reviewId)}
                                               >
                                                   <strong>See review</strong>

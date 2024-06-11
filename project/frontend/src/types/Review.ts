@@ -1,4 +1,4 @@
-import { UserResponse } from "./UserResponse";
+import { UserReviewInfo } from "./UserReviewInfo";
 import { Product } from "./product/Product";
 
 export type Review = {
@@ -8,5 +8,5 @@ export type Review = {
     createdAt: Date;
     updatedAt: Date;
     product: Product;
-    user: UserResponse;
+    user: UserReviewInfo;
 }

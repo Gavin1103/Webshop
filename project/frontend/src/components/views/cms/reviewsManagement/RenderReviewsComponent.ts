@@ -47,7 +47,7 @@ export class RenderReviewsComponent extends LitElement {
                             ? this.productReviews.reviews.map(
                                   (review) => html`
                                       <tr>
-                                          <td>${review.user.firstname}</td>
+                                          <td>${review.user.username}</td>
                                           <td>${review.rating} stars</td>
                                           <td>${review.createdAt}</td>
                                           <td>

@@ -27,7 +27,6 @@ export class RenderReviewComponent extends LitElement {
             <div>
                 <a class="go-back-btn" @click=${this.goBack}>Back</a>
                 <p><strong>Username: </strong>${this.review?.user.username}</p>
-                <p><strong>Email: </strong>${this.review?.user.email}</p>
                 <p><strong>Rating: </strong>${this.review?.rating}</p>
                 <p><strong>Review: </strong>${this.review?.review}</p>
                 <p><strong>Created at: </strong>${this.review?.createdAt}</p>

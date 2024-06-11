@@ -5,7 +5,7 @@ export default css`
         width: 190px;
         height: 40px;
         border: none;
-        background-color: var(--background-color, #5ab2ff);
+        background-color: var(--background-color, lightgrey);
         border-radius: 5px;
         color: white;
         font-size: 16px;
@@ -15,12 +15,12 @@ export default css`
 
     button:hover {
         cursor: pointer;
-        background-color: var(--background-hover-color, #4a92d8);
+        background-color: var(--background-hover-color, lightgrey);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
     }
 
     button:active {
-        background-color: var(--background-active-color, #357abd);
+        background-color: var(--background-active-color, lightgrey);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 `;

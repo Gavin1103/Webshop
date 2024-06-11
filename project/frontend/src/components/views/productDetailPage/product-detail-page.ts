@@ -13,7 +13,7 @@ export class ProductDetailPage extends LitElement {
     private infoStatus: string = "description";
 
     @property({ type: String })
-    private buttonColor: string = "#5AB2FF";
+    private buttonColor: string = "lightgrey";
 
     @property({ type: Number })
     private productId: number = 0;

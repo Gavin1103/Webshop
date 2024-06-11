@@ -25,7 +25,7 @@ export class CustomButtonComponent extends LitElement {
         super.updated(changedProperties);
 
         if (changedProperties.has("backgroundColor")) {
-            const color: string = this.backgroundColor ? this.backgroundColor : "lightgrey";
+            const color: string = this.backgroundColor ? this.backgroundColor : "#5ab2ff";
             this.style.setProperty("--background-color", color);
         }
     }

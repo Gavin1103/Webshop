@@ -70,5 +70,3 @@ export * from "./components/views/cms/productsManagement/edit-pop-up"
 export * from "./components/views/cms/reviewsManagement/RenderProductsComponent";
 export * from "./components/views/cms/reviewsManagement/RenderReviewComponent";
 export * from "./components/views/cms/reviewsManagement/RenderReviewsComponent";
-
-

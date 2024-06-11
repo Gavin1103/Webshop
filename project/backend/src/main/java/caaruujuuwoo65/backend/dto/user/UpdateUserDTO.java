@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.dto.user;
 
+import caaruujuuwoo65.backend.model.enums.RoleEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class UpdateUserDTO {
     private String username;
     private String email;
     private String phonenumber;
+    private RoleEnum roleName;
     private Long addressId;
     private String password;
 }

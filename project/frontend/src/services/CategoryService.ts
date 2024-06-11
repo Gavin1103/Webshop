@@ -1,8 +1,9 @@
-import {CategoryResponse} from "../types/CategoryResponse";
-import {CategoryPreviewResponse} from "../types/CategoryPreviewResponse";
+import {CategoryResponse} from "../types/product/CategoryResponse";
+import {CategoryPreviewResponse} from "../types/product/CategoryPreviewResponse";
+import {ProductCategory} from "../types/product/ProductCategory";
 
 export class CategoryService {
-    public async getAllCategories():Promise<CategoryResponse[] | undefined> {
+    public async getAllCategories():Promise<ProductCategory[] | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}/categories`, {
             method: "get",
         });

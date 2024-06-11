@@ -2,10 +2,10 @@ package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.user.UpdateUserDTO;
 import caaruujuuwoo65.backend.model.Address;
+import caaruujuuwoo65.backend.model.Role;
 import caaruujuuwoo65.backend.model.User;
-import caaruujuuwoo65.backend.repository.AddressRepository;
-import caaruujuuwoo65.backend.repository.TokenRepository;
-import caaruujuuwoo65.backend.repository.UserRepository;
+import caaruujuuwoo65.backend.repository.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,22 +14,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 @Transactional
 public class UserService {
 
+    private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
+    private final ConfirmationTokenRepository confirmationToken;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository) {
+    public UserService(ModelMapper modelMapper, UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ConfirmationTokenRepository confirmationToken, RoleRepository roleRepository) {
+        this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenRepository = tokenRepository;
+        this.confirmationToken = confirmationToken;
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -45,39 +54,42 @@ public class UserService {
      * Edits a user.
      *
      * @param userDto     the user data transfer object
-     * @param email       the email address
      * @param changeRoles whether to change the user's roles
      * @return the edited user
      */
-    public ResponseEntity<?> editUser(UpdateUserDTO userDto, String email, boolean changeRoles) {
-        User existingUser = this.getUserByEmail(email); // Check if user already exists
-        if (existingUser == null) {
-            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
-        }
-
-        existingUser.setFirstname(userDto.getFirstname());
-        existingUser.setLastname(userDto.getLastname());
-        existingUser.setEmail(userDto.getEmail());
-        existingUser.setPhonenumber(userDto.getPhonenumber());
+    public ResponseEntity<?> editUser(UpdateUserDTO userDto, User existingUser, boolean changeRoles) {
+        User user = modelMapper.map(userDto, User.class);
 
         if (userDto.getAddressId() != null) {
             Address address = addressRepository.findById(userDto.getAddressId()).orElse(null);
             if (address != null) {
-                existingUser.setAddress(address);
+                user.setAddress(address);
             } else {
                 return new ResponseEntity<>("Address not found", HttpStatus.NOT_FOUND);
             }
         }
 
         if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
-            existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+        else {
+            user.setPassword(existingUser.getPassword());
         }
 
-        if (!changeRoles) {
-            existingUser.setRoles(existingUser.getRoles());
+        if (changeRoles) {
+            Role role = new Role();
+            role.setName(userDto.getRoleName());
+            role.setUser(user);
+            user.setRoles(Set.of(role));
+        }
+        else {
+            user.setRoles(existingUser.getRoles());
         }
 
-        return new ResponseEntity<>(userRepository.save(existingUser), HttpStatus.OK);
+        user.setEnabled(existingUser.isEnabled());
+        user.setCarts(existingUser.getCarts());
+        user.setUserId(existingUser.getUserId());
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
     /**
@@ -88,6 +100,10 @@ public class UserService {
      */
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User getUserById(long id) {
+        return userRepository.findByUserId(id);
     }
 
     /**
@@ -101,8 +117,8 @@ public class UserService {
 
         if(user != null) {
             tokenRepository.deleteByUser_UserId(user.getUserId());
+            confirmationToken.deleteByUser_UserId(user.getUserId());
         }
-
 
         userRepository.delete(user);
         return user;

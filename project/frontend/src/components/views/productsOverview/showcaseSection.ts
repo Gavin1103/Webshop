@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import showcaseSectionStyle from "../../../styles/productsOverview/showcaseSectionStyle";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
-import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
+import {ProductOverviewResponse} from "../../../types/product/ProductOverviewResponse";
 import {Router} from "@vaadin/router";
 import {CartItem, CartManager} from "../../helpers/CartHelpers";
 import {itemType} from "../../../enums/itemTypeEnum";

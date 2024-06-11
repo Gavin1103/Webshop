@@ -43,3 +43,25 @@ export * from "./components/views/unauthorizedPage/401Page";
 export * from "./components/views/emailConfirmationPage/EmailConfirmationComponent";
 export * from "./components/views/loginPage/forgotPasswordComponent"
 export * from "./components/views/loginPage/resetPasswordComponent"
+
+
+
+// CMS files
+export * from "./components/views/cms/cmsMain";
+export * from "./components/views/cms/dashboard";
+export * from "./components/views/cms/usersPage";
+export * from "./components/views/cms/statistics";
+export * from "./components/views/cms/toolingPage";
+export * from "./components/views/cms/ordersPage";
+export * from "./components/views/cms/reviewsPage";
+export * from "./components/views/cms/sidebar";
+export * from "./components/views/cms/usersPage";
+export * from "./components/views/cms/UserEditModal";
+export * from "./components/views/cms/userTable";
+
+
+// product cms
+export * from "./components/views/cms/productsManagement/products-overview-management"
+export * from "./components/views/cms/productsManagement/cms-header"
+export * from "./components/views/cms/productsManagement/cms-search"
+export * from "./components/views/cms/productsManagement/edit-pop-up"

@@ -1,8 +1,7 @@
 import { html, LitElement, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import globalStyle from "./styles/globalStyle";
-
-import { Product } from "../../../types/Product";
+import { Product } from "../../../types/product/Product";
 import { ProductService } from "../../../services/ProductService";
 import { getCurrentPath, navigateTo } from "../../router";
 import productDetailPageStyle from "./styles/productDetailPageStyle";

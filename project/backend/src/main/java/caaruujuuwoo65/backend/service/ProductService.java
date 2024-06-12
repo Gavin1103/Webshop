@@ -117,10 +117,10 @@ public class ProductService {
         return product != null ? modelMapper.map(product, ProductDTO.class) : null;
     }
 
-    public List<ProductSearchResultDTO> searchProducts(String keyword) {
+    public List<ProductDTO> searchProducts(String keyword) {
         List<Product> products = productRepository.searchProducts(keyword);
         return products.stream()
-            .map(product -> modelMapper.map(product, ProductSearchResultDTO.class))
+            .map(product -> modelMapper.map(product, ProductDTO.class))
             .collect(Collectors.toList());
     }
 
@@ -154,12 +154,7 @@ public class ProductService {
             return null;
         }
 
-        existingProduct.setProductName(updateProductDTO.getName());
-        existingProduct.setDescription(updateProductDTO.getDescription());
-        existingProduct.setImage(updateProductDTO.getImage());
-        existingProduct.setCurrentPrice(BigDecimal.valueOf(updateProductDTO.getCurrentPrice()));
-        existingProduct.setOriginalPrice(BigDecimal.valueOf(updateProductDTO.getOriginalPrice()));
-        existingProduct.setStock(updateProductDTO.getStock());
+        ProductDtoToEntity(updateProductDTO, existingProduct);
 
         if (updateProductDTO.getProductCategory() != null) {
             ProductCategoryDTO categoryDTO = updateProductDTO.getProductCategory();
@@ -175,6 +170,44 @@ public class ProductService {
         return modelMapper.map(existingProduct, ProductDTO.class);
     }
 
+    @Transactional
+    public boolean deleteProduct(Long productId) {
+        if (productRepository.existsById(productId)) {
+            productRepository.deleteById(productId);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public ProductDTO addProduct(ProductDTO addProductDTO) {
+        Product newProduct = new Product();
+        ProductDtoToEntity(addProductDTO, newProduct);
+
+        if (addProductDTO.getProductCategory() != null) {
+            ProductCategoryDTO categoryDTO = addProductDTO.getProductCategory();
+            Long categoryId = categoryDTO.getId();
+            ProductCategory category = productCategoryRepository.findById(categoryId).orElse(null);
+            if (category != null) {
+                newProduct.setCategory(category);
+            } else {
+                return null;
+            }
+        }
+
+        newProduct = productRepository.save(newProduct);
+
+        return modelMapper.map(newProduct, ProductDTO.class);
+    }
+
+    private void ProductDtoToEntity(ProductDTO addProductDTO, Product newProduct) {
+        newProduct.setProductName(addProductDTO.getName());
+        newProduct.setDescription(addProductDTO.getDescription());
+        newProduct.setImage(addProductDTO.getImage());
+        newProduct.setCurrentPrice(BigDecimal.valueOf(addProductDTO.getCurrentPrice()));
+        newProduct.setOriginalPrice(BigDecimal.valueOf(addProductDTO.getOriginalPrice()));
+        newProduct.setStock(addProductDTO.getStock());
+    }
     public ProductReviewsDTO getProductWithReviewsById(long id) {
         Product product = productRepository.findById(id).orElse(null);
         return product != null ? modelMapper.map(product, ProductReviewsDTO.class) : null;

@@ -5,15 +5,17 @@ export default css`
         width: 100%;
         border-collapse: collapse;
     }
-    th,
-    td {
+
+    th, td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
     }
+
     th {
         background-color: #f2f2f2;
     }
+
     .btn {
         padding: 5px 10px;
         margin: 2px;
@@ -24,12 +26,19 @@ export default css`
         background-color: #373e98;
 
     }
+
     .btn-change {
         background-color: #373e98;
         color: white;
     }
+
     .btn-delete {
         background-color: #ff2f00;
+        color: white;
+    }
+
+    .btn-add {
+        background-color:#ECAE20;
         color: white;
     }
 

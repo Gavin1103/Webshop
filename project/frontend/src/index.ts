@@ -65,6 +65,8 @@ export * from "./components/views/cms/productsManagement/products-overview-manag
 export * from "./components/views/cms/productsManagement/cms-header"
 export * from "./components/views/cms/productsManagement/cms-search"
 export * from "./components/views/cms/productsManagement/edit-pop-up"
+export * from "./components/views/cms/productsManagement/add-pop-up"
+export * from "./components/views/cms/productsManagement/confirmation-pop-up"
 
 // CMS-reviews-components
 export * from "./components/views/cms/reviewsManagement/RenderProductsComponent";

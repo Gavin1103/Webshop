@@ -5,10 +5,12 @@ import { CategoryService } from "../../../../services/CategoryService";
 import { ProductCategory } from "../../../../types/product/ProductCategory";
 import { ProductService } from "../../../../services/ProductService";
 import { Product } from "../../../../types/product/Product";
+import editAddPopUpStyle from "../../../../styles/cms/product/editAddPopUpStyle";
+import {truncateStringBack} from "../../../helpers/helpers";
 
 @customElement("edit-pop-up")
 export class EditPopUp extends LitElement {
-    public static styles = [popUpStyle];
+    public static styles = [popUpStyle, editAddPopUpStyle];
 
     private categoryService: CategoryService = new CategoryService();
     private productService: ProductService = new ProductService();
@@ -36,13 +38,6 @@ export class EditPopUp extends LitElement {
     @state()
     private newImageUrl: string = "";
 
-    public truncateString(input: string, length: number): string {
-        if (input.length <= length) {
-            return input;
-        } else {
-            return "..." + input.slice(input.length - length);
-        }
-    }
 
     public render(): TemplateResult {
         return html`
@@ -87,7 +82,7 @@ export class EditPopUp extends LitElement {
                         <label class="label-imageURL">ImageURL</label>
                         ${this.updateProduct.image ? this.updateProduct.image.map((image, index) => html`
                             <div class="existImageURL">
-                                <span class="imageURL">${this.truncateString(image, 50)}</span>
+                                <span class="imageURL">${truncateStringBack(image, 50)}</span>
                                 <img @click="${() => this.removeImage(index)}" src="/assets/image/icons/delete-icon.svg" alt="delete">
                             </div>
                         `) : ""}
@@ -116,7 +111,12 @@ export class EditPopUp extends LitElement {
     }
 
     private closePopup() {
-        this.removeAttribute('open');
+        this.setAttribute('closing', '');
+        setTimeout(() => {
+            this.removeAttribute('closing');
+            this.removeAttribute('open');
+            this.requestUpdate();
+        }, 500);
     }
 
     public async open(productId: number) {

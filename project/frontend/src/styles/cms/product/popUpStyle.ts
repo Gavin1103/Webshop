@@ -6,15 +6,72 @@ export default css`
         position: fixed;
         top: 0;
         left: 0;
-        width: 100% ;
+        width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
         justify-content: center;
         align-items: center;
+        z-index: 1000;
+        animation: blurIn 0.5s forwards;
+    }
+
+    @keyframes blurIn {
+        from {
+            backdrop-filter: blur(0);
+        }
+        to {
+            backdrop-filter: blur(10px);
+        }
+    }
+
+    @keyframes blurOut {
+        from {
+            backdrop-filter: blur(10px);
+        }
+        to {
+            backdrop-filter: blur(0);
+        }
+    }
+
+    @keyframes backgroundFadeOut {
+        from {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        to {
+            background-color: rgba(0, 0, 0, 0);
+        }
+    }
+
+    @keyframes popupIn {
+        from {
+            transform: scale(0.7);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes popupOut {
+        from {
+            transform: scale(1);
+            opacity: 1;
+        }
+        to {
+            transform: scale(0.2);
+            opacity: 0;
+        }
     }
 
     :host([open]) {
         display: flex;
+        animation: blurIn 0.5s forwards;
+    }
+
+    :host([closing]) {
+        animation: backgroundFadeOut 0.5s forwards, blurOut 0.5s forwards;
     }
 
     .popup-content {
@@ -22,96 +79,11 @@ export default css`
         background: white;
         padding: 20px;
         border-radius: 5px;
-    }
-    
-    .close-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-    
-    .title{
-        font-weight: lighter;
-        font-size: xx-large;
-    }
-    
-    .input-element {
-        display: flex;
-        flex-direction: column;
-        margin: 10px;
-        label {
-            margin-bottom: 5px;
-        }
-    }
-    
-    .input-element input,
-    .input-element select,
-    .input-element option {
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        padding: 8px;
+        animation: popupIn 0.3s forwards;
     }
 
-    .input-with-button {
-        display: flex;
-        flex-direction: row;
-        
-        input {
-            border-radius: 0;
-            width: 70%;
-            border: 1px solid #ccc;
-        }
-        
-        button {
-            border: 1px solid #ccc;
-        }
-    }
-    
-    .label-imageURL {
-        margin: 10px;
+    :host([closing]) .popup-content {
+        animation: popupOut 0.5s forwards;
     }
 
-    textarea {
-        border: 1px solid #ccc;
-        padding: 8px;
-        border-radius: 5px;
-    }
-    
-    .elements {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .image-list {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .existImageURL {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin: 8px;
-    }
-    
-    .imageURL{
-        background-color: #E6E6E6;
-        padding: 10px;
-        border-radius: 20px;
-    }
-    
-    .buttons {
-        display: flex;
-        justify-content: end;
-    }
-    
-    .btn-save {
-        padding: 5px 10px;
-        margin: 2px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        background-color: #373E98;
-        color: white;
-    }
 `;

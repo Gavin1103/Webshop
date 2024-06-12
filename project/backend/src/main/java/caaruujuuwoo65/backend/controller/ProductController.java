@@ -5,7 +5,6 @@ import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
 import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.ProductReviewsDTO;
 import caaruujuuwoo65.backend.dto.product.ProductDTO;
-import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
 import caaruujuuwoo65.backend.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -106,8 +105,8 @@ public class ProductController {
         @ApiResponse(responseCode = "400", description = "Invalid search keyword"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<List<ProductSearchResultDTO>> searchProducts(@RequestParam("keyword") String keyword) {
-        List<ProductSearchResultDTO> products = productService.searchProducts(keyword);
+    public ResponseEntity<List<ProductDTO>> searchProducts(@RequestParam("keyword") String keyword) {
+        List<ProductDTO> products = productService.searchProducts(keyword);
         return ResponseEntity.ok(products);
     }
 
@@ -128,6 +127,28 @@ public class ProductController {
             return ResponseEntity.ok(updatedProduct);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PreAuthorizeAdmin
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        boolean isDeleted = productService.deleteProduct(id);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PreAuthorizeAdmin
+    @PostMapping("/add")
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO) {
+        ProductDTO createdProduct = productService.addProduct(productDTO);
+        if (createdProduct != null) {
+            return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

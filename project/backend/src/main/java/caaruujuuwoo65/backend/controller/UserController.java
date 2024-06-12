@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -42,7 +44,7 @@ public class UserController {
     }
 
     @PreAuthorizeAdmin()
-    @PutMapping("/{email}")
+    @PutMapping("/{id}")
     @Operation(summary = "Edit a user", description = "Edit a user in the database")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "User edited successfully"),
@@ -50,8 +52,13 @@ public class UserController {
         @ApiResponse(responseCode = "404", description = "User not found"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<?> editUser(@RequestBody UpdateUserDTO userDto, @PathVariable String email) {
-        return userService.editUser(userDto, email, true);
+    public ResponseEntity<?> editUser(@RequestBody UpdateUserDTO userDto, @PathVariable Long id) {
+        User existingUser = userService.getUserById(id); // Check if user already exists
+        if (existingUser == null) {
+            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        return userService.editUser(userDto, existingUser, true);
     }
 
     @PutMapping("/self")
@@ -64,7 +71,12 @@ public class UserController {
     })
     public ResponseEntity<?> editSelf(@RequestBody UpdateUserDTO userDto, HttpServletRequest request) {
         String id = this.jwtService.extractUserData(request, "sub");
-        return userService.editUser(userDto, id, false);
+        User existingUser = userService.getUserByEmail(id); // Check if user already exists
+        if (existingUser == null) {
+            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        return userService.editUser(userDto, existingUser, false);
     }
 
     @GetMapping("/{email}")
@@ -79,6 +91,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @PreAuthorizeAdmin
     @DeleteMapping("/{email}")
     @Operation(summary = "Delete user by email", description = "Delete a user by email address")
     @ApiResponses(value = {

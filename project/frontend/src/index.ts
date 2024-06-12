@@ -55,6 +55,10 @@ export * from "./components/views/cms/toolingPage";
 export * from "./components/views/cms/ordersPage";
 export * from "./components/views/cms/reviewsPage";
 export * from "./components/views/cms/sidebar";
+export * from "./components/views/cms/usersPage";
+export * from "./components/views/cms/UserEditModal";
+export * from "./components/views/cms/userTable";
+
 
 // product cms
 export * from "./components/views/cms/productsManagement/products-overview-management"
@@ -63,3 +67,8 @@ export * from "./components/views/cms/productsManagement/cms-search"
 export * from "./components/views/cms/productsManagement/edit-pop-up"
 export * from "./components/views/cms/productsManagement/add-pop-up"
 export * from "./components/views/cms/productsManagement/confirmation-pop-up"
+
+// CMS-reviews-components
+export * from "./components/views/cms/reviewsManagement/RenderProductsComponent";
+export * from "./components/views/cms/reviewsManagement/RenderReviewComponent";
+export * from "./components/views/cms/reviewsManagement/RenderReviewsComponent";

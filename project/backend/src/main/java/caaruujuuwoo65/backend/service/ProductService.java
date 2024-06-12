@@ -1,6 +1,5 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.dto.product.*;
 import caaruujuuwoo65.backend.dto.product.category.CategoryPreviewDTO;
 import caaruujuuwoo65.backend.dto.product.category.ProductCategoryDTO;
@@ -209,6 +208,9 @@ public class ProductService {
         newProduct.setOriginalPrice(BigDecimal.valueOf(addProductDTO.getOriginalPrice()));
         newProduct.setStock(addProductDTO.getStock());
     }
+    public ProductReviewsDTO getProductWithReviewsById(long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        return product != null ? modelMapper.map(product, ProductReviewsDTO.class) : null;
+    }
 
 }
-

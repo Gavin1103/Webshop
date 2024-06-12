@@ -60,7 +60,7 @@ export class ProductsOverviewManagement extends LitElement {
                 iconUrl="./assets/image/icons/productsManagement/tag-black.svg"
                 title="Products"
                 subTitle="Manage all item information"
-                redirectOption=1
+                !redirectoption=1
                 redirectUrl="/"
                 redirectText="to home"
             ></cms-header>

@@ -24,6 +24,8 @@ public class Product {
     private Long productId;
 
     private String productName;
+
+    @Column(length = 1000)
     private String description;
     private Integer stock;
     private BigDecimal currentPrice;

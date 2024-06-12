@@ -9,7 +9,7 @@ import {roundToTwoDecimals} from "../../../helpers/helpers";
 import {ProductItem} from "../../../../interfaces/Cart";
 
 const FREE_SHIPPING_THRESHOLD: number = 0;
-const HOME_PATH: string = "/";
+const THANK_YOU_PAGE_PATH: string = "/thank-you-page";
 const PERSONAL_DETAILS_PATH: string = "/cart/personal-info";
 
 @customElement("order-overview-summary")
@@ -38,8 +38,8 @@ export class OrderOverviewSummary extends LitElement {
         return this.products.reduce((total, product) => total + 10 * product.quantity, 0);
     }
 
-    public navigateHome(): void {
-        navigateTo(HOME_PATH);
+    public navigateToThankYouPage(): void {
+        navigateTo(THANK_YOU_PAGE_PATH);
     }
 
     public editPersonalInformation(): void {
@@ -149,7 +149,8 @@ export class OrderOverviewSummary extends LitElement {
                         <p class="price-items price">€
                             ${totalPrice + (FREE_SHIPPING_THRESHOLD > 0 ? FREE_SHIPPING_THRESHOLD : 0)}</p>
                     </div>
-                    <button class="button next-button overview-button" @click="${this.navigateHome}">
+                    <button class="button next-button overview-button"
+                            @click="${this.navigateToThankYouPage}">
                         <span>Checkout</span>
                         <img class="next-icon" src="/assets/image/icons/next-icon.svg"
                              alt="Checkout button icon">

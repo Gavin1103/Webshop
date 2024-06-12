@@ -72,7 +72,7 @@ export class CartListItem extends LitElement {
                     </div>
                     <div class="info">
                         <p class="title">${this.productData.name}</p>
-                        <p class="type">${this.productData.productCategory}</p>
+                        <p class="type">${this.productData.productCategory.name}</p>
                     </div>
                     <div class="quantity">
                         <h2>${this.product.quantity}</h2>

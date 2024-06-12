@@ -75,11 +75,11 @@ export class OrdersPage extends LitElement {
                         <td>${order.orderId}</td>
                         <td>${order.userId ? "No" : "Yes"}</td>
                         <td>${order.totalAmount}</td>
-                        <td>${order.paymentDetails ?? "Unknown"}</td>
+                        <td>${order.paymentDetails ? order.paymentDetails["paymentMethod"] : "Unknown"}</td>
                         <td>${order.status}</td>
                         <td>
                             <button @click="${() => this.deleteOrder(order.orderId)}" class="btn btn-delete">
-                                Delete
+                                Annuleer
                             </button>
                         </td>
                     </tr>

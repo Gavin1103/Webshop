@@ -13,6 +13,11 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class UpdateCustomerOrderDetailDTO {
+    private Long orderDetailId;
+
+    @NotNull(message = "Product ID is mandatory")
+    private Long productId;
+
     @NotNull(message = "Quantity is mandatory")
     private Integer quantity;
 

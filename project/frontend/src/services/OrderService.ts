@@ -1,5 +1,6 @@
 import {TokenService} from "./TokenService";
 import {Order} from "../types/Order";
+import {CreateCustomerOrder} from "../interfaces/Order";
 
 
 /**
@@ -39,5 +40,22 @@ export class OrderService {
             console.error(response);
             return undefined;
         }
+    }
+
+    async createOrder(order: CreateCustomerOrder): Promise<Order | undefined> {
+        const response: Response = await fetch(`${viteConfiguration.API_URL}/orders/create`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "Application/json",
+            },
+            body: JSON.stringify(order)
+        });
+
+        if (!response.ok) {
+            console.error(response);
+            return undefined;
+        }
+
+        return (await response.json()) as Order;
     }
 }

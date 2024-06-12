@@ -12,6 +12,9 @@ export class OrderOverview extends LitElement {
     private products!: Cart;
 
     protected render(): TemplateResult {
+        if (!this.products) {
+            return html`<div class="order-info-wrapper">No products found</div>`;
+        }
         const productItems: ProductItem[] = mapCartItems(this.products);
 
         return html`

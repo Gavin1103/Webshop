@@ -28,6 +28,14 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
+            path: "/thank-you-page",
+            component: "thank-you-page",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("thank-you-page");
+            }
+        },
+        {
             path: "/product-detail-page/:id",
             component: "product-detail-page",
             action: (context: Context, commands: Commands): any => {

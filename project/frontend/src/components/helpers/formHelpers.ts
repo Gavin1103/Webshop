@@ -58,8 +58,12 @@ export const processUserDetails = (form: HTMLFormElement | null): void => {
     for (const category in userDetails) {
         if (category === "paymentDetails") {
             userDetails[category as keyof typeof userDetails]?.forEach(input => {
-                if (input.checked) {
-                    userDetailsObject[input.name] = input.value;
+                if (input.type === 'radio') {
+                    if (input.checked) {
+                        userDetailsObject[input.name] = input.value;
+                    }
+                } else {
+                    userDetailsObject[input.id] = input.value;
                 }
             });
         } else {
@@ -71,8 +75,27 @@ export const processUserDetails = (form: HTMLFormElement | null): void => {
     }
 
     localStorage.setItem('userDetails', JSON.stringify(userDetailsObject));
-    console.log('User details processed:', userDetailsObject);
 };
+
+
+export const populateExtraPaymentFields = (form: HTMLFormElement, userDetails: Record<string, string>): void => {
+    const checkInputs = (element: HTMLElement, userDetails: Record<string, string>): void => {
+
+        for (const userDetail in userDetails) {
+            const input = element.shadowRoot?.querySelector<HTMLInputElement>(`#${userDetail}`);
+
+            if (input) {
+                input.value = userDetails[userDetail];
+            }
+        }
+    };
+
+
+    const paymentDetails = form.querySelector<HTMLElement>('payment-details');
+    if (paymentDetails) {
+        checkInputs(paymentDetails, userDetails);
+    }
+}
 
 export const populateForm = (form: HTMLFormElement, userDetails: Record<string, string>): void => {
     const checkInputs = (element: HTMLElement, userDetails: Record<string, string>): void => {
@@ -82,20 +105,14 @@ export const populateForm = (form: HTMLFormElement, userDetails: Record<string, 
                 radios?.forEach(radio => {
                     if (radio.value === userDetails[key]) {
                         radio.checked = true;
+                        radio.dispatchEvent(new Event('change'));
                     }
                 });
             }
 
             const input = element.shadowRoot?.querySelector<HTMLInputElement>(`#${key}`);
             if (input) {
-                if (input.type === 'radio') {
-                    const radioInput = element.shadowRoot?.querySelector<HTMLInputElement>(`input[name="${input.name}"][value="${userDetails[key]}"]`);
-                    if (radioInput) {
-                        radioInput.checked = true;
-                    }
-                } else {
-                    input.value = userDetails[key];
-                }
+                input.value = userDetails[key];
             }
         }
     };

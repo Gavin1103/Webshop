@@ -26,8 +26,8 @@ public class CustomerOrderController {
         this.customerOrderService = customerOrderService;
     }
 
-    @PostMapping("/")
-    @Operation(summary = "Create a new order for the current user", description = "Create a new order in the database for the current user")
+    @PostMapping("/create")
+    @Operation(summary = "Create a new order", description = "Create a new order in the database")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Order created successfully"),
         @ApiResponse(responseCode = "400", description = "Invalid order details"),
@@ -35,29 +35,6 @@ public class CustomerOrderController {
     })
     public ResponseEntity<CustomerOrderDTO> createOrder(@RequestBody CreateCustomerOrderDTO createCustomerOrderDTO) {
         return customerOrderService.createOrder(createCustomerOrderDTO);
-    }
-
-    @GetMapping("/self")
-    @Operation(summary = "Get all orders for the current user", description = "Get all orders from the database for the current user")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Orders retrieved successfully"),
-        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
-    })
-    public ResponseEntity<List<CustomerOrderDTO>> getAllOrdersForCurrentUser() {
-        List<CustomerOrderDTO> orders = customerOrderService.getAllOrdersForCurrentUser();
-        return new ResponseEntity<>(orders, HttpStatus.OK);
-    }
-
-    @PutMapping("/{orderId}")
-    @Operation(summary = "Update an existing order for the current user", description = "Update an existing order in the database for the current user")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Order updated successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid order details"),
-        @ApiResponse(responseCode = "404", description = "Order not found"),
-        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
-    })
-    public ResponseEntity<CustomerOrderDTO> updateOrder(@PathVariable Long orderId, @RequestBody UpdateCustomerOrderDTO updateCustomerOrderDTO) {
-        return customerOrderService.updateOrder(orderId, updateCustomerOrderDTO);
     }
 
     @PreAuthorizeAdmin

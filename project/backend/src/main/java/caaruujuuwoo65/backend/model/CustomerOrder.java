@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,9 +32,21 @@ public class CustomerOrder {
     private BigDecimal totalAmount;
 
     @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CustomerOrderDetail> customerOrderDetails;
+    private Set<CustomerOrderDetail> customerOrderDetails = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_details_id", referencedColumnName = "paymentDetailsId")
     private PaymentDetails paymentDetails;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "billing_address_id", referencedColumnName = "addressId")
+    private Address billingAddress;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shipping_address_id", referencedColumnName = "addressId")
+    private Address shippingAddress;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "personal_details_id", referencedColumnName = "personalDetailsId")
+    private PersonalDetails personalDetails;
 }

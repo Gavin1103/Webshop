@@ -13,6 +13,7 @@ export * from "./components/views/shoppingCart/wizardContainer";
 export * from "./components/views/shoppingCart/wizardElement";
 export * from "./components/views/shoppingCart/orderInfo/cartListItem";
 export * from "./components/views/shoppingCart/orderInfo/orderSummary";
+export * from "./components/views/shoppingCart/thankYouPage";
 export * from "./components/navigation-bar";
 export * from "./components/category-card-horizontal";
 export * from "./components/search-bar";

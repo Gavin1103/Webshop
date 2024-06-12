@@ -19,15 +19,13 @@ public class PaymentDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentDetailsId;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "orderId")
-    private CustomerOrder customerOrder;
-
-    @ManyToOne
-    @JoinColumn(name = "payment_method_id", referencedColumnName = "paymentMethodId")
-    private PaymentMethod paymentMethod;
-
     private String cardHolderName;
     private String cardNumber;
     private LocalDate expiryDate;
+    private String paymentMethod;
+
+    @OneToOne(mappedBy = "paymentDetails")
+    @JoinColumn(name = "order_id", referencedColumnName = "orderId")
+    private CustomerOrder customerOrder;
+
 }

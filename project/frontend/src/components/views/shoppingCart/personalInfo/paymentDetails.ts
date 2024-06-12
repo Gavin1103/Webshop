@@ -12,11 +12,6 @@ export class PaymentDetails extends LitElement {
 
     @property() private selectedOption: string | null = null;
 
-    public connectedCallback(): void {
-        super.connectedCallback();
-        this.requestUpdate();
-    }
-
     // TODO make add paymentOptions database table and retrieve options from database
     private paymentOptions: PaymentOption[] = [
         {
@@ -139,5 +134,14 @@ export class PaymentDetails extends LitElement {
 
     private handleSelection(value: string): void {
         this.selectedOption = value;
+        this.requestUpdate();
+
+        setTimeout(() => {
+            this.dispatchEvent(new CustomEvent('payment-option-selected', {
+                detail: {selectedOption: value},
+                bubbles: true,
+                composed: true
+            }));
+        }, 100);
     }
 }

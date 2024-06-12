@@ -2,6 +2,7 @@ import {css} from "lit-element";
 
 export default css`
     .popup-content h3 {
+        display: flex;
         margin: 0 0 15px;
         font-size: xx-large;
         font-weight: bolder;

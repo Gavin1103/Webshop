@@ -37,8 +37,8 @@ export class ProductCarouselSection extends LitElement {
         const newItem: ProductItem = {
             productId: product.id,
             quantity: 1,
-            unitPrice: product.price,
-            totalPrice: product.price
+            unitPrice: product.currentPrice,
+            totalPrice: product.currentPrice
         };
 
         console.log(newItem);
@@ -61,7 +61,7 @@ export class ProductCarouselSection extends LitElement {
         return html`
             <div class="header-container">
                 <span class="title">${this.title}</span>
-                <div  @click="${this.redirectToSeeMore}" class="header-actions">
+                <div @click="${this.redirectToSeeMore}" class="header-actions">
                     <span tabindex="1" class="action-text">See More</span>
                     <img class="action-icon" src="/assets/image/icons/chevron-right.svg" alt="see more">
                 </div>
@@ -70,18 +70,21 @@ export class ProductCarouselSection extends LitElement {
             <section class="product-carousel">
                 ${this.productsData ? this.productsData.map(product => html`
                     <div class="product-card" tabindex="1">
-                        ${this.calculateDiscount(product) ? html `
+                        ${this.calculateDiscount(product) ? html`
                             <span class="discount">${this.calculateDiscount(product)}</span>
                         ` : ""}
-                        <img class="product-image" @click=${() => this.redirectToDetailPage(product.id)} src="${product.image}" alt="${product.name}">
+                        <img class="product-image" @click=${() => this.redirectToDetailPage(product.id)}
+                             src="${product.image}" alt="${product.name}">
                         <div class="product-name">
                             <span>${product.name}</span>
                         </div>
                         <div class="product-price">
-                            <span class="product-price-original">${this.calculateDiscount(product) ? "$ " + product.originalPrice : ""}</span>
+                            <span
+                                class="product-price-original">${this.calculateDiscount(product) ? "$ " + product.originalPrice : ""}</span>
                             <span class="product-price-current">$${product.currentPrice}</span>
                         </div>
-                        <img tabindex="1" @click="${async (): Promise<void> => await this.addItemToCart(product)}"
+                        <img tabindex="1"
+                             @click="${async (): Promise<void> => await this.addItemToCart(product)}"
                              class="add-to-cart-button"
                              src="/assets/image/icons/shopping-bag.svg" alt="add to cart">
                     </div>

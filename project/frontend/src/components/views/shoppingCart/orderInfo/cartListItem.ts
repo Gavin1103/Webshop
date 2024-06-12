@@ -4,8 +4,8 @@ import CartItemStyle from "../../../../styles/shoppingCart/orderInfo/cartItemSty
 import {CartManager} from "../../../helpers/CartHelpers";
 import {ProductItem} from "../../../../interfaces/Cart";
 import {ProductService} from "../../../../services/ProductService";
-import {Product} from "../../../../types/Product";
 import {roundToTwoDecimals} from "../../../helpers/helpers";
+import {Product} from "../../../../types/product/Product";
 
 @customElement("cart-list-item")
 export class CartListItem extends LitElement {

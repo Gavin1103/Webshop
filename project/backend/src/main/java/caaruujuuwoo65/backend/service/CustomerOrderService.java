@@ -6,8 +6,10 @@ import caaruujuuwoo65.backend.dto.order.UpdateCustomerOrderDTO;
 import caaruujuuwoo65.backend.helpers.AuthHelper;
 import caaruujuuwoo65.backend.model.CustomerOrder;
 import caaruujuuwoo65.backend.model.CustomerOrderDetail;
+import caaruujuuwoo65.backend.model.Product;
 import caaruujuuwoo65.backend.model.User;
 import caaruujuuwoo65.backend.repository.CustomerOrderRepository;
+import org.hibernate.query.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -90,6 +92,18 @@ public class CustomerOrderService {
     }
 
     /**
+     * Retrieves all orders.
+     *
+     * @return a list of orders
+     */
+    public List<CustomerOrderDTO> getAllOrders() {
+        List<CustomerOrder> orders = customerOrderRepository.findAll();
+        return orders.stream()
+            .map(customerOrder -> modelMapper.map(customerOrder, CustomerOrderDTO.class))
+            .collect(Collectors.toList());
+    }
+
+    /**
      * Updates an existing userOrder for the current user.
      *
      * @param orderId                the userOrder ID
@@ -115,9 +129,7 @@ public class CustomerOrderService {
      * @return response entity
      */
     public ResponseEntity<Void> deleteOrder(Long orderId) {
-        User currentUser = authHelper.getCurrentUser();
-
-        return customerOrderRepository.findByOrderIdAndUser(orderId, currentUser)
+        return customerOrderRepository.findByOrderId(orderId)
             .map(customerOrder -> {
                 customerOrderRepository.delete(customerOrder);
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

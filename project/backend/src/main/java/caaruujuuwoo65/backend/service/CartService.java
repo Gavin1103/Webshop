@@ -101,8 +101,8 @@ public class CartService {
                 cart.getCartItems().add(cartItem);
             }
 
-            cartItem.setUnitPrice(product.getPrice());
-            cartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+            cartItem.setUnitPrice(product.getCurrentPrice());
+            cartItem.setTotalPrice(product.getCurrentPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
             return cartItem;
         }).collect(Collectors.toSet());
 

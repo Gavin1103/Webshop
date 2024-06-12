@@ -101,6 +101,14 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
+            path: "/logout",
+            action: (): any => {
+                _tokenService.removeToken();
+                _tokenService.removeRefreshToken();
+                navigateTo('/');
+            }
+        },
+        {
             path: '/confirmation/:id',
             component: 'email-confirmation',
             action: async (context: Context, commands: Commands): Promise<any> => {

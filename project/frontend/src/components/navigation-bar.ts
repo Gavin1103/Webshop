@@ -6,12 +6,14 @@ import navigationBarStyle from "../styles/navigationBarStyle";
 import {CategoryResponse} from "../types/product/CategoryResponse";
 import {navigateTo} from "./router";
 import { CategoryService } from "../services/CategoryService";
+import {TokenService} from "../services/TokenService";
 
 @customElement("navigation-bar")
 export class NavigationBar extends LitElement {
     public static styles = [navigationBarStyle];
 
 
+    private tokenService: TokenService = new TokenService();
     private sidebarVisible: boolean = false;
     private categoryList: CategoryResponse | undefined;
 
@@ -48,6 +50,15 @@ export class NavigationBar extends LitElement {
         navigateTo("/cart");
     }
 
+    private goToLogin(): void {
+        if(!this.tokenService.getToken()) {
+            navigateTo("/login");
+        }
+        else{
+            navigateTo("/profile");
+        }
+    }
+
     private goToHome(): void {
         navigateTo("/");
     }
@@ -75,7 +86,7 @@ export class NavigationBar extends LitElement {
                 <search-bar></search-bar>
 
                 <div class="links">
-                    <img class="icon user-icon" src="../assets/image/icons/user-icon.svg"
+                    <img @click=${this.goToLogin} class="icon user-icon" src="../assets/image/icons/user-icon.svg"
                          alt="profile button">
 
                     <img @click=${this.goToShoppingCart} class="icon cart-icon-"

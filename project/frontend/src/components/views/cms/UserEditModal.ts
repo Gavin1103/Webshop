@@ -80,6 +80,15 @@ export class UserEditModal extends LitElement {
             width: 100px;
             font-size: 1rem;
         }
+        
+        .btn-close {
+            float: right;
+            color: black;
+            border: 1px solid black;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     `;
 
     private updateUser(e: Event): void {
@@ -92,6 +101,7 @@ export class UserEditModal extends LitElement {
         return html`
             <div class="modal" style="display: ${this.open ? 'block' : 'none'}">
                 <div class="modal-content">
+                    <button @click="${() => this.open = false}" class="btn-close">X</button>
                     <h2 style="text-align: center">Edit User</h2>
                     <form @submit="${this.updateUser}">
                         <div class="form-group">

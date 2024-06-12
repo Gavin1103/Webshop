@@ -1,34 +1,27 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import OrderInfoStyle from "../../../../styles/shoppingCart/orderInfo/orderInfoStyle";
-import {CartItem, CartManager} from "../../../helpers/CartHelpers";
+import {Cart, ProductItem} from "../../../../interfaces/Cart";
+import {mapCartItems} from "../../../helpers/helpers";
 
 @customElement("order-info")
 export class OrderInfo extends LitElement {
     public static styles = [OrderInfoStyle];
 
     @property({type: Object})
-    private products!: CartItem[];
+    private products!: Cart | ProductItem[];
 
-    public connectedCallback(): void {
-        super.connectedCallback();
-        this.addEventListener("cart-updated", this.handleCartUpdated);
+    private getProductItems(): ProductItem[] {
+        return "cartItems" in this.products ? mapCartItems(this.products) : this.products;
     }
-
-    public disconnectedCallback(): void {
-        super.disconnectedCallback();
-        this.removeEventListener("cart-updated", this.handleCartUpdated);
-    }
-
-    private handleCartUpdated = (): void => {
-        this.products = [...CartManager.getCart()];
-    };
 
     protected render(): TemplateResult {
+        const productItems = this.getProductItems();
+
         return html`
             <div class="order-info-wrapper">
                 <div class="order-items">
-                    ${this.products.map(product => html`
+                    ${productItems.map(product => html`
                         <cart-list-item .product=${product}></cart-list-item>`)}
                 </div>
                 <div class="order-summary">

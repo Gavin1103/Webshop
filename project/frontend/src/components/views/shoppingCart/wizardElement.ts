@@ -14,6 +14,8 @@ export class WizardElement extends LitElement {
     @property({type: String}) private status: stepStatus = stepStatus.INACTIVE;
 
     private navigateToPage(): void {
+        if (this.status === stepStatus.INACTIVE) return;
+
         navigateTo(this.path);
     }
 

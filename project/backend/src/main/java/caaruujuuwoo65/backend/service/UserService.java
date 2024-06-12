@@ -1,10 +1,12 @@
 package caaruujuuwoo65.backend.service;
 
 import caaruujuuwoo65.backend.dto.user.UpdateUserDTO;
-import caaruujuuwoo65.backend.model.Address;
 import caaruujuuwoo65.backend.model.Role;
 import caaruujuuwoo65.backend.model.User;
-import caaruujuuwoo65.backend.repository.*;
+import caaruujuuwoo65.backend.repository.ConfirmationTokenRepository;
+import caaruujuuwoo65.backend.repository.RoleRepository;
+import caaruujuuwoo65.backend.repository.TokenRepository;
+import caaruujuuwoo65.backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,25 +18,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @Service
 @Transactional
 public class UserService {
 
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
     private final ConfirmationTokenRepository confirmationToken;
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(ModelMapper modelMapper, UserRepository userRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ConfirmationTokenRepository confirmationToken, RoleRepository roleRepository) {
+    public UserService(ModelMapper modelMapper, UserRepository userRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ConfirmationTokenRepository confirmationToken, RoleRepository roleRepository) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
-        this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenRepository = tokenRepository;
         this.confirmationToken = confirmationToken;
@@ -60,19 +58,9 @@ public class UserService {
     public ResponseEntity<?> editUser(UpdateUserDTO userDto, User existingUser, boolean changeRoles) {
         User user = modelMapper.map(userDto, User.class);
 
-        if (userDto.getAddressId() != null) {
-            Address address = addressRepository.findById(userDto.getAddressId()).orElse(null);
-            if (address != null) {
-                user.setAddress(address);
-            } else {
-                return new ResponseEntity<>("Address not found", HttpStatus.NOT_FOUND);
-            }
-        }
-
         if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        }
-        else {
+        } else {
             user.setPassword(existingUser.getPassword());
         }
 
@@ -81,8 +69,7 @@ public class UserService {
             role.setName(userDto.getRoleName());
             role.setUser(user);
             user.setRoles(Set.of(role));
-        }
-        else {
+        } else {
             user.setRoles(existingUser.getRoles());
         }
 
@@ -115,7 +102,7 @@ public class UserService {
     public User deleteUserByEmail(String email) {
         User user = userRepository.findByEmail(email);
 
-        if(user != null) {
+        if (user != null) {
             tokenRepository.deleteByUser_UserId(user.getUserId());
             confirmationToken.deleteByUser_UserId(user.getUserId());
         }

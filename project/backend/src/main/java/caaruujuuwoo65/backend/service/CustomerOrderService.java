@@ -3,11 +3,10 @@ package caaruujuuwoo65.backend.service;
 import caaruujuuwoo65.backend.dto.order.CreateCustomerOrderDTO;
 import caaruujuuwoo65.backend.dto.order.CustomerOrderDTO;
 import caaruujuuwoo65.backend.dto.order.UpdateCustomerOrderDTO;
-import caaruujuuwoo65.backend.helpers.AuthHelper;
-import caaruujuuwoo65.backend.model.CustomerOrder;
-import caaruujuuwoo65.backend.model.CustomerOrderDetail;
-import caaruujuuwoo65.backend.model.User;
-import caaruujuuwoo65.backend.repository.CustomerOrderRepository;
+import caaruujuuwoo65.backend.dto.order.detail.CreateCustomerOrderDetailDTO;
+import caaruujuuwoo65.backend.dto.order.detail.UpdateCustomerOrderDetailDTO;
+import caaruujuuwoo65.backend.model.*;
+import caaruujuuwoo65.backend.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -28,21 +29,27 @@ import java.util.stream.Collectors;
 public class CustomerOrderService {
 
     private final CustomerOrderRepository customerOrderRepository;
+    private final ProductRepository productRepository;
+    private final CustomerOrderDetailRepository customerOrderDetailRepository;
+    private final AddressRepository addressRepository;
+    private final PersonalDetailsRepository personalDetailsRepository;
     private final ModelMapper modelMapper;
-    private final AuthHelper authHelper;
+    private final UserRepository userRepository;
+    private final PaymentDetailsRepository paymentDetailsRepository;
 
     /**
      * Constructs a new OrderService.
-     *
-     * @param orderRepository         the repository for order data
-     * @param paymentMethodRepository the repository for payment method data
-     * @param paymentDetailsService   the service for payment details
      */
     @Autowired
-    public CustomerOrderService(CustomerOrderRepository customerOrderRepository, ModelMapper modelMapper, AuthHelper authHelper) {
+    public CustomerOrderService(CustomerOrderRepository customerOrderRepository, ProductRepository productRepository, CustomerOrderDetailRepository customerOrderDetailRepository, AddressRepository addressRepository, PersonalDetailsRepository personalDetailsRepository, ModelMapper modelMapper, UserRepository userRepository, PaymentDetailsRepository paymentDetailsRepository) {
         this.customerOrderRepository = customerOrderRepository;
+        this.productRepository = productRepository;
+        this.customerOrderDetailRepository = customerOrderDetailRepository;
+        this.addressRepository = addressRepository;
+        this.personalDetailsRepository = personalDetailsRepository;
         this.modelMapper = modelMapper;
-        this.authHelper = authHelper;
+        this.userRepository = userRepository;
+        this.paymentDetailsRepository = paymentDetailsRepository;
     }
 
     /**
@@ -52,61 +59,92 @@ public class CustomerOrderService {
      * @return the created order DTO
      */
     public ResponseEntity<CustomerOrderDTO> createOrder(CreateCustomerOrderDTO createCustomerOrderDTO) {
-        User currentUser = authHelper.getCurrentUser();
-
         CustomerOrder customerOrder = new CustomerOrder();
-        customerOrder.setUser(currentUser);
+
+        // Set user if userId is present
+        if (createCustomerOrderDTO.getUserId() != null) {
+            User user = userRepository.findById(createCustomerOrderDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+            customerOrder.setUser(user);
+        }
+
+        // Set personal details for guest users
+        if (createCustomerOrderDTO.getUserId() == null) {
+            PersonalDetails personalDetails = modelMapper.map(createCustomerOrderDTO.getPersonalDetails(), PersonalDetails.class);
+            customerOrder.setPersonalDetails(personalDetailsRepository.save(personalDetails));
+        }
+
         customerOrder.setOrderDate(LocalDate.now());
         customerOrder.setStatus("Pending");
 
-        List<CustomerOrderDetail> customerOrderDetails = createCustomerOrderDTO.getOrderDetails().stream()
-            .map(dto -> {
-                CustomerOrderDetail customerOrderDetail = modelMapper.map(dto, CustomerOrderDetail.class);
-                customerOrderDetail.setCustomerOrder(customerOrder);
-                customerOrderDetail.setTotalPrice(dto.getPrice().multiply(BigDecimal.valueOf(dto.getQuantity())));
-                return customerOrderDetail;
-            }).collect(Collectors.toList());
-        customerOrder.setCustomerOrderDetails(customerOrderDetails.stream().collect(Collectors.toSet()));
+        // Save billing and shipping addresses
+        Address billingAddress = modelMapper.map(createCustomerOrderDTO.getBillingAddress(), Address.class);
+        billingAddress.setType("billing");
+        customerOrder.setBillingAddress(addressRepository.save(billingAddress));
 
-        BigDecimal totalAmount = customerOrderDetails.stream()
-            .map(CustomerOrderDetail::getTotalPrice)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
-        customerOrder.setTotalAmount(totalAmount);
+        if (createCustomerOrderDTO.getShippingAddress() != null) {
+            Address shippingAddress = modelMapper.map(createCustomerOrderDTO.getShippingAddress(), Address.class);
+            shippingAddress.setType("shipping");
+            customerOrder.setShippingAddress(addressRepository.save(shippingAddress));
+        } else {
+            customerOrder.setShippingAddress(billingAddress);
+        }
 
         CustomerOrder savedCustomerOrder = customerOrderRepository.save(customerOrder);
+
+        // Initialize the set for order details
+        Set<CustomerOrderDetail> customerOrderDetails = new HashSet<>();
+
+        // Set order details
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        for (CreateCustomerOrderDetailDTO dto : createCustomerOrderDTO.getOrderDetails()) {
+            CustomerOrderDetail customerOrderDetail = new CustomerOrderDetail();
+            productRepository.findById(dto.getProductId())
+                .ifPresentOrElse(customerOrderDetail::setProduct, () -> {
+                    throw new RuntimeException("Product not found");
+                });
+            customerOrderDetail.setCustomerOrder(customerOrder);
+            customerOrderDetail.setQuantity(dto.getQuantity());
+            customerOrderDetail.setUnitPrice(dto.getPrice());
+            customerOrderDetail.setTotalPrice(dto.getPrice().multiply(BigDecimal.valueOf(dto.getQuantity())));
+            totalAmount = totalAmount.add(customerOrderDetail.getTotalPrice());
+            customerOrderDetails.add(customerOrderDetail);
+        }
+
+        savedCustomerOrder.setCustomerOrderDetails(customerOrderDetails);
+        savedCustomerOrder.setTotalAmount(totalAmount);
+
+        // Save order details
+        customerOrderDetailRepository.saveAll(customerOrderDetails);
+
+        // Create and save payment details
+        PaymentDetails paymentDetails = new PaymentDetails();
+        paymentDetails.setCustomerOrder(savedCustomerOrder);
+        paymentDetails.setCardHolderName(createCustomerOrderDTO.getPaymentDetails().getCardHolderName());
+        paymentDetails.setCardNumber(createCustomerOrderDTO.getPaymentDetails().getCardNumber());
+        paymentDetails.setExpiryDate(createCustomerOrderDTO.getPaymentDetails().getExpiryDate());
+        paymentDetails.setPaymentMethod(createCustomerOrderDTO.getPaymentDetails().getPaymentMethod());
+
+        paymentDetails = paymentDetailsRepository.save(paymentDetails);
+
+        savedCustomerOrder.setPaymentDetails(paymentDetails);
+        savedCustomerOrder = customerOrderRepository.save(savedCustomerOrder);
+
         return new ResponseEntity<>(modelMapper.map(savedCustomerOrder, CustomerOrderDTO.class), HttpStatus.CREATED);
     }
 
     /**
-     * Retrieves all orders for the current user.
+     * Retrieves all orders.
      *
      * @return a list of orders
      */
-    public List<CustomerOrderDTO> getAllOrdersForCurrentUser() {
-        User currentUser = authHelper.getCurrentUser();
-        return customerOrderRepository.findByUser(currentUser).stream()
+    public List<CustomerOrderDTO> getAllOrders() {
+        List<CustomerOrder> orders = customerOrderRepository.findAll();
+        return orders.stream()
             .map(customerOrder -> modelMapper.map(customerOrder, CustomerOrderDTO.class))
             .collect(Collectors.toList());
     }
 
-    /**
-     * Updates an existing userOrder for the current user.
-     *
-     * @param orderId                the userOrder ID
-     * @param updateCustomerOrderDTO the userOrder DTO containing updated details
-     * @return the updated userOrder DTO
-     */
-    public ResponseEntity<CustomerOrderDTO> updateOrder(Long orderId, UpdateCustomerOrderDTO updateCustomerOrderDTO) {
-        User currentUser = authHelper.getCurrentUser();
-
-        return customerOrderRepository.findByOrderIdAndUser(orderId, currentUser)
-            .map(customerOrder -> {
-                customerOrder.setStatus(updateCustomerOrderDTO.getStatus());
-                customerOrderRepository.save(customerOrder);
-                return new ResponseEntity<>(modelMapper.map(customerOrder, CustomerOrderDTO.class), HttpStatus.OK);
-            })
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
 
     /**
      * Deletes an order for the current user.
@@ -115,9 +153,7 @@ public class CustomerOrderService {
      * @return response entity
      */
     public ResponseEntity<Void> deleteOrder(Long orderId) {
-        User currentUser = authHelper.getCurrentUser();
-
-        return customerOrderRepository.findByOrderIdAndUser(orderId, currentUser)
+        return customerOrderRepository.findByOrderId(orderId)
             .map(customerOrder -> {
                 customerOrderRepository.delete(customerOrder);
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

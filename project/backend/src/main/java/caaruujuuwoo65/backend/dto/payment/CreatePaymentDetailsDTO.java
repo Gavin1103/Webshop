@@ -1,4 +1,4 @@
-package caaruujuuwoo65.backend.dto.payment.details;
+package caaruujuuwoo65.backend.dto.payment;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,15 +8,12 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 /**
- * Data Transfer Object for updating payment details.
- * Used to transfer payment details update data between client and server.
+ * Data Transfer Object for creating payment details.
+ * Used to transfer payment details creation data between client and server.
  */
 @Getter
 @Setter
-public class UpdatePaymentDetailsDTO {
-    @NotBlank(message = "Payment method is mandatory")
-    private String paymentMethod;
-
+public class CreatePaymentDetailsDTO {
     @NotBlank(message = "Card holder name is mandatory")
     private String cardHolderName;
 
@@ -25,4 +22,7 @@ public class UpdatePaymentDetailsDTO {
 
     @NotNull(message = "Expiry date is mandatory")
     private LocalDate expiryDate;
+
+    @NotBlank(message = "Payment method is mandatory")
+    private String paymentMethod;
 }

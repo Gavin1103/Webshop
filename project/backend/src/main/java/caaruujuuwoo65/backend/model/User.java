@@ -47,10 +47,6 @@ public class User implements UserDetails {
         return email;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "addressId")
-    private Address address;
-
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<CustomerOrder> customerOrders;

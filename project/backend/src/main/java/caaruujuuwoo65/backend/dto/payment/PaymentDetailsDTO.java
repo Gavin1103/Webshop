@@ -1,4 +1,4 @@
-package caaruujuuwoo65.backend.dto.payment.details;
+package caaruujuuwoo65.backend.dto.payment;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +13,8 @@ import java.time.LocalDate;
 @Setter
 public class PaymentDetailsDTO {
     private Long paymentDetailsId;
-    private String paymentMethod;
     private String cardHolderName;
     private String cardNumber;
     private LocalDate expiryDate;
+    private String paymentMethod;
 }

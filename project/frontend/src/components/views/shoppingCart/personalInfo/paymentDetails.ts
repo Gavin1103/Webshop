@@ -12,11 +12,6 @@ export class PaymentDetails extends LitElement {
 
     @property() private selectedOption: string | null = null;
 
-    public connectedCallback(): void {
-        super.connectedCallback();
-        this.requestUpdate();
-    }
-
     // TODO make add paymentOptions database table and retrieve options from database
     private paymentOptions: PaymentOption[] = [
         {
@@ -80,7 +75,7 @@ export class PaymentDetails extends LitElement {
     protected render(): TemplateResult {
         return html`
             <div class="block-container">
-                <h2 class="title">Payment Details</h2>
+                <h2 class="title">Payment Details*</h2>
                 <div class="payment-wrapper">
                     <div class="left-payments">
                         ${this.paymentOptions.filter(option => option.column === "left").map(option => this.renderPaymentOption(option))}
@@ -95,24 +90,28 @@ export class PaymentDetails extends LitElement {
                         ${createInputField({
                             id: "card-holder-input",
                             placeholder: "Enter The Card Holders Name...",
-                            label: "Card holder name"
+                            label: "Card holder name",
+                            required: true
                         })}
                         ${createInputField({
                             id: "card-number-input",
                             placeholder: "Enter Your Card Number...",
-                            label: "Card number"
+                            label: "Card number",
+                            required: true
                         })}
                     </div>
                     <div class="input-row">
                         ${createInputField({
                             id: "cvv-input",
                             placeholder: "Example: 4567",
-                            label: "CVV"
+                            label: "CVV",
+                            required: true
                         })}
                         ${createInputField({
                             id: "expiration-date-input",
                             placeholder: "MM/YY",
-                            label: "Expiration Date"
+                            label: "Expiration Date",
+                            required: true
                         })}
                     </div>
                 ` : ""}
@@ -135,5 +134,14 @@ export class PaymentDetails extends LitElement {
 
     private handleSelection(value: string): void {
         this.selectedOption = value;
+        this.requestUpdate();
+
+        setTimeout(() => {
+            this.dispatchEvent(new CustomEvent('payment-option-selected', {
+                detail: {selectedOption: value},
+                bubbles: true,
+                composed: true
+            }));
+        }, 100);
     }
 }

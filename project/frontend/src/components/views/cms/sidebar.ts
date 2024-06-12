@@ -1,12 +1,23 @@
 import {html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from "lit/decorators.js";
 import sidebarStyles from "../../../styles/cms/sidebarStyles";
+import {TokenService} from "../../../services/TokenService";
 
 @customElement('cms-sidebar')
 export class Sidebar extends LitElement {
     @property({type: Function}) private navigate!: (path: string) => void;
 
     public static styles = [sidebarStyles];
+
+    public navigateHome(): void {
+        location.replace('/');
+    }
+
+    public logout(): void {
+        const tokenService: TokenService = new TokenService();
+        tokenService.removeToken();
+        this.navigate('/backoffice');
+    }
 
     protected render(): TemplateResult {
         return html`
@@ -53,6 +64,17 @@ export class Sidebar extends LitElement {
                     <div class="sidebar-element" @click="${() => this.navigate('/backoffice/tools')}">
                         <span>Tools</span>
                         <img src="/assets/image/icons/cms/tools.svg" alt="Dashboard Icon">
+                    </div>
+
+                    <div class="sidebar-group">
+                        <div class="sidebar-element" @click="${this.navigateHome}">
+                            <span>Homepage</span>
+                            <img src="/assets/image/icons/cms/home.svg" alt="Ho Icon">
+                        </div>
+                        <div class="sidebar-element" @click="${this.logout}">
+                            <span>Logout</span>
+                            <img src="/assets/image/icons/logout.svg" alt="Logout Icon">
+                        </div>
                     </div>
                 </div>
             </div>

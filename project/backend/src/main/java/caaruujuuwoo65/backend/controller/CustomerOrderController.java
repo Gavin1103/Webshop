@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
+import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.dto.order.CreateCustomerOrderDTO;
 import caaruujuuwoo65.backend.dto.order.CustomerOrderDTO;
 import caaruujuuwoo65.backend.dto.order.UpdateCustomerOrderDTO;
@@ -25,8 +26,8 @@ public class CustomerOrderController {
         this.customerOrderService = customerOrderService;
     }
 
-    @PostMapping("/")
-    @Operation(summary = "Create a new order for the current user", description = "Create a new order in the database for the current user")
+    @PostMapping("/create")
+    @Operation(summary = "Create a new order", description = "Create a new order in the database")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Order created successfully"),
         @ApiResponse(responseCode = "400", description = "Invalid order details"),
@@ -36,31 +37,21 @@ public class CustomerOrderController {
         return customerOrderService.createOrder(createCustomerOrderDTO);
     }
 
+    @PreAuthorizeAdmin
     @GetMapping("/")
-    @Operation(summary = "Get all orders for the current user", description = "Get all orders from the database for the current user")
+    @Operation(summary = "Get all orders", description = "Get all orders from the database")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Orders retrieved successfully"),
         @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<List<CustomerOrderDTO>> getAllOrdersForCurrentUser() {
-        List<CustomerOrderDTO> orders = customerOrderService.getAllOrdersForCurrentUser();
+    public ResponseEntity<List<CustomerOrderDTO>> getAllOrders() {
+        List<CustomerOrderDTO> orders = customerOrderService.getAllOrders();
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @PutMapping("/{orderId}")
-    @Operation(summary = "Update an existing order for the current user", description = "Update an existing order in the database for the current user")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Order updated successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid order details"),
-        @ApiResponse(responseCode = "404", description = "Order not found"),
-        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
-    })
-    public ResponseEntity<CustomerOrderDTO> updateOrder(@PathVariable Long orderId, @RequestBody UpdateCustomerOrderDTO updateCustomerOrderDTO) {
-        return customerOrderService.updateOrder(orderId, updateCustomerOrderDTO);
-    }
-
+    @PreAuthorizeAdmin
     @DeleteMapping("/{orderId}")
-    @Operation(summary = "Delete an order for the current user", description = "Delete an order from the database for the current user")
+    @Operation(summary = "Delete an order", description = "Delete an order from the database")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Order deleted successfully"),
         @ApiResponse(responseCode = "404", description = "Order not found"),

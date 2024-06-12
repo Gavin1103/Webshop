@@ -11,20 +11,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateAddressDTO {
-    @NotBlank(message = "Street is mandatory")
-    private String street;
+    @NotBlank(message = "Address line1 is mandatory")
+    private String line1;
 
     @NotBlank(message = "City is mandatory")
     private String city;
 
-    private String state;
-
-    @NotBlank(message = "Postal code is mandatory")
-    private String postalCode;
-
     @NotBlank(message = "Country is mandatory")
     private String country;
 
-    @NotBlank(message = "User ID is mandatory")
-    private Long userId;
+    @NotBlank(message = "Postal code is mandatory")
+    private String postalCode;
 }

@@ -8,7 +8,7 @@ export class ToolingPage extends LitElement {
         return html`
             <div>
                 <h1>Tooling Page</h1>
-                <p>This is the tooling page content.</p>
+                <p>Coming Soon...</p>
             </div>
         `;
     }

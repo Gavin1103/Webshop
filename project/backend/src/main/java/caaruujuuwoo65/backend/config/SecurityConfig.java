@@ -33,6 +33,7 @@ public class SecurityConfig {
         "/products/**",
         "/reviews/getBy/**",
         "/categories/**",
+        "/orders/create",
     };
 
     private final JwtRequestFilter jwtRequestFilter;

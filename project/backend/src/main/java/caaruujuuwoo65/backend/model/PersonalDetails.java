@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,15 +8,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "payment_methods")
+@Table(name = "personal_details")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentMethod {
+public class PersonalDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentMethodId;
+    private Long personalDetailsId;
 
-    private String type;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
 }

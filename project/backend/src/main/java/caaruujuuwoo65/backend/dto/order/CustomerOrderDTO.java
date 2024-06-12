@@ -1,7 +1,9 @@
 package caaruujuuwoo65.backend.dto.order;
 
+import caaruujuuwoo65.backend.dto.PersonalDetailsDTO;
+import caaruujuuwoo65.backend.dto.address.AddressDTO;
 import caaruujuuwoo65.backend.dto.order.detail.CustomerOrderDetailDTO;
-import caaruujuuwoo65.backend.dto.payment.details.PaymentDetailsDTO;
+import caaruujuuwoo65.backend.dto.payment.PaymentDetailsDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,4 +25,7 @@ public class CustomerOrderDTO {
     private BigDecimal totalAmount;
     private List<CustomerOrderDetailDTO> orderDetails;
     private PaymentDetailsDTO paymentDetails;
+    private AddressDTO billingAddress;
+    private AddressDTO shippingAddress;
+    private PersonalDetailsDTO personalDetails;
 }

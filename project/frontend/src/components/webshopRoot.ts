@@ -1,6 +1,7 @@
 import { html, LitElement, TemplateResult } from "lit";
 import { customElement, query, state } from "lit/decorators.js";
 import { getCurrentPath, initRouter } from "./router";
+import webshopRootStyle from "../styles/webshopRootStyle";
 
 @customElement("webshop-root")
 export class WebshopRoot extends LitElement {
@@ -9,6 +10,8 @@ export class WebshopRoot extends LitElement {
 
     @query("#main-shop-wrapper")
     private shopWrapper!: HTMLElement;
+
+    public static styles = [webshopRootStyle];
 
     public connectedCallback(): void {
         super.connectedCallback();

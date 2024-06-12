@@ -29,6 +29,7 @@ export class OrderSummary extends LitElement {
     }
 
     private handleContinue(): void {
+        if (!this.products.length) return;
         navigateTo(PAYMENT_INFO_PATH);
     }
 

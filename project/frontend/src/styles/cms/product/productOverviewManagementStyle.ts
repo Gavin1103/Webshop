@@ -7,8 +7,6 @@ export default css`
     }
 
     th, td {
-    th,
-    td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
@@ -43,7 +41,6 @@ export default css`
         background-color:#ECAE20;
         color: white;
     }
-`
 
     .go-back-btn {
         color: blue;

@@ -40,7 +40,7 @@ export class WebshopRoot extends LitElement {
 
             <main id="main-shop-wrapper"></main>
 
-            <footer-component></footer-component>
+            ${this.isCMSPage ? html`` : html` <footer-component></footer-component>`}
         `;
     }
 }

@@ -14,6 +14,7 @@ export * from "./components/views/shoppingCart/wizardElement";
 export * from "./components/views/shoppingCart/orderInfo/cartListItem";
 export * from "./components/views/shoppingCart/orderInfo/orderSummary";
 export * from "./components/navigation-bar";
+export * from "./components/footer-component";
 export * from "./components/category-card-horizontal";
 export * from "./components/search-bar";
 export * from "./components/views/homePage/home-page";

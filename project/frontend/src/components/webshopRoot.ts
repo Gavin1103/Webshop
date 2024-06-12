@@ -1,6 +1,6 @@
-import {html, LitElement, TemplateResult} from "lit";
-import {customElement, query, state} from "lit/decorators.js";
-import {getCurrentPath, initRouter} from "./router";
+import { html, LitElement, TemplateResult } from "lit";
+import { customElement, query, state } from "lit/decorators.js";
+import { getCurrentPath, initRouter } from "./router";
 
 @customElement("webshop-root")
 export class WebshopRoot extends LitElement {
@@ -17,7 +17,7 @@ export class WebshopRoot extends LitElement {
 
     public async firstUpdated(): Promise<void> {
         await initRouter(this.shopWrapper);
-        window.addEventListener('hashchange', this.onRouteChange.bind(this));
+        window.addEventListener("hashchange", this.onRouteChange.bind(this));
         this.onRouteChange();
     }
 
@@ -35,14 +35,12 @@ export class WebshopRoot extends LitElement {
      * Renders the components
      */
     protected render(): TemplateResult {
-
         return html`
-            ${this.isCMSPage ? html`` : html`
-                <navigation-bar></navigation-bar>`}
+            ${this.isCMSPage ? html`` : html` <navigation-bar></navigation-bar>`}
 
-            <main id="main-shop-wrapper">
+            <main id="main-shop-wrapper"></main>
 
-            </main>
+            <footer-component></footer-component>
         `;
     }
 }

@@ -1,58 +1,10 @@
-import { LitElement, TemplateResult, css, html } from "lit";
+import { LitElement, TemplateResult, html } from "lit";
 import { customElement } from "lit/decorators.js";
+import footerComponentStyle from "../styles/footerComponentStyle";
 
 @customElement("footer-component")
 export class Footer extends LitElement {
-    public static styles = css`
-        footer {
-            margin: 50px 0 0 0;
-            padding: 10px 0 0 0;
-            width: 100%;
-            background-color: lightgrey;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            .footer-top {
-                width: 60%;
-                display: flex;
-                justify-content: space-between;
-
-                section {
-                    ul {
-                        list-style: none;
-                        margin: 0;
-                        padding: 0;
-
-                        .title {
-                            font-weight: bolder;
-                            font-size: 30px;
-                        }
-
-                        li {
-                            font-size: 15px;
-                            margin: 5px 0 5px 0;
-                        }
-                    }
-                }
-
-                .right-section {
-                    img {
-                        width:200px;
-                    }
-                }
-            }
-            .footer-bottom {
-                height: auto;
-                width: 60%;
-
-                p{
-                    font-size:20px;
-                    font-weight:bolder;
-                }
-            }
-        }
-    `;
+    public static styles = [footerComponentStyle];
 
     public render(): TemplateResult {
         return html`

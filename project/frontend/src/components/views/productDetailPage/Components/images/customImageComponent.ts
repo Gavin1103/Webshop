@@ -1,5 +1,6 @@
-import { LitElement, html, css, TemplateResult } from "lit";
+import { LitElement, html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import customImageComponentStyle from "../../styles/components/images/customImageComponentStyle";
 
 @customElement("custom-image-component")
 export class customImageComponent extends LitElement {
@@ -20,21 +21,9 @@ export class customImageComponent extends LitElement {
   @property({ type: String })
   private borderRadius: string = "";
 
-  public static styles = css`
-    section {
-        width: var(--custom-width);
-        height: var(--custom-height);
-
-        img {
-          width: 100%;
-          height: 100%; 
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); 
-          object-fit: cover; 
-          object-position:center;
-          border-radius:var(--custom-radius);
-        }
-    }
-  `;
+  public static styles = [
+    customImageComponentStyle
+  ]
 
   public connectedCallback(): void {
     super.connectedCallback();

@@ -24,7 +24,6 @@ export class Footer extends LitElement {
                             <li class="title">Customer service</li>
                             <li>Contact us</li>
                             <li>View orders</li>
-                            <li>Aaron is een PISPAAL</li>
                         </ul>
                     </section>
                     <section class="right-section">

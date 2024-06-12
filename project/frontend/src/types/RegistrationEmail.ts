@@ -23,7 +23,7 @@ export class RegistrationEmail {
     <h1>Email Confirmation</h1>
     <p>Dear ${this.firstname} ${this.lastname},</p>
     <p>Thank you for registering with our webshop. Please confirm your email address by clicking the link below:</p>
-    <a href="${viteConfiguration.WEBSHOP_URL}/#/confirmation/${this.confirmationToken}">Confirm Email</a>
+    <a style=" width: 200px; text-decoration: none; color: black; padding: 5px; margin: 10px 0; border: 1px solid #ECAE20; border-radius: 10px; cursor: pointer; background-color: #ECAE20;" href="${viteConfiguration.WEBSHOP_URL}/#/confirmation/${this.confirmationToken}">Confirm Email</a>
     <p>Here are your details:</p>
     <table style="width:100%; border: 1px solid black; border-collapse: collapse;">
         <tr>

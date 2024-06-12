@@ -42,36 +42,25 @@ public class CartService {
     }
 
     /**
-     * Retrieves the cart for the current user.
+     * Retrieves or creates the cart for the current user.
      *
      * @return the cart DTO
      */
-    public ResponseEntity<CartDTO> getCartForCurrentUser() {
+    public ResponseEntity<CartDTO> getOrCreateCartForCurrentUser() {
         User currentUser = authHelper.getCurrentUser();
         Optional<Cart> cartOptional = cartRepository.findByUser(currentUser);
-        if (cartOptional.isPresent()) {
-            CartDTO cartDTO = modelMapper.map(cartOptional.get(), CartDTO.class);
-            return new ResponseEntity<>(cartDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
 
-    /**
-     * Creates a new cart for the current user.
-     *
-     * @return the created cart DTO
-     */
-    public ResponseEntity<CartDTO> createCartForCurrentUser() {
-        User currentUser = authHelper.getCurrentUser();
-        if (cartRepository.findByUser(currentUser).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Cart cart;
+        if (cartOptional.isPresent()) {
+            cart = cartOptional.get();
+        } else {
+            cart = new Cart();
+            cart.setUser(currentUser);
+            cart = cartRepository.save(cart);
         }
-        Cart cart = new Cart();
-        cart.setUser(currentUser);
-        cart = cartRepository.save(cart);
+
         CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
-        return new ResponseEntity<>(cartDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(cartDTO, HttpStatus.OK);
     }
 
     /**
@@ -88,25 +77,44 @@ public class CartService {
         }
 
         Cart cart = cartOptional.get();
-        Set<CartItem> updatedCartItems = updateCartDTO.getItems().stream().map(itemDTO -> {
+
+        // Create a temporary collection to hold the updated items
+        Set<CartItem> updatedCartItems = updateCartDTO.getCartItems().stream().map(itemDTO -> {
             Optional<Product> productOptional = productRepository.findById(itemDTO.getProductId());
             if (!productOptional.isPresent()) {
                 throw new RuntimeException("Product not found");
             }
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct(productOptional.get());
-            cartItem.setCart(cart);
-            cartItem.setQuantity(itemDTO.getQuantity());
-            cartItem.setUnitPrice(productOptional.get().getCurrentPrice());
-            cartItem.setTotalPrice(productOptional.get().getCurrentPrice().multiply(BigDecimal.valueOf(itemDTO.getQuantity())));
+            Product product = productOptional.get();
+            Optional<CartItem> existingCartItemOptional = cart.getCartItems().stream()
+                .filter(cartItem -> cartItem.getProduct().getProductId().equals(itemDTO.getProductId()))
+                .findFirst();
+
+            CartItem cartItem;
+            if (existingCartItemOptional.isPresent()) {
+                cartItem = existingCartItemOptional.get();
+                cartItem.setQuantity(itemDTO.getQuantity());
+            } else {
+                cartItem = new CartItem();
+                cartItem.setProduct(product);
+                cartItem.setCart(cart);
+                cartItem.setQuantity(itemDTO.getQuantity());
+                cart.getCartItems().add(cartItem);
+            }
+
+            cartItem.setUnitPrice(product.getCurrentPrice());
+            cartItem.setTotalPrice(product.getCurrentPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
             return cartItem;
         }).collect(Collectors.toSet());
 
-        cart.setCartItems(updatedCartItems);
+        // Update the existing collection in-place
+        cart.getCartItems().clear();
+        cart.getCartItems().addAll(updatedCartItems);
         Cart updatedCart = cartRepository.save(cart);
+
         CartDTO cartDTO = modelMapper.map(updatedCart, CartDTO.class);
         return new ResponseEntity<>(cartDTO, HttpStatus.OK);
     }
+
 
     /**
      * Deletes the cart for the current user.

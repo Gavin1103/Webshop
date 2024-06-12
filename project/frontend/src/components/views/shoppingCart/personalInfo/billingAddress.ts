@@ -26,13 +26,14 @@ export class BillingAddress extends LitElement {
 
                 <div class="input-row">
                     ${createInputField({
-                        id: "address-line-1-input",
+                        id: "billing-address-line1",
                         placeholder: "Mainstreet 12",
-                        label: "Address Line 1"
+                        label: "Address Line 1",
+                        required: true
                     })}
                     
                     ${createInputField({
-                        id: "address-line-2-input",
+                        id: "billing-address-line2",
                         placeholder: "Appartement",
                         label: "Address Line 2"
                     })}
@@ -40,22 +41,25 @@ export class BillingAddress extends LitElement {
                 
                 <div class="input-row">
                     ${createInputField({
-                        id: "city-input",
+                        id: "billing-city",
                         placeholder: "Amsterdam",
-                        label: "City"
+                        label: "City",
+                        required: true
                     })}
                     
                     ${createInputField({
-                        id: "country-input",
+                        id: "billing-country",
                         placeholder: "Netherlands",
-                        label: "Country"
+                        label: "Country",
+                        required: true
                     })}
                 </div>
                 <div class="input-row">
                     ${createInputField({
-                        id: "zipcode-city-input",
+                        id: "billing-postal-code",
                         placeholder: "1234 AB",
-                        label: "Zip/Postal Code"
+                        label: "Zip/Postal Code",
+                        required: true
                     })}
                 </div>
             </div>

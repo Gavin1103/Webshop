@@ -16,12 +16,15 @@ export default css `
 
     .sidebar-container {
         padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
 
     .sidebar-element {
         display: flex;
         justify-content: space-between;
-        margin: 15px 0 2rem;
+        margin: 10px 0 2rem;
         padding: 0 .5rem;
         cursor: pointer;
     }
@@ -61,6 +64,11 @@ export default css `
             font-size: small;
             padding: 0 10px;
         }
+    }
+    
+    .sidebar-group {
+        margin-bottom: 2rem;
+        margin-top: auto;
     }
 
     .search-input:hover {

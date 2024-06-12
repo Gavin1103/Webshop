@@ -2,7 +2,8 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property, state} from "lit/decorators.js";
 import shoppingCartStyle from "../../../styles/shoppingCart/shoppingCartStyle";
 import {getCurrentPath} from "../../router";
-import {CartItem, CartManager} from "../../helpers/CartHelpers";
+import {CartManager} from "../../helpers/CartHelpers";
+import {Cart, ProductItem} from "../../../interfaces/Cart";
 
 @customElement("shopping-cart")
 export class ShoppingCart extends LitElement {
@@ -13,12 +14,29 @@ export class ShoppingCart extends LitElement {
     private currentPath: string = "";
 
     @property({type: Array})
-    private products: CartItem[] = CartManager.getCart();
+    private products: Cart | ProductItem[] = [];
 
     public connectedCallback(): void {
         super.connectedCallback();
         this.updateCurrentPath();
+        void this.loadProducts();
+        this.addEventListener("cart-updated", this.handleCartUpdated);
         this.requestUpdate();
+    }
+
+    public disconnectedCallback(): void {
+        super.disconnectedCallback();
+        this.removeEventListener("cart-updated", this.handleCartUpdated);
+    }
+
+    private handleCartUpdated = (): void => {
+        void this.loadProducts();
+        this.requestUpdate();
+    }
+
+    private async loadProducts(): Promise<void> {
+        const cartManager = CartManager.getInstance();
+        this.products = await cartManager.getCart();
     }
 
     private updateCurrentPath = (): void => {

@@ -1,13 +1,12 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, state} from "lit/decorators.js";
-
 import OrderOverviewSummaryStyle
     from "../../../../styles/shoppingCart/orderOverview/orderOverviewSummaryStyle";
 import inputFieldStyle from "../../../../styles/shoppingCart/inputFieldStyle";
 import {createInputField} from "../../../helpers/formHelpers";
 import {navigateTo} from "../../../router";
 import {roundToTwoDecimals} from "../../../helpers/helpers";
-import {CartItem} from "../../../helpers/CartHelpers";
+import {ProductItem} from "../../../../interfaces/Cart";
 
 const FREE_SHIPPING_THRESHOLD: number = 0;
 const HOME_PATH: string = "/";
@@ -18,7 +17,7 @@ export class OrderOverviewSummary extends LitElement {
     public static styles = [OrderOverviewSummaryStyle, inputFieldStyle];
 
     @state()
-    private products: CartItem[] = [];
+    private products: ProductItem[] = [];
 
     @state()
     private user: { name: string, address: string, zip: string, country: string } = {
@@ -36,7 +35,7 @@ export class OrderOverviewSummary extends LitElement {
     };
 
     private calculateTotalPrice(): number {
-        return this.products.reduce((total, product) => total + product.price * product.quantity, 0);
+        return this.products.reduce((total, product) => total + 10 * product.quantity, 0);
     }
 
     public navigateHome(): void {

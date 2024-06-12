@@ -219,10 +219,9 @@ function createRouterLocation(path: string): RouterLocation {
     };
 }
 
-// Updated navigateTo function
 export function navigateTo(path: string): void {
     if (router) {
-        window.location.hash = path; // Update the hash, which will trigger the hashchange event
+        window.location.hash = path;
         const location: RouterLocation = createRouterLocation(path);
         void router.render(location);
         updatePath(path);

@@ -19,6 +19,8 @@ export default css`
     .header {
         display: flex;
         flex-direction: row;
+        margin-bottom: 2rem;
+        margin-top: 2rem;
     }
     
     .page-icon {

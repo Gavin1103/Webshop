@@ -1,5 +1,6 @@
 package caaruujuuwoo65.backend.controller;
 
+import caaruujuuwoo65.backend.config.PreAuthorizeAdmin;
 import caaruujuuwoo65.backend.dto.order.CreateCustomerOrderDTO;
 import caaruujuuwoo65.backend.dto.order.CustomerOrderDTO;
 import caaruujuuwoo65.backend.dto.order.UpdateCustomerOrderDTO;
@@ -36,7 +37,7 @@ public class CustomerOrderController {
         return customerOrderService.createOrder(createCustomerOrderDTO);
     }
 
-    @GetMapping("/")
+    @GetMapping("/self")
     @Operation(summary = "Get all orders for the current user", description = "Get all orders from the database for the current user")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Orders retrieved successfully"),
@@ -59,8 +60,21 @@ public class CustomerOrderController {
         return customerOrderService.updateOrder(orderId, updateCustomerOrderDTO);
     }
 
+    @PreAuthorizeAdmin
+    @GetMapping("/")
+    @Operation(summary = "Get all orders", description = "Get all orders from the database")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Orders retrieved successfully"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<List<CustomerOrderDTO>> getAllOrders() {
+        List<CustomerOrderDTO> orders = customerOrderService.getAllOrders();
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    @PreAuthorizeAdmin
     @DeleteMapping("/{orderId}")
-    @Operation(summary = "Delete an order for the current user", description = "Delete an order from the database for the current user")
+    @Operation(summary = "Delete an order", description = "Delete an order from the database")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Order deleted successfully"),
         @ApiResponse(responseCode = "404", description = "Order not found"),

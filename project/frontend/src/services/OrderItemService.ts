@@ -1,4 +1,4 @@
-import {CartItem} from "../components/helpers/CartHelpers";
+import {ProductItem} from "../interfaces/Cart";
 
 /**
  * Handles order item related functionality
@@ -6,10 +6,10 @@ import {CartItem} from "../components/helpers/CartHelpers";
 export class OrderItemService {
     /**
      * Get all order items
-     * 
+     *
      * @returns A list of all order items when successful, otherwise `undefined`.
      */
-    public async getAll(): Promise<CartItem[] | undefined> {
+    public async getAll(): Promise<ProductItem[] | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}orderItems`, {
             method: "get",
         });
@@ -20,6 +20,6 @@ export class OrderItemService {
             return undefined;
         }
 
-        return (await response.json()) as CartItem[];
+        return (await response.json()) as ProductItem[];
     }
 }

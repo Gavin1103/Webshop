@@ -17,12 +17,14 @@ export class PersonalDetails extends LitElement {
                     ${createInputField({
                         id: "first-name-input",
                         placeholder: "Enter Your First Name...",
-                        label: "First name"
+                        label: "First name",
+                        required: true
                     })}
                     ${createInputField({
                         id: "surname-input",
                         placeholder: "Enter Your Surname...",
-                        label: "Surname"
+                        label: "Surname",
+                        required: true
                     })}
                 </div>
                 <div class="input-row">
@@ -30,7 +32,8 @@ export class PersonalDetails extends LitElement {
                         id: "email-input",
                         placeholder: "Enter Your Email...",
                         label: "Email",
-                        type: "email"
+                        type: "email",
+                        required: true
                     })}
                     ${createInputField({
                         id: "phone-number-input",

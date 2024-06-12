@@ -86,12 +86,12 @@ public class ProductController {
     @GetMapping("/{id}")
     @Operation(summary = "Get product by id", description = "Get product by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Product successfully retrieved"),
-            @ApiResponse(responseCode = "404", description = "Product not found"),
-            @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+        @ApiResponse(responseCode = "200", description = "Product successfully retrieved"),
+        @ApiResponse(responseCode = "404", description = "Product not found"),
+        @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
     public ResponseEntity<?> getProductById(@PathVariable int id) {
-        ProductDTO product = productService.getProductById((long) id);
+        ProductDTO product = productService.getProductById(id);
         if (product == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
         }

@@ -1,18 +1,23 @@
 package caaruujuuwoo65.backend.service;
 
-import caaruujuuwoo65.backend.dto.product.ProductAverageRatingDTO;
-import caaruujuuwoo65.backend.dto.product.ProductPreviewDTO;
-import caaruujuuwoo65.backend.dto.product.ProductDTO;
-import caaruujuuwoo65.backend.dto.product.ProductSearchResultDTO;
+import caaruujuuwoo65.backend.dto.product.*;
 import caaruujuuwoo65.backend.dto.product.category.CategoryPreviewDTO;
+import caaruujuuwoo65.backend.dto.product.category.ProductCategoryDTO;
 import caaruujuuwoo65.backend.model.Product;
+import caaruujuuwoo65.backend.model.ProductCategory;
+import caaruujuuwoo65.backend.repository.ProductCategoryRepository;
 import caaruujuuwoo65.backend.repository.ProductRepository;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.Predicate;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,24 +26,40 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductCategoryRepository productCategoryRepository;
     private final ModelMapper modelMapper;
+    private final EntityManager entityManager;
+
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductService(
+        ProductRepository productRepository,
+        ProductCategoryRepository productCategoryRepository,
+        ModelMapper modelMapper,
+        EntityManager entityManager
+    ) {
         this.productRepository = productRepository;
+        this.productCategoryRepository = productCategoryRepository;
         this.modelMapper = modelMapper;
+        this.entityManager = entityManager;
     }
 
+    @Transactional
     public List<ProductDTO> getAllProducts() {
         List<Product> products = productRepository.findAll();
+        products.forEach(product -> {
+            Hibernate.initialize(product.getImage());
+        });
         return products.stream()
             .map(product -> modelMapper.map(product, ProductDTO.class))
             .collect(Collectors.toList());
+
     }
 
     public List<ProductPreviewDTO> getTopDeals() {
-        List<Product> products = productRepository.findTop10ByOrderByPriceAsc();
+        List<Product> products = productRepository.findAll();
         return products.stream()
+            .filter(Product::isOnSale)
             .map(product -> modelMapper.map(product, ProductPreviewDTO.class))
             .collect(Collectors.toList());
     }
@@ -51,7 +72,7 @@ public class ProductService {
     }
 
 
-    public List<ProductAverageRatingDTO> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating, String name) {
+    public List<ProductAverageRatingDTO> getFilteredProducts(List<String> categories, Integer minPrice, Integer maxPrice, Integer minRating, String name, boolean isDiscounted) {
         List<Product> filteredProducts = productRepository.findAll((Specification<Product>) (root, query, criteriaBuilder) -> {
             var predicates = new ArrayList<Predicate>();
 
@@ -60,15 +81,19 @@ public class ProductService {
             }
 
             if (minPrice != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice));
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("currentPrice"), minPrice));
             }
 
             if (maxPrice != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("currentPrice"), maxPrice));
             }
 
             if (name != null && !name.isEmpty()) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("productName")), "%" + name.toLowerCase() + "%"));
+            }
+
+            if (isDiscounted) {
+                predicates.add(criteriaBuilder.notEqual(root.get("currentPrice"), root.get("originalPrice")));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -92,10 +117,10 @@ public class ProductService {
         return product != null ? modelMapper.map(product, ProductDTO.class) : null;
     }
 
-    public List<ProductSearchResultDTO> searchProducts(String keyword) {
+    public List<ProductDTO> searchProducts(String keyword) {
         List<Product> products = productRepository.searchProducts(keyword);
         return products.stream()
-            .map(product -> modelMapper.map(product, ProductSearchResultDTO.class))
+            .map(product -> modelMapper.map(product, ProductDTO.class))
             .collect(Collectors.toList());
     }
 
@@ -107,4 +132,85 @@ public class ProductService {
             .map(category -> modelMapper.map(category, CategoryPreviewDTO.class))
             .collect(Collectors.toList());
     }
+
+    public Product createProduct(CreateProductDTO productDTO) {
+        Product product = modelMapper.map(productDTO, Product.class);
+        return productRepository.save(product);
+    }
+
+    public List<CategoryPreviewDTO> getCategoriesWithDiscountedProducts() {
+        String jpql = "SELECT DISTINCT p.category FROM Product p WHERE p.currentPrice < p.originalPrice";
+        TypedQuery<ProductCategory> query = entityManager.createQuery(jpql, ProductCategory.class);
+        List<ProductCategory> discountedCategories = query.getResultList();
+        return discountedCategories.stream()
+            .map(productCategory -> modelMapper.map(productCategory, CategoryPreviewDTO.class))
+            .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ProductDTO updateProduct(Long productId, ProductDTO updateProductDTO) {
+        Product existingProduct = productRepository.findById(productId).orElse(null);
+        if (existingProduct == null) {
+            return null;
+        }
+
+        ProductDtoToEntity(updateProductDTO, existingProduct);
+
+        if (updateProductDTO.getProductCategory() != null) {
+            ProductCategoryDTO categoryDTO = updateProductDTO.getProductCategory();
+            Long categoryId = categoryDTO.getId();
+            ProductCategory category = productCategoryRepository.findById(categoryId).orElse(null);
+            if (category != null) {
+                existingProduct.setCategory(category);
+            }
+        }
+
+        existingProduct = productRepository.save(existingProduct);
+
+        return modelMapper.map(existingProduct, ProductDTO.class);
+    }
+
+    @Transactional
+    public boolean deleteProduct(Long productId) {
+        if (productRepository.existsById(productId)) {
+            productRepository.deleteById(productId);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public ProductDTO addProduct(ProductDTO addProductDTO) {
+        Product newProduct = new Product();
+        ProductDtoToEntity(addProductDTO, newProduct);
+
+        if (addProductDTO.getProductCategory() != null) {
+            ProductCategoryDTO categoryDTO = addProductDTO.getProductCategory();
+            Long categoryId = categoryDTO.getId();
+            ProductCategory category = productCategoryRepository.findById(categoryId).orElse(null);
+            if (category != null) {
+                newProduct.setCategory(category);
+            } else {
+                return null;
+            }
+        }
+
+        newProduct = productRepository.save(newProduct);
+
+        return modelMapper.map(newProduct, ProductDTO.class);
+    }
+
+    private void ProductDtoToEntity(ProductDTO addProductDTO, Product newProduct) {
+        newProduct.setProductName(addProductDTO.getName());
+        newProduct.setDescription(addProductDTO.getDescription());
+        newProduct.setImage(addProductDTO.getImage());
+        newProduct.setCurrentPrice(BigDecimal.valueOf(addProductDTO.getCurrentPrice()));
+        newProduct.setOriginalPrice(BigDecimal.valueOf(addProductDTO.getOriginalPrice()));
+        newProduct.setStock(addProductDTO.getStock());
+    }
+    public ProductReviewsDTO getProductWithReviewsById(long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        return product != null ? modelMapper.map(product, ProductReviewsDTO.class) : null;
+    }
+
 }

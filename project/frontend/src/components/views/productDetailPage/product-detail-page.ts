@@ -1,9 +1,10 @@
-import { css, html, LitElement, TemplateResult } from "lit";
+import { html, LitElement, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import globalStyle from "./styles/globalStyle";
-import { Product } from "../../../types/Product";
+import { Product } from "../../../types/product/Product";
 import { ProductService } from "../../../services/ProductService";
-import {getCurrentPath, navigateTo} from "../../router";
+import { getCurrentPath, navigateTo } from "../../router";
+import productDetailPageStyle from "./styles/productDetailPageStyle";
 
 @customElement("product-detail-page")
 export class ProductDetailPage extends LitElement {
@@ -11,7 +12,7 @@ export class ProductDetailPage extends LitElement {
     private infoStatus: string = "description";
 
     @property({ type: String })
-    private buttonColor: string = "#5AB2FF";
+    private buttonColor: string = "lightgrey";
 
     @property({ type: Number })
     private productId: number = 0;
@@ -23,108 +24,11 @@ export class ProductDetailPage extends LitElement {
 
     public static styles = [
         globalStyle,
-        css`
-            main {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                flex-direction: column;
-
-                section {
-                    min-width:300px;
-                    width: 60%;
-                    margin: 5px 0;
-
-                    h2{
-                    font-weight:bolder;
-                   }
-                }
-            }
-
-            .button-section {
-                border-bottom: solid 5px lightgrey;
-                padding: 10px 0 20px 0;
-
-                display: flex;
-                justify-content: space-between;
-
-                p {
-                    margin: 0 10px 0 0;
-                    font-size: 2em;
-                }
-
-                section {
-  
-                    display: flex;
-                    width: auto;
-                    justify-content: space-between;
-                }
-
-                section:last-child {
-                    custom-button-component:last-child {
-                        margin: 0 0 0 10px;
-                    }
-                }
-            }
-
-            @media only screen and (max-width: 1400px) {
-                main {
-                    section {
-                        width: 80%;
-                    }
-                }
-            }
-
-            @media only screen and (max-width: 1100px) {
-                main {
-                    section {
-                        width: 90%;
-                    }
-                }
-            }
-
-            @media only screen and (max-width: 750px) {
-                main {
-                    .button-section {
-                        flex-direction: column;
-
-                        section {
-                            justify-content: flex-start;
-                        }
-                    }
-                }
-            }
-
-            @media only screen and (max-width: 450px) {
-                main {
-
-          
-                    .button-section {
-                        flex-direction: column;
-
-                        section {
-                           align-items: center;
-                            flex-direction: column;
-
-                            p{
-                                margin: 0 0 10px 0;
-                            }
-                        }
-
-                        section:last-child {
-                            custom-button-component:last-child {
-                                margin: 10px  0 0 0;
-                            }
-                        }
-                    }
-                }
-            }
-        `,
+        productDetailPageStyle
     ];
 
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
-
         if (this.IsUrlParameterPresent()) {
             await this.fetchProduct();
         }
@@ -144,7 +48,7 @@ export class ProductDetailPage extends LitElement {
                 <section>
                     <custom-image-component
                         alt="Image of your mom"
-                        backgroundImageUrl="https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/hero/mwiii/MWIII-CODHQ-TOUT.jpg"
+                        backgroundImageUrl="${this.product.image}"
                         width="100%"
                         height="500px"
                     >
@@ -153,7 +57,7 @@ export class ProductDetailPage extends LitElement {
 
                 <section class="button-section">
                     <section>
-                        <p>$${this.product.price}</p>
+                        <p>$${this.product.currentPrice}</p>
                         <!-- TODO: add product to cart -->
                         <custom-button-component @click="${this.addToCart}" text="Add to cart">
                         </custom-button-component>
@@ -180,7 +84,8 @@ export class ProductDetailPage extends LitElement {
                     ? html`
                           <section>
                               <description-component
-                                productCategory="${this.product.productCategory.name}"
+                                  productCategory="${this.product.productCategory.name}"
+                                  productDescription="${this.product.description}"
                               ></description-component>
                           </section>
                       `
@@ -202,7 +107,7 @@ export class ProductDetailPage extends LitElement {
         const currentPath: string = getCurrentPath();
         const param: string | null = currentPath.split("/")[2];
 
-       this.productId = parseInt(param);
+        this.productId = parseInt(param);
 
         return true;
     }

@@ -16,3 +16,21 @@ export function mapCartItems(cart: Cart): ProductItem[] {
         totalPrice: item.totalPrice
     }));
 }
+
+
+export function truncateStringFront(input: string, length: number): string {
+    if (input.length <= length) {
+        return input;
+    } else {
+        return input.slice(0, length) + "...";
+    }
+}
+
+
+export function truncateStringBack(input: string, length: number): string {
+    if (input.length <= length) {
+        return input;
+    } else {
+        return "..." + input.slice(input.length - length);
+    }
+}

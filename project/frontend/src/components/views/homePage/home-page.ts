@@ -1,8 +1,8 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement} from "lit/decorators.js";
 import homePageStyle from "../../../styles/homePage/homePageStyle";
-import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
-import {CategoryResponse} from "../../../types/CategoryResponse";
+import {ProductPreviewResponse} from "../../../types/product/ProductPreviewResponse";
+import {CategoryResponse} from "../../../types/product/CategoryResponse";
 import {ProductService} from "../../../services/ProductService";
 import {CategoryService} from "../../../services/CategoryService";
 
@@ -38,17 +38,20 @@ export class HomePage extends LitElement {
 
         return html`
             <hero-section-homepage
+                redirectUrl="/promotion"
                 title="New Product Promotion"
                 subTitle="Up To 70% Off">
             </hero-section-homepage>
 
             <product-carousel-section
                 title="Top Deal"
+                redirectUrl="/promotion"
                 .productsData="${this.topDealProducts}">
             </product-carousel-section>
 
             <product-carousel-section
                 title="Recommended For You"
+                redirectUrl="/allProducts"
                 .productsData="${this.recommendProducts}">
             </product-carousel-section>
 

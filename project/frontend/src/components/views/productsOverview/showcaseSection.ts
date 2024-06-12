@@ -2,12 +2,13 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import showcaseSectionStyle from "../../../styles/productsOverview/showcaseSectionStyle";
 import {FilterRequest} from "../../../types/overviewPage/FilterRequest";
-import {ProductOverviewResponse} from "../../../types/ProductOverviewResponse";
+import {ProductOverviewResponse} from "../../../types/product/ProductOverviewResponse";
 import {Router} from "@vaadin/router";
 import {CartManager} from "../../helpers/CartHelpers";
-import {ProductPreviewResponse} from "../../../types/ProductPreviewResponse";
 import {navigateTo} from "../../router";
+import {truncateStringFront} from "../../helpers/helpers";
 import {Cart, ProductItem} from "../../../interfaces/Cart";
+import {ProductPreviewResponse} from "../../../types/product/ProductPreviewResponse";
 
 @customElement("showcase-section")
 export class ShowcaseSection extends LitElement {
@@ -15,10 +16,10 @@ export class ShowcaseSection extends LitElement {
     public static styles = [showcaseSectionStyle];
 
     @property({type: String})
-    public overViewType: string | undefined;
+    public header: string | undefined;
 
     @property({type: String})
-    public param: string | undefined;
+    public subHeader: string | undefined;
 
     @property({type: String})
     private productList: ProductOverviewResponse[] | undefined;
@@ -58,7 +59,7 @@ export class ShowcaseSection extends LitElement {
         this.dispatchEvent(event);
     }
 
-    public redirectToDetailPage(productId:number):void{
+    public redirectToDetailPage(productId: number): void {
         navigateTo(`/product-detail-page/${productId}`)
     }
 
@@ -73,8 +74,8 @@ export class ShowcaseSection extends LitElement {
         const newItem: ProductItem = {
             productId: product.id,
             quantity: 1,
-            unitPrice: product.price,
-            totalPrice: product.price,
+            unitPrice: product.currentPrice,
+            totalPrice: product.currentPrice,
         };
         await cartManager.addItem(newItem);
         await this.loadItems();
@@ -165,12 +166,20 @@ export class ShowcaseSection extends LitElement {
         }
     }
 
+    public calculateDiscount(product: ProductOverviewResponse): string | null {
+        if (product.originalPrice <= product.currentPrice) {
+            return null;
+        }
+        const discount: number = Math.floor(((product.originalPrice - product.currentPrice) / product.originalPrice) * 100);
+        return "-" + discount + "%";
+    }
+
 
     public render(): TemplateResult {
         return html`
             <div class="header">
-                <span class="title">${this.capitalizeFirstLetter(this.overViewType)}</span>
-                <span class="sub-title">/${this.param}</span>
+                <span class="title">${this.capitalizeFirstLetter(this.header)}</span>
+                <span class="sub-title">/${this.subHeader}</span>
             </div>
             <div class="filter-results">
                 ${this.renderCategories()}
@@ -184,24 +193,37 @@ export class ShowcaseSection extends LitElement {
                              src="${product.image}" alt="image">
                         <div class="product-info">
                             <div class="info-left">
-                                <span class="name"
-                                      @click="${() => this.redirectToDetailPage(product.id)}">${product.name}</span>
+                                <div class="info-top">
+                                    <span class="name"
+                                          @click="${() => this.redirectToDetailPage(product.id)}">${product.name}</span>
+                                    ${this.calculateDiscount(product) ? html`
+                                        <span class="discount">${this.calculateDiscount(product)}</span>
+                                    ` : ""}
+                                </div>
                                 <san class="rating">${this.generateStars(product.averageRating)}
                                         (${product.averageRating})
                                 </san>
-                                <span class="description">${product.description}</span>
+                                <span
+                                    class="description">${truncateStringFront(product.description, 50)}</span>
                             </div>
 
                             <div class="info-right">
-                                <span class="price">
-                                    €${product.price}
+                                <div class="price">
+                                    ${this.calculateDiscount(product) ? html`
+                                        <span class="original-price">
+                                    ${product.originalPrice}
+                                    </span>
+                                    ` : ""}
+                                    <span class="current-price">
+                                    €${product.currentPrice}
                                 </span>
-                                <img @click="${async (): Promise<void> => await this.addItemToCart(product)}"
-                                     class="cart-button" src="/assets/image/icons/shopping-bag.svg"
-                                     alt="add to cart">
+                                    <img
+                                        @click="${async (): Promise<void> => await this.addItemToCart(product)}"
+                                        class="cart-button" src="/assets/image/icons/shopping-bag.svg"
+                                        alt="add to cart">
+                                </div>
                             </div>
                         </div>
-                    </div>
                 `) : ""}
 
 

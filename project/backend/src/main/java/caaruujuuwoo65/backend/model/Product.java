@@ -24,9 +24,12 @@ public class Product {
     private Long productId;
 
     private String productName;
+
+    @Column(length = 1000)
     private String description;
     private Integer stock;
-    private BigDecimal price;
+    private BigDecimal currentPrice;
+    private BigDecimal originalPrice;
 
     @ElementCollection
     private List<String> image;
@@ -58,5 +61,9 @@ public class Product {
     }
 
 
-
+    // Method to check if the product is on sale
+    @JsonIgnore
+    public boolean isOnSale() {
+        return originalPrice != null && currentPrice != null && currentPrice.compareTo(originalPrice) < 0;
+    }
 }

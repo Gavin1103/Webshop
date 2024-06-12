@@ -30,13 +30,29 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
         {
             path: "/product-detail-page/:id",
             component: "product-detail-page",
-            action: (context:Context, commands: Commands): any => {
+            action: (context: Context, commands: Commands): any => {
                 updatePath(context.pathname);
                 return commands.component("product-detail-page");
             }
         },
         {
             path: "/category/:name",
+            component: "products-overview",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("products-overview");
+            }
+        },
+        {
+            path: "/promotion",
+            component: "products-overview",
+            action: (context: Context, commands: Commands): any => {
+                updatePath(context.pathname);
+                return commands.component("products-overview");
+            }
+        },
+        {
+            path: "/allProducts",
             component: "products-overview",
             action: (context: Context, commands: Commands): any => {
                 updatePath(context.pathname);
@@ -130,6 +146,27 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
             }
         },
         {
+            path: "/backoffice",
+            component: "cms-main",
+            action: async (context: Context, commands: Commands): Promise<any> => {
+                if (!await _tokenService.isAdmin()) {
+                    return commands.component("unauthorized-page");
+                }
+
+                updatePath(context.pathname);
+                return commands.component("cms-main");
+            },
+            children: [
+                {path: '/', component: 'cms-dashboard'},
+                {path: '/users', component: 'cms-users'},
+                {path: '/statistics', component: 'cms-statistics'},
+                {path: '/orders', component: 'cms-orders'},
+                {path: '/products', component: 'products-overview-management'},
+                {path: '/reviews', component: 'cms-reviews'},
+                {path: '/tools', component: 'cms-tools'},
+            ]
+        },
+        {
             path: "(.*)",
             component: "not-found",
             action: (context: Context, commands: Commands): any => {
@@ -149,7 +186,6 @@ export const initRouter: (outlet: HTMLElement) => Promise<Router> = async (outle
 
         navigateTo(path);
     });
-
 
     return router;
 };

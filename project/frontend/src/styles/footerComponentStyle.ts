@@ -2,7 +2,7 @@ import { css } from "lit";
 
 export default css`
     footer {
-        margin: 12vh 0 0 0;
+        margin: 11vh 0 0 0;
         padding: 10px 0 0 0;
         width: 100%;
         background-color: lightgrey;

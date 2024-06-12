@@ -43,10 +43,7 @@ export class ProductDetailPage extends LitElement {
             totalPrice: product.currentPrice,
         };
 
-        console.log(newItem);
-
         await cartManager.addItem(newItem);
-
         alert("Added product")
     }
 

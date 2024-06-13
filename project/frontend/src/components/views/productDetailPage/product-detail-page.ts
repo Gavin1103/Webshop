@@ -5,6 +5,8 @@ import { Product } from "../../../types/product/Product";
 import { ProductService } from "../../../services/ProductService";
 import { getCurrentPath, navigateTo } from "../../router";
 import productDetailPageStyle from "./styles/productDetailPageStyle";
+import { CartManager } from "../../helpers/CartHelpers";
+import { ProductItem } from "../../../interfaces/Cart";
 
 @customElement("product-detail-page")
 export class ProductDetailPage extends LitElement {
@@ -22,16 +24,27 @@ export class ProductDetailPage extends LitElement {
 
     private productService: ProductService = new ProductService();
 
-    public static styles = [
-        globalStyle,
-        productDetailPageStyle
-    ];
+    public static styles = [globalStyle, productDetailPageStyle];
 
     public async connectedCallback(): Promise<void> {
         super.connectedCallback();
         if (this.IsUrlParameterPresent()) {
             await this.fetchProduct();
         }
+    }
+
+    public async addItemToCart(product: Product): Promise<void> {
+        const cartManager = CartManager.getInstance();
+
+        const newItem: ProductItem = {
+            productId: product.id,
+            quantity: 1,
+            unitPrice: product.currentPrice,
+            totalPrice: product.currentPrice,
+        };
+
+        await cartManager.addItem(newItem);
+        alert("Added product")
     }
 
     public render(): TemplateResult {
@@ -48,7 +61,7 @@ export class ProductDetailPage extends LitElement {
                 <section>
                     <custom-image-component
                         alt="Image of your mom"
-                        backgroundImageUrl="${this.product.image}"
+                        .backgroundImageUrl="${this.product.image}"
                         width="100%"
                         height="500px"
                     >
@@ -59,7 +72,10 @@ export class ProductDetailPage extends LitElement {
                     <section>
                         <p>$${this.product.currentPrice}</p>
                         <!-- TODO: add product to cart -->
-                        <custom-button-component @click="${this.addToCart}" text="Add to cart">
+                        <custom-button-component
+                            @click="${async (): Promise<void> => await this.addItemToCart(this.product!)}"
+                            text="Add to cart"
+                        >
                         </custom-button-component>
                     </section>
 
@@ -125,9 +141,5 @@ export class ProductDetailPage extends LitElement {
 
     private switchStatus(status: string): void {
         this.infoStatus = status;
-    }
-
-    private addToCart(): void {
-        console.log("product added to cart");
     }
 }

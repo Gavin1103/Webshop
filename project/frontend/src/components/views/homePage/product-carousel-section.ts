@@ -40,12 +40,10 @@ export class ProductCarouselSection extends LitElement {
             unitPrice: product.currentPrice,
             totalPrice: product.currentPrice
         };
-
-        console.log(newItem);
-
+        
         await cartManager.addItem(newItem);
+        alert("Added product");
     }
-
 
     public redirectToDetailPage(productId: number): void {
         navigateTo(`/product-detail-page/${productId}`)

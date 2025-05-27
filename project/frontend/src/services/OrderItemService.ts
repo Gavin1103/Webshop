@@ -1,4 +1,4 @@
-import { OrderItem } from "../../types";
+import {ProductItem} from "../interfaces/Cart";
 
 /**
  * Handles order item related functionality
@@ -6,10 +6,10 @@ import { OrderItem } from "../../types";
 export class OrderItemService {
     /**
      * Get all order items
-     * 
+     *
      * @returns A list of all order items when successful, otherwise `undefined`.
      */
-    public async getAll(): Promise<OrderItem[] | undefined> {
+    public async getAll(): Promise<ProductItem[] | undefined> {
         const response: Response = await fetch(`${viteConfiguration.API_URL}orderItems`, {
             method: "get",
         });
@@ -20,6 +20,6 @@ export class OrderItemService {
             return undefined;
         }
 
-        return (await response.json()) as OrderItem[];
+        return (await response.json()) as ProductItem[];
     }
 }

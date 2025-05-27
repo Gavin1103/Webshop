@@ -5,7 +5,8 @@ Build Frontend:
         - apt-get update
     script:
         - npm ci
-        - npm run build:pipeline
+        - npm run build:frontend
+        - npm run build:proxy
     after_script:
         - kill $(jobs -p) || true
     artifacts:
@@ -30,12 +31,15 @@ Deploy Frontend:
             lftp -u $SFTP_WEB_USERNAME,$SFTP_WEB_PASSWORD -p $SFTP_WEB_PORT sftp://$SFTP_WEB_SERVERNAME -e "
             set sftp:auto-confirm yes;
             glob -a rm -r $ENVIRONMENT/wwwroot/*;
+            glob -a rm -r $ENVIRONMENT/app/*;
             mirror --reverse --verbose ./dist/web /$ENVIRONMENT/wwwroot;
+            mirror --reverse --verbose ./dist/api /$ENVIRONMENT/app;
             bye"
     after_script:
         - kill $(jobs -p) || true
     needs:
         - "Build Frontend"
+        - "Backend Unit Test"
     when: always
     rules:
         -   if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_WEB == "true"

@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "engines": {
-        "node": "18"
+        "node": "20"
     },
     "workspaces": [
         "project/*"
@@ -12,26 +12,26 @@
         "dev": "run-p dev:backend dev:web",
         "dev:backend": "cd project/backend && ./gradlew bootRun",
         "dev:web": "npm run dev -w project/frontend",
-        "build": "run-p build:backend build:web",
-        "build:pipeline": "run-p build:web",
-        "build:backend": "cd project/backend && ./gradlew build",
-        "build:web": "npm run build -w project/frontend",
+        "typedoc": "typedoc",
+        "db:init": "node project/scripts/init-db.js",
+        "test:frontend": "npm run test -w project/tests",
+        "test:backend": "cd project/backend && ./gradlew test",
         "preview": "run-p preview:api preview:web",
         "preview:backend": "cd project/backend && ./gradlew bootRun",
         "preview:web": "npm run preview -w project/frontend",
-        "test:frontend": "npm run test -w project/tests",
-        "backend:test": "cd project/backend && ./gradlew test",
-        "typedoc": "typedoc"
+        "build": "run-p build:backend build:frontend build:proxy",
+        "build:frontend": "npm run build -w project/frontend",
+        "build:backend": "cd project/backend && ./gradlew build",
+        "build:proxy": "npm run build -w project/proxy"
     },
     "devDependencies": {
-        "@hboictcloud/eslint-plugin": "1.0.1",
+        "@types/mysql": "^2.15.26",
         "@types/node": "18.x",
-        "@typescript-eslint/eslint-plugin": "6.20.0",
-        "@typescript-eslint/parser": "6.20.0",
-        "eslint": "8.56.0",
-        "npm-run-all": "4.1.5",
+        "concurrently": "^8.2.2",
+        "mysql": "^2.18.1",
+        "npm-run-all": "^4.1.5",
         "tsx": "4.7.0",
-        "typescript": "5.3.3",
-        "typedoc": "0.25.13"
+        "typedoc": "0.25.13",
+        "typescript": "5.3.3"
     }
 }

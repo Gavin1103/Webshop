@@ -1,0 +1,4 @@
+dist
+.eslintrc.js
+global.d.ts
+../scripts/localServer/screenshot-server.js

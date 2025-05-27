@@ -1,5 +1,5 @@
 {
-    "name": "@webshop/web",
+    "name": "@webshop/frontend",
     "version": "1.0.0",
     "private": true,
     "scripts": {
@@ -8,9 +8,30 @@
         "preview": "tsc --noEmit && vite build --mode preview && vite preview"
     },
     "devDependencies": {
-        "lit": "3.1.0",
+        "@granite-elements/granite-vaadin-router": "^2.0.2",
+        "@types/express": "^4.17.21",
+        "@types/fs-extra": "^11.0.4",
+        "@types/node": "^20.12.12",
+        "@types/uuid": "^9.0.8",
+        "@typescript-eslint/eslint-plugin": "^7.9.0",
+        "@typescript-eslint/parser": "^7.9.0",
+        "@vaadin/router": "^1.7.5",
+        "axios": "^1.7.2",
+        "eslint": "8.56.0",
+        "express": "^4.19.2",
         "glob": "10.3.12",
+        "lit": "3.1.0",
+        "node": "20.5.0",
+        "tsx": "^4.10.5",
+        "typescript": "^5.4.5",
+        "uuid": "^9.0.1",
         "vite": "5.2.8",
-        "vite-plugin-eslint": "1.8.1"
+        "vite-plugin-checker": "^0.6.4",
+        "vite-plugin-eslint": "1.8.1",
+        "vite-plugin-static-copy": "^1.0.5"
+    },
+    "dependencies": {
+        "@hboictcloud/api": "^1.0.1",
+        "fs-extra": "^11.2.0"
     }
 }
